@@ -2,10 +2,10 @@
  * Created by k on 18.03.17.
  */
 let fs = require('fs');
-let beautify_js = require('js-beautify');
+/*let beautify_js = require('js-beautify');
 let beautify_css = require('js-beautify').css;
 let beautify_html = require('js-beautify').html;
-let tidy = require('htmltidy2').tidy;
+let tidy = require('htmltidy2').tidy;*/
 
 /**
  * @param newFile {string}; имя для файла, который будет создан. возможно, поменять это на директорию откуда брать файлы для генерации на их основе html-страниц
