@@ -1,0 +1,114 @@
+//mixins
+@mixin prefix($param, $value:null) {
+  -webkit-#{$param} : $value;
+  -moz-#{$param}: $value;
+  -ms-#{$param}: $value;
+  -o-#{$param}: $value;
+  #{$param}: $value;
+}
+
+@mixin adaptive($ltgt, $width) {
+  $extrema: null;
+
+  @if $ltgt == less-than {
+    $extrema: max;
+  }
+
+  @if $ltgt == greater-than {
+    $extrema: min
+  }
+
+  @media only screen and (#{$extrema}-width: $width) {
+    @content;
+  }
+}
+
+@mixin flex($direction: null, $justify: null, $align: null) {
+  //default states if no params has passed
+  @if ( $direction == null ) {
+    $direction: 'row'
+  }
+
+  @if ( $justify == null ) {
+    $justify: 'flex-start'
+  }
+
+  @if ( $align == null ) {
+    $align: 'stretch'
+  }
+
+  display: -webkit-flex; //for Safari
+  display: flex;
+  -webkit-flex-direction: $direction;
+  flex-direction: $direction;
+  -webkit-justify-content: $justify;
+  justify-content: $justify;
+  -webkit-align-items: $align;
+  align-items: $align;
+
+  //reset default flex attrs
+  * > {
+    flex: 0 0 auto;
+    -webkit-flex: 0 0 auto;
+    min-width: 0;
+  }
+}
+
+@mixin transition($property: null, $duration: null, $timing-function: null, $delay: null) {
+  @if ($property) {
+
+  } @else {
+    $property: all;
+  }
+
+  @if ($duration) {
+
+  } @else {
+    $duration: 0s;
+  }
+
+  @if ($timing-function) {
+
+  } @else {
+    $timing-function: ease-in-out;
+  }
+
+  @if ($delay) {
+
+  } @else {
+    $delay: 0s;
+  }
+
+  -webkit-transition: $property $duration $timing-function $delay;
+  -moz-transition: $property $duration $timing-function $delay;
+  -ms-transition: $property $duration $timing-function $delay;
+  -o-transition: $property $duration $timing-function $delay;
+  transition: $property $duration $timing-function $delay;
+}
+
+@mixin font-family($font-family) {
+  font-family: $font-family, Helvetica, Arial, sans-serif
+}
+
+@mixin font-size-reading-place-text($x) {
+  $x: $x / 100;
+
+  header {
+    font-size: #{28 * $x}px;
+    line-height: 1.2;
+  }
+
+  section {
+    font-size: #{16 * $x}px;
+    line-height: 1.2;
+
+    p {
+      line-height: 1.2;
+
+      &.header {
+        font-size: #{20 * $x}px;
+        line-height: 1.2;
+      }
+    }
+  }
+}

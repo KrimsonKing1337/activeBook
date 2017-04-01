@@ -1,0 +1,38 @@
+<nav class="header-menu">
+    <div class="header-menu__item">
+        <div class="header-menu__item__bookmark">
+            <div class="header-menu__item__bookmark__icon" title="Закладки"></div>
+        </div>
+    </div>
+    <div class="header-menu__item">
+        <div class="header-menu__item__page-nav">
+            <div class="header-menu__item__page-nav__prev" title="На страницу назад"></div>
+            <div class="header-menu__item__page-nav__counter" title="Перейти на страницу №">
+                <span class="header-menu__item__page-nav__counter__active-page">{%pageNumber}</span> из
+                <span class="header-menu__item__page-nav__counter__last-page">{%pagesLength}</span>
+            </div>
+            <input class="header-menu__item__page-nav__input hidden" title="Введите номер страницы" value="" />
+            <div class="header-menu__item__page-nav__next" title="На страницу вперёд"></div>
+        </div>
+    </div>
+    <div class="header-menu__item border-left">
+        <div class="header-menu__item__font-size">
+            <div class="header-menu__item__font-size__less" title="Уменьшить шрифт"></div>
+            <div class="header-menu__item__font-size__more" title="Увеличить шрифт"></div>
+        </div>
+    </div>
+    <div class="header-menu__item border-left">
+        <div class="header-menu__item__volume">
+            <div class="header-menu__item__volume__min" title="Громкость 0"></div>
+            <div class="header-menu__item__volume__slider__wrapper">
+                <div class="header-menu__item__volume__slider"></div>
+            </div>
+            <div class="header-menu__item__volume__max" title="Громкость 100"></div>
+        </div>
+    </div>
+    <div class="header-menu__item border-left">
+        <div class="header-menu__item__vibration">
+            <div class="header-menu__item__vibration__icon" title="Вибрация вкл/выкл" data-vibration="on"></div>
+        </div>
+    </div>
+</nav>

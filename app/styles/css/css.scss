@@ -1,0 +1,406 @@
+@import "__mixins";
+
+//fonts
+@font-face {
+  font-family: 'Merriweather-Regular';
+  src: url('../fonts/Merriweather/Merriweather-Regular.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Merriweather-Light';
+  src: url('../fonts/Merriweather/Merriweather-Light.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Merriweather-Bold';
+  src: url('../fonts/Merriweather/Merriweather-Bold.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Merriweather-Black';
+  src: url('../fonts/Merriweather/Merriweather-Black.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+//common
+$page-padding: 15px;
+$reading-place-width: 680px;
+
+.page {
+  @include flex(row, center, flex-start);
+  //overflow: hidden;
+  position: relative;
+  background: #fff;
+
+  @include adaptive(less-than, 980px) {
+    width: 100%;
+  }
+
+  @include transition(all, 0.5s, ease);
+
+  .reading-place {
+    width: $reading-place-width;
+    background: #eee;
+    box-shadow: 0 0 20px 1px rgba(200, 200, 200, 0.5);
+    position: relative;
+
+    .header-menu {
+      width: 100%;
+      height: 40px;
+      @include flex(row, center, center);
+      border-bottom-left-radius: 7px;
+      border-bottom-right-radius: 7px;
+      background: linear-gradient(to bottom, #ff7e5f, #feb47b);
+
+      &__item {
+        height: 100%;
+        @include flex(row, center, center);
+
+        &.border-left {
+          border-left: 1px #fff solid;
+        }
+
+        &__bookmark {
+          @include flex(row, center, center);
+
+          &:hover {
+            cursor: pointer;
+          }
+
+          &__icon {
+            width: 18px;
+            height: 22px;
+            background: url("../images/i-bookmark.svg") no-repeat center;
+          }
+        }
+
+        &__page-nav {
+          @include flex(row, flex-start, center);
+          padding: 0 30px 0 30px;
+
+          &__prev,
+          &__next {
+            width: 10px;
+            height: 22px;
+            background: url("../images/i-prev-page.svg") no-repeat center;
+
+            &:hover {
+              cursor: pointer;
+            }
+          }
+
+          &__next {
+            background-image: url("../images/i-next-page.svg");
+          }
+
+          &__counter {
+            //width: 71px;
+            height: 20px;
+            @include font-family('Merriweather-Regular');
+            font-size: 16px;
+            padding: 0 40px 0 40px;
+            color: #fff;
+          }
+
+          &__input {
+            max-width: 145px;
+            height: 22px;
+            margin-right: 20px;
+          }
+        }
+
+        &__font-size {
+          @include flex(row, center, flex-end);
+          width: 108px;
+
+          &__less,
+          &__more {
+            width: 20px;
+            height: 12px;
+            background: url("../images/i-font-less.svg") no-repeat center;
+
+            &:hover {
+              cursor: pointer;
+            }
+          }
+          
+          &__more {
+            width: 32px;
+            height: 20px;
+            background-image: url("../images/i-font-more.svg");
+            margin-left: 8px;
+          }
+        }
+
+        &__volume {
+          width: 194px;
+          @include flex(row, center, center);
+
+          &__min,
+          &__max {
+            width: 13px;
+            height: 22px;
+            background: url("../images/i-volume-min.svg") no-repeat center;
+            background-size: 100%;
+            margin: 0 5px 0 0;
+
+            &:hover {
+              cursor: pointer;
+            }
+          }
+
+          &__max {
+            width: 21px;
+            background-image: url("../images/i-volume-max.svg");
+            margin: 0 0 0 5px;
+          }
+
+          //styles for ion Range Slider
+          &__slider__wrapper {
+            width: 103px;
+            height: 12px;
+
+            .irs {
+              width: 100%;
+              height: 100%;
+
+              .irs-line,
+              .irs-bar,
+              .irs-bar-edge {
+                top: 5px;
+                height: 3px;
+                border: none;
+                background: #fff;
+              }
+
+              .irs-line {
+                background: #9b9b9b;
+              }
+
+              .irs-bar-edge {
+                width: 12px;
+              }
+
+              .irs-slider {
+                top: 1px;
+                height: 12px;
+                width: 12px;
+                border-radius: 50%;
+                box-shadow: none;
+                border: none;
+                background: #fff;
+              }
+            }
+          }
+        }
+
+        &__vibration {
+          width: 60px;
+          @include flex(row, center, center);
+
+          &:hover {
+            cursor: pointer;
+          }
+
+          &__icon {
+            height: 22px;
+            width: 29px;
+            background: url("../images/i-vibration.svg") no-repeat center;
+            background-size: 100%;
+          }
+        }
+      }
+    }
+
+    .text {
+      position: relative;
+      padding: 33px 6px 0 60px;
+      max-height: 600px;
+      background: #fff;
+
+      &.page-turning {
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      //mCustomScrollbar Styles
+      .mCS-activeBook {
+        &.mCSB_scrollTools {
+          .mCSB_dragger {
+            .mCSB_dragger_bar {
+              width: 6px;
+              //height: 102px;
+              opacity: 0.93;
+              border-radius: 100px;
+              background: linear-gradient(to right, #ff7e5f, #feb47b);
+            }
+          }
+
+          .mCSB_draggerRail{
+            background-color: white;
+          }
+        }
+      }
+
+      header {
+        @include font-family('Merriweather-Bold');
+        color: #4a4a4a;
+      }
+
+      article {
+        @include font-family('Merriweather-Light');
+        color: #4a4a4a;
+        font-style: italic;
+        font-size: 12px;
+        line-height: 14px;
+        padding-top: 11px;
+      }
+
+      section {
+        @include font-family('Merriweather-Light');
+        padding: 22px 0 22px 0;
+        color: #4a4a4a;
+
+        p {
+          line-height: 20px;
+          padding-top: 22px;
+
+          &:nth-of-type(1) {
+            padding-top: 0;
+          }
+
+          .p-text {
+            display: block;
+          }
+
+          &:first-letter,
+          .p-text:first-letter {
+            text-transform: capitalize;
+            padding-left: 22px;
+          }
+
+          .p-inside-p {
+            display: inline-block;
+            padding-top: 22px;
+          }
+
+          &.header {
+            &:first-letter {
+              padding-left: 0;
+            }
+          }
+
+          a {
+            position: relative;
+            z-index: 2;
+            color: inherit;
+            font: inherit;
+            text-decoration: none;
+
+            &.action {
+              color: #d42a3a;
+
+              &:hover {
+                text-decoration: underline;
+              }
+            }
+          }
+        }
+      }
+
+      &.font-size-75 {
+        @include font-size-reading-place-text(75);
+      }
+
+      &.font-size-100 {
+        @include font-size-reading-place-text(100);
+      }
+
+      &.font-size-125 {
+        @include font-size-reading-place-text(125);
+      }
+
+      &.font-size-150 {
+        @include font-size-reading-place-text(150);
+      }
+    }
+  }
+
+  .effects {
+
+  }
+}
+
+//for remodal. он располагается за пределами .page
+.remodal.activeBook-remodal {
+  max-width: 90% !important; //перебиваем стили по умолчанию
+  width: auto;
+
+  .remodal-close {
+    left: auto;
+    right: 0;
+    margin-right: -35px;
+    margin-top: - 35px;
+
+    &:hover,
+    &:focus {
+      color: #95979c;
+      opacity: 0.7;
+    }
+  }
+
+  &.remodal-with-image,
+  &.remodal-with-video {
+    background: rgba(255, 255, 255, 0.7);
+    padding: 0;
+    margin: 35px;
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.actions_hide__wrapper {
+  display: inherit;
+  position: relative;
+  z-index: 2;
+
+  .action_hide {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+
+    &:nth-child(1) {
+      background: #007fff;
+      opacity: 0.4;
+    }
+  }
+}
+
+.effect-helper {
+  display: none;
+  position: absolute;
+  left: 0;
+  bottom: 30%;
+  width: 100%;
+  height: 5px;
+  background: red;
+  z-index: 0;
+  opacity: 0.1;
+}
+
+.rotate {
+  transform: rotateY(-180deg);
+  perspective: 1000px;
+}
