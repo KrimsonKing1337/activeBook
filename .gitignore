@@ -1,5 +1,6 @@
 docs/
 sources/
+.idea/
 *.mp3
 *.ogg
 *.mp4
