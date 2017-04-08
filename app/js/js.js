@@ -281,6 +281,7 @@ $(window).load(function () {
          * @param params {object}
          * @param params.target {object}
          * @param params.type {string}
+         * @param [params.params] {object}
          * @param [params.vibroDuration] {string || number}
          */
         playEffect: function (params = {}) {
@@ -289,6 +290,9 @@ $(window).load(function () {
             let target = params.target;
             let type = params.type;
             let vibroDuration = params.vibroDuration;
+            let addParams = params.params;
+
+            console.log(addParams.stopBy);
 
             if (!target || !type) {
                 return false;
@@ -415,7 +419,13 @@ $(window).load(function () {
                 params = target.attr('data-effect-params');
             }
 
-            controlEffects.playEffect({target: target, type: type, vibroDuration: params});
+            params = target.data('effect-params');
+
+            console.log(params);
+
+            //todo: все получения data-attr производить через .data('attr-name'), а не .attr('attr-name')
+
+            controlEffects.playEffect({target: target, type: type, params: params});
         });
     };
 
