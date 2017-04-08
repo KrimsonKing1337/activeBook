@@ -144,7 +144,8 @@ $(window).load(function () {
         //params = params || {};
 
         let loop = params.loop;
-        let fadeOutSpeed = params.fadeOutSpeed || 1000;
+        let fadeOutSpeed = params.fadeOutSpeed;
+        if (typeof fadeOutSpeed === 'undefined') fadeOutSpeed = 1000;
 
         if (!loop) return;
 
@@ -156,7 +157,7 @@ $(window).load(function () {
             return;
         }
 
-        let volume = $('audio')[0].volume;
+        let volume = getCurrentGlobalVolume() / 100;
 
         loop.once('fade', function () {
             loop.stop();
@@ -183,8 +184,10 @@ $(window).load(function () {
 
         let type = params.type;
         let src = params.src;
-        let fadeOutSpeed = params.fadeOutSpeed || 1000;
-        let fadeInSpeed = params.fadeInSpeed || 1000;
+        let fadeOutSpeed = params.fadeOutSpeed;
+        if (typeof fadeOutSpeed === 'undefined') fadeOutSpeed = 1000;
+        let fadeInSpeed = params.fadeInSpeed;
+        if (typeof fadeInSpeed === 'undefined') fadeInSpeed = 1000;
 
         if ( !type || !src ) return false;
 
@@ -218,7 +221,9 @@ $(window).load(function () {
             || loopBgSoundNew && srcEquals(loopBgSoundNew._src) && loopBgSoundNew.playing() ) return;
 
             if ( !loopBgSound || loopBgSound && loopBgSound.state() == 'unloaded' ) {
-                if ( loopBgSoundNew || loopBgSoundNew && loopBgSoundNew.state() != 'unloaded' ) loopBgStop({loop: loopBgSoundNew});
+                if ( loopBgSoundNew || loopBgSoundNew && loopBgSoundNew.state() != 'unloaded' ) {
+                    loopBgStop({loop: loopBgSoundNew, fadeOutSpeed: fadeOutSpeed});
+                }
 
                 loopBgSound = newHowl();
 
@@ -247,7 +252,9 @@ $(window).load(function () {
                 || loopBgMusicNew && srcEquals(loopBgMusicNew._src) && loopBgMusicNew.playing() ) return;
 
             if ( !loopBgMusic || loopBgMusic && loopBgMusic.state() == 'unloaded' ) {
-                if ( loopBgMusicNew || loopBgMusicNew && loopBgMusicNew.state() != 'unloaded' ) loopBgStop({loop: loopBgMusicNew});
+                if ( loopBgMusicNew || loopBgMusicNew && loopBgMusicNew.state() != 'unloaded' ) {
+                    loopBgStop({loop: loopBgMusicNew, fadeOutSpeed: fadeOutSpeed});
+                }
 
                 loopBgMusic = newHowl();
 
@@ -259,7 +266,7 @@ $(window).load(function () {
                     loopBgMusic.fade(0, volume, fadeInSpeed);
                 }
             } else {
-                loopBgStop({loop: loopBgMusic});
+                loopBgStop({loop: loopBgMusic, fadeOutSpeed: fadeOutSpeed});
 
                 loopBgMusicNew = newHowl();
 
@@ -292,8 +299,6 @@ $(window).load(function () {
             let vibroDuration = params.vibroDuration;
             let addParams = params.params;
 
-            console.log(addParams.stopBy);
-
             if (!target || !type) {
                 return false;
             }
@@ -324,6 +329,21 @@ $(window).load(function () {
             } else if (type == 'popup') {
                 target.remodal().open();
             }
+
+            /**
+             * остановить через
+             */
+            if (addParams && addParams.stopBy) {
+                setTimeout(function () {
+                    if (type == 'audio') {
+                        controlEffects.stopSounds({target: ['sounds'], fadeOutSpeed: addParams.fadeOutSpeed});
+                    } else if (type == 'bg-sound') {
+                        controlEffects.stopSounds({target: ['bgSound'], fadeOutSpeed: addParams.fadeOutSpeed});
+                    } else if (type == 'bg-music') {
+                        controlEffects.stopSounds({target: ['bgMusic'], fadeOutSpeed: addParams.fadeOutSpeed});
+                    }
+                }, addParams.stopBy);
+            }
         },
 
         /**
@@ -353,10 +373,11 @@ $(window).load(function () {
             //params = params || {};
 
             let sounds = $('audio');
-            let currentVolume = sounds[0].volume;
+            let currentVolume = getCurrentGlobalVolume();
             let target = params.target || ['sounds', 'bgMusic', 'bgSound'];
             let volume = params.volume || currentVolume;
-            let fadeOutSpeed = params.fadeOutSpeed || 1000;
+            let fadeOutSpeed = params.fadeOutSpeed;
+            if (typeof fadeOutSpeed === 'undefined') fadeOutSpeed = 1000;
 
             $.each(target, function (index, value) {
                 //for all other sounds
@@ -380,18 +401,18 @@ $(window).load(function () {
                     if ( !loopBgSound ) return;
 
                     if ( loopBgSound.state() == 'unloaded' ) {
-                        loopBgStop({loop: loopBgSoundNew});
+                        loopBgStop({loop: loopBgSoundNew, fadeOutSpeed: fadeOutSpeed});
                     } else {
-                        loopBgStop({loop: loopBgSound});
+                        loopBgStop({loop: loopBgSound, fadeOutSpeed: fadeOutSpeed});
                     }
 
                 } else if ( value == 'bgMusic' ) {
                     if ( !loopBgMusic ) return;
 
                     if ( loopBgMusic.state() == 'unloaded' ) {
-                        loopBgStop({loop: loopBgMusicNew});
+                        loopBgStop({loop: loopBgMusicNew, fadeOutSpeed: fadeOutSpeed});
                     } else {
-                        loopBgStop({loop: loopBgMusic});
+                        loopBgStop({loop: loopBgMusic, fadeOutSpeed: fadeOutSpeed});
                     }
                 }
             });
@@ -411,19 +432,13 @@ $(window).load(function () {
 
             if ($(item).attr('data-effect-id')) {
                 target = $(item);
-                type = target.attr('data-effect-type');
-                params = target.attr('data-effect-params');
+                type = target.data('effect-type');
+                params = target.data('effect-params');
             } else if ($(item).attr('data-remodal-id')) {
                 target = $(item);
                 type = 'popup';
-                params = target.attr('data-effect-params');
+                params = target.data('effect-params');
             }
-
-            params = target.data('effect-params');
-
-            console.log(params);
-
-            //todo: все получения data-attr производить через .data('attr-name'), а не .attr('attr-name')
 
             controlEffects.playEffect({target: target, type: type, params: params});
         });
@@ -475,16 +490,17 @@ $(window).load(function () {
     $('a[data-effect-target]').on('click', function (e) {
         e.preventDefault();
 
-        let target = $('[data-effect-id="' + $(this).attr('data-effect-target') + '"]');
-        let type = target.attr('data-effect-type');
-        let params = target.attr('data-effect-params');
+        let target = $('[data-effect-id="' + $(this).data('effect-target') + '"]');
+        let type = target.data('effect-type');
+        let params = target.data('effect-params');
 
         controlEffects.playEffect({target: target, type: type, vibroDuration: params});
 
-        if ($(this).attr('data-effect-vibro')) {
+        if ($(this).data('effect-vibro')) {
             target = 'vibro';
             type = 'vibro';
-            let vibroDuration = $(this).attr('data-effect-vibro');
+
+            let vibroDuration = $(this).data('data-effect-vibro');
 
             controlEffects.playEffect({target: target, type: type, vibroDuration: vibroDuration});
         }
@@ -581,7 +597,6 @@ $(window).load(function () {
             return false;
         }
 
-        //activePageEl.text(newVal);
         localStorageControl.saveBookState(newVal); //записыаем состояния с новым номером страницы
         flags.goToPage = true; //ставим флаг
 
@@ -767,6 +782,7 @@ $(window).load(function () {
             if ( !localStorage.getItem('activeBook') ) return false;
 
             let states = JSON.parse(localStorage.getItem('activeBook')); //получаем значение и десериализируем его в объект
+
             volumeChange({volume: states.volume});
 
             vibroControl.vibroChangeState(VIBRATION_ICON, states.vibro);
@@ -784,7 +800,7 @@ $(window).load(function () {
 
                 if ( states.goToPageDeny ) return true;
 
-                goToPage({page: parseInt(states.page)});
+                //goToPage({page: parseInt(states.page)}); //todo: какой-то баг
             }
 
             //перематываем к месту чтения без плавности - сразу прыгаем
