@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/app/js/js.js" line="442" />
-  </component>
   <component name="ChangeListManager">
     <list default="true" id="48e04449-0781-440b-a09d-f639a272681a" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/js/js.js" afterPath="$PROJECT_DIR$/app/js/js.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/pages/page_1.html" afterPath="$PROJECT_DIR$/app/pages/page_1.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/pages/page_10.html" afterPath="$PROJECT_DIR$/app/pages/page_10.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/pages/page_4.html" afterPath="$PROJECT_DIR$/app/pages/page_4.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/pages_partial/page_1.html" afterPath="$PROJECT_DIR$/app/pages_partial/page_1.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/pages_partial/page_10.html" afterPath="$PROJECT_DIR$/app/pages_partial/page_10.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/pages_partial/page_4.html" afterPath="$PROJECT_DIR$/app/pages_partial/page_4.html" />
     </list>
     <ignored path="activeBook_new.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -31,8 +33,8 @@
       <file leaf-file-name="compile.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/compile.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="462">
-              <caret line="30" column="69" lean-forward="true" selection-start-line="30" selection-start-column="69" selection-end-line="30" selection-end-column="69" />
+            <state relative-caret-position="63">
+              <caret line="30" column="69" lean-forward="false" selection-start-line="30" selection-start-column="69" selection-end-line="30" selection-end-column="69" />
               <folding>
                 <element signature="e#2772#4148#0" expanded="false" />
                 <element signature="e#4300#4858#0" expanded="false" />
@@ -44,31 +46,25 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="page_1.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/pages_partial/page_1.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="126">
-              <caret line="6" column="24" lean-forward="true" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="page_12.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/pages_partial/page_12.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="399">
-              <caret line="19" column="97" lean-forward="false" selection-start-line="19" selection-start-column="97" selection-end-line="19" selection-end-column="97" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="js.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="js.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/js/js.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7014">
-              <caret line="334" column="15" lean-forward="false" selection-start-line="334" selection-start-column="15" selection-end-line="334" selection-end-column="15" />
+            <state relative-caret-position="527">
+              <caret line="331" column="40" lean-forward="true" selection-start-line="331" selection-start-column="40" selection-end-line="331" selection-end-column="40" />
+              <folding>
+                <element signature="e#13358#15341#0" expanded="false" />
+                <element signature="e#15513#16306#0" expanded="false" />
+                <element signature="e#16573#17385#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="page_10.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/pages_partial/page_10.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="574">
+              <caret line="28" column="81" lean-forward="true" selection-start-line="28" selection-start-column="81" selection-end-line="28" selection-end-column="81" />
               <folding />
             </state>
           </provider>
@@ -92,6 +88,8 @@
       <find>let vo</find>
       <find>let volume</find>
       <find>let fadeOutSpeed</find>
+      <find>data-effect-vi</find>
+      <find>deb</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -133,7 +131,6 @@
         <option value="$PROJECT_DIR$/app/index.html" />
         <option value="$PROJECT_DIR$/app/pages_partial/page_2.html" />
         <option value="$PROJECT_DIR$/app/pages_partial/page_3.html" />
-        <option value="$PROJECT_DIR$/app/pages_partial/page_4.html" />
         <option value="$PROJECT_DIR$/app/pages_partial/page_5.html" />
         <option value="$PROJECT_DIR$/app/pages_partial/page_6.html" />
         <option value="$PROJECT_DIR$/app/pages_partial/page_7.html" />
@@ -146,11 +143,12 @@
         <option value="$PROJECT_DIR$/app/pages/page_3.html" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/app/pages_partial/page_11.html" />
-        <option value="$PROJECT_DIR$/app/pages_partial/page_10.html" />
         <option value="$PROJECT_DIR$/app/pages_partial/page_12.html" />
         <option value="$PROJECT_DIR$/app/pages_partial/page_9.html" />
-        <option value="$PROJECT_DIR$/app/js/js.js" />
         <option value="$PROJECT_DIR$/app/pages_partial/page_1.html" />
+        <option value="$PROJECT_DIR$/app/pages_partial/page_4.html" />
+        <option value="$PROJECT_DIR$/app/pages_partial/page_10.html" />
+        <option value="$PROJECT_DIR$/app/js/js.js" />
       </list>
     </option>
   </component>
@@ -219,7 +217,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -285,6 +282,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -440,7 +438,9 @@
       <workItem from="1491659469117" duration="13000" />
       <workItem from="1491659520746" duration="464000" />
       <workItem from="1491659997696" duration="9738000" />
-      <workItem from="1491676282083" duration="114000" />
+      <workItem from="1491676282083" duration="153000" />
+      <workItem from="1491717565218" duration="2431000" />
+      <workItem from="1491737446912" duration="5774000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1491074804503</created>
@@ -463,11 +463,18 @@
       <option name="project" value="LOCAL" />
       <updated>1491674885218</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="rename book;&#10;change article;">
+      <created>1491676419327</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1491676419327</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="255846000" />
+    <option name="totallyTimeSpent" value="264090000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
@@ -508,10 +515,13 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
+    <option name="CHECK_NEW_TODO" value="false" />
     <MESSAGE value="test" />
     <MESSAGE value="start to doing params;" />
     <MESSAGE value="params fix;&#10;fadeout param fix;&#10;new pages;" />
-    <option name="LAST_COMMIT_MESSAGE" value="params fix;&#10;fadeout param fix;&#10;new pages;" />
+    <MESSAGE value="rename book;&#10;change article;" />
+    <option name="LAST_COMMIT_MESSAGE" value="rename book;&#10;change article;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -544,48 +554,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/pages_partial/page_2.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="4" column="18" lean-forward="false" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/pages_partial/page_3.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="4" column="18" lean-forward="false" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/pages_partial/page_4.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="4" column="18" lean-forward="false" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/pages_partial/page_5.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="4" column="18" lean-forward="false" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/pages_partial/page_6.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="4" column="18" lean-forward="false" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/pages_partial/page_7.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="4" column="18" lean-forward="false" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
         </state>
       </provider>
     </entry>
@@ -675,57 +643,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/pages_partial/page_10.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="301">
-          <caret line="27" column="72" lean-forward="false" selection-start-line="27" selection-start-column="72" selection-end-line="27" selection-end-column="72" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/pages_partial/page_11.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="441">
-          <caret line="21" column="108" lean-forward="false" selection-start-line="21" selection-start-column="108" selection-end-line="21" selection-end-column="108" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/pages_partial/page_12.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="19" column="97" lean-forward="false" selection-start-line="19" selection-start-column="97" selection-end-line="19" selection-end-column="97" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/pages_partial/page_8.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="4" column="18" lean-forward="false" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/pages/page_1.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="60" column="8" lean-forward="false" selection-start-line="60" selection-start-column="8" selection-end-line="60" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/pages_partial/page_9.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="7" column="20" lean-forward="false" selection-start-line="7" selection-start-column="20" selection-end-line="7" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/js/js.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7014">
-          <caret line="334" column="15" lean-forward="false" selection-start-line="334" selection-start-column="15" selection-end-line="334" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="147">
@@ -736,8 +653,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/compile.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="30" column="69" lean-forward="true" selection-start-line="30" selection-start-column="69" selection-end-line="30" selection-end-column="69" />
+        <state relative-caret-position="63">
+          <caret line="30" column="69" lean-forward="false" selection-start-line="30" selection-start-column="69" selection-end-line="30" selection-end-column="69" />
           <folding>
             <element signature="e#2772#4148#0" expanded="false" />
             <element signature="e#4300#4858#0" expanded="false" />
@@ -748,11 +665,119 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/pages/page_1.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="60" column="8" lean-forward="false" selection-start-line="60" selection-start-column="8" selection-end-line="60" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/pages_partial/page_2.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="13" column="156" lean-forward="true" selection-start-line="13" selection-start-column="12" selection-end-line="13" selection-end-column="156" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/pages_partial/page_3.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="11" column="12" lean-forward="true" selection-start-line="10" selection-start-column="602" selection-end-line="11" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/pages_partial/page_5.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="7" column="508" lean-forward="true" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="508" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/pages_partial/page_6.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="10" column="233" lean-forward="true" selection-start-line="10" selection-start-column="233" selection-end-line="10" selection-end-column="233" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/pages_partial/page_7.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1092">
+          <caret line="47" column="78" lean-forward="true" selection-start-line="47" selection-start-column="12" selection-end-line="47" selection-end-column="78" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/pages_partial/page_8.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="10" column="323" lean-forward="true" selection-start-line="10" selection-start-column="323" selection-end-line="10" selection-end-column="323" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/pages_partial/page_4.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="7" column="547" lean-forward="true" selection-start-line="7" selection-start-column="547" selection-end-line="7" selection-end-column="547" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/pages_partial/page_1.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="6" column="24" lean-forward="true" selection-start-line="6" selection-start-column="24" selection-end-line="6" selection-end-column="24" />
+        <state relative-caret-position="352">
+          <caret line="21" column="489" lean-forward="false" selection-start-line="21" selection-start-column="489" selection-end-line="21" selection-end-column="489" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/pages_partial/page_9.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="10" column="54" lean-forward="true" selection-start-line="10" selection-start-column="54" selection-end-line="10" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/pages_partial/page_12.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="448">
+          <caret line="19" column="97" lean-forward="false" selection-start-line="19" selection-start-column="97" selection-end-line="19" selection-end-column="97" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/pages_partial/page_11.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="441">
+          <caret line="21" column="108" lean-forward="false" selection-start-line="21" selection-start-column="108" selection-end-line="21" selection-end-column="108" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/pages_partial/page_10.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="574">
+          <caret line="28" column="81" lean-forward="true" selection-start-line="28" selection-start-column="81" selection-end-line="28" selection-end-column="81" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/js/js.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="331" column="40" lean-forward="true" selection-start-line="331" selection-start-column="40" selection-end-line="331" selection-end-column="40" />
+          <folding>
+            <element signature="e#13358#15341#0" expanded="false" />
+            <element signature="e#15513#16306#0" expanded="false" />
+            <element signature="e#16573#17385#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -165,7 +165,8 @@ $(window).load(function () {
             if ( tryCatchHowlUnload(loop) ) loop.unload();
         });
 
-        loop.fade(volume, 0, fadeOutSpeed);
+        //некорректное поведение, если задавать fadeOutSpeed = 0;
+        loop.fade(volume, 0, fadeOutSpeed > 0 ? fadeOutSpeed : 1);
     };
 
     let loopBgSound,
@@ -289,15 +290,22 @@ $(window).load(function () {
          * @param params.target {object}
          * @param params.type {string}
          * @param [params.params] {object}
-         * @param [params.vibroDuration] {string || number}
+         * @param [params.params.stopBy] {number}; через сколько остановить воспроизведение эффекта
+         * @param [params.params.fadeOut] {number}; плавность fadeOut
+         * @param [params.params.fadeIn] {number}; плавность fadeIn
+         * @param [params.params.vibroDuration] {number}; сколько вибрировать
+         * @param [params.vibro] {object}; вибрация
+         * @param [params.vibro.repeat] {number}; сколько раз повторить
+         * @param [params.vibro.sleep] {number}; пауза между вибрациями
+         * @param [params.vibro.duration] {number}; длительность вибрации
          */
         playEffect: function (params = {}) {
             //params = params || {};
 
             let target = params.target;
             let type = params.type;
-            let vibroDuration = params.vibroDuration;
             let addParams = params.params;
+            let vibro = params.vibro;
 
             if (!target || !type) {
                 return false;
@@ -320,14 +328,33 @@ $(window).load(function () {
                 setLoopAudio({type: 'sound', src: src});
             } else if (type == 'bg-music') {
                 setLoopAudio({type: 'music', src: src});
-            } else if (type == 'vibro') {
-                if ( vibroControl.isVibroSupport(VIBRATION_ICON) ) {
-                    vibroDuration = parseInt(vibroDuration) || 500;
-
-                    window.navigator.vibrate(vibroDuration); //вибрировать
-                }
             } else if (type == 'popup') {
                 target.remodal().open();
+            }
+
+            if (addParams && addParams.vibroDuration) {
+                if ( !vibroControl.isVibroSupport(VIBRATION_ICON) ) return;
+                let vibroDuration = addParams.vibroDuration || 500;
+
+                window.navigator.vibrate(vibroDuration); //вибрировать
+            } else if (vibro) {
+                if ( !vibroControl.isVibroSupport(VIBRATION_ICON) ) return;
+
+                let vibroRepeat = vibro.repeat;
+                let vibroSleep = vibro.sleep;
+                let vibroDuration = vibro.duration || 500;
+
+                if (vibroRepeat <= 0) return;
+
+                window.navigator.vibrate(vibro); //вибрировать
+
+                let i = 1;
+                let interval = setInterval(function () {
+                    if (i >= vibroRepeat) clearInterval(interval);
+
+                    window.navigator.vibrate(vibroDuration); //вибрировать
+                    i++;
+                }, vibroSleep);
             }
 
             /**
@@ -428,19 +455,21 @@ $(window).load(function () {
         $effects.each(function (index, item) {
             let target,
                 type,
-                params;
+                params,
+                vibro;
 
             if ($(item).attr('data-effect-id')) {
                 target = $(item);
                 type = target.data('effect-type');
                 params = target.data('effect-params');
+                vibro = target.data('effect-vibro');
             } else if ($(item).attr('data-remodal-id')) {
                 target = $(item);
                 type = 'popup';
                 params = target.data('effect-params');
             }
 
-            controlEffects.playEffect({target: target, type: type, params: params});
+            controlEffects.playEffect({target: target, type: type, params: params, vibro: vibro});
         });
     };
 
@@ -492,18 +521,10 @@ $(window).load(function () {
 
         let target = $('[data-effect-id="' + $(this).data('effect-target') + '"]');
         let type = target.data('effect-type');
-        let params = target.data('effect-params');
+        let params = $(this).data('effect-params');
+        let vibro = $(this).data('effect-vibro');
 
-        controlEffects.playEffect({target: target, type: type, vibroDuration: params});
-
-        if ($(this).data('effect-vibro')) {
-            target = 'vibro';
-            type = 'vibro';
-
-            let vibroDuration = $(this).data('data-effect-vibro');
-
-            controlEffects.playEffect({target: target, type: type, vibroDuration: vibroDuration});
-        }
+        controlEffects.playEffect({target: target, type: type, params: params, vibro: vibro});
     });
 
     $('.header-menu__item__volume__min').on('click', function () {
