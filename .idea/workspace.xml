@@ -79,8 +79,8 @@
       <file leaf-file-name="root_wrapper.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/templates/root_wrapper.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="63">
-              <caret line="3" column="28" lean-forward="true" selection-start-line="3" selection-start-column="28" selection-end-line="3" selection-end-column="28" />
+            <state relative-caret-position="273">
+              <caret line="13" column="55" lean-forward="false" selection-start-line="13" selection-start-column="55" selection-end-line="13" selection-end-column="55" />
               <folding />
             </state>
           </provider>
@@ -457,7 +457,7 @@
       <workItem from="1491659997696" duration="9738000" />
       <workItem from="1491676282083" duration="153000" />
       <workItem from="1491717565218" duration="2431000" />
-      <workItem from="1491737446912" duration="7467000" />
+      <workItem from="1491737446912" duration="8146000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1491074804503</created>
@@ -501,11 +501,18 @@
       <option name="project" value="LOCAL" />
       <updated>1491744177135</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="temp mobile view fix (without adaptive);">
+      <created>1491744946929</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1491744946929</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="265783000" />
+    <option name="totallyTimeSpent" value="266462000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
@@ -554,7 +561,8 @@
     <MESSAGE value="rename book;&#10;change article;" />
     <MESSAGE value="vibration support testing;" />
     <MESSAGE value="preload audio;" />
-    <option name="LAST_COMMIT_MESSAGE" value="preload audio;" />
+    <MESSAGE value="temp mobile view fix (without adaptive);" />
+    <option name="LAST_COMMIT_MESSAGE" value="temp mobile view fix (without adaptive);" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -809,8 +817,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/templates/root_wrapper.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="63">
-          <caret line="3" column="28" lean-forward="true" selection-start-line="3" selection-start-column="28" selection-end-line="3" selection-end-column="28" />
+        <state relative-caret-position="273">
+          <caret line="13" column="55" lean-forward="false" selection-start-line="13" selection-start-column="55" selection-end-line="13" selection-end-column="55" />
           <folding />
         </state>
       </provider>
