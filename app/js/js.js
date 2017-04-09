@@ -346,7 +346,7 @@ $(window).load(function () {
 
                 if (vibroRepeat <= 0) return;
 
-                window.navigator.vibrate(vibro); //вибрировать
+                window.navigator.vibrate(vibroDuration); //вибрировать
 
                 let i = 1;
                 let interval = setInterval(function () {
