@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "devDependencies": {
     "js-beautify": "~1.6.12",
-    "htmltidy2": "~0.1.4"
+    "htmltidy2": "~0.1.4",
+    "fluent-ffmpeg": "~2.1.0",
+    "async": "~2.3.0"
   }
 }
