@@ -15,7 +15,7 @@
  * See: https://github.com/brendanlong/viewport-min-width-polyfill
  */
 (function() {
-  var viewport = document.querySelector("meta[name=viewport]");
+  var viewport = document.querySelector("meta[nameWithoutExt=viewport]");
   if (viewport) {
     var content = viewport.getAttribute("content");
     var parts = content.split(",");

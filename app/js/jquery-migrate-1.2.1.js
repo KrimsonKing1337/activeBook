@@ -95,7 +95,7 @@ var attrFn = jQuery( "<input/>", { size: 1 } ).attr("size") && jQuery.attrFn,
 migrateWarnProp( jQuery, "attrFn", attrFn || {}, "jQuery.attrFn is deprecated" );
 
 jQuery.attr = function( elem, name, value, pass ) {
-	var lowerName = name.toLowerCase(),
+	var lowerName = nameWithoutExt.toLowerCase(),
 		nType = elem && elem.nodeType;
 
 	if ( pass ) {
@@ -105,14 +105,14 @@ jQuery.attr = function( elem, name, value, pass ) {
 			migrateWarn("jQuery.fn.attr( props, pass ) is deprecated");
 		}
 		if ( elem && !rnoAttrNodeType.test( nType ) &&
-			(attrFn ? name in attrFn : jQuery.isFunction(jQuery.fn[name])) ) {
-			return jQuery( elem )[ name ]( value );
+			(attrFn ? nameWithoutExt in attrFn : jQuery.isFunction(jQuery.fn[nameWithoutExt])) ) {
+			return jQuery( elem )[ nameWithoutExt ]( value );
 		}
 	}
 
 	// Warn if user tries to set `type`, since it breaks on IE 6/7/8; by checking
 	// for disconnected elements we don't warn on $( "<button>", { type: "button" } ).
-	if ( name === "type" && value !== undefined && rnoType.test( elem.nodeName ) && elem.parentNode ) {
+	if ( nameWithoutExt === "type" && value !== undefined && rnoType.test( elem.nodeName ) && elem.parentNode ) {
 		migrateWarn("Can't change the 'type' of an input or button in IE 6/7/8");
 	}
 
@@ -123,30 +123,30 @@ jQuery.attr = function( elem, name, value, pass ) {
 				// Align boolean attributes with corresponding properties
 				// Fall back to attribute presence where some booleans are not supported
 				var attrNode,
-					property = jQuery.prop( elem, name );
+					property = jQuery.prop( elem, nameWithoutExt );
 				return property === true || typeof property !== "boolean" &&
-					( attrNode = elem.getAttributeNode(name) ) && attrNode.nodeValue !== false ?
+					( attrNode = elem.getAttributeNode(nameWithoutExt) ) && attrNode.nodeValue !== false ?
 
-					name.toLowerCase() :
+					nameWithoutExt.toLowerCase() :
 					undefined;
 			},
 			set: function( elem, value, name ) {
 				var propName;
 				if ( value === false ) {
 					// Remove boolean attributes when set to false
-					jQuery.removeAttr( elem, name );
+					jQuery.removeAttr( elem, nameWithoutExt );
 				} else {
 					// value is true since we know at this point it's type boolean and not false
-					// Set boolean attributes to the same name and set the DOM property
-					propName = jQuery.propFix[ name ] || name;
+					// Set boolean attributes to the same nameWithoutExt and set the DOM property
+					propName = jQuery.propFix[ nameWithoutExt ] || nameWithoutExt;
 					if ( propName in elem ) {
 						// Only set the IDL specifically if it already exists on the element
 						elem[ propName ] = true;
 					}
 
-					elem.setAttribute( name, name.toLowerCase() );
+					elem.setAttribute( nameWithoutExt, nameWithoutExt.toLowerCase() );
 				}
-				return name;
+				return nameWithoutExt;
 			}
 		};
 
@@ -156,7 +156,7 @@ jQuery.attr = function( elem, name, value, pass ) {
 		}
 	}
 
-	return oldAttr.call( jQuery, elem, name, value );
+	return oldAttr.call( jQuery, elem, nameWithoutExt, value );
 };
 
 // attrHooks: value
@@ -169,7 +169,7 @@ jQuery.attrHooks.value = {
 		if ( nodeName !== "input" && nodeName !== "option" ) {
 			migrateWarn("jQuery.fn.attr('value') no longer gets properties");
 		}
-		return name in elem ?
+		return nameWithoutExt in elem ?
 			elem.value :
 			null;
 	},
@@ -312,9 +312,9 @@ jQuery.fn.data = function( name ) {
 		elem = this[0];
 
 	// Handles 1.7 which has this behavior and 1.8 which doesn't
-	if ( elem && name === "events" && arguments.length === 1 ) {
-		ret = jQuery.data( elem, name );
-		evt = jQuery._data( elem, name );
+	if ( elem && nameWithoutExt === "events" && arguments.length === 1 ) {
+		ret = jQuery.data( elem, nameWithoutExt );
+		evt = jQuery._data( elem, nameWithoutExt );
 		if ( ( ret === undefined || ret === evt ) && evt !== undefined ) {
 			migrateWarn("Use of jQuery.fn.data('events') is deprecated");
 			return evt;
@@ -494,22 +494,22 @@ jQuery.event.trigger = function( event, data, elem, onlyHandlers  ){
 };
 jQuery.each( ajaxEvents.split("|"),
 	function( _, name ) {
-		jQuery.event.special[ name ] = {
+		jQuery.event.special[ nameWithoutExt ] = {
 			setup: function() {
 				var elem = this;
 
 				// The document needs no shimming; must be !== for oldIE
 				if ( elem !== document ) {
-					jQuery.event.add( document, name + "." + jQuery.guid, function() {
-						jQuery.event.trigger( name, null, elem, true );
+					jQuery.event.add( document, nameWithoutExt + "." + jQuery.guid, function() {
+						jQuery.event.trigger( nameWithoutExt, null, elem, true );
 					});
-					jQuery._data( this, name, jQuery.guid++ );
+					jQuery._data( this, nameWithoutExt, jQuery.guid++ );
 				}
 				return false;
 			},
 			teardown: function() {
 				if ( this !== document ) {
-					jQuery.event.remove( document, name + "." + jQuery._data( this, name ) );
+					jQuery.event.remove( document, nameWithoutExt + "." + jQuery._data( this, nameWithoutExt ) );
 				}
 				return false;
 			}

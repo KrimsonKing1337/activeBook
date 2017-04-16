@@ -87,7 +87,7 @@
 			var name = decode(parts.shift());
 			var cookie = parts.join('=');
 
-			if (key && key === name) {
+			if (key && key === nameWithoutExt) {
 				// If second argument (value) is a function it's a converter...
 				result = read(cookie, value);
 				break;
@@ -95,7 +95,7 @@
 
 			// Prevent storing a cookie that we couldn't decode.
 			if (!key && (cookie = read(cookie)) !== undefined) {
-				result[name] = cookie;
+				result[nameWithoutExt] = cookie;
 			}
 		}
 

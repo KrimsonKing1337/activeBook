@@ -1,5 +1,5 @@
 {
-  "name": "activeBook",
+  "nameWithoutExt": "activeBook",
   "version": "0.1.0",
   "devDependencies": {
     "js-beautify": "~1.6.12",

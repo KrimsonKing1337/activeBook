@@ -1527,7 +1527,7 @@ var Init = function(elem_id, options, tickMS) {
 	player_html += '<div class="g5transport">';
 	player_html += '<div class="g5meter"><span id="loaded-span' + that.id + '" style="width: 0%"></span></div>';
 
-	player_html += '<input type="range" class="transportbar" name="transportbar" id="transportbar' + that.id + '" ';
+	player_html += '<input type="range" class="transportbar" nameWithoutExt="transportbar" id="transportbar' + that.id + '" ';
 	player_html += 'min="0" max="' + SCRUB_RESOLUTION + '" value="0" oninput="' + PlayerHandle() + '.scrub(this.value);" ';
 	player_html += 'onmousedown="' + PlayerHandle()   + '.onStartedScrubbing();" ontouchstart="' + PlayerHandle() + '.onStartedScrubbing();" ';
 	player_html += 'onmouseup="'   + PlayerHandle()   + '.onFinishedScrubbing();" ontouchend="'  + PlayerHandle() + '.onFinishedScrubbing();" />';
@@ -1547,7 +1547,7 @@ var Init = function(elem_id, options, tickMS) {
 	}
 	else
 	{
-		player_html += '<input type="range" class="volume" name="gain" min="0" max="' + SCRUB_RESOLUTION + '" value="' + SCRUB_RESOLUTION + '" oninput="' + PlayerHandle() + '.setGain(this.value);" />';
+		player_html += '<input type="range" class="volume" nameWithoutExt="gain" min="0" max="' + SCRUB_RESOLUTION + '" value="' + SCRUB_RESOLUTION + '" oninput="' + PlayerHandle() + '.setGain(this.value);" />';
 		player_html += '</div>';
 	}
 	player_html += '</div>';
