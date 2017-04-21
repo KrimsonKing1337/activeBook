@@ -1,6 +1,5 @@
 let ffmpeg = require('fluent-ffmpeg');
 let fs = require('fs');
-let path = require('path');
 
 let Files = require('./files');
 let filesInst = new Files();
@@ -41,26 +40,17 @@ module.exports = class Converter {
 
         if (files.length === 0) throw 'There are no files, exit';
 
-        /**
-         *
-         * счётчик итераций.
-         * когда требуемое условие для начала выполнения асинхронной функции выполнилось,
-         * счётчик инкрементируем.
-         * асинхронная функция отработала, счётчик декриментируем
-         * и тут же проверяем на ноль.
-         * если равен нулю - значит все итерации были выполнены, выполняем callback.
-         *
-         * то есть, сначала всё идёт синхронно, друг за другом,
-         * поэтому после выполнения условия производится операция counter++;
-         * далее запускается асинхронная функция, которая выполняется параллельно другим,
-         * поэтому в её callback-е выполняется counter--,
-         * и производится сравнение с нулём.
-         */
-
         let unusedFiles = [];
 
         files.map(function (file) {
-            let fileProps = filesInst.getFileProps(file);
+            /**
+             *
+             * вызываем статический метод через название класса,
+             * а не экземпляра класса.
+             * то есть `ClassName.staticMethod()`,
+             * а не `new ClassName.staticMethod()`
+             */
+            let fileProps = Files.getFileProps(file);
 
             if (fileProps.ext !== '.wav' && fileProps.ext !== '.mp3') {
                 unusedFiles.push(file);
@@ -84,7 +74,14 @@ module.exports = class Converter {
         if (files.length === 0) throw 'There are no files, exit';
 
         files.map(function (file) {
-            let fileProps = filesInst.getFileProps(file);
+            /**
+             *
+             * вызываем статический метод через название класса,
+             * а не экземпляра класса.
+             * то есть `ClassName.staticMethod()`,
+             * а не `new ClassName.staticMethod()`
+             */
+            let fileProps = Files.getFileProps(file);
 
             /**
              * если файл уже есть в одном из форматов,
