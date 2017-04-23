@@ -1,0 +1,17 @@
+.page {
+  display: grid;
+  grid-template-columns: auto 481px;
+  //grid-template-rows: auto auto;
+  grid-template-rows: 1024px;
+  justify-content: center;
+}
+
+.left-side {
+  width: 962px;
+  border: 1px red solid;
+}
+
+.right-side {
+  border: 1px red solid;
+  width: 481px;
+}

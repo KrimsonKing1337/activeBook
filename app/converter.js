@@ -4,12 +4,6 @@ let fs = require('fs');
 let Files = require('./files');
 let filesInst = new Files();
 
-/**
- * не работал кодер ogg,
- * я для теста сделал wav, не забыть потом вернуть обратно
- * todo: добавить передачу параметра что именно конвертить
- * (видео/аудио/etc.)
- */
 module.exports = class Converter {
     /**
      *
@@ -21,26 +15,49 @@ module.exports = class Converter {
      * вызываем функции, которые должны происходить при
      * инициализации экземпляра класса и так далее
      */
-    constructor(files) {
+    constructor (files) {
         let self = this;
         this.files = files;
     }
 
     /**
      *
+     * @param type {string};
      * @param [callback] {function};
      *
      * приватный метод,
      * удаляет ненужные файлы,
-     * т.е. не .ogg и не .mp3 после отработки convert
-     * todo: добавить выбор между video и audio
+     * т.е. не .ogg и не .mp3 (или не .webm или .mp4, etc.) после отработки convert
      */
-    _removeUnused(callback) {
+    _removeUnused (type, callback) {
         let files = this.files;
 
         if (files.length === 0) throw 'There are no files, exit';
 
-        let unusedFiles = [];
+        let formats;
+        if (type === 'audio') {
+            formats = ['mp3', 'ogg'];
+        } else if (type === 'video') {
+            formats = ['mp4', 'webm']
+        } else {
+            throw 'There is incorrect type. Only audio or video is allowed';
+        }
+
+        /**
+         *
+         * массив нужных файлов,
+         * его мы потом используем для формирования
+         * массива ненужных файлов
+         */
+        let usedFiles = [];
+
+        /**
+         * массив ненужных файлов,
+         * приравниваем его к общему списку файлов,
+         * потом из него будем удалять элементы,
+         * которые есть в массиве нужных файлов
+         */
+        let unUsedFiles = files;
 
         files.map(function (file) {
             /**
@@ -52,28 +69,80 @@ module.exports = class Converter {
              */
             let fileProps = Files.getFileProps(file);
 
-            if (fileProps.ext !== '.wav' && fileProps.ext !== '.mp3') {
-                unusedFiles.push(file);
+            /**
+             * пробегаемся по каждому формату.
+             * если расширение файла = формату
+             * добавляем его в массив нужных файлов
+             */
+            formats.map(function (format, index) {
+                if (fileProps.ext === '.' + format) {
+                    usedFiles.push(file);
+                }
+            });
+        });
+
+        /**
+         * пробегаемся по массиву нужных файлов.
+         * ищем значение каждого элемента массива
+         * в общем списке файлов.
+         * если таковой есть - удаляем его из массива ненужных файлов.
+         * в конечном счёт у нас окажуются только ненужные файлы,
+         * которые мы потом отправляем на удаление
+         */
+        usedFiles.map(function (file) {
+            for (let i = 0; i < unUsedFiles.length; i++) {
+                if (unUsedFiles[i] === file) {
+                    unUsedFiles.splice(i, 1);
+                }
             }
         });
 
-        filesInst.remove(unusedFiles);
+        filesInst.remove(unUsedFiles);
     };
 
     /**
      *
+     * @param type {string}; audio || video;
      * @param [callback] {function};
      *
      * публичный метод,
-     * конвертирует в mp3/wav,
-     * todo: добавить выбор между video и audio
+     * конвертирует в mp3/ogg, mp4/webm
      */
-    convert (callback) {
+    convert (type, callback) {
+        let self = this;
         let files = this.files;
 
         if (files.length === 0) throw 'There are no files, exit';
 
+        let formats;
+        if (type === 'audio') {
+            formats = ['mp3', 'ogg'];
+        } else if (type === 'video') {
+            formats = ['mp4', 'webm']
+        } else {
+            throw 'There is incorrect type. Only audio or video is allowed';
+        }
+
+        let filesAllowed = [];
+
         files.map(function (file) {
+            let fileProps = Files.getFileProps(file);
+
+            formats.map(function (format, index) {
+                if (fileProps.ext === '.' + format) {
+                    filesAllowed.push(file);
+                }
+            });
+        });
+
+        /**
+         *
+         * массив файлов и форматов, которые полетят в конвертер
+         * `{fileProps: fileProps, format: mp3}`
+         */
+        let newFiles = [];
+
+        filesAllowed.map(function (file) {
             /**
              *
              * вызываем статический метод через название класса,
@@ -84,39 +153,62 @@ module.exports = class Converter {
             let fileProps = Files.getFileProps(file);
 
             /**
-             * если файл уже есть в одном из форматов,
-             * то не форматируем заново в этот формат.
-             * соотвественно, если оба нужных формата есть,
-             * то не делаем ничего.
+             * пробегаемся по каждому формату.
+             * если файла с таким расширением нет,
+             * добавляем его в массив новых файлов
              */
-            if (fileProps.ext === '.wav') {
-                if (files.indexOf(fileProps.fullNameWithoutExt + '.mp3') === -1) Converter.ffmpeg(fileProps, 'mp3');
-            } else if (fileProps.ext === '.mp3') {
-                if (files.indexOf(fileProps.fullNameWithoutExt + '.wav') === -1) Converter.ffmpeg(fileProps, 'wav');
-            }
+            formats.map(function (format, index) {
+                if (files.indexOf(fileProps.fullNameWithoutExt + '.' + format) === -1) {
+                    newFiles.push({fileProps: fileProps, format: format});
+                }
+            });
         });
 
         /**
-         * подчищаем за собой,
-         * удаляем ненужные файлы (НЕ mp3/ogg)
+         * пробегаемся по каждому новому файлу
+         * и отправляем его в конвертер
          */
-        this._removeUnused();
+        if (newFiles.length > 0) {
+            let counter = 0;
 
-        /**
-         *
-         * если callback не был передан,
-         * то просто выводим Files converting done
-         */
-        callback = callback || function () {
-                console.log('Files converting done');
-            };
-        callback();
+            newFiles.map(function (newFile, index) {
+                counter++;
+
+                Converter.ffmpeg(newFile.fileProps, newFile.format, function (err) {
+                    if (err) throw err;
+
+                    counter--;
+
+                    /**
+                     * все итерации были выполнены
+                     */
+                    if (counter === 0) {
+                        /**
+                         *
+                         * если callback не был передан,
+                         * то просто выводим Files converting done
+                         */
+                        callback = callback || function () {
+                                console.log('Files converting done');
+                            };
+                        callback();
+
+                        /**
+                         * подчищаем за собой,
+                         * удаляем ненужные файлы (НЕ mp3/ogg или НЕ webm/mp4, etc.)
+                         */
+                        self._removeUnused(type);
+                    }
+                });
+            });
+        }
     };
 
     /**
      *
      * @param fileProps {object}
      * @param format {string}
+     * @param callback {function}
      *
      * статичный метод нужен для того,
      * чтобы не дублировать его в экземпляры класса,
@@ -126,7 +218,13 @@ module.exports = class Converter {
      * то есть это то же самое, как если бы мы вынесли этот метод в функцию за пределы класса.
      * но поскольку нужно объединить эту функцию в один контекст, мы вносим её в класс в виде метода.
      */
-    static ffmpeg (fileProps, format) {
-        ffmpeg(fileProps.fullName).toFormat(format).saveToFile(fileProps.dirPath + '/' + fileProps.nameWithoutExt + '.' + format);
+    static ffmpeg (fileProps, format, callback) {
+        ffmpeg(fileProps.fullName).toFormat(format).saveToFile(fileProps.dirPath + '/' + fileProps.nameWithoutExt + '.' + format)
+            .on('end', function () {
+                callback(null);
+            })
+            .on('error', function (err) {
+                callback(err);
+            });
     };
 };

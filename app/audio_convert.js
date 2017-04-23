@@ -10,6 +10,8 @@ const audiosFolder = 'test/';
 const videosFolder = 'book_data/videos/';
 const gitkeepFileName = 'gitkeep';
 
+//todo: вынести глобальные переменные в отдельный класс, который будет их возвращать
+
 /**
  *
  * создаём новый экземпляр класса.
@@ -34,17 +36,39 @@ class ConverterInit {
     constructor(files) {
         let self = this;
         this.files = files;
-        ConverterInit.init(files);
+        ConverterInit._init(files);
     }
 
-    static init (files)  {
-        converter = new Converter(files);
-        converter.convert();
+    static _init (files)  {
+        let allowedFiles = ConverterInit._audioFilesForConvert(files);
+        converter = new Converter(allowedFiles);
+        converter.convert('audio');
+    }
+
+    /**
+     *
+     * @param files[] {string}
+     * @returns {*}
+     * @private
+     *
+     * Формируем массив из переданных файлов,
+     * но без gitkeep
+     */
+    static _audioFilesForConvert(files) {
+        let allowedFiles = files;
+
+        allowedFiles.map(function (file, index) {
+            if (file.indexOf(gitkeepFileName) !== -1) {
+                allowedFiles.splice(index, 1);
+            }
+        });
+
+        return allowedFiles;
     }
 }
 
 files.get(audiosFolder, function (files) {
-    console.log(files);
+    //console.log(files);
 
     new ConverterInit(files);
 });
