@@ -15,7 +15,6 @@ figcaption,
 figure,
 footer,
 header,
-hgroup,
 menu,
 nav,
 section {
@@ -48,4 +47,17 @@ q:after {
 table {
   border-collapse: collapse;
   border-spacing: 0;
+}
+
+a {
+  font: inherit;
+  color: inherit;
+}
+
+img,
+video,
+audio {
+  width: 100%;
+  max-width: 100%;
+  vertical-align: top;
 }
