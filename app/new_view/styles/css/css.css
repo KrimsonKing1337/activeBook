@@ -1,0 +1,100 @@
+body {
+  font-family: RobotoRegular, Arial, Helvetica, sans-serif;
+  font-size: 16px; }
+
+.page {
+  display: grid;
+  grid-template-columns: auto 481px;
+  grid-template-rows: auto auto;
+  justify-content: center; }
+
+.left-side {
+  width: 962px;
+  border: 1px red solid; }
+
+.right-side {
+  border: 1px red solid;
+  width: 481px; }
+
+.text {
+  padding: 20px;
+  max-height: 800px; }
+  .text .mCS-activeBook-default.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
+    width: 6px;
+    opacity: 0.93;
+    border-radius: 100px;
+    background: linear-gradient(to right, #ff7e5f, #feb47b); }
+  .text .mCS-activeBook-default.mCSB_scrollTools .mCSB_draggerRail {
+    background-color: #fff; }
+  .text header {
+    font-family: RobotoBold, Arial, Helvetica, sans-serif;
+    font-size: 32px;
+    padding-bottom: 24px; }
+  .text article {
+    font-family: RobotoLight, Arial, Helvetica, sans-serif;
+    font-style: italic;
+    font-size: 14px;
+    padding-bottom: 16px;
+    line-height: 1.2; }
+  .text h1 {
+    font-family: RobotoRegular, Arial, Helvetica, sans-serif;
+    font-size: 24px;
+    padding-bottom: 16px; }
+  .text p {
+    font-family: RobotoRegular, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    line-height: 1.4;
+    padding-top: 16px; }
+    .text p:nth-of-type(1) {
+      padding-top: 0; }
+
+.menu {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 48px;
+  width: 100%;
+  padding: 0 20px; }
+  .menu__item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-left: 32px;
+    cursor: pointer; }
+    .menu__item:nth-child(1) {
+      margin-left: 0; }
+    .menu__item.font-size-up {
+      margin-left: 10px; }
+    .menu__item.page-number input {
+      width: 80px; }
+
+.add-settings {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 132px;
+  height: 70px;
+  margin-top: -90px;
+  border-radius: 8px;
+  background: #f8f8f8;
+  padding: 16px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  z-index: 1;
+  cursor: default; }
+  .add-settings__bottom {
+    position: absolute;
+    bottom: -16px;
+    left: 14px;
+    width: auto;
+    border-bottom-right-radius: 22px; }
+  .add-settings__item {
+    padding-top: 8px; }
+    .add-settings__item:nth-child(1) {
+      padding-top: 0; }
+    .add-settings__item__label {
+      font-family: RobotoLight, Arial, Helvetica, sans-serif;
+      font-size: 9px;
+      text-transform: uppercase;
+      padding-bottom: 3px; }
+
+/*# sourceMappingURL=css.css.map */

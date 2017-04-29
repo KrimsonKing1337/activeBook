@@ -1,0 +1,145 @@
+body {
+  font-family: RobotoRegular, Arial, Helvetica, sans-serif;
+  font-size: 16px;
+}
+
+.page {
+  display: grid;
+  grid-template-columns: auto 481px;
+  grid-template-rows: auto auto;
+  justify-content: center;
+}
+
+.left-side {
+  width: 962px;
+  border: 1px red solid;
+}
+
+.right-side {
+  border: 1px red solid;
+  width: 481px;
+}
+
+.text {
+  padding: 20px;
+  max-height: 800px;
+
+  //mCustomScrollbar Styles
+  .mCS-activeBook-default {
+    &.mCSB_scrollTools {
+      .mCSB_dragger {
+        .mCSB_dragger_bar {
+          width: 6px;
+          //height: 102px;
+          opacity: 0.93;
+          border-radius: 100px;
+          background: linear-gradient(to right, #ff7e5f, #feb47b);
+        }
+      }
+
+      .mCSB_draggerRail{
+        background-color: #fff;
+      }
+    }
+  }
+
+  header {
+    font-family: RobotoBold, Arial, Helvetica, sans-serif;
+    font-size: 32px;
+    padding-bottom: 24px;
+  }
+
+  article {
+    font-family: RobotoLight, Arial, Helvetica, sans-serif;
+    font-style: italic;
+    font-size: 14px;
+    padding-bottom: 16px;
+    line-height: 1.2;
+  }
+
+  h1 {
+    font-family: RobotoRegular, Arial, Helvetica, sans-serif;
+    font-size: 24px;
+    padding-bottom: 16px;
+  }
+
+  p {
+    font-family: RobotoRegular, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    line-height: 1.4;
+    padding-top: 16px;
+
+    &:nth-of-type(1) {
+      padding-top: 0;
+    }
+  }
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 48px;
+  width: 100%;
+  padding: 0 20px;
+
+  &__item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-left: 32px;
+    cursor: pointer;
+
+    &:nth-child(1) {
+      margin-left: 0;
+    }
+
+    &.font-size-up {
+      margin-left: 10px;
+    }
+
+    &.page-number {
+      input {
+        width: 80px;
+      }
+    }
+  }
+}
+
+.add-settings {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 132px;
+  height: 70px;
+  margin-top: -90px;
+  border-radius: 8px;
+  background: #f8f8f8;
+  padding: 16px;
+  box-shadow: 0 4px 4px rgba(#000, 0.25);
+  z-index: 1;
+  cursor: default;
+
+  &__bottom {
+    position: absolute;
+    bottom: -16px;
+    left: 14px;
+    width: auto;
+    border-bottom-right-radius: 22px; //todo: костыль, убрать
+  }
+
+  &__item {
+    padding-top: 8px;
+
+    &:nth-child(1) {
+      padding-top: 0;
+    }
+
+    &__label {
+      font-family: RobotoLight, Arial, Helvetica, sans-serif;
+      font-size: 9px;
+      text-transform: uppercase;
+      padding-bottom: 3px;
+    }
+  }
+}
