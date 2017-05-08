@@ -2,7 +2,7 @@
  * Created by K on 15.04.2017.
  */
 
-let Files = require('./files');
+let Files = require('./Files');
 let Converter = require('./Converter');
 
 //const audiosFolder = 'book_data/audios/';

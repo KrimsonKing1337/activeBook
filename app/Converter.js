@@ -1,8 +1,8 @@
 let ffmpeg = require('fluent-ffmpeg');
 let fs = require('fs');
 
-let Files = require('./files');
-let filesInst = new Files();
+let Files = require('./Files');
+let FilesInst = new Files();
 
 module.exports = class Converter {
     /**
@@ -32,7 +32,7 @@ module.exports = class Converter {
 
         if (files.length === 0) throw 'There are no files, exit';
 
-        filesInst.remove(files.unUsedFiles);
+        FilesInst.remove(files.unUsedFiles);
     };
 
     /**
