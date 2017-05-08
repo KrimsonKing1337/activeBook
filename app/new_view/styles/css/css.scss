@@ -11,7 +11,8 @@ body {
 }
 
 .left-side {
-  width: 962px;
+  //width: 962px;
+  width: 870px; //1366, но не пойму откуда именно такое значение вышло
   border: 1px red solid;
 }
 
@@ -22,7 +23,8 @@ body {
 
 .text {
   padding: 20px;
-  max-height: 800px;
+  //max-height: 800px;
+  max-height: 500px;
 
   //mCustomScrollbar Styles
   .mCS-activeBook-default {
@@ -73,6 +75,19 @@ body {
       padding-top: 0;
     }
   }
+
+  a {
+    &.action {
+      color: #fd0006;
+      opacity: 0.85;
+      transition: ease all 0.3s 0s;
+
+      &:hover {
+        opacity: 1;
+        text-shadow: 2px 2px 2px #fd0006;
+      }
+    }
+  }
 }
 
 .menu {
@@ -89,6 +104,8 @@ body {
     align-items: center;
     margin-left: 32px;
     cursor: pointer;
+    flex-shrink: 0;
+    height: 16px;
 
     &:nth-child(1) {
       margin-left: 0;
@@ -99,14 +116,100 @@ body {
     }
 
     &.page-number {
+      margin-left: 24px;
+
       input {
-        width: 80px;
+        width: 60px;
+        font-family: RobotoRegular, Arial, Helvetica, sans-serif;
+        font-size: 12px;
+
+        &::-webkit-input-placeholder {
+          color: #000;
+        }
+
+        &::-moz-placeholder {
+          color: #000;
+        }
+      }
+    }
+
+    &.arrow-right {
+      margin-left: 24px;
+    }
+
+    &.volume {
+      cursor: default;
+
+      > img {
+        cursor: pointer;
+      }
+
+      .range-slider__wrapper {
+        margin-left: 8px;
+      }
+
+      .add-settings {
+        .range-slider__wrapper {
+          margin-left: 0;
+        }
+      }
+    }
+
+    .range-slider__wrapper {
+      flex-shrink: 0;
+      width: 100px;
+      height: 6px;
+
+      .irs {
+        width: 100%;
+        height: 100%;
+
+        .irs-line,
+        .irs-bar,
+        .irs-bar-edge {
+          top: 2px;
+          height: 3px;
+          border: none;
+          background: #f2994a;
+        }
+
+        .irs-line {
+          background: #c4c4c4;
+        }
+
+        .irs-bar-edge {
+          width: 12px;
+        }
+
+        .irs-slider {
+          top: -3px;
+          height: 12px;
+          width: 12px;
+          border-radius: 50%;
+          box-shadow: none;
+          border: none;
+          background: transparent;
+        }
+      }
+
+      &:hover {
+        .irs-line,
+        .irs-bar,
+        .irs-bar-edge {
+          height: 6px;
+          top: 0;
+        }
+
+        .irs-slider {
+          background: #f2994a;
+        }
       }
     }
   }
 }
 
 .add-settings {
+  display: none; //change by script
   position: absolute;
   top: 0;
   left: 0;
@@ -119,6 +222,10 @@ body {
   box-shadow: 0 4px 4px rgba(#000, 0.25);
   z-index: 1;
   cursor: default;
+
+  &.active {
+    display: block;
+  }
 
   &__bottom {
     position: absolute;

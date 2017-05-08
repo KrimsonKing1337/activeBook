@@ -9,7 +9,7 @@ body {
   justify-content: center; }
 
 .left-side {
-  width: 962px;
+  width: 870px;
   border: 1px red solid; }
 
 .right-side {
@@ -18,7 +18,7 @@ body {
 
 .text {
   padding: 20px;
-  max-height: 800px; }
+  max-height: 500px; }
   .text .mCS-activeBook-default.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
     width: 6px;
     opacity: 0.93;
@@ -47,6 +47,13 @@ body {
     padding-top: 16px; }
     .text p:nth-of-type(1) {
       padding-top: 0; }
+  .text a.action {
+    color: #fd0006;
+    opacity: 0.85;
+    transition: ease all 0.3s 0s; }
+    .text a.action:hover {
+      opacity: 1;
+      text-shadow: 2px 2px 2px #fd0006; }
 
 .menu {
   display: flex;
@@ -60,15 +67,69 @@ body {
     display: flex;
     align-items: center;
     margin-left: 32px;
-    cursor: pointer; }
+    cursor: pointer;
+    flex-shrink: 0;
+    height: 16px; }
     .menu__item:nth-child(1) {
       margin-left: 0; }
     .menu__item.font-size-up {
       margin-left: 10px; }
-    .menu__item.page-number input {
-      width: 80px; }
+    .menu__item.page-number {
+      margin-left: 24px; }
+      .menu__item.page-number input {
+        width: 60px;
+        font-family: RobotoRegular, Arial, Helvetica, sans-serif;
+        font-size: 12px; }
+        .menu__item.page-number input::-webkit-input-placeholder {
+          color: #000; }
+        .menu__item.page-number input::-moz-placeholder {
+          color: #000; }
+    .menu__item.arrow-right {
+      margin-left: 24px; }
+    .menu__item.volume {
+      cursor: default; }
+      .menu__item.volume > img {
+        cursor: pointer; }
+      .menu__item.volume .range-slider__wrapper {
+        margin-left: 8px; }
+      .menu__item.volume .add-settings .range-slider__wrapper {
+        margin-left: 0; }
+    .menu__item .range-slider__wrapper {
+      flex-shrink: 0;
+      width: 100px;
+      height: 6px; }
+      .menu__item .range-slider__wrapper .irs {
+        width: 100%;
+        height: 100%; }
+        .menu__item .range-slider__wrapper .irs .irs-line,
+        .menu__item .range-slider__wrapper .irs .irs-bar,
+        .menu__item .range-slider__wrapper .irs .irs-bar-edge {
+          top: 2px;
+          height: 3px;
+          border: none;
+          background: #f2994a; }
+        .menu__item .range-slider__wrapper .irs .irs-line {
+          background: #c4c4c4; }
+        .menu__item .range-slider__wrapper .irs .irs-bar-edge {
+          width: 12px; }
+        .menu__item .range-slider__wrapper .irs .irs-slider {
+          top: -3px;
+          height: 12px;
+          width: 12px;
+          border-radius: 50%;
+          box-shadow: none;
+          border: none;
+          background: transparent; }
+      .menu__item .range-slider__wrapper:hover .irs-line,
+      .menu__item .range-slider__wrapper:hover .irs-bar,
+      .menu__item .range-slider__wrapper:hover .irs-bar-edge {
+        height: 6px;
+        top: 0; }
+      .menu__item .range-slider__wrapper:hover .irs-slider {
+        background: #f2994a; }
 
 .add-settings {
+  display: none;
   position: absolute;
   top: 0;
   left: 0;
@@ -81,6 +142,8 @@ body {
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   z-index: 1;
   cursor: default; }
+  .add-settings.active {
+    display: block; }
   .add-settings__bottom {
     position: absolute;
     bottom: -16px;

@@ -43,7 +43,8 @@ table {
 
 a {
   font: inherit;
-  color: inherit; }
+  color: inherit;
+  text-decoration: none; }
 
 img,
 video,
