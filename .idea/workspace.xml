@@ -1,22 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="48e04449-0781-440b-a09d-f639a272681a" name="Default" comment="class compiler">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/pages/page_1.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/pages/page_10.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/pages/page_11.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/pages/page_12.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/pages/page_2.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/pages/page_3.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/pages/page_4.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/pages/page_5.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/pages/page_6.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/pages/page_7.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/pages/page_8.html" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/pages/page_9.html" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/Compiler.js" afterPath="$PROJECT_DIR$/app/GeneratorBookPages.js" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/app/compile.js" afterPath="$PROJECT_DIR$/app/generateBookPages.js" />
+    <list default="true" id="48e04449-0781-440b-a09d-f639a272681a" name="Default" comment="">
+      <change type="MOVED" beforePath="$PROJECT_DIR$/app/converter.js" afterPath="$PROJECT_DIR$/app/Converter.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/audio_convert.js" afterPath="$PROJECT_DIR$/app/audio_convert.js" />
     </list>
     <ignored path="activeBook_new.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -37,42 +25,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="generateBookPages.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/generateBookPages.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="57" lean-forward="true" selection-start-line="4" selection-start-column="57" selection-end-line="4" selection-end-column="57" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GeneratorBookPages.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/GeneratorBookPages.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="42" lean-forward="false" selection-start-line="10" selection-start-column="42" selection-end-line="10" selection-end-column="42" />
-              <folding>
-                <element signature="e#235#5703#0" expanded="false" />
-                <element signature="e#845#2022#0" expanded="false" />
-                <element signature="e#2250#3584#0" expanded="false" />
-                <element signature="e#3748#3808#0" expanded="false" />
-                <element signature="e#4166#4797#0" expanded="false" />
-                <element signature="e#4985#5497#0" expanded="false" />
-                <element signature="e#5647#5701#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="converter.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/converter.js">
+      <file leaf-file-name="Converter.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Converter.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="68">
               <caret line="4" column="28" lean-forward="false" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
               <folding>
                 <element signature="e#143#5115#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="audio_convert.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/audio_convert.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="374">
+              <caret line="27" column="18" lean-forward="true" selection-start-line="27" selection-start-column="18" selection-end-line="27" selection-end-column="18" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -109,7 +79,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/page_5.html" />
         <option value="$PROJECT_DIR$/app/page_7.html" />
         <option value="$PROJECT_DIR$/app/page_8.html" />
         <option value="$PROJECT_DIR$/app/page_6.html" />
@@ -160,6 +129,7 @@
         <option value="$PROJECT_DIR$/app/audio_comvert.js" />
         <option value="$PROJECT_DIR$/app/Compiler.js" />
         <option value="$PROJECT_DIR$/app/compile.js" />
+        <option value="$PROJECT_DIR$/app/audio_convert.js" />
       </list>
     </option>
   </component>
@@ -433,7 +403,7 @@
       <workItem from="1494174313048" duration="477000" />
       <workItem from="1494174812515" duration="7293000" />
       <workItem from="1494183377818" duration="24000" />
-      <workItem from="1494225245787" duration="3839000" />
+      <workItem from="1494225245787" duration="4055000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <created>1491074804503</created>
@@ -512,11 +482,18 @@
       <option name="project" value="LOCAL" />
       <updated>1494183051253</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="documentation;&#10;rename methods, classes and files;">
+      <created>1494229297212</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1494229297212</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="318330000" />
+    <option name="totallyTimeSpent" value="318546000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-4" y="0" width="1374" height="770" extended-state="6" />
@@ -570,7 +547,8 @@
     <MESSAGE value="async module;&#10;ffmpeg for windows;&#10;get files function for converting files via node.js" />
     <MESSAGE value="class compiler" />
     <MESSAGE value="class compiler;&#10;modularity;" />
-    <option name="LAST_COMMIT_MESSAGE" value="class compiler;&#10;modularity;" />
+    <MESSAGE value="documentation;&#10;rename methods, classes and files;" />
+    <option name="LAST_COMMIT_MESSAGE" value="documentation;&#10;rename methods, classes and files;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -860,11 +838,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/audio_convert.js">
+    <entry file="file://$PROJECT_DIR$/app/GeneratorBookPages.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1334">
-          <caret line="13" column="134" lean-forward="true" selection-start-line="13" selection-start-column="134" selection-end-line="13" selection-end-column="134" />
-          <folding />
+        <state relative-caret-position="170">
+          <caret line="174" column="2" lean-forward="true" selection-start-line="174" selection-start-column="2" selection-end-line="174" selection-end-column="2" />
+          <folding>
+            <element signature="e#235#5703#0" expanded="false" />
+            <element signature="e#845#2022#0" expanded="false" />
+            <element signature="e#2250#3584#0" expanded="false" />
+            <element signature="e#3748#3808#0" expanded="false" />
+            <element signature="e#4166#4797#0" expanded="false" />
+            <element signature="e#4985#5497#0" expanded="false" />
+            <element signature="e#5647#5701#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -876,7 +862,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/converter.js">
+    <entry file="file://$PROJECT_DIR$/app/Converter.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
           <caret line="4" column="28" lean-forward="false" selection-start-line="4" selection-start-column="28" selection-end-line="4" selection-end-column="28" />
@@ -886,19 +872,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/GeneratorBookPages.js">
+    <entry file="file://$PROJECT_DIR$/app/audio_convert.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="42" lean-forward="false" selection-start-line="10" selection-start-column="42" selection-end-line="10" selection-end-column="42" />
-          <folding>
-            <element signature="e#235#5703#0" expanded="false" />
-            <element signature="e#845#2022#0" expanded="false" />
-            <element signature="e#2250#3584#0" expanded="false" />
-            <element signature="e#3748#3808#0" expanded="false" />
-            <element signature="e#4166#4797#0" expanded="false" />
-            <element signature="e#4985#5497#0" expanded="false" />
-            <element signature="e#5647#5701#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="374">
+          <caret line="27" column="18" lean-forward="true" selection-start-line="27" selection-start-column="18" selection-end-line="27" selection-end-column="18" />
+          <folding />
         </state>
       </provider>
     </entry>

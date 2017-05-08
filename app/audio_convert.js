@@ -3,7 +3,7 @@
  */
 
 let Files = require('./files');
-let Converter = require('./converter');
+let Converter = require('./Converter');
 
 //const audiosFolder = 'book_data/audios/';
 const audiosFolder = 'test/';
@@ -25,7 +25,7 @@ const gitkeepFileName = 'gitkeep';
 
 let files = new Files(gitkeepFileName);
 
-let converter;
+let ConverterInst;
 
 /**
  * класс-обёртка для Converter,
@@ -41,8 +41,8 @@ class ConverterInit {
 
     static _init (files)  {
         let parsedFiles = ConverterInit._parseFilesForConvert(files, 'audio');
-        converter = new Converter(parsedFiles);
-        converter.convert(Converter.getFormatsByType('audio'));
+        ConverterInst = new Converter(parsedFiles);
+        ConverterInst.convert(Converter.getFormatsByType('audio'));
     }
 
     /**
