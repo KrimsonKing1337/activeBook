@@ -2,7 +2,7 @@
  * Created by k on 18.03.17.
  */
 
-let Compiler = require('./Compiler');
+let GeneratorBookPages = require('./GeneratorBookPages');
 
 /**
  *
@@ -27,4 +27,4 @@ templatesPaths.pageFile = templatesPaths.templatesFolder + 'page.html';
 templatesPaths.headerMenuFile = templatesPaths.templatesFolder + 'header_menu.html';
 templatesPaths.textAndEffectsFile = templatesPaths.templatesFolder + 'text_and_effects.html';
 
-new Compiler(templatesPaths);
+GeneratorBookPages.init(templatesPaths);
