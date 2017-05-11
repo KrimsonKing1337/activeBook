@@ -70,6 +70,8 @@ body {
     cursor: pointer;
     flex-shrink: 0;
     height: 16px; }
+    .menu__item .obj-img__wrapper {
+      cursor: pointer; }
     .menu__item:nth-child(1) {
       margin-left: 0; }
     .menu__item.font-size-up {
@@ -88,8 +90,6 @@ body {
       margin-left: 24px; }
     .menu__item.volume {
       cursor: default; }
-      .menu__item.volume > img {
-        cursor: pointer; }
       .menu__item.volume .range-slider__wrapper {
         margin-left: 8px; }
       .menu__item.volume .add-settings .range-slider__wrapper {
@@ -159,5 +159,13 @@ body {
       font-size: 9px;
       text-transform: uppercase;
       padding-bottom: 3px; }
+
+.obj-img__wrapper {
+  position: relative; }
+  .obj-img__wrapper .obj-img__helper {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 10; }
 
 /*# sourceMappingURL=css.css.map */

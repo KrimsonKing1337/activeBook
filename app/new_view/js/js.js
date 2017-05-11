@@ -16,8 +16,9 @@ $(window).load(function () {
     });
 
     //отображаем доп. меню для звука при нажатии правой кнопкой мыши
-    $('.js-menu-volume').find('> img').on('contextmenu', function (e) {
+    $('.js-menu-volume').find('.obj-img__helper').on('click', function (e) {
        e.preventDefault();
+       e.stopPropagation();
 
        let $addSettings = $(this).closest('.js-menu-volume').find('.add-settings');
 
@@ -28,5 +29,15 @@ $(window).load(function () {
                $addSettings.removeClass('active');
            });
        }, 0);
+    });
+
+    $('.obj-img__helper').each(function () {
+        let objImgWrapper = $(this).closest('.obj-img__wrapper');
+        let height = objImgWrapper.height();
+        let width = objImgWrapper.width();
+        $(this).css({
+           'height': height + 'px',
+           'width': width + 'px'
+        });
     });
 });

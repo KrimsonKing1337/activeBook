@@ -107,6 +107,10 @@ body {
     flex-shrink: 0;
     height: 16px;
 
+    .obj-img__wrapper {
+      cursor: pointer;
+    }
+
     &:nth-child(1) {
       margin-left: 0;
     }
@@ -139,10 +143,6 @@ body {
 
     &.volume {
       cursor: default;
-
-      > img {
-        cursor: pointer;
-      }
 
       .range-slider__wrapper {
         margin-left: 8px;
@@ -248,5 +248,16 @@ body {
       text-transform: uppercase;
       padding-bottom: 3px;
     }
+  }
+}
+
+.obj-img__wrapper {
+  position: relative;
+
+  .obj-img__helper {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 10;
   }
 }

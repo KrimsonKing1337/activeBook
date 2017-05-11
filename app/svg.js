@@ -41,7 +41,7 @@ fs.readFile(root + file, function (err, data) {
             if (counter === 0) {
                 replaceSvg(images);
 
-                let newContent = $(window.window).html();
+                let newContent = $('html').html();
 
                 fs.writeFile(root + 'test_' + file, newContent, function (err) {
                     if (err) throw err;
