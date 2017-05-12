@@ -9,6 +9,8 @@ let $ = null;
 
 let root = 'new_view/';
 let file = 'index.html';
+let svgTemplate = fs.readFileSync('templates/svg.html').toString();
+const doctype = '<!DOCTYPE html>';
 
 fs.readFile(root + file, function (err, data) {
     if (err) throw err;
@@ -22,45 +24,26 @@ fs.readFile(root + file, function (err, data) {
     /**
      * заменить все svg-изображения на svg-объекты
      */
-
-    let images = {};
-    let counter = 0;
-
     $('img[src$=".svg"]').each(function() {
-        let imgURL = $(this).attr('src');
+        replaceSvg($(this));
+    });
 
-        counter++;
+    let newContent = doctype + $('html').prop('outerHTML');
 
-        fs.readFile(root + imgURL, function (err, data) {
-            if (err) throw err;
-
-            images[imgURL] = data.toString();
-
-            counter--;
-
-            if (counter === 0) {
-                replaceSvg(images);
-
-                let newContent = $('html').html();
-
-                fs.writeFile(root + 'test_' + file, newContent, function (err) {
-                    if (err) throw err;
-                });
-            }
-        });
+    fs.writeFile(root + 'test_' + file, newContent, function (err) {
+        if (err) throw err;
     });
 });
 
 /**
  *
- * @param images[] {string}
+ * @param image {object} - jquery
  *
  * Вставить svg-объекты вместо svg-изображений
  */
-const replaceSvg = (images) => {
-   $('img[src$=".svg"]').each(function() {
-        let imgURL = $(this).attr('src');
+const replaceSvg = (image) => {
+    let imgURL = image.attr('src');
+    let objSvg = svgTemplate.replace('{%src}', imgURL);
 
-        $(this).replaceWith(images[imgURL]);
-    });
+    image.replaceWith(objSvg);
 };
