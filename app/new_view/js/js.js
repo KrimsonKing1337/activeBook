@@ -16,7 +16,7 @@ $(window).load(function () {
     });
 
     //отображаем доп. меню для звука при нажатии правой кнопкой мыши
-    $('.js-menu-volume').find('.obj-img__helper').on('click', function (e) {
+    $('.js-menu-volume').find('.obj-img__wrapper').on('click', function (e) {
        e.preventDefault();
        e.stopPropagation();
 

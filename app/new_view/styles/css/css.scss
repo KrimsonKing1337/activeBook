@@ -106,14 +106,39 @@ body {
     cursor: pointer;
     flex-shrink: 0;
     height: 16px;
-    fill: #000;
-
-    .obj-img__wrapper {
-      cursor: pointer;
-    }
 
     &:nth-child(1) {
       margin-left: 0;
+    }
+
+    .obj-img__wrapper {
+      height: 100%;
+      width: 100%;
+
+      cursor: pointer;
+
+      svg {
+        path {
+          fill: #000;
+          transition: all ease 0.3s 0s;
+        }
+      }
+
+      &:hover {
+       svg {
+         path {
+           fill: #F2C94C;
+         }
+       }
+      }
+
+      &.acitve {
+        svg {
+          path {
+            fill: #F2994A;
+          }
+        }
+      }
     }
 
     &.font-size-up {

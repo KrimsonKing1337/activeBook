@@ -22,9 +22,10 @@ fs.readFile(root + file, function (err, data) {
     $ = require('jquery')(window.window);
 
     /**
-     * заменить все svg-изображения на svg-объекты
+     * заменить все svg-изображения на svg-объекты,
+     * у которых есть класс fill (заливка)
      */
-    $('img[src$=".svg"]').each(function () {
+    $('img[src$=".svg"].fill').each(function () {
         replaceSvg($(this));
     });
 
@@ -88,6 +89,9 @@ const replaceSvg = (image) => {
         let id = use.attr('xlink:href');
         let path = svgContentParse.find(id);
 
+        /**
+         * todo: кажется, что есть более очевидное решение
+         */
         if (path.length === 0) {
             use.attr('xlink:href', '#' + oldUniqId);
             path.attr('id', oldUniqId);
