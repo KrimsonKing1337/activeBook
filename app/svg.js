@@ -4,7 +4,7 @@
 let fs = require('fs');
 
 let jsdom = require('jsdom');
-const { JSDOM } = jsdom;
+const {JSDOM} = jsdom;
 let $ = null;
 
 let root = 'new_view/';
@@ -24,7 +24,7 @@ fs.readFile(root + file, function (err, data) {
     /**
      * заменить все svg-изображения на svg-объекты
      */
-    $('img[src$=".svg"]').each(function() {
+    $('img[src$=".svg"]').each(function () {
         replaceSvg($(this));
     });
 
@@ -35,6 +35,31 @@ fs.readFile(root + file, function (err, data) {
     });
 });
 
+
+let usedId = [];
+
+/**
+ *
+ * @returns {string}
+ *
+ * Получаем уникальный id.
+ * Если в массиве usedId такой уже есть,
+ * то производим операцию заново.
+ * Если нет, записываем значение в массив usedId
+ * и возвращаем это значение
+ */
+const getUniqId = () => {
+    let uniqId = Math.random().toString(36).substring(7);
+
+    usedId.some(function (item) {
+        if (item === uniqId) getUniqId();
+    });
+
+    usedId.push(uniqId);
+
+    return Math.random().toString(36).substring(7);
+};
+
 /**
  *
  * @param image {object} - jquery
@@ -43,7 +68,40 @@ fs.readFile(root + file, function (err, data) {
  */
 const replaceSvg = (image) => {
     let imgURL = image.attr('src');
-    let objSvg = svgTemplate.replace('{%src}', imgURL);
+    let svgContent = fs.readFileSync(root + imgURL).toString();
+    let svgContentParse = $($.parseHTML(svgContent));
+    let oldUniqId;
 
-    image.replaceWith(objSvg);
+    /**
+     * пробегаемся по каждому тэгу use
+     * внутри svg.
+     * ищем соответствующий <use> тэг <path>,
+     * аттрибут первого xlink:href и id у второго совпадают.
+     * если нет <path> с таким id, значит несколько <use> ссылаются
+     * на один и тот же <path>.
+     * в этом случае записываем старый уникальный id и выходим из функции.
+     * тогда у нас будет уникальный id и все <use> будут ссылаться
+     * на один и тот же <path>
+     */
+    svgContentParse.find('use').each(function () {
+        let use = $(this);
+        let id = use.attr('xlink:href');
+        let path = svgContentParse.find(id);
+
+        if (path.length === 0) {
+            use.attr('xlink:href', '#' + oldUniqId);
+            path.attr('id', oldUniqId);
+            return;
+        }
+
+        let uniqId = getUniqId();
+
+        use.attr('xlink:href', '#' + uniqId);
+        path.attr('id', uniqId);
+        oldUniqId = uniqId;
+    });
+
+    let svgToReplace = svgTemplate.replace('{%svg}', svgContentParse.prop('outerHTML'));
+
+    image.replaceWith(svgToReplace);
 };

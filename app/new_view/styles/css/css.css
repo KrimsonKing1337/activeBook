@@ -69,7 +69,8 @@ body {
     margin-left: 32px;
     cursor: pointer;
     flex-shrink: 0;
-    height: 16px; }
+    height: 16px;
+    fill: #000; }
     .menu__item .obj-img__wrapper {
       cursor: pointer; }
     .menu__item:nth-child(1) {
@@ -161,7 +162,9 @@ body {
       padding-bottom: 3px; }
 
 .obj-img__wrapper {
-  position: relative; }
+  position: relative;
+  display: flex;
+  align-items: center; }
   .obj-img__wrapper .obj-img__helper {
     position: absolute;
     left: 0;
