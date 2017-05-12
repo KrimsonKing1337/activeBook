@@ -3,7 +3,7 @@ $(window).load(function () {
     $('.text').mCustomScrollbar({
         theme: 'activeBook-default',
         autoDraggerLength: true,
-        mouseWheel:{ scrollAmount: 75 }
+        mouseWheel: {scrollAmount: 75}
     });
 
     //ionRangeSlider
@@ -17,18 +17,20 @@ $(window).load(function () {
 
     //отображаем доп. меню для звука при нажатии правой кнопкой мыши
     $('.js-menu-volume').find('.obj-img__wrapper').on('click', function (e) {
-       e.preventDefault();
-       e.stopPropagation();
+        e.preventDefault();
+        e.stopPropagation();
 
-       let $addSettings = $(this).closest('.js-menu-volume').find('.add-settings');
+        let $objImgWrapper = $(this);
+        let $addSettings = $objImgWrapper.closest('.js-menu-volume').find('.add-settings');
+        $addSettings.toggleClass('active');
+        $objImgWrapper.toggleClass('active');
 
-       $addSettings.toggleClass('active');
-
-       setTimeout(function () {
-           $(document).one('click', function () {
-               $addSettings.removeClass('active');
-           });
-       }, 0);
+        setTimeout(function () {
+            $(document).one('click', function () {
+                $addSettings.removeClass('active');
+                $objImgWrapper.removeClass('active');
+            });
+        }, 0);
     });
 
     //ждать прогрузки object перед рассчётом размеров
@@ -38,8 +40,8 @@ $(window).load(function () {
         let height = objImgWrapper.height();
         let width = objImgWrapper.width();
         $(this).css({
-           'height': height + 'px',
-           'width': width + 'px'
+            'height': height + 'px',
+            'width': width + 'px'
         });
     });
 });

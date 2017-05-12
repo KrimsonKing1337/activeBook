@@ -81,7 +81,7 @@ body {
         transition: all ease 0.3s 0s; }
       .menu__item .obj-img__wrapper:hover svg path {
         fill: #F2C94C; }
-      .menu__item .obj-img__wrapper.acitve svg path {
+      .menu__item .obj-img__wrapper.active svg path {
         fill: #F2994A; }
     .menu__item.font-size-up {
       margin-left: 10px; }
