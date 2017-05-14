@@ -84,6 +84,30 @@ module.exports = class Files {
     };
 
     /**
+     *
+     * @param dirPath {string}
+     * @returns {Array}
+     *
+     * возвращает список только файлов в директории,
+     * синхронно;
+     * todo: список файлов по маске
+     */
+    static getWithoutRecursion(dirPath) {
+        let ls = fs.readdirSync(dirPath);
+        let filePaths = [];
+
+        ls.map(function (filePath) {
+            let stat = fs.statSync(dirPath + filePath);
+
+            if (stat.isFile()) {
+                filePaths.push(filePath);
+            }
+        });
+
+        return filePaths;
+    }
+
+    /**
      * @param files[] {string}
      * @param [callback] {function}
      *
