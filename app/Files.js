@@ -88,23 +88,47 @@ module.exports = class Files {
      * @param dirPath {string}
      * @returns {Array}
      *
-     * возвращает список только файлов в директории,
+     * возвращает список файлов и папок в директории,
      * синхронно;
-     * todo: список файлов по маске
+     * аналогично команде ls в bash
      */
     static ls(dirPath) {
-        let ls = fs.readdirSync(dirPath);
-        let filePaths = [];
+        return fs.readdirSync(dirPath);
+    }
 
-        ls.forEach(function (filePath) {
-            let stat = fs.statSync(dirPath + filePath);
+    /**
+     *
+     * @param filePaths[] {string}
+     * @param mask[] {string}; files || dirs || extension
+     *
+     * Фильтр для списка файлов.
+     * В случае, если фильтруется по расширению файла - точка обязательна!
+     * т.е.: ```Files.filterFiles(filePaths, ['.mp3, .mp4'])```
+     */
+    static filterFiles(filePaths, mask) {
+        let filteredFilesPaths = [];
 
-            if (stat.isFile()) {
-                filePaths.push(filePath);
-            }
+        filePaths.forEach(function (filePath) {
+            let fileProps = Files.getFileProps(filePath);
+
+            mask.forEach(function (item) {
+                if (item === 'files') {
+                    if (fileProps.isFile === true) {
+                        filteredFilesPaths.push(filePath);
+                    }
+                } else if (item === 'dirs') {
+                    if (fileProps.isDir === true) {
+                        filteredFilesPaths.push(filePath);
+                    }
+                } else {
+                    if (fileProps.ext === item) {
+                        filteredFilesPaths.push(filePath);
+                    }
+                }
+            });
         });
 
-        return filePaths;
+        return filteredFilesPaths;
     }
 
     /**
@@ -176,7 +200,10 @@ module.exports = class Files {
      * возвращает свойства переданного файла
      */
     static getFileProps(file) {
+        let stat = fs.statSync(file);
         let fileProps = {
+            isDir: stat.isDirectory(),
+            isFile: stat.isFile(),
             fullName: file,
             name: path.basename(file),
             ext: path.extname(file),

@@ -11,12 +11,12 @@ let $ = null;
 let SvgImgToObj = require('./SvgImgToObj');
 
 let root = 'new_view/';
-let file = 'index.html';
 let files = Files.ls(root);
+let filteredFiles = Files.filterFiles(files, ['.html']);
 
 const doctype = '<!DOCTYPE html>';
 
-files.forEach(function (file) {
+filteredFiles.forEach(function (file) {
     fs.readFile(root + file, function (err, data) {
         if (err) throw err;
 
