@@ -74,7 +74,7 @@ class ConverterInit {
          */
         let unUsedFiles = files;
 
-        files.map(function (file) {
+        files.forEach(function (file) {
             /**
              *
              * вызываем статический метод через название класса,
@@ -90,7 +90,7 @@ class ConverterInit {
              * добавляем его в массив нужных файлов,
              * исключая gitkeep
              */
-            formats.map(function (format, index) {
+            formats.forEach(function (format, index) {
                 if (fileProps.ext === '.' + format && fileProps.name !== gitkeepFileName) {
                     usedFiles.push(file);
                 }
@@ -105,7 +105,7 @@ class ConverterInit {
          * в конечном счёт у нас окажуются только ненужные файлы,
          * которые мы потом отправляем на удаление
          */
-        usedFiles.map(function (file) {
+        usedFiles.forEach(function (file) {
             for (let i = 0; i < unUsedFiles.length; i++) {
                 if (unUsedFiles[i] === file) {
                     unUsedFiles.splice(i, 1);

@@ -47,7 +47,7 @@ module.exports = class GeneratorBookPages {
          * читаем каждую новую страницу книги,
          * получаем её параметры и вызываем генератор html-файлов
          */
-        newPagesList.map(function (value) {
+        newPagesList.forEach(function (value) {
             fs.readFile(templatesPaths.newPagesFolder + value, function (err, data) {
                 if (err) throw err;
 

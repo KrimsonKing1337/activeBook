@@ -92,11 +92,11 @@ module.exports = class Files {
      * синхронно;
      * todo: список файлов по маске
      */
-    static getWithoutRecursion(dirPath) {
+    static ls(dirPath) {
         let ls = fs.readdirSync(dirPath);
         let filePaths = [];
 
-        ls.map(function (filePath) {
+        ls.forEach(function (filePath) {
             let stat = fs.statSync(dirPath + filePath);
 
             if (stat.isFile()) {
@@ -135,7 +135,7 @@ module.exports = class Files {
          */
         let counter = 0;
 
-        files.map(function (file) {
+        files.forEach(function (file) {
             let fileProps = {
                 fullName: file,
                 name: path.basename(file),

@@ -59,7 +59,7 @@ module.exports = class Converter {
          */
         let newFiles = [];
 
-        usedFiles.map(function (file) {
+        usedFiles.forEach(function (file) {
             /**
              *
              * вызываем статический метод через название класса,
@@ -74,7 +74,7 @@ module.exports = class Converter {
              * если файла с таким расширением нет,
              * добавляем его в массив новых файлов
              */
-            formats.map(function (format, index) {
+            formats.forEach(function (format, index) {
                 if (usedFiles.indexOf(fileProps.fullNameWithoutExt + '.' + format) === -1) {
                     newFiles.push({fileProps: fileProps, format: format});
                 }
@@ -88,7 +88,7 @@ module.exports = class Converter {
         if (newFiles.length > 0) {
             let counter = 0;
 
-            newFiles.map(function (newFile, index) {
+            newFiles.forEach(function (newFile, index) {
                 counter++;
 
                 Converter.ffmpeg(newFile.fileProps, newFile.format, function (err) {
