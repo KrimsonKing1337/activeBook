@@ -25,9 +25,25 @@ $(window).load(function () {
         $addSettings.toggleClass('active');
         $objImgWrapper.toggleClass('active');
 
+        /**
+         * убираем всплытие события клик у поповера,
+         * чтобы он не закрывался при нём
+         */
+        setTimeout(function () {
+            $addSettings.on('click', function (e) {
+                e.stopPropagation();
+            });
+        }, 0);
+
+        /**
+         * клик в любом месте документа,
+         * кроме самого этого элемента
+         * скроет поповер
+         */
         setTimeout(function () {
             $(document).one('click', function () {
                 $addSettings.removeClass('active');
+                $addSettings.off('click');
                 $objImgWrapper.removeClass('active');
             });
         }, 0);
