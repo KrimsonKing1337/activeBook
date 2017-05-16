@@ -246,7 +246,7 @@ body {
   left: 0;
   width: 132px;
   min-height: 70px;
-  margin-top: -90px;
+  //margin-top: -90px;
   border-radius: $border-radius;
   background: #f8f8f8;
   box-shadow: 0 4px 4px rgba(#000, 0.25);
@@ -259,11 +259,19 @@ body {
   }
 
   &__bottom {
+    $left: 14px;
+
     position: absolute;
     bottom: -16px;
-    left: 14px;
+    left: $left;
     width: auto;
-    border-bottom-right-radius: 22px; //todo: костыль, убрать
+    border-bottom-right-radius: 22px; //todo: костыль, убрать когда будет нормальная svg-шка
+
+    &.revert {
+      left: auto;
+      right: $left;
+      transform: scaleX(-1);
+    }
   }
 
   &__item {
