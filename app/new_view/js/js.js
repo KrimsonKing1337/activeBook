@@ -75,9 +75,7 @@ $(window).load(function () {
      */
     const addSettingsPositioning = ($clickedItem, $addSettings) => {
         $addSettings.css({
-            'margin-top' : '',
-            'margin-left' : '',
-            'margin-right' : '',
+            'transform' : 'translate(0, 0)',
             'opacity' : '0'
         });
 
@@ -91,14 +89,24 @@ $(window).load(function () {
 
         let $addSettingsBottomCoords = $addSettings.find('.add-settings__bottom')[0].getBoundingClientRect();
 
-        //todo: применять трансформ транлейт вместо margin-ов
+        /**
+         *
+         * transform работает гораздо быстрее всяких margin,
+         * потому что браузер не перерисовывает DOM-дерево
+         */
 
-        $addSettings.css({'margin-top' : '-' + Math.abs(parseInt($addSettingsBottomCoords.bottom - $clickedItemCoords.top)) + 'px'});
+        let top = Math.abs(parseInt($addSettingsBottomCoords.bottom - $clickedItemCoords.top));
+
+        $addSettings.css({'transform' : 'translateY(-' + top + 'px)'});
 
         if ($addSettingsCoords.right >= $textCoords.right) {
-            $addSettings.css({'margin-left' : '-' + Math.abs(parseInt($addSettingsCoords.right - $textCoords.right + 10 /*padding-right*/)) + 'px'});
+            let right = Math.abs(parseInt($addSettingsCoords.right - $textCoords.right + 10 /*padding-right*/));
+
+            $addSettings.css({'transform' : 'translate(-' + right + 'px, ' + '-' + top + 'px)'});
         } else if ($addSettingsCoords.left <= $textCoords.left) {
-            $addSettings.css({'margin-right' : '-' + Math.abs(parseInt($addSettingsCoords.left - $textCoords.left + 10 /*padding-right*/)) + 'px'});
+            let left = Math.abs(parseInt($addSettingsCoords.left - $textCoords.left + 10 /*padding-left*/));
+
+            $addSettings.css({'transform' : 'translate(' + left + 'px, ' + '-' + top + 'px)'});
         }
 
         /**
