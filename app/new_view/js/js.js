@@ -24,8 +24,19 @@ $(window).load(function () {
             let $objImgWrapper = $(this);
             let $addSettings = $(item).find('.add-settings');
 
-            $('.add-settings.active').removeClass('active');
-            $('.obj-img__wrapper.active').removeClass('active');
+            /**
+             * деактивируем все поповеры,
+             * кроме того, по которому щас кликнули.
+             * для этого получаем список из эл-тов с классом active
+             * и сравниваем каждый член массива с данным эл-том
+             */
+            $('.add-settings.active').each(function () {
+                if ($(this)[0] !== $addSettings[0]) $(this).removeClass('active');
+            });
+
+            $('.obj-img__wrapper.active').each(function () {
+                if ($(this)[0] !== $objImgWrapper[0]) $(this).removeClass('active');
+            });
 
             $addSettings.toggleClass('active');
             $objImgWrapper.toggleClass('active');
@@ -66,7 +77,8 @@ $(window).load(function () {
         $addSettings.css({
             'margin-top' : '',
             'margin-left' : '',
-            'margin-right' : ''
+            'margin-right' : '',
+            'opacity' : '0'
         });
 
         let $addSettingsCoords = $addSettings[0].getBoundingClientRect();
@@ -100,5 +112,9 @@ $(window).load(function () {
         if (($addSettingsBottomCoords.left - parseInt($addSettingsBottom.css('left'))) < $clickedItemCoords.left) {
             $addSettingsBottom.addClass('revert');
         }
+
+        $addSettings.css({
+            'opacity' : ''
+        });
     }
 });
