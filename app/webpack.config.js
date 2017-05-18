@@ -1,16 +1,19 @@
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const extractSass = new ExtractTextPlugin({
-    filename: "[name].[contenthash].css",
+    filename: "[name].css",
     disable: process.env.NODE_ENV === "development"
 });
 
 module.exports = {
     context: __dirname,
     devtool: "source-map",
-    entry: "./new_view/js/custom/js.js",
+    entry: {
+        bundle: "./new_view/js/custom/js.js",
+        styles: "./new_view/styles/css/css.scss"
+    },
     output: {
-        path: __dirname + "/new_view/js/dist",
-        filename: "bundle.js"
+        path: __dirname + "/new_view/dist",
+        filename: "[name].js"
     },
     module: {
         rules: [{

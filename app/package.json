@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "async": "^2.3.0",
+    "css-loader": "^0.28.1",
     "extract-text-webpack-plugin": "^2.1.0",
     "fluent-ffmpeg": "^2.1.0",
     "htmltidy2": "^0.1.4",
@@ -15,6 +16,8 @@
     "js-beautify": "^1.6.12",
     "jsdom": "^10.0.0",
     "node-static": "^0.7.9",
+    "sass-loader": "^6.0.5",
+    "style-loader": "^0.17.0",
     "webpack": "^2.5.1"
   },
   "devDependencies": {

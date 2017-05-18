@@ -11,14 +11,23 @@ let $ = null;
 let SvgImgToObj = require('./SvgImgToObj');
 
 let root = 'new_view/';
+
 let files = Files.ls(root);
-let filteredFiles = Files.filterFiles(files, ['.html']);
+let filesPaths = [];
+
+files.forEach(function (file) {
+    filesPaths.push(root + file);
+});
+
+let filteredFiles = Files.filterFiles(filesPaths, ['.html']);
 
 const doctype = '<!DOCTYPE html>';
 
 filteredFiles.forEach(function (file) {
-    fs.readFile(root + file, function (err, data) {
+    fs.readFile(file, function (err, data) {
         if (err) throw err;
+
+        let fileProps = Files.getFileProps(file);
 
         let content = data.toString();
 
@@ -36,7 +45,7 @@ filteredFiles.forEach(function (file) {
 
         let newContent = doctype + $('html').prop('outerHTML');
 
-        fs.writeFile(root + 'test_' + file, newContent, function (err) {
+        fs.writeFile(root + 'test_' + fileProps.name, newContent, function (err) {
             if (err) throw err;
         });
     });
