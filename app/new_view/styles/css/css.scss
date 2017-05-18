@@ -385,6 +385,9 @@ body {
       padding-bottom: 12px;
 
       #{$item}__theme-option {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         width: 24px;
         height: 24px;
         border-radius: 50%;
@@ -415,6 +418,16 @@ body {
 
         &.dark-blue {
           background: #728C9A;
+        }
+
+        i.fa {
+          display: none;
+        }
+
+        &.active {
+          i.fa {
+            display: block;
+          }
         }
       }
     }

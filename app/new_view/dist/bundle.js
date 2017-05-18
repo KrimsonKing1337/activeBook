@@ -347,6 +347,24 @@ $(window).load(function () {
 
     //отображаем доп. меню для элементов с поповером
     __WEBPACK_IMPORTED_MODULE_1__PopoverControl__["a" /* default */].init($('.menu__item').has('.add-settings'));
+
+    $('.add-settings__item__toggle__item').on('click', function () {
+       let $parent = $(this).closest('.add-settings__item__toggle');
+
+       if (!$(this).hasClass('active')) {
+           $parent.find('.add-settings__item__toggle__item').removeClass('active');
+           $(this).addClass('active');
+       }
+    });
+
+    $('.add-settings__item__theme-option').on('click', function () {
+        let $parent = $(this).closest('.add-settings__item.theme-options');
+
+        if (!$(this).hasClass('active')) {
+            $parent.find('.add-settings__item__theme-option').removeClass('active');
+            $(this).addClass('active');
+        }
+    });
 });
 
 /***/ })
