@@ -1,8 +1,101 @@
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// identity function for calling harmony imports with the correct context
+/******/ 	__webpack_require__.i = function(value) { return value; };
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class ConstsDOM {
+    constructor () {
+
+    }
+
+    static get () {
+        return {
+            $text: $('.text')
+        }
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = ConstsDOM;
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ConstsDOM__ = __webpack_require__(0);
 /**
  * управляем отображением поповеров
  */
-import ConstsDom from './ConstsDOM';
-export default class PopoverControl {
+
+class PopoverControl {
     constructor () {
 
     }
@@ -197,7 +290,7 @@ export default class PopoverControl {
      * @private
      */
     static _getCoords ($triggerButton, $popover) {
-        const constsDom = ConstsDom.get();
+        const constsDom = __WEBPACK_IMPORTED_MODULE_0__ConstsDOM__["a" /* default */].get();
 
         return {
             $popover: $popover[0].getBoundingClientRect(),
@@ -219,3 +312,42 @@ export default class PopoverControl {
         });
     }
 }
+/* harmony export (immutable) */ __webpack_exports__["a"] = PopoverControl;
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ConstsDOM__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PopoverControl__ = __webpack_require__(1);
+
+
+
+$(window).load(function () {
+    const constDom = __WEBPACK_IMPORTED_MODULE_0__ConstsDOM__["a" /* default */].get();
+
+    //customScrollBar
+    constDom.$text.mCustomScrollbar({
+        theme: 'activeBook-default',
+        autoDraggerLength: true,
+        mouseWheel: {scrollAmount: 75}
+    });
+
+    //ionRangeSlider
+    $('.js-range-slider').ionRangeSlider({
+        min: 0,
+        max: 100,
+        from: 50,
+        hide_min_max: true,
+        hide_from_to: true
+    });
+
+    //отображаем доп. меню для элементов с поповером
+    __WEBPACK_IMPORTED_MODULE_1__PopoverControl__["a" /* default */].init($('.menu__item').has('.add-settings'));
+});
+
+/***/ })
+/******/ ]);
