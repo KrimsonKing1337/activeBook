@@ -149,12 +149,12 @@ export default class PopoverControl {
          * на край блока с текстом, двигаем его назад + небольшой отступ.
          * аналогично с левой точкой
          */
-        if (coords.$popover.right >= coords.$text.right) {
-            let right = Math.abs(parseInt(coords.$popover.right - coords.$text.right + 10 /*padding-right*/));
+        if (coords.$popover.right >= coords.$menu.right) {
+            let right = Math.abs(parseInt(coords.$popover.right - coords.$menu.right + 10 /*padding-right*/));
 
             $popover.css({'transform' : 'translate(-' + right + 'px, ' + '-' + top + 'px)'});
-        } else if (coords.$popover.left <= coords.$text.left) {
-            let left = Math.abs(parseInt(coords.$popover.left - coords.$text.left + 10 /*padding-left*/));
+        } else if (coords.$popover.left <= coords.$menu.left) {
+            let left = Math.abs(parseInt(coords.$popover.left - coords.$menu.left + 10 /*padding-left*/));
 
             $popover.css({'transform' : 'translate(' + left + 'px, ' + '-' + top + 'px)'});
         }
@@ -211,8 +211,7 @@ export default class PopoverControl {
         return {
             $popover: $popover[0].getBoundingClientRect(),
             $triggerButton: $triggerButton[0].getBoundingClientRect(),
-            $text: constsDom.$text[0].getBoundingClientRect(),
-            //$text: $('.text')[0].getBoundingClientRect(),
+            $menu: constsDom.$menu[0].getBoundingClientRect(),
             $popoverBottom: $popover.find('.add-settings__bottom')[0].getBoundingClientRect()
         };
     }

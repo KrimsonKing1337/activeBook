@@ -6,7 +6,8 @@ export default class ConstsDOM {
     static get () {
         return {
             $text: $('.text'),
-            $tableOfContents: $('.table-of-contents')
+            $tableOfContents: $('.table-of-contents'),
+            $menu: $('.menu')
         }
     }
 }
