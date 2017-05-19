@@ -5,10 +5,10 @@ $(window).load(function () {
     const constDom = ConstsDom.get();
 
     //customScrollBar
-    constDom.$text.mCustomScrollbar({
+    $('.js-scrollable-item').mCustomScrollbar({
         theme: 'activeBook-default',
         autoDraggerLength: true,
-        mouseWheel: {scrollAmount: 75}
+        mouseWheel: {scrollAmount: 75},
     });
 
     //ionRangeSlider
@@ -23,7 +23,9 @@ $(window).load(function () {
     //отображаем доп. меню для элементов с поповером
     PopoverControl.init($('.menu__item').has('.add-settings'));
 
-    $('.add-settings__item__toggle__item').on('click', function () {
+    //переключалка для вибрации
+    //todo: если включаем - то давать короткую вибрацию
+    $('.js-vibration-toggle').find('.add-settings__item__toggle__item').on('click', function () {
        let $parent = $(this).closest('.add-settings__item__toggle');
 
        if (!$(this).hasClass('active')) {
@@ -32,6 +34,7 @@ $(window).load(function () {
        }
     });
 
+    //переключалка темы оформления
     $('.add-settings__item__theme-option').on('click', function () {
         let $parent = $(this).closest('.add-settings__item.theme-options');
 
@@ -39,5 +42,47 @@ $(window).load(function () {
             $parent.find('.add-settings__item__theme-option').removeClass('active');
             $(this).addClass('active');
         }
+    });
+
+    //оглавление
+    $('.js-table-of-contents-show').on('click', function () {
+       constDom.$text.hide();
+       constDom.$tableOfContents.show();
+       PopoverControl.close($(this).closest('.menu__item'), $(this).closest('.add-settings'));
+    });
+
+    $('.js-table-of-contents-close').on('click', function () {
+        constDom.$tableOfContents.hide();
+        constDom.$text.show();
+    });
+
+    //клик по элементу оглавления (главе)
+    $('.table-of-contents__item').on('click', function () {
+       let pageNumber = $.trim($(this).find('.table-of-contents__item__page').text());
+
+       //todo: потом заменить на настоящий переход на страницу
+       console.log(pageNumber);
+    });
+
+    //меняем межстрочный интервал
+    //todo: добавить реальное изменение интервала
+    $('.js-line-height-minus').on('click', function () {
+        let $val = $('.js-line-height-val');
+        let currentVal = parseInt($val.text());
+        let newVal = currentVal - 25;
+
+        if (currentVal <= 50) newVal = 50;
+
+        $val.text(newVal + '%');
+    });
+
+    $('.js-line-height-plus').on('click', function () {
+        let $val = $('.js-line-height-val');
+        let currentVal = parseInt($val.text());
+        let newVal = currentVal + 25;
+
+        if (currentVal >= 150) newVal = 150;
+
+        $val.text(newVal + '%');
     });
 });

@@ -58,7 +58,7 @@
         <div class="left-side"></div>
         <div class="right-side">
             <div class="text-and-effects">
-                <div class="text">
+                <div class="text js-scrollable-item">
                     <header>
                         НАЧИНАЕМ С НУЛЯ.
                     </header>
@@ -119,6 +119,96 @@
                 </div>
                 <div class="effects"></div>
             </div>
+            <div class="table-of-contents js-scrollable-item">
+                <div class="table-of-contents__close js-table-of-contents-close">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </div>
+                <header>
+                    Оглавление
+                </header>
+                <section>
+                    <div class="table-of-contents__item">
+                        <div class="table-of-contents__item__name">
+                            Глава 1
+                        </div>
+                        <div class="table-of-contents__item__page">
+                            999
+                        </div>
+                    </div>
+                    <div class="table-of-contents__item">
+                        <div class="table-of-contents__item__name">
+                            Глава 2
+                        </div>
+                        <div class="table-of-contents__item__page">
+                            999
+                        </div>
+                    </div>
+                    <div class="table-of-contents__item">
+                        <div class="table-of-contents__item__name">
+                            Глава 3
+                        </div>
+                        <div class="table-of-contents__item__page">
+                            999
+                        </div>
+                    </div>
+                    <div class="table-of-contents__item">
+                        <div class="table-of-contents__item__name">
+                            Глава 4
+                        </div>
+                        <div class="table-of-contents__item__page">
+                            999
+                        </div>
+                    </div>
+                    <div class="table-of-contents__item">
+                        <div class="table-of-contents__item__name">
+                            Глава 5
+                        </div>
+                        <div class="table-of-contents__item__page">
+                            999
+                        </div>
+                    </div>
+                    <div class="table-of-contents__item">
+                        <div class="table-of-contents__item__name">
+                            Глава 6
+                        </div>
+                        <div class="table-of-contents__item__page">
+                            999
+                        </div>
+                    </div>
+                    <div class="table-of-contents__item">
+                        <div class="table-of-contents__item__name">
+                            Глава 7
+                        </div>
+                        <div class="table-of-contents__item__page">
+                            999
+                        </div>
+                    </div>
+                    <div class="table-of-contents__item">
+                        <div class="table-of-contents__item__name">
+                            Глава 8
+                        </div>
+                        <div class="table-of-contents__item__page">
+                            999
+                        </div>
+                    </div>
+                    <div class="table-of-contents__item">
+                        <div class="table-of-contents__item__name">
+                            Глава 9
+                        </div>
+                        <div class="table-of-contents__item__page">
+                            999
+                        </div>
+                    </div>
+                    <div class="table-of-contents__item">
+                        <div class="table-of-contents__item__name">
+                            Глава 10
+                        </div>
+                        <div class="table-of-contents__item__page">
+                            999
+                        </div>
+                    </div>
+                </section>
+            </div>
             <div class="menu">
                 <div class="menu__item bookmark">
                     <img class="fill" src="styles/images/menu/bookmark.svg" />
@@ -164,7 +254,7 @@
                     <img class="fill" src="styles/images/menu/menu-icon.svg" />
 
                     <div class="add-settings">
-                        <div class="add-settings__item table-of-contents">
+                        <div class="add-settings__item table-of-contents-button js-table-of-contents-show">
                             <div class="add-settings__item__label">Оглавление</div>
                         </div>
                         <div class="add-settings__item theme-options">
@@ -183,19 +273,17 @@
                         </div>
                         <div class="add-settings__item">
                             <div class="add-settings__item__label uppercase padding-large">Вибрация</div>
-                            <div class="add-settings__item__toggle">
+                            <div class="add-settings__item__toggle js-vibration-toggle">
                                 <div class="add-settings__item__toggle__item active">Вкл.</div>
                                 <div class="add-settings__item__toggle__item">Выкл.</div>
                             </div>
                         </div>
                         <div class="add-settings__item padding-large">
                             <div class="add-settings__item__label uppercase">Межстрочный инт.</div>
-                            <div class="add-settings__item__val-step-changer">
-                                <div class="add-settings__item__val-step-changer__item js-line-height-minus">-</div>
-                                <div class="add-settings__item__val-step-changer__item">
-                                    <input class="js-line-height-input" value="" placeholder="100%" maxlength="3" />
-                                </div>
-                                <div class="add-settings__item__val-step-changer__item js-line-height-plus">+</div>
+                            <div class="add-settings__item__numeric">
+                                <div class="add-settings__item__numeric__item js-line-height-minus">-</div>
+                                <div class="add-settings__item__numeric__item val js-line-height-val">100%</div>
+                                <div class="add-settings__item__numeric__item js-line-height-plus">+</div>
                             </div>
                         </div>
                         <img class="add-settings__bottom" src="styles/images/add-settings-bottom.svg" />

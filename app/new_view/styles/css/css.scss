@@ -1,3 +1,5 @@
+@import "__mixins";
+
 body {
   font-family: RobotoRegular, Arial, Helvetica, sans-serif;
   font-size: 16px;
@@ -80,13 +82,40 @@ body {
     &.action {
       color: #fd0006;
       opacity: 0.85;
-      transition: ease all 0.3s 0s;
+      @include transition-default;
 
       &:hover {
         opacity: 1;
         text-shadow: 2px 2px 2px #fd0006;
       }
     }
+  }
+}
+
+.table-of-contents {
+  @extend .text;
+
+  display: none;//change by script;
+  position: relative;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: RobotoRegular, Arial, Helvetica, sans-serif;
+    font-size: 24px;
+    color: #000;
+    margin-bottom: 24px;
+    cursor: pointer;
+    @include clickable-element-hover-default;
+  }
+
+  &__close {
+    position: absolute;
+    top: 5px;
+    right: 0;
+    cursor: pointer;
+    @include clickable-element-hover-default;
   }
 }
 
@@ -120,7 +149,7 @@ body {
       svg {
         path {
           fill: #000;
-          transition: all ease 0.3s 0s;
+          @include transition-default;
         }
       }
 
@@ -246,7 +275,6 @@ body {
   left: 0;
   width: 132px;
   min-height: 70px;
-  //margin-top: -90px;
   border-radius: $border-radius;
   background: #f8f8f8;
   box-shadow: 0 4px 4px rgba(#000, 0.25);
@@ -317,11 +345,7 @@ body {
         color: #F2994A;
         background: transparent;
         cursor: pointer;
-        transition: all ease 0.3s 0s;
-
-        &:hover {
-          opacity: 0.85;
-        }
+        @include clickable-element-hover-default;
 
         &:nth-child(1) {
           border-top-left-radius: $border-radius;
@@ -340,7 +364,7 @@ body {
       }
     }
 
-    &__val-step-changer {
+    &__numeric {
       display: flex;
       align-items: center;
       justify-content: flex-start;
@@ -351,17 +375,14 @@ body {
         color: #000;
         margin-right: 8px;
         cursor: pointer;
-        transition: all ease 0.3s 0s;
-
-        &:hover {
-          opacity: 0.85;
-        }
+        @include clickable-element-hover-default;
 
         &:nth-last-child(1) {
           margin-right: 0;
         }
 
-        input {
+        input,
+        &.val {
           font-family: RobotoLight, Arial, Helvetica, sans-serif;
           color: #F2994A;
           width: 21px;
@@ -373,6 +394,12 @@ body {
 
           &::-moz-placeholder {
             color: #F2994A;
+          }
+        }
+
+        &.val {
+          &:hover {
+            opacity: 1;
           }
         }
       }
@@ -393,11 +420,7 @@ body {
         border-radius: 50%;
         margin-left: 6px;
         cursor: pointer;
-        transition: all ease 0.3s 0s;
-
-        &:hover {
-          opacity: 0.75;
-        }
+        @include clickable-element-hover-default;
 
         &:nth-child(1) {
           margin-left: 0;
@@ -432,7 +455,7 @@ body {
       }
     }
 
-    &.table-of-contents {
+    &.table-of-contents-button {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -443,11 +466,7 @@ body {
       border-top-left-radius: $border-radius;
       border-top-right-radius: $border-radius;
       cursor: pointer;
-      transition: all ease 0.3s 0s;
-
-      &:hover {
-        opacity: 0.75;
-      }
+      @include clickable-element-hover-default;
 
       #{$item}__label {
         color: #fff;

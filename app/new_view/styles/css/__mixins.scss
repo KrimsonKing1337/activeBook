@@ -1,0 +1,11 @@
+@mixin transition-default () {
+  transition: all ease 0.3s 0s;
+}
+
+@mixin clickable-element-hover-default () {
+  @include transition-default;
+
+  &:hover {
+    opacity: 0.65;
+  }
+}

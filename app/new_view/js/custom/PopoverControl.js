@@ -97,11 +97,20 @@ export default class PopoverControl {
          */
         setTimeout(function () {
             $(document).one('click', function () {
-                $popover.removeClass('active');
-                $popover.off('click');
-                $triggerButton.removeClass('active');
+                PopoverControl.close($triggerButton, $popover);
             });
         }, 0);
+    }
+
+    /**
+     *
+     * @param $triggerButton {object}
+     * @param $popover {object}
+     */
+    static close ($triggerButton, $popover) {
+        $popover.removeClass('active');
+        $popover.off('click');
+        $triggerButton.removeClass('active');
     }
 
     /**

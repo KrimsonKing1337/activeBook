@@ -16,44 +16,68 @@ body {
   border: 1px red solid;
   width: 481px; }
 
-.text {
+.text, .table-of-contents {
   padding: 20px;
   max-height: 500px; }
-  .text .mCS-activeBook-default.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
+  .text .mCS-activeBook-default.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar, .table-of-contents .mCS-activeBook-default.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
     width: 6px;
     opacity: 0.93;
     border-radius: 100px;
     background: linear-gradient(to right, #ff7e5f, #feb47b); }
-  .text .mCS-activeBook-default.mCSB_scrollTools .mCSB_draggerRail {
+  .text .mCS-activeBook-default.mCSB_scrollTools .mCSB_draggerRail, .table-of-contents .mCS-activeBook-default.mCSB_scrollTools .mCSB_draggerRail {
     background-color: #fff; }
-  .text header {
+  .text header, .table-of-contents header {
     font-family: RobotoBold, Arial, Helvetica, sans-serif;
     font-size: 32px;
     padding-bottom: 24px; }
-  .text article {
+  .text article, .table-of-contents article {
     font-family: RobotoLight, Arial, Helvetica, sans-serif;
     font-style: italic;
     font-size: 14px;
     padding-bottom: 16px;
     line-height: 1.2; }
-  .text h1 {
+  .text h1, .table-of-contents h1 {
     font-family: RobotoRegular, Arial, Helvetica, sans-serif;
     font-size: 24px;
     padding-bottom: 16px; }
-  .text p {
+  .text p, .table-of-contents p {
     font-family: RobotoRegular, Arial, Helvetica, sans-serif;
     font-size: 14px;
     line-height: 1.4;
     padding-top: 16px; }
-    .text p:nth-of-type(1) {
+    .text p:nth-of-type(1), .table-of-contents p:nth-of-type(1) {
       padding-top: 0; }
-  .text a.action {
+  .text a.action, .table-of-contents a.action {
     color: #fd0006;
     opacity: 0.85;
-    transition: ease all 0.3s 0s; }
-    .text a.action:hover {
+    transition: all ease 0.3s 0s; }
+    .text a.action:hover, .table-of-contents a.action:hover {
       opacity: 1;
       text-shadow: 2px 2px 2px #fd0006; }
+
+.table-of-contents {
+  display: none;
+  position: relative; }
+  .table-of-contents__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: RobotoRegular, Arial, Helvetica, sans-serif;
+    font-size: 24px;
+    color: #000;
+    margin-bottom: 24px;
+    cursor: pointer;
+    transition: all ease 0.3s 0s; }
+    .table-of-contents__item:hover {
+      opacity: 0.65; }
+  .table-of-contents__close {
+    position: absolute;
+    top: 5px;
+    right: 0;
+    cursor: pointer;
+    transition: all ease 0.3s 0s; }
+    .table-of-contents__close:hover {
+      opacity: 0.65; }
 
 .menu {
   display: flex;
@@ -200,7 +224,7 @@ body {
         cursor: pointer;
         transition: all ease 0.3s 0s; }
         .add-settings__item__toggle__item:hover {
-          opacity: 0.85; }
+          opacity: 0.65; }
         .add-settings__item__toggle__item:nth-child(1) {
           border-top-left-radius: 8px;
           border-bottom-left-radius: 8px; }
@@ -210,30 +234,32 @@ body {
         .add-settings__item__toggle__item.active {
           background: #F2994A;
           color: #fff; }
-    .add-settings__item__val-step-changer {
+    .add-settings__item__numeric {
       display: flex;
       align-items: center;
       justify-content: flex-start; }
-      .add-settings__item__val-step-changer__item {
+      .add-settings__item__numeric__item {
         font-family: RobotoRegular, Arial, Helvetica, sans-serif;
         font-size: 9px;
         color: #000;
         margin-right: 8px;
         cursor: pointer;
         transition: all ease 0.3s 0s; }
-        .add-settings__item__val-step-changer__item:hover {
-          opacity: 0.85; }
-        .add-settings__item__val-step-changer__item:nth-last-child(1) {
+        .add-settings__item__numeric__item:hover {
+          opacity: 0.65; }
+        .add-settings__item__numeric__item:nth-last-child(1) {
           margin-right: 0; }
-        .add-settings__item__val-step-changer__item input {
+        .add-settings__item__numeric__item input, .add-settings__item__numeric__item.val {
           font-family: RobotoLight, Arial, Helvetica, sans-serif;
           color: #F2994A;
           width: 21px;
           cursor: auto; }
-          .add-settings__item__val-step-changer__item input::-webkit-input-placeholder {
+          .add-settings__item__numeric__item input::-webkit-input-placeholder, .add-settings__item__numeric__item.val::-webkit-input-placeholder {
             color: #F2994A; }
-          .add-settings__item__val-step-changer__item input::-moz-placeholder {
+          .add-settings__item__numeric__item input::-moz-placeholder, .add-settings__item__numeric__item.val::-moz-placeholder {
             color: #F2994A; }
+        .add-settings__item__numeric__item.val:hover {
+          opacity: 1; }
     .add-settings__item.theme-options {
       display: flex;
       align-items: center;
@@ -250,7 +276,7 @@ body {
         cursor: pointer;
         transition: all ease 0.3s 0s; }
         .add-settings__item.theme-options .add-settings__item__theme-option:hover {
-          opacity: 0.75; }
+          opacity: 0.65; }
         .add-settings__item.theme-options .add-settings__item__theme-option:nth-child(1) {
           margin-left: 0; }
         .add-settings__item.theme-options .add-settings__item__theme-option.default {
@@ -266,7 +292,7 @@ body {
           display: none; }
         .add-settings__item.theme-options .add-settings__item__theme-option.active i.fa {
           display: block; }
-    .add-settings__item.table-of-contents {
+    .add-settings__item.table-of-contents-button {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -278,9 +304,9 @@ body {
       border-top-right-radius: 8px;
       cursor: pointer;
       transition: all ease 0.3s 0s; }
-      .add-settings__item.table-of-contents:hover {
-        opacity: 0.75; }
-      .add-settings__item.table-of-contents .add-settings__item__label {
+      .add-settings__item.table-of-contents-button:hover {
+        opacity: 0.65; }
+      .add-settings__item.table-of-contents-button .add-settings__item__label {
         color: #fff; }
     .add-settings__item.padding-large {
       padding-left: 16px;
