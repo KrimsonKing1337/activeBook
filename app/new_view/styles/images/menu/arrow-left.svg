@@ -1,9 +1,9 @@
 <svg width="7" height="14" viewBox="0 0 7 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:figma="http://www.figma.com/figma/ns">
 <title>arrow-left</title>
 <desc>Created using Figma</desc>
-<g id="Canvas" transform="translate(-4022 -792)" figma:type="canvas">
+<g id="Canvas" transform="translate(-3910 -792)" figma:type="canvas">
 <g id="arrow-left" figma:type="vector">
-<use xlink:href="#path0_stroke" transform="translate(4023 793)" fill="#F2C94C"/>
+<use xlink:href="#path0_stroke" transform="translate(3911 793)"/>
 </g>
 </g>
 <defs>
