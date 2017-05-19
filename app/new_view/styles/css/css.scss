@@ -110,13 +110,12 @@ body {
   //mCustomScrollbar Styles
   .mCS-activeBook-default {
     &.mCSB_scrollTools {
-      opacity: 0.85;
+      opacity: 0.8;
 
       .mCSB_dragger {
         .mCSB_dragger_bar {
           width: 6px;
           border-radius: 100px;
-          //background: #FCEBDB;
           background: #f2994a;
         }
       }
