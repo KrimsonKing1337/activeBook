@@ -10,11 +10,13 @@ body {
 
 .left-side {
   width: 870px;
-  border: 1px red solid; }
+  background: url(./img/test.gif) center no-repeat;
+  background-size: cover;
+  box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.75); }
 
 .right-side {
-  border: 1px red solid;
-  width: 481px; }
+  width: 481px;
+  box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.75); }
 
 .text, .table-of-contents {
   position: relative;

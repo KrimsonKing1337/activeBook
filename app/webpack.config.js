@@ -16,7 +16,8 @@ module.exports = {
         filename: "[name].js"
     },
     module: {
-        rules: [{
+        rules: [
+            {
             test: /\.scss$/,
             use: extractSass.extract({
                 use: [{
@@ -26,12 +27,17 @@ module.exports = {
                 }, {
                     loader: "sass-loader", options: {
                         sourceMap: true
-                    }
+                    },
                 }],
                 // use style-loader in development
                 fallback: "style-loader"
             })
-        }]
+        },{
+                test: /\.(png|jpe?g|gif|svg)$/,
+                loader: 'file-loader?name=[name].[ext]&outputPath=./img/'
+            }
+
+        ]
     },
     plugins: [
         extractSass

@@ -15,12 +15,14 @@ body {
 .left-side {
   //width: 962px;
   width: 870px; //1366, но не пойму откуда именно такое значение вышло
-  border: 1px red solid;
+  background: url("../../../book_data/images/test.gif") center no-repeat;
+  background-size: cover;
+  box-shadow: 1px 1px 5px 0 rgba(0,0,0,0.75);
 }
 
 .right-side {
-  border: 1px red solid;
   width: 481px;
+  box-shadow: 1px 1px 5px 0 rgba(0,0,0,0.75);
 }
 
 .text-and-effects {
