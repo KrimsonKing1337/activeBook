@@ -9,6 +9,7 @@ $(window).load(function () {
         theme: 'activeBook-default',
         autoDraggerLength: true,
         mouseWheel: {scrollAmount: 75},
+        scrollbarPosition: 'outside'
     });
 
     //ionRangeSlider

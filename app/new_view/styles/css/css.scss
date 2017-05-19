@@ -23,29 +23,15 @@ body {
   width: 481px;
 }
 
+.text-and-effects {
+
+}
+
 .text {
+  position: relative;
   padding: 20px;
   //max-height: 800px;
   max-height: 500px;
-
-  //mCustomScrollbar Styles
-  .mCS-activeBook-default {
-    &.mCSB_scrollTools {
-      .mCSB_dragger {
-        .mCSB_dragger_bar {
-          width: 6px;
-          //height: 102px;
-          opacity: 0.93;
-          border-radius: 100px;
-          background: linear-gradient(to right, #ff7e5f, #feb47b);
-        }
-      }
-
-      .mCSB_draggerRail{
-        background-color: #fff;
-      }
-    }
-  }
 
   header {
     font-family: RobotoBold, Arial, Helvetica, sans-serif;
@@ -116,6 +102,34 @@ body {
     right: 0;
     cursor: pointer;
     @include clickable-element-hover-default;
+  }
+}
+
+.text,
+.table-of-contents {
+  //mCustomScrollbar Styles
+  .mCS-activeBook-default {
+    &.mCSB_scrollTools {
+      opacity: 0.85;
+
+      .mCSB_dragger {
+        .mCSB_dragger_bar {
+          width: 6px;
+          border-radius: 100px;
+          //background: #FCEBDB;
+          background: #f2994a;
+        }
+      }
+
+      .mCSB_draggerRail{
+        background-color: #fff;
+      }
+    }
+
+    &.mCSB_scrollTools_vertical {
+      right: 0;
+      margin: 10px 0;
+    }
   }
 }
 
