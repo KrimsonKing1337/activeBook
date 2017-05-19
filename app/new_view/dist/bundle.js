@@ -344,6 +344,7 @@ $(window).load(function () {
         theme: 'activeBook-default',
         autoDraggerLength: true,
         mouseWheel: {scrollAmount: 75},
+        scrollbarPosition: 'outside'
     });
 
     //ionRangeSlider
@@ -419,6 +420,79 @@ $(window).load(function () {
         if (currentVal >= 150) newVal = 150;
 
         $val.text(newVal + '%');
+    });
+
+    //меняем страницу
+    //todo: потом заменить на настоящий переход на страницу
+    $('.js-page-next').on('click', function () {
+        let $val = $('.js-page-number');
+        let currentVal = parseInt($val.attr('data-page-number'));
+        let pagesLength = parseInt($val.attr('data-pages-length'));
+        let newVal = currentVal + 1;
+
+        if (currentVal >= pagesLength) newVal = currentVal;
+        if (newVal.toString().length < 3) {
+            for (let i = 1; i < 3; i++) {
+                if (('0'.repeat(i) + newVal).length === 3) {
+                    newVal = '0'.repeat(i) + newVal;
+                    break;
+                }
+            }
+        }
+
+        $val.find('input').val(newVal);
+    });
+
+    $('.js-page-prev').on('click', function () {
+        let $val = $('.js-page-number');
+        let currentVal = parseInt($val.attr('data-page-number'));
+        let newVal = currentVal - 1;
+
+        if (currentVal <= 1) newVal = currentVal;
+        if (newVal.toString().length < 3) {
+            for (let i = 1; i < 3; i++) {
+                if (('0'.repeat(i) + newVal).length === 3) {
+                    newVal = '0'.repeat(i) + newVal;
+                    break;
+                }
+            }
+        }
+
+        $val.find('input').val(newVal);
+    });
+
+    $('.js-page-number').find('input').on('blur', function () {
+        let $val = $('.js-page-number');
+        let currentVal = parseInt($val.attr('data-page-number'));
+        let pagesLength = parseInt($val.attr('data-pages-length'));
+        let pattern = $val.find('input').attr('pattern');
+        let newVal = $(this).val();
+
+        if (newVal.length === 0) return;
+
+        //only numbers allows
+        if (new RegExp('^' + pattern + '+$').test(newVal) === false) {
+            $(this).css({'background': 'red'});
+            $(this).val('');
+
+            $(this).one('keydown', function () {
+                $(this).css({'background': ''});
+            });
+
+            return;
+        }
+
+        newVal = Math.abs(parseInt(newVal));
+
+        if (newVal <= 1) {
+            newVal = 1;
+        } else if (newVal >= pagesLength) {
+            newVal = pagesLength;
+        }
+
+        if (newVal === currentVal) return;
+
+        console.log(newVal);
     });
 });
 

@@ -17,15 +17,9 @@ body {
   width: 481px; }
 
 .text, .table-of-contents {
+  position: relative;
   padding: 20px;
   max-height: 500px; }
-  .text .mCS-activeBook-default.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar, .table-of-contents .mCS-activeBook-default.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
-    width: 6px;
-    opacity: 0.93;
-    border-radius: 100px;
-    background: linear-gradient(to right, #ff7e5f, #feb47b); }
-  .text .mCS-activeBook-default.mCSB_scrollTools .mCSB_draggerRail, .table-of-contents .mCS-activeBook-default.mCSB_scrollTools .mCSB_draggerRail {
-    background-color: #fff; }
   .text header, .table-of-contents header {
     font-family: RobotoBold, Arial, Helvetica, sans-serif;
     font-size: 32px;
@@ -79,6 +73,23 @@ body {
     .table-of-contents__close:hover {
       opacity: 0.65; }
 
+.text .mCS-activeBook-default.mCSB_scrollTools, .table-of-contents .mCS-activeBook-default.mCSB_scrollTools,
+.table-of-contents .mCS-activeBook-default.mCSB_scrollTools {
+  opacity: 0.8; }
+  .text .mCS-activeBook-default.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar, .table-of-contents .mCS-activeBook-default.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar,
+  .table-of-contents .mCS-activeBook-default.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
+    width: 6px;
+    border-radius: 100px;
+    background: #f2994a; }
+  .text .mCS-activeBook-default.mCSB_scrollTools .mCSB_draggerRail, .table-of-contents .mCS-activeBook-default.mCSB_scrollTools .mCSB_draggerRail,
+  .table-of-contents .mCS-activeBook-default.mCSB_scrollTools .mCSB_draggerRail {
+    background-color: #fff; }
+
+.text .mCS-activeBook-default.mCSB_scrollTools_vertical, .table-of-contents .mCS-activeBook-default.mCSB_scrollTools_vertical,
+.table-of-contents .mCS-activeBook-default.mCSB_scrollTools_vertical {
+  right: 0;
+  margin: 10px 0; }
+
 .menu {
   display: flex;
   align-items: center;
@@ -114,7 +125,8 @@ body {
       .menu__item.page-number input {
         width: 60px;
         font-family: RobotoRegular, Arial, Helvetica, sans-serif;
-        font-size: 12px; }
+        font-size: 12px;
+        text-align: center; }
         .menu__item.page-number input::-webkit-input-placeholder {
           color: #000; }
         .menu__item.page-number input::-moz-placeholder {
