@@ -25,6 +25,18 @@ $(window).load(function () {
     $(document).on('keydown', function (e) {
         if (e.which < 33 || e.which > 40) return;
 
+        //todo: trigger click заменить на вызов функции перехода
+        if (e.which === 37) {
+            $('.js-page-prev').trigger('click');
+            return;
+        }
+
+        //todo: trigger click заменить на вызов функции перехода
+        if (e.which === 39) {
+            $('.js-page-next').trigger('click');
+            return;
+        }
+
         let $scrollableItem = $('.js-scrollable-item:visible');
 
         if ($scrollableItem.find('> .mCustomScrollBox')[0] === document.activeElement) return;

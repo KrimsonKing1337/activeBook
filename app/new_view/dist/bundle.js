@@ -337,7 +337,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 $(window).load(function () {
-    const constDom = __WEBPACK_IMPORTED_MODULE_0__ConstsDOM__["a" /* default */].get();
+    const constsDom = __WEBPACK_IMPORTED_MODULE_0__ConstsDOM__["a" /* default */].get();
 
     //customScrollBar
     $('.js-scrollable-item').mCustomScrollbar({
@@ -345,6 +345,39 @@ $(window).load(function () {
         autoDraggerLength: true,
         mouseWheel: {scrollAmount: 75},
         scrollbarPosition: 'outside'
+    });
+
+    //стрелки, pageUp, pageDown, Home, End передаются в mCustomScrollBar
+    //todo: влево/вправо в него не передавать, а в нём самом запретить их обработку
+    /**
+     * из самого .mCustomScrollBox элемента
+     * событие keydown не всплывает,
+     * но триггер события на него (```$scrollableItem.find('> .mCustomScrollBox').trigger(e);```)
+     * всплывёт. для этого случая и стоит проверка на то,
+     * что активный элемент - это .mCustomScrollBox.
+     * иначе будет бесконечный цикл и ошибка в итоге
+     */
+    $(document).on('keydown', function (e) {
+        if (e.which < 33 || e.which > 40) return;
+
+        //todo: trigger click заменить на вызов функции перехода
+        if (e.which === 37) {
+            $('.js-page-prev').trigger('click');
+            return;
+        }
+
+        //todo: trigger click заменить на вызов функции перехода
+        if (e.which === 39) {
+            $('.js-page-next').trigger('click');
+            return;
+        }
+
+        let $scrollableItem = $('.js-scrollable-item:visible');
+
+        if ($scrollableItem.find('> .mCustomScrollBox')[0] === document.activeElement) return;
+
+        $scrollableItem.find('> .mCustomScrollBox').focus();
+        $scrollableItem.find('> .mCustomScrollBox').trigger(e);
     });
 
     //ionRangeSlider
@@ -362,12 +395,12 @@ $(window).load(function () {
     //переключалка для вибрации
     //todo: если включаем - то давать короткую вибрацию
     $('.js-vibration-toggle').find('.add-settings__item__toggle__item').on('click', function () {
-       let $parent = $(this).closest('.add-settings__item__toggle');
+        let $parent = $(this).closest('.add-settings__item__toggle');
 
-       if (!$(this).hasClass('active')) {
-           $parent.find('.add-settings__item__toggle__item').removeClass('active');
-           $(this).addClass('active');
-       }
+        if (!$(this).hasClass('active')) {
+            $parent.find('.add-settings__item__toggle__item').removeClass('active');
+            $(this).addClass('active');
+        }
     });
 
     //переключалка темы оформления
@@ -382,22 +415,22 @@ $(window).load(function () {
 
     //оглавление
     $('.js-table-of-contents-show').on('click', function () {
-       constDom.$text.hide();
-       constDom.$tableOfContents.show();
-       __WEBPACK_IMPORTED_MODULE_1__PopoverControl__["a" /* default */].close($(this).closest('.menu__item'), $(this).closest('.add-settings'));
+        constsDom.$text.hide();
+        constsDom.$tableOfContents.show();
+        __WEBPACK_IMPORTED_MODULE_1__PopoverControl__["a" /* default */].close($(this).closest('.menu__item'), $(this).closest('.add-settings'));
     });
 
     $('.js-table-of-contents-close').on('click', function () {
-        constDom.$tableOfContents.hide();
-        constDom.$text.show();
+        constsDom.$tableOfContents.hide();
+        constsDom.$text.show();
     });
 
     //клик по элементу оглавления (главе)
     $('.table-of-contents__item').on('click', function () {
-       let pageNumber = $.trim($(this).find('.table-of-contents__item__page').text());
+        let pageNumber = $.trim($(this).find('.table-of-contents__item__page').text());
 
-       //todo: потом заменить на настоящий переход на страницу
-       console.log(pageNumber);
+        //todo: потом заменить на настоящий переход на страницу
+        console.log(pageNumber);
     });
 
     //меняем межстрочный интервал

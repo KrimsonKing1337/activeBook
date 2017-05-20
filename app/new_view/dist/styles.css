@@ -89,7 +89,7 @@ body {
 
 .text .mCS-activeBook-default.mCSB_scrollTools_vertical, .table-of-contents .mCS-activeBook-default.mCSB_scrollTools_vertical,
 .table-of-contents .mCS-activeBook-default.mCSB_scrollTools_vertical {
-  right: 0;
+  right: -5px;
   margin: 10px 0; }
 
 .menu {
