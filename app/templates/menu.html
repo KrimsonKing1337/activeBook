@@ -1,0 +1,81 @@
+<nav class="menu">
+    <div class="menu__item bookmark">
+        <img class="fill" src="../styles/images/menu/bookmark.svg" />
+    </div>
+    <div class="menu__item arrow-left js-page-prev">
+        <img class="fill" src="../styles/images/menu/arrow-left.svg" />
+    </div>
+    <div class="menu__item page-number js-page-number" data-page-number="{%pageNumber}" data-pages-length="{%pagesLength}">
+        <input type="text" value="" placeholder="{%pageNumber} из {%pagesLength}" pattern="[0-9]" />
+    </div>
+    <div class="menu__item arrow-right js-page-next">
+        <img class="fill" src="../styles/images/menu/arrow-right.svg" />
+    </div>
+    <div class="menu__item volume">
+        <img class="fill" src="../styles/images/menu/sound-icon.svg" />
+        <div class="range-slider__wrapper">
+            <div class="js-range-slider"></div>
+        </div>
+
+        <div class="add-settings">
+            <div class="add-settings__item">
+                <div class="add-settings__item__label">Подсказки</div>
+                <div class="range-slider__wrapper">
+                    <div class="js-range-slider"></div>
+                </div>
+            </div>
+            <div class="add-settings__item">
+                <div class="add-settings__item__label">Фоновый звук</div>
+                <div class="range-slider__wrapper">
+                    <div class="js-range-slider"></div>
+                </div>
+            </div>
+            <img class="add-settings__bottom" src="../styles/images/add-settings-bottom.svg" />
+        </div>
+    </div>
+    <div class="menu__item font-size-down">
+        <img class="fill" src="../styles/images/menu/font-small.svg" />
+    </div>
+    <div class="menu__item font-size-up">
+        <img class="fill" src="../styles/images/menu/font-big.svg" />
+    </div>
+    <div class="menu__item etc">
+        <img class="fill" src="../styles/images/menu/menu-icon.svg" />
+
+        <div class="add-settings">
+            <div class="add-settings__item table-of-contents-button js-table-of-contents-show">
+                <div class="add-settings__item__label">Оглавление</div>
+            </div>
+            <div class="add-settings__item theme-options">
+                <div class="add-settings__item__theme-option default active">
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                </div>
+                <div class="add-settings__item__theme-option gray">
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                </div>
+                <div class="add-settings__item__theme-option yellow">
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                </div>
+                <div class="add-settings__item__theme-option dark-blue">
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div class="add-settings__item">
+                <div class="add-settings__item__label uppercase padding-large">Вибрация</div>
+                <div class="add-settings__item__toggle js-vibration-toggle" data-vibration="on">
+                    <div class="add-settings__item__toggle__item active">Вкл.</div>
+                    <div class="add-settings__item__toggle__item">Выкл.</div>
+                </div>
+            </div>
+            <div class="add-settings__item padding-large">
+                <div class="add-settings__item__label uppercase">Межстрочный инт.</div>
+                <div class="add-settings__item__numeric">
+                    <div class="add-settings__item__numeric__item js-line-height-minus">-</div>
+                    <div class="add-settings__item__numeric__item val js-line-height-val">100%</div>
+                    <div class="add-settings__item__numeric__item js-line-height-plus">+</div>
+                </div>
+            </div>
+            <img class="add-settings__bottom" src="../styles/images/add-settings-bottom.svg" />
+        </div>
+    </div>
+</nav>

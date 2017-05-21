@@ -2,11 +2,9 @@
   "name": "active-book",
   "version": "1.0.0",
   "description": "",
-  "main": "compile.js",
-  "directories": {
-    "test": "test"
-  },
+  "main": "generateBookPages.js",
   "dependencies": {
+    "app-root-path": "^2.0.1",
     "async": "^2.3.0",
     "css-loader": "^0.28.1",
     "extract-text-webpack-plugin": "^2.1.0",
