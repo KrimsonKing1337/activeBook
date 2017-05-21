@@ -8,11 +8,11 @@ module.exports = {
     context: __dirname,
     devtool: "source-map",
     entry: {
-        bundle: "./new_view/js/custom/js.js",
-        styles: "./new_view/styles/css/css.scss"
+        bundle: "./js/custom/frontend/js.js",
+        styles: "./styles/css/css.scss"
     },
     output: {
-        path: __dirname + "/new_view/dist",
+        path: __dirname + "/dist",
         filename: "[name].js"
     },
     module: {
