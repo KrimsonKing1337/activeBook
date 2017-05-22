@@ -3,6 +3,8 @@ import PopoverControl from './PopoverControl';
 
 $(window).load(function () {
     const constsDom = ConstsDom.get();
+    const constsDomMenu = ConstsDom.getMenu();
+    const constsDomPopover = ConstsDom.getPopover();
 
     //customScrollBar
     $('.js-scrollable-item').mCustomScrollbar({
@@ -55,39 +57,47 @@ $(window).load(function () {
     });
 
     //отображаем доп. меню для элементов с поповером
-    PopoverControl.init($('.menu__item').has('.add-settings'));
+    $('.menu__item').has(constsDomPopover.popover).each(function (index, popoverParent) {
+        let $popover = $(popoverParent).find(constsDomPopover.popover);
+        let $triggerButton = $(popoverParent).find(constsDomPopover.triggerButton);
+
+        new PopoverControl({$popover: $popover, $triggerButton: $triggerButton});
+    });
 
     //переключалка для вибрации
     //todo: если включаем - то давать короткую вибрацию
-    $('.js-vibration-toggle').find('.add-settings__item__toggle__item').on('click', function () {
-        let $parent = $(this).closest('.add-settings__item__toggle');
+    $(constsDomPopover.vibrationOption).on('click', function () {
+        let $parent = $(constsDomPopover.vibrationToggle);
 
         if (!$(this).hasClass('active')) {
-            $parent.find('.add-settings__item__toggle__item').removeClass('active');
+            $parent.find('.active').removeClass('active');
             $(this).addClass('active');
         }
     });
 
     //переключалка темы оформления
-    $('.add-settings__item__theme-option').on('click', function () {
-        let $parent = $(this).closest('.add-settings__item.theme-options');
+    $(constsDomPopover.themeOption).on('click', function () {
+        let $parent = $(this).closest('.theme-options');
 
         if (!$(this).hasClass('active')) {
-            $parent.find('.add-settings__item__theme-option').removeClass('active');
+            $parent.find('.active').removeClass('active');
             $(this).addClass('active');
         }
     });
 
     //оглавление
-    $('.js-table-of-contents-show').on('click', function () {
-        constsDom.$text.hide();
-        constsDom.$tableOfContents.show();
-        PopoverControl.close($(this).closest('.menu__item'), $(this).closest('.add-settings'));
+    $(constsDomPopover.tableOfContentsShow).on('click', function () {
+        $(constsDom.text).hide();
+        $(constsDom.tableOfContents).show();
+        PopoverControl.close({
+            $triggerButton: $(this).closest('.menu__item'),
+            $popover: $(this).closest(constsDomPopover.popover)
+        });
     });
 
     $('.js-table-of-contents-close').on('click', function () {
-        constsDom.$tableOfContents.hide();
-        constsDom.$text.show();
+        $(constsDom.tableOfContents).hide();
+        $(constsDom.text).show();
     });
 
     //клик по элементу оглавления (главе)
