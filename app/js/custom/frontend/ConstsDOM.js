@@ -22,7 +22,8 @@ export default class ConstsDOM {
             leftSide: '.left-side',
             rightSide: '.right-side',
             action: '.action',
-            objImgWrapper: '.obj-img__wrapper'
+            objImgWrapper: '.obj-img__wrapper',
+            page: '.page'
         }
     }
 

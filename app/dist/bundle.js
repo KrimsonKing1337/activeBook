@@ -95,7 +95,8 @@ class ConstsDOM {
             leftSide: '.left-side',
             rightSide: '.right-side',
             action: '.action',
-            objImgWrapper: '.obj-img__wrapper'
+            objImgWrapper: '.obj-img__wrapper',
+            page: '.page'
         }
     }
 
@@ -432,7 +433,7 @@ $(window).load(function () {
 
     //customScrollBar
     $('.js-scrollable-item').mCustomScrollbar({
-        theme: 'activeBook-default',
+        theme: 'activeBook',
         autoDraggerLength: true,
         mouseWheel: {scrollAmount: 75},
         scrollbarPosition: 'outside'
@@ -502,10 +503,17 @@ $(window).load(function () {
     //переключалка темы оформления
     $(constsDomPopover.themeOption).on('click', function () {
         let $parent = $(this).closest('.theme-options');
+        let $page = $(constsDom.page);
 
         if (!$(this).hasClass('active')) {
+            let theme = $(this).attr('data-theme-name');
+            let themeForRemove = $page.attr('class').match(/theme-\w+/) || [''];
+
+            //todo: косяк с dark-blue, переписать регулярку
+
             $parent.find('.active').removeClass('active');
             $(this).addClass('active');
+            $page.removeClass(themeForRemove[0]).addClass('theme-' + theme);
         }
     });
 
@@ -533,15 +541,20 @@ $(window).load(function () {
     });
 
     //меняем межстрочный интервал
-    //todo: добавить реальное изменение интервала
+    //todo: вынести в отдельный метод
     $('.js-line-height-minus').on('click', function () {
         let $val = $('.js-line-height-val');
         let currentVal = parseInt($val.text());
         let newVal = currentVal - 25;
 
-        if (currentVal <= 50) newVal = 50;
+        if (currentVal <= 75) return;
 
         $val.text(newVal + '%');
+
+        let classForRemove = $(constsDom.text).attr('class').match(/line-height-\d*/) || [''];
+
+        $(constsDom.text).removeClass(classForRemove[0]).addClass('line-height-' + newVal);
+        $(constsDom.text).attr('data-line-height', newVal);
     });
 
     $('.js-line-height-plus').on('click', function () {
@@ -549,13 +562,18 @@ $(window).load(function () {
         let currentVal = parseInt($val.text());
         let newVal = currentVal + 25;
 
-        if (currentVal >= 150) newVal = 150;
+        if (currentVal >= 150) return;
 
         $val.text(newVal + '%');
+
+        let classForRemove = $(constsDom.text).attr('class').match(/line-height-\d*/) || [''];
+
+        $(constsDom.text).removeClass(classForRemove[0]).addClass('line-height-' + newVal);
+        $(constsDom.text).attr('data-line-height', newVal);
     });
 
     //меняем страницу
-    //todo: потом заменить на настоящий переход на страницу
+    //todo: вынести в отдельную функцию переход на страницу
     $('.js-page-next').on('click', function () {
         let $val = $('.js-page-number');
         let currentVal = parseInt($val.attr('data-page-number'));
@@ -563,16 +581,8 @@ $(window).load(function () {
         let newVal = currentVal + 1;
 
         if (currentVal >= pagesLength) newVal = currentVal;
-        if (newVal.toString().length < 3) {
-            for (let i = 1; i < 3; i++) {
-                if (('0'.repeat(i) + newVal).length === 3) {
-                    newVal = '0'.repeat(i) + newVal;
-                    break;
-                }
-            }
-        }
 
-        $val.find('input').val(newVal);
+        location.href = '../pages/page_' + newVal + '.html';
     });
 
     $('.js-page-prev').on('click', function () {
@@ -581,16 +591,8 @@ $(window).load(function () {
         let newVal = currentVal - 1;
 
         if (currentVal <= 1) newVal = currentVal;
-        if (newVal.toString().length < 3) {
-            for (let i = 1; i < 3; i++) {
-                if (('0'.repeat(i) + newVal).length === 3) {
-                    newVal = '0'.repeat(i) + newVal;
-                    break;
-                }
-            }
-        }
 
-        $val.find('input').val(newVal);
+        location.href = '../pages/page_' + newVal + '.html';
     });
 
     $('.js-page-number').find('input').on('blur', function () {
@@ -624,7 +626,44 @@ $(window).load(function () {
 
         if (newVal === currentVal) return;
 
-        console.log(newVal);
+        location.href = '../pages/page_' + newVal + '.html';
+    });
+
+    //font-size control
+    /**
+     * @param params {object}
+     * @param params.newFontSize {string}
+     * */
+    const changeFontSize = function (params = {}) {
+        let newFontSize = params.newFontSize;
+
+        if (!newFontSize) {
+            return false;
+        }
+
+        let text = $(constsDom.text);
+        let classNameForRemove = text.attr('data-font-size');
+
+        text.removeClass('font-size-' + classNameForRemove).addClass('font-size-' + newFontSize);
+        text.attr('data-font-size', newFontSize);
+    };
+
+    $('.js-font-size-down').add('.js-font-size-up').on('click', function () {
+        let fontSizes = ['75', '100', '125', '150'];
+        let text = $(constsDom.text);
+        let fontSizeNow = text.attr('data-font-size');
+        let fontSizeNowIndex = $.inArray(fontSizeNow, fontSizes);
+        let newFontSize = fontSizes[fontSizeNowIndex - 1];
+
+        if ($(this).hasClass('js-font-size-up')) {
+            newFontSize = fontSizes[fontSizeNowIndex + 1];
+        }
+
+        if (!newFontSize) {
+            return false;
+        }
+
+        changeFontSize({newFontSize: newFontSize});
     });
 });
 
