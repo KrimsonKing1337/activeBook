@@ -124,7 +124,7 @@ $(window).load(function () {
 
         $val.text(newVal + '%');
 
-        let classForRemove = $(constsDom.text).attr('class').match(/line-height-\d*/) || [''];
+        let classForRemove = $(constsDom.text).attr('class').match(/line-height-\S+/) || [''];
 
         $(constsDom.text).removeClass(classForRemove[0]).addClass('line-height-' + newVal);
         $(constsDom.text).attr('data-line-height', newVal);
@@ -139,7 +139,7 @@ $(window).load(function () {
 
         $val.text(newVal + '%');
 
-        let classForRemove = $(constsDom.text).attr('class').match(/line-height-\d*/) || [''];
+        let classForRemove = $(constsDom.text).attr('class').match(/line-height-\S+/) || [''];
 
         $(constsDom.text).removeClass(classForRemove[0]).addClass('line-height-' + newVal);
         $(constsDom.text).attr('data-line-height', newVal);
