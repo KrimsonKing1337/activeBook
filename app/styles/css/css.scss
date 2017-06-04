@@ -39,7 +39,9 @@ $p-line-height: 1.2;
   padding: 20px;
   //max-height: 800px;
   max-height: 500px;
+  height: 500px;
   font-size: 100%;
+  overflow: hidden;
 
   header {
     font-family: RobotoBold, Arial, Helvetica, sans-serif;

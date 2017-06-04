@@ -82,9 +82,7 @@ $(window).load(function () {
 
         if (!$(this).hasClass('active')) {
             let theme = $(this).attr('data-theme-name');
-            let themeForRemove = $page.attr('class').match(/theme-\w+/) || [''];
-
-            //todo: косяк с dark-blue, переписать регулярку
+            let themeForRemove = $page.attr('class').match(/theme-\S+/) || [''];
 
             $parent.find('.active').removeClass('active');
             $(this).addClass('active');
