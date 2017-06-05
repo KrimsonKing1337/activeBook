@@ -50,10 +50,6 @@ export class LineHeight {
         let newVal = params.newVal;
 
         $val.text(newVal + '%');
-
-        let classForRemove = 'line-height-' + $text.attr('data-line-height');
-
-        $text.removeClass(classForRemove).addClass('line-height-' + newVal);
         $text.attr('data-line-height', newVal);
     }
 }
@@ -161,9 +157,6 @@ export class FontSize {
         let $text = params.$text;
         let newVal = params.newVal;
 
-        let classForRemove = 'font-size-' + $text.attr('data-font-size');
-
-        $text.removeClass(classForRemove).addClass('font-size-' + newVal);
         $text.attr('data-font-size', newVal);
     }
 }

@@ -92,26 +92,26 @@ $p-line-height: 1.2;
 
 //modificators for text; font-size
 .text {
-  &.font-size-75 {
+  &[data-font-size="75"] {
     font-size: 75%;
   }
 
-  &.font-size-100 {
+  &[data-font-size="100"] {
     font-size: 100%;
   }
 
-  &.font-size-125 {
+  &[data-font-size="125"] {
     font-size: 125%;
   }
 
-  &.font-size-150 {
+  &[data-font-size="150"] {
     font-size: 150%;
   }
 }
 
 //modificators for text; line-height
 .text {
-  &.line-height-75 {
+  &[data-line-height="75"] {
     header {
       line-height: $header-line-height * 0.75;
     }
@@ -129,7 +129,7 @@ $p-line-height: 1.2;
     }
   }
 
-  &.line-height-100 {
+  &[data-line-height="100"] {
     header {
       line-height: $header-line-height * 1;
     }
@@ -147,7 +147,7 @@ $p-line-height: 1.2;
     }
   }
 
-  &.line-height-125 {
+  &[data-line-height="125"] {
     header {
       line-height: $header-line-height * 1.25;
     }
@@ -165,7 +165,7 @@ $p-line-height: 1.2;
     }
   }
 
-  &.line-height-150 {
+  &[data-line-height="150"] {
     header {
       line-height: $header-line-height * 1.5;
     }

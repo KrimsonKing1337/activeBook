@@ -100,8 +100,7 @@ module.exports = class GeneratorBookPages {
         //font-size-100 и data-font-size - это дефолтное значение для размеров шрифта, оно может меняться
         //поэтому задаём это здесь, а не на partial-вьюхах страниц
         htmlPage = htmlPage.replace('<div class="text">',
-            '<div class="text js-scrollable-item font-size-100 line-height-100"' +
-            ' data-font-size="100" data-line-height="100">');
+            '<div class="text js-scrollable-item" data-font-size="100" data-line-height="100">');
 
         fs.writeFile(pageParams.generatedFolder + pageParams.newFileName, htmlPage, function (err) {
             if (err) throw err;
