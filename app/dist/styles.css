@@ -22,7 +22,9 @@ body {
   position: relative;
   padding: 20px;
   max-height: 500px;
-  font-size: 100%; }
+  height: 500px;
+  font-size: 100%;
+  overflow: hidden; }
   .text header, .table-of-contents header {
     font-family: RobotoBold, Arial, Helvetica, sans-serif;
     font-size: 2em;
@@ -54,64 +56,64 @@ body {
       opacity: 1;
       text-shadow: 2px 2px 2px #fd0006; }
 
-.text.font-size-75, .font-size-75.table-of-contents {
+.text[data-font-size="75"], [data-font-size="75"].table-of-contents {
   font-size: 75%; }
 
-.text.font-size-100, .font-size-100.table-of-contents {
+.text[data-font-size="100"], [data-font-size="100"].table-of-contents {
   font-size: 100%; }
 
-.text.font-size-125, .font-size-125.table-of-contents {
+.text[data-font-size="125"], [data-font-size="125"].table-of-contents {
   font-size: 125%; }
 
-.text.font-size-150, .font-size-150.table-of-contents {
+.text[data-font-size="150"], [data-font-size="150"].table-of-contents {
   font-size: 150%; }
 
-.text.line-height-75 header, .line-height-75.table-of-contents header {
+.text[data-line-height="75"] header, [data-line-height="75"].table-of-contents header {
   line-height: 0.9; }
 
-.text.line-height-75 article, .line-height-75.table-of-contents article {
+.text[data-line-height="75"] article, [data-line-height="75"].table-of-contents article {
   line-height: 0.9; }
 
-.text.line-height-75 h1, .line-height-75.table-of-contents h1 {
+.text[data-line-height="75"] h1, [data-line-height="75"].table-of-contents h1 {
   line-height: 0.9; }
 
-.text.line-height-75 p, .line-height-75.table-of-contents p {
+.text[data-line-height="75"] p, [data-line-height="75"].table-of-contents p {
   line-height: 0.9; }
 
-.text.line-height-100 header, .line-height-100.table-of-contents header {
+.text[data-line-height="100"] header, [data-line-height="100"].table-of-contents header {
   line-height: 1.2; }
 
-.text.line-height-100 article, .line-height-100.table-of-contents article {
+.text[data-line-height="100"] article, [data-line-height="100"].table-of-contents article {
   line-height: 1.2; }
 
-.text.line-height-100 h1, .line-height-100.table-of-contents h1 {
+.text[data-line-height="100"] h1, [data-line-height="100"].table-of-contents h1 {
   line-height: 1.2; }
 
-.text.line-height-100 p, .line-height-100.table-of-contents p {
+.text[data-line-height="100"] p, [data-line-height="100"].table-of-contents p {
   line-height: 1.2; }
 
-.text.line-height-125 header, .line-height-125.table-of-contents header {
+.text[data-line-height="125"] header, [data-line-height="125"].table-of-contents header {
   line-height: 1.5; }
 
-.text.line-height-125 article, .line-height-125.table-of-contents article {
+.text[data-line-height="125"] article, [data-line-height="125"].table-of-contents article {
   line-height: 1.5; }
 
-.text.line-height-125 h1, .line-height-125.table-of-contents h1 {
+.text[data-line-height="125"] h1, [data-line-height="125"].table-of-contents h1 {
   line-height: 1.5; }
 
-.text.line-height-125 p, .line-height-125.table-of-contents p {
+.text[data-line-height="125"] p, [data-line-height="125"].table-of-contents p {
   line-height: 1.5; }
 
-.text.line-height-150 header, .line-height-150.table-of-contents header {
+.text[data-line-height="150"] header, [data-line-height="150"].table-of-contents header {
   line-height: 1.8; }
 
-.text.line-height-150 article, .line-height-150.table-of-contents article {
+.text[data-line-height="150"] article, [data-line-height="150"].table-of-contents article {
   line-height: 1.8; }
 
-.text.line-height-150 h1, .line-height-150.table-of-contents h1 {
+.text[data-line-height="150"] h1, [data-line-height="150"].table-of-contents h1 {
   line-height: 1.8; }
 
-.text.line-height-150 p, .line-height-150.table-of-contents p {
+.text[data-line-height="150"] p, [data-line-height="150"].table-of-contents p {
   line-height: 1.8; }
 
 .table-of-contents {

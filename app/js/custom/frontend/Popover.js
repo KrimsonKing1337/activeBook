@@ -6,7 +6,7 @@ import ConstsDom from './ConstsDOM';
 /**
  * инициализатор для поповера
  */
-export default class PopoverControl {
+export default class Popover {
     /**
      *
      * @param selectors {object} jquery;
@@ -36,7 +36,7 @@ export default class PopoverControl {
              * скрываем все поповеры,
              * кроме актуальной
              */
-            PopoverControl._closeAllOtherPopovers({
+            Popover._closeAllOtherPopovers({
                 $popovers: $(self.constDomPopover.popover + '.active'),
                 $popoverActual: $popover
             });
@@ -45,7 +45,7 @@ export default class PopoverControl {
              * деактивируем все триггер-кнопки,
              * кроме той, по которой щас кликнули
              */
-            PopoverControl._closeAllOtherTriggerButtons({
+            Popover._closeAllOtherTriggerButtons({
                 $triggerButtons: $(self.constDomPopover.triggerButton + '.active'),
                 $triggerButtonActual: $triggerButton
             });
@@ -123,7 +123,7 @@ export default class PopoverControl {
          */
         setTimeout(function () {
             $(document).one('click', function () {
-                PopoverControl.close({
+                Popover.close({
                     $popover: $popover,
                     $triggerButton: $triggerButton
                 });

@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 2);
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -144,7 +144,8 @@ class ConstsDOM {
 
 
 /***/ }),
-/* 1 */
+/* 1 */,
+/* 2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -157,7 +158,7 @@ class ConstsDOM {
 /**
  * инициализатор для поповера
  */
-class PopoverControl {
+class Popover {
     /**
      *
      * @param selectors {object} jquery;
@@ -187,7 +188,7 @@ class PopoverControl {
              * скрываем все поповеры,
              * кроме актуальной
              */
-            PopoverControl._closeAllOtherPopovers({
+            Popover._closeAllOtherPopovers({
                 $popovers: $(self.constDomPopover.popover + '.active'),
                 $popoverActual: $popover
             });
@@ -196,7 +197,7 @@ class PopoverControl {
              * деактивируем все триггер-кнопки,
              * кроме той, по которой щас кликнули
              */
-            PopoverControl._closeAllOtherTriggerButtons({
+            Popover._closeAllOtherTriggerButtons({
                 $triggerButtons: $(self.constDomPopover.triggerButton + '.active'),
                 $triggerButtonActual: $triggerButton
             });
@@ -274,7 +275,7 @@ class PopoverControl {
          */
         setTimeout(function () {
             $(document).one('click', function () {
-                PopoverControl.close({
+                Popover.close({
                     $popover: $popover,
                     $triggerButton: $triggerButton
                 });
@@ -412,17 +413,19 @@ class PopoverControl {
         });
     }
 }
-/* harmony export (immutable) */ __webpack_exports__["a"] = PopoverControl;
+/* harmony export (immutable) */ __webpack_exports__["a"] = Popover;
 
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ConstsDOM__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__PopoverControl__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Popover__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Menu__ = __webpack_require__(10);
+
 
 
 
@@ -486,7 +489,7 @@ $(window).load(function () {
         let $popover = $(popoverParent).find(constsDomPopover.popover);
         let $triggerButton = $(popoverParent).find(constsDomPopover.triggerButton);
 
-        new __WEBPACK_IMPORTED_MODULE_1__PopoverControl__["a" /* default */]({$popover: $popover, $triggerButton: $triggerButton});
+        new __WEBPACK_IMPORTED_MODULE_1__Popover__["a" /* default */]({$popover: $popover, $triggerButton: $triggerButton});
     });
 
     //переключалка для вибрации
@@ -507,9 +510,7 @@ $(window).load(function () {
 
         if (!$(this).hasClass('active')) {
             let theme = $(this).attr('data-theme-name');
-            let themeForRemove = $page.attr('class').match(/theme-\w+/) || [''];
-
-            //todo: косяк с dark-blue, переписать регулярку
+            let themeForRemove = $page.attr('class').match(/theme-\S+/) || [''];
 
             $parent.find('.active').removeClass('active');
             $(this).addClass('active');
@@ -521,7 +522,7 @@ $(window).load(function () {
     $(constsDomPopover.tableOfContentsShow).on('click', function () {
         $(constsDom.text).hide();
         $(constsDom.tableOfContents).show();
-        __WEBPACK_IMPORTED_MODULE_1__PopoverControl__["a" /* default */].close({
+        PopoverControl.close({
             $triggerButton: $(this).closest('.menu__item'),
             $popover: $(this).closest(constsDomPopover.popover)
         });
@@ -541,64 +542,33 @@ $(window).load(function () {
     });
 
     //меняем межстрочный интервал
-    //todo: вынести в отдельный метод
     $('.js-line-height-minus').on('click', function () {
         let $val = $('.js-line-height-val');
-        let currentVal = parseInt($val.text());
-        let newVal = currentVal - 25;
 
-        if (currentVal <= 75) return;
-
-        $val.text(newVal + '%');
-
-        let classForRemove = $(constsDom.text).attr('class').match(/line-height-\d*/) || [''];
-
-        $(constsDom.text).removeClass(classForRemove[0]).addClass('line-height-' + newVal);
-        $(constsDom.text).attr('data-line-height', newVal);
+        __WEBPACK_IMPORTED_MODULE_2__Menu__["a" /* LineHeight */].set({$val: $val, direction: 'less', $text: $(constsDom.text)});
     });
 
     $('.js-line-height-plus').on('click', function () {
         let $val = $('.js-line-height-val');
-        let currentVal = parseInt($val.text());
-        let newVal = currentVal + 25;
 
-        if (currentVal >= 150) return;
-
-        $val.text(newVal + '%');
-
-        let classForRemove = $(constsDom.text).attr('class').match(/line-height-\d*/) || [''];
-
-        $(constsDom.text).removeClass(classForRemove[0]).addClass('line-height-' + newVal);
-        $(constsDom.text).attr('data-line-height', newVal);
+        __WEBPACK_IMPORTED_MODULE_2__Menu__["a" /* LineHeight */].set({$val: $val, direction: 'more', $text: $(constsDom.text)});
     });
 
     //меняем страницу
-    //todo: вынести в отдельную функцию переход на страницу
     $('.js-page-next').on('click', function () {
         let $val = $('.js-page-number');
-        let currentVal = parseInt($val.attr('data-page-number'));
-        let pagesLength = parseInt($val.attr('data-pages-length'));
-        let newVal = currentVal + 1;
 
-        if (currentVal >= pagesLength) newVal = currentVal;
-
-        location.href = '../pages/page_' + newVal + '.html';
+        __WEBPACK_IMPORTED_MODULE_2__Menu__["b" /* GoToPage */].go({$val: $val, direction: 'next'});
     });
 
     $('.js-page-prev').on('click', function () {
         let $val = $('.js-page-number');
-        let currentVal = parseInt($val.attr('data-page-number'));
-        let newVal = currentVal - 1;
 
-        if (currentVal <= 1) newVal = currentVal;
-
-        location.href = '../pages/page_' + newVal + '.html';
+        __WEBPACK_IMPORTED_MODULE_2__Menu__["b" /* GoToPage */].go({$val: $val, direction: 'prev'});
     });
 
     $('.js-page-number').find('input').on('blur', function () {
         let $val = $('.js-page-number');
-        let currentVal = parseInt($val.attr('data-page-number'));
-        let pagesLength = parseInt($val.attr('data-pages-length'));
         let pattern = $val.find('input').attr('pattern');
         let newVal = $(this).val();
 
@@ -616,56 +586,198 @@ $(window).load(function () {
             return;
         }
 
-        newVal = Math.abs(parseInt(newVal));
-
-        if (newVal <= 1) {
-            newVal = 1;
-        } else if (newVal >= pagesLength) {
-            newVal = pagesLength;
-        }
-
-        if (newVal === currentVal) return;
-
-        location.href = '../pages/page_' + newVal + '.html';
+        __WEBPACK_IMPORTED_MODULE_2__Menu__["b" /* GoToPage */].go({$val: $val, direction: 'any'});
     });
 
-    //font-size control
-    /**
-     * @param params {object}
-     * @param params.newFontSize {string}
-     * */
-    const changeFontSize = function (params = {}) {
-        let newFontSize = params.newFontSize;
+    //меняем размер шрифта
+    $('.js-font-size-down').on('click', function () {
+        __WEBPACK_IMPORTED_MODULE_2__Menu__["c" /* FontSize */].set({$text: $(constsDom.text), direction: 'less'});
+    });
 
-        if (!newFontSize) {
-            return false;
-        }
-
-        let text = $(constsDom.text);
-        let classNameForRemove = text.attr('data-font-size');
-
-        text.removeClass('font-size-' + classNameForRemove).addClass('font-size-' + newFontSize);
-        text.attr('data-font-size', newFontSize);
-    };
-
-    $('.js-font-size-down').add('.js-font-size-up').on('click', function () {
-        let fontSizes = ['75', '100', '125', '150'];
-        let text = $(constsDom.text);
-        let fontSizeNow = text.attr('data-font-size');
-        let fontSizeNowIndex = $.inArray(fontSizeNow, fontSizes);
-        let newFontSize = fontSizes[fontSizeNowIndex - 1];
-
-        if ($(this).hasClass('js-font-size-up')) {
-            newFontSize = fontSizes[fontSizeNowIndex + 1];
-        }
-
-        if (!newFontSize) {
-            return false;
-        }
-
-        changeFontSize({newFontSize: newFontSize});
+    $('.js-font-size-up').on('click', function () {
+        __WEBPACK_IMPORTED_MODULE_2__Menu__["c" /* FontSize */].set({$text: $(constsDom.text), direction: 'more'});
     });
 });
+
+/***/ }),
+/* 4 */,
+/* 5 */,
+/* 6 */,
+/* 7 */,
+/* 8 */,
+/* 9 */,
+/* 10 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/**
+ * меняем межстрочный интервал на странице
+ */
+class LineHeight {
+    constructor () {
+
+    }
+
+    /**
+     *
+     * @param params {object};
+     * @param params.$text {object};
+     * @param params.$val {object} jquery;
+     * @param params.direction {string} less || more;
+     */
+    static set (params = {}) {
+        let $text = params.$text;
+        let $val = params.$val;
+        let direction = params.direction;
+
+        let currentVal = parseInt($text.attr('data-line-height')) || 100;
+
+        let newVal;
+        let limit;
+
+        if (direction === 'less') {
+            newVal = currentVal - 25;
+            limit = currentVal <= 75;
+        } else if (direction === 'more') {
+            newVal = currentVal + 25;
+            limit = currentVal >= 150;
+        }
+
+        if (limit === true) return;
+
+        LineHeight._apply({$text: $text, $val: $val, newVal: newVal});
+    }
+
+    /**
+     *
+     * @param params {object};
+     * @param params.$text {object} jquery;
+     * @param params.$val {object} jquery;
+     * @param params.newVal {number};
+     * @private
+     */
+    static _apply (params = {}) {
+        let $text = params.$text;
+        let $val = params.$val;
+        let newVal = params.newVal;
+
+        $val.text(newVal + '%');
+        $text.attr('data-line-height', newVal);
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = LineHeight;
+
+
+/**
+ * переход на страницу
+ */
+class GoToPage {
+    constructor () {
+
+    }
+
+    /**
+     *
+     * @param params {object};
+     * @param params.$val {object} jquery;
+     * @param params.direction {string} next || prev || any;
+     */
+    static go (params = {}) {
+        let $val = params.$val;
+        let direction = params.direction;
+
+        let currentPage = parseInt($val.attr('data-page-number'));
+        let pagesLength = parseInt($val.attr('data-pages-length'));
+
+        let newVal;
+        let limit;
+
+        if (direction === 'next') {
+            newVal = currentPage + 1;
+            limit = currentPage >= pagesLength;
+        } else if (direction === 'prev') {
+            newVal = currentPage - 1;
+            limit = currentPage <= 1;
+        } else if (direction === 'any') {
+            newVal = $val.find('input').val();
+
+            if (newVal.length === 0) return;
+
+            newVal = Math.abs(parseInt(newVal));
+
+            if (newVal <= 1) {
+                newVal = 1;
+            } else if (newVal >= pagesLength) {
+                newVal = pagesLength;
+            }
+
+            limit = newVal === currentPage;
+        }
+
+        if (limit === true) {
+            $val.find('input').val('');
+            return;
+        }
+
+        location.href = '../pages/page_' + newVal + '.html';
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["b"] = GoToPage;
+
+
+/**
+ * меняем размер шрифта
+ */
+class FontSize {
+    constructor () {
+
+    }
+
+    /**
+     *
+     * @param params {object};
+     * @param params.$text {object};
+     * @param params.direction {string} less || more;
+     */
+    static set (params = {}) {
+        let $text = params.$text;
+        let direction = params.direction;
+
+        let currentVal = parseInt($text.attr('data-font-size')) || 100;
+
+        let newVal;
+        let limit;
+
+        if (direction === 'less') {
+            newVal = currentVal - 25;
+            limit = currentVal <= 75;
+        } else if (direction === 'more') {
+            newVal = currentVal + 25;
+            limit = currentVal >= 150;
+        }
+
+        if (limit === true) return;
+
+        FontSize._apply({$text: $text, newVal: newVal});
+    }
+
+    /**
+     *
+     * @param params {object};
+     * @param params.$text {object} jquery;
+     * @param params.$val {object} jquery;
+     * @param params.newVal {number};
+     * @private
+     */
+    static _apply (params = {}) {
+        let $text = params.$text;
+        let newVal = params.newVal;
+
+        $text.attr('data-font-size', newVal);
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["c"] = FontSize;
+
 
 /***/ })
 /******/ ]);

@@ -1,6 +1,6 @@
 import ConstsDom from './ConstsDOM';
-import PopoverControl from './PopoverControl';
-import {LineHeight, FontSize, GoToPage} from './PageStyle';
+import Popover from './Popover';
+import {LineHeight, FontSize, GoToPage} from './Menu';
 
 $(window).load(function () {
     const constsDom = ConstsDom.get();
@@ -62,7 +62,7 @@ $(window).load(function () {
         let $popover = $(popoverParent).find(constsDomPopover.popover);
         let $triggerButton = $(popoverParent).find(constsDomPopover.triggerButton);
 
-        new PopoverControl({$popover: $popover, $triggerButton: $triggerButton});
+        new Popover({$popover: $popover, $triggerButton: $triggerButton});
     });
 
     //переключалка для вибрации
@@ -144,6 +144,8 @@ $(window).load(function () {
         let $val = $('.js-page-number');
         let pattern = $val.find('input').attr('pattern');
         let newVal = $(this).val();
+
+        if (newVal.length === 0) return;
 
         //only numbers allows
         if (new RegExp('^' + pattern + '+$').test(newVal) === false) {
