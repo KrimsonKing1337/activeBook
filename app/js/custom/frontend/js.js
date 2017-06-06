@@ -1,8 +1,16 @@
 import ConstsDom from './ConstsDOM';
 import Popover from './Popover';
 import {LineHeight, FontSize, GoToPage} from './Menu';
+let bowser = require('bowser');
 
 $(window).load(function () {
+    //browser compatibility check
+    if (!bowser.blink && !bowser.gecko) {
+        let $body = $('body');
+        $body.empty();
+        $body.append('<div class="warning">Пожалуйста, используйте Google Chrome версии 58+ или Firefox версии 53+</div>')
+    }
+
     const constsDom = ConstsDom.get();
     const constsDomMenu = ConstsDom.getMenu();
     const constsDomPopover = ConstsDom.getPopover();
