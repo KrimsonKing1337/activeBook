@@ -65,31 +65,26 @@ export class GoToPage {
     /**
      *
      * @param params {object};
-     * @param params.$val {object} jquery;
-     * @param params.direction {string} next || prev || any;
+     * @param params.currentPage {string};
+     * @param params.pagesLength {string};
+     * @param params.where {number || string} next || prev;
      */
     static go (params = {}) {
-        let $val = params.$val;
-        let direction = params.direction;
-
-        let currentPage = parseInt($val.attr('data-page-number'));
-        let pagesLength = parseInt($val.attr('data-pages-length'));
+        let where = params.where;
+        let currentPage = params.currentPage;
+        let pagesLength = params.pagesLength;
 
         let newVal;
         let limit;
 
-        if (direction === 'next') {
+        if (where === 'next') {
             newVal = currentPage + 1;
             limit = currentPage >= pagesLength;
-        } else if (direction === 'prev') {
+        } else if (where === 'prev') {
             newVal = currentPage - 1;
             limit = currentPage <= 1;
-        } else if (direction === 'any') {
-            newVal = $val.find('input').val();
-
-            if (newVal.length === 0) return;
-
-            newVal = Math.abs(parseInt(newVal));
+        } else if (typeof where === 'number' && isNaN(where) === false) {
+            newVal = where;
 
             if (newVal <= 1) {
                 newVal = 1;
@@ -98,12 +93,11 @@ export class GoToPage {
             }
 
             limit = newVal === currentPage;
+        } else {
+            new Error('Unrecognized param "where" (' + where + '). Only next, prev and number is allowed');
         }
 
-        if (limit === true) {
-            $val.find('input').val('');
-            return;
-        }
+        if (limit === true) return;
 
         location.href = '../pages/page_' + newVal + '.html';
     }

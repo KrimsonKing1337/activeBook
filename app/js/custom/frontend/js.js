@@ -7,6 +7,12 @@ $(window).load(function () {
     const constsDomMenu = ConstsDom.getMenu();
     const constsDomPopover = ConstsDom.getPopover();
 
+    //todo: currentPage, pagesLength и прочие параметры страницы получать из специального геттера класса
+    const page = {
+        current: parseInt($('.js-page-number').attr('data-page-number')),
+        length: parseInt($('.js-page-number').attr('data-pages-length')),
+    };
+
     //customScrollBar
     $('.js-scrollable-item').mCustomScrollbar({
         theme: 'activeBook',
@@ -108,10 +114,9 @@ $(window).load(function () {
 
     //клик по элементу оглавления (главе)
     $('.table-of-contents__item').on('click', function () {
-        let pageNumber = $.trim($(this).find('.table-of-contents__item__page').text());
+        let newVal = $.trim($(this).find('.table-of-contents__item__page').text());
 
-        //todo: потом заменить на настоящий переход на страницу
-        console.log(pageNumber);
+        GoToPage.go({currentPage: page.current, pagesLength: page.length, where: Math.abs(parseInt(newVal))});
     });
 
     //меняем межстрочный интервал
@@ -129,15 +134,11 @@ $(window).load(function () {
 
     //меняем страницу
     $('.js-page-next').on('click', function () {
-        let $val = $('.js-page-number');
-
-        GoToPage.go({$val: $val, direction: 'next'});
+        GoToPage.go({currentPage: page.current, pagesLength: page.length, where: 'next'});
     });
 
     $('.js-page-prev').on('click', function () {
-        let $val = $('.js-page-number');
-
-        GoToPage.go({$val: $val, direction: 'prev'});
+        GoToPage.go({currentPage: page.current, pagesLength: page.length, where: 'prev'});
     });
 
     $('.js-page-number').find('input').on('blur', function () {
@@ -159,7 +160,7 @@ $(window).load(function () {
             return;
         }
 
-        GoToPage.go({$val: $val, direction: 'any'});
+        GoToPage.go({currentPage: page.current, pagesLength: page.length, where: Math.abs(parseInt(newVal))});
     });
 
     //меняем размер шрифта
