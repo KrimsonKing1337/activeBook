@@ -193,7 +193,8 @@ body {
         width: 60px;
         font-family: RobotoRegular, Arial, Helvetica, sans-serif;
         font-size: 12px;
-        text-align: center; }
+        text-align: center;
+        background: transparent; }
         .menu__item.page-number input::-webkit-input-placeholder {
           color: #000; }
         .menu__item.page-number input::-moz-placeholder {
@@ -656,5 +657,13 @@ body {
   background: #728c9a; }
   .page.theme-dark-blue .add-settings__item.table-of-contents-button .page.theme-dark-blue .add-settings__item__label {
     color: #fff; }
+
+.warning {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px; }
 
 /*# sourceMappingURL=styles.css.map*/

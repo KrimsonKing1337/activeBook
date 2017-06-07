@@ -1209,7 +1209,7 @@ $(window).load(function () {
     if (!bowser.blink && !bowser.gecko) {
         let $body = $('body');
         $body.empty();
-        $body.append('<div class="warning">Пожалуйста, используйте Google Chrome версии 58+ или Firefox версии 53+</div>')
+        $body.append('<div class="warning">Пожалуйста, используйте Google Chrome версии 58+ или Firefox версии 53+</div>');
     }
 
     const constsDom = __WEBPACK_IMPORTED_MODULE_0__ConstsDOM__["a" /* default */].get();
