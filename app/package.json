@@ -2,7 +2,7 @@
   "name": "active-book",
   "version": "1.0.0",
   "description": "",
-  "main": "generateBookPages.js",
+  "main": "index.js",
   "dependencies": {
     "app-root-path": "^2.0.1",
     "async": "^2.3.0",

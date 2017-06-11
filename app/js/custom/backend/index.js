@@ -1,4 +1,8 @@
-let sassToCss = require('./sassToCss');
+let generateBookPages = require('./generateBookPages');
+let svg = require('./svg');
 
-//render sass to css
-sassToCss();
+//render pages
+generateBookPages();
+
+//svg img to obj
+svg();

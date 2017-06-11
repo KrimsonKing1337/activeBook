@@ -2,6 +2,8 @@ docs/
 sources/
 .idea/
 node_modules/
+dist/
+pages/
 *.mp3
 *.ogg
 *.mp4
