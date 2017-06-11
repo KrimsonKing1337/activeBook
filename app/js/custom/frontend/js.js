@@ -190,7 +190,15 @@ $(window).load(function () {
 
         Effects.play({
             target: $('[data-effect-id="' + $(this).data('effect-target') + '"]'),
-            trigger: $(this)
+            effectsParams: $(this).data('effect-params')
+        });
+    });
+
+    //воспроизводим эффекты, которые должны быть проиграны сразу после загрузки
+    $('[data-play-on-load]').each(function (index, item) {
+        Effects.play({
+            target: $(item),
+            effectsParams: $(item).data('effect-params')
         });
     });
 });

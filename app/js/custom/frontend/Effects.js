@@ -3,6 +3,7 @@
  */
 
 import Volume from './Volume';
+let Howler = require('howler');
 
 export class Effects {
     constructor () {
@@ -13,20 +14,18 @@ export class Effects {
      *
      * @param params {object}
      * @param params.target {object} jquery
-     * @param params.trigger {object} jquery
+     * @param params.effectParams {object}
      */
     static play (params = {}) {
         let target = params.target;
-        let trigger = params.trigger;
+        let effectParams = params.effectParams;
 
         let type = target.data('effect-type');
-        let effectParams = trigger.data('effect-params');
-        let vibro = trigger.data('effect-vibro');
 
         if (type === 'audio') {
             SoundEffects.play({target: target});
             //todo: video, text, etc.
-        } else if (type === 'video') {
+        } else if (type === 'bg-music') {
 
         }
     }
@@ -103,6 +102,14 @@ class SoundEffects {
             SoundEffects.stop({target: 'sounds'});
             target[0].play();
         }
+    }
+
+    /**
+     *
+     * @param params
+     */
+    static playLoop (params = {}) {
+
     }
 }
 
