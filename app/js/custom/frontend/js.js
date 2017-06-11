@@ -1,14 +1,18 @@
 import ConstsDom from './ConstsDOM';
 import Popover from './Popover';
 import {LineHeight, FontSize, GoToPage} from './Menu';
+import {Effects} from './Effects';
+
 let bowser = require('bowser');
 
 $(window).load(function () {
     //browser compatibility check
     if (!bowser.blink && !bowser.gecko) {
         let $body = $('body');
+
         $body.empty();
         $body.append('<div class="warning">Пожалуйста, используйте Google Chrome версии 58+ или Firefox версии 53+</div>');
+        return;
     }
 
     const constsDom = ConstsDom.get();
@@ -178,5 +182,15 @@ $(window).load(function () {
 
     $('.js-font-size-up').on('click', function () {
         FontSize.set({$text: $(constsDom.text), direction: 'more'});
+    });
+
+    //action text click event
+    $('[data-effect-target]').on('click', function (e) {
+        e.preventDefault();
+
+        Effects.play({
+            target: $('[data-effect-id="' + $(this).data('effect-target') + '"]'),
+            trigger: $(this)
+        });
     });
 });

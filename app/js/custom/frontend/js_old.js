@@ -784,12 +784,7 @@ $(window).load(function () {
                 scrollTop: Math.abs(parseInt($('.mCustomScrollBox.mCS-activeBook').find('> .mCSB_container').css('top')))
             };
 
-            //
-            if ( flags.goToPage ) {
-                states.goToPageDeny = true;
-            } else {
-                states.goToPageDeny = false;
-            }
+            flags.goToPage = !flags.goToPage;
 
             //localStorage.removeItem('activeBook');
             localStorage.setItem('activeBook', JSON.stringify(states)); //сериализуем объект в строку
