@@ -48,7 +48,7 @@ function migrateWarn( msg) {
 
 function migrateWarnProp( obj, prop, value, msg ) {
 	if ( Object.defineProperty ) {
-		// On ES5 browsers (non-oldIE), warn if the code tries to get prop;
+		// On ES5 browsers (non-oldIE), warn if the code tries to getGlobal prop;
 		// allow property to be overwritten in case some other plugin wants it
 		try {
 			Object.defineProperty( obj, prop, {
@@ -271,7 +271,7 @@ if ( !jQuery.browser ) {
 	jQuery.browser = browser;
 }
 
-// Warn if the code tries to get jQuery.browser
+// Warn if the code tries to getGlobal jQuery.browser
 migrateWarnProp( jQuery, "browser", jQuery.browser, "jQuery.browser is deprecated" );
 
 jQuery.sub = function() {

@@ -149,16 +149,18 @@ class ConstsDOM {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Volume__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ConstsDOM__ = __webpack_require__(0);
 /**
  * Created by K on 11.06.2017.
  */
 
 
-let Howler = __webpack_require__(14);
+
+let Howler = __webpack_require__(8);
 
 class Effects {
     constructor () {
-
+        this.soundEffects = new SoundEffects();
     }
 
     /**
@@ -167,7 +169,10 @@ class Effects {
      * @param params.target {object} jquery
      * @param params.effectParams {object}
      */
-    static play (params = {}) {
+    play (params = {}) {
+        let self = this;
+        let soundEffects = this.soundEffects;
+
         let target = params.target;
         let effectParams = params.effectParams;
 
@@ -177,7 +182,11 @@ class Effects {
             SoundEffects.play({target: target});
             //todo: video, text, etc.
         } else if (type === 'bg-music') {
-
+            soundEffects.playLoop({target: target});
+        } else if (type === 'bg-sound') {
+            soundEffects.playLoop({target: target});
+        } else if (type === 'image-left-side') {
+            ImageEffects.setLeftSide({target: target});
         }
     }
 }
@@ -187,12 +196,13 @@ class Effects {
 class SoundEffects {
     /**
      *
-     * @param params {object}
-     * @param params.target {object} jquery
+     * @param [params] {object}
      */
     constructor (params = {}) {
-        this.target = params.target;
-
+        this.loopBgSound = '';
+        this.loopBgSoundNew = '';
+        this.loopBgMusic = '';
+        this.loopBgMusicNew = '';
     }
 
     static get sounds () {
@@ -221,7 +231,7 @@ class SoundEffects {
      */
     static stop (params = {}) {
         let target = params.target;
-        let volume = __WEBPACK_IMPORTED_MODULE_0__Volume__["a" /* default */].get();
+        let volume = __WEBPACK_IMPORTED_MODULE_0__Volume__["a" /* default */].getGlobal({format: 'int'});
 
         if (target === 'sounds') {
             let sounds = SoundEffects.sounds;
@@ -260,9 +270,150 @@ class SoundEffects {
     /**
      *
      * @param params
+     * @param params.target {object} jquery
      */
-    static playLoop (params = {}) {
+    playLoop (params = {}) {
+        let self = this;
+        let target = params.target;
+        let type = target.data('effect-type');
+        let src = [];
+        let fadeInSpeed = 1000;
+        let fadeOutSpeed = 1000;
 
+        target.find('source').each(function (index, item) {
+            src.push($(item).attr('src'));
+        });
+
+        //todo: fadeIn, fadeOut
+        let newLoopParams = {
+            src: src,
+            fadeInSpeed: fadeInSpeed,
+            fadeOutSpeed: fadeOutSpeed,
+            volume: __WEBPACK_IMPORTED_MODULE_0__Volume__["a" /* default */].getGlobal({format: 'float'})
+        };
+
+        if (type === 'bg-music') {
+            newLoopParams.loop = 'loopBgMusic';
+        } else if (type === 'bg-sound') {
+            newLoopParams.loop = 'loopBgSound';
+        }
+
+        self._setLoop(newLoopParams);
+    }
+
+    /**
+     *
+     * @param params {object}
+     * @param params.loop {object} || string - loop-звук, который нужно остановить.
+     * если нужно остановить все фоновые звуки - передаём 'all'
+     * @param [params.fadeOutSpeed] {number} - скорость, с которой будет происходить fadeOut
+     */
+    stopLoop (params = {}) {
+        let self = this;
+
+        let loop = params.loop;
+        let fadeOutSpeed = params.fadeOutSpeed;
+        if (typeof fadeOutSpeed === 'undefined') fadeOutSpeed = 1000;
+
+        if (!loop) return;
+
+        if (loop == 'all') {
+
+            $.each([self.loopBgSound, self.loopBgSoundNew, self.loopBgMusic, self.loopBgMusicNew], function (index, value) {
+                self.stopLoop({loop: value, fadeOutSpeed: fadeOutSpeed});
+            });
+
+            return;
+        }
+
+        let volume = __WEBPACK_IMPORTED_MODULE_0__Volume__["a" /* default */].getGlobal({format: 'float'});
+
+        loop.once('fade', function () {
+            loop.stop();
+
+            if (SoundEffects.tryCatchHowlUnload(loop)) loop.unload();
+        });
+
+        //некорректное поведение, если задавать fadeOutSpeed = 0;
+        loop.fade(volume, 0, fadeOutSpeed > 0 ? fadeOutSpeed : 1);
+    }
+
+    //Unload and destroy a Howl object.
+    //This will immediately stop all sounds attached to this sound and remove it from the cache.
+    static tryCatchHowlUnload (obj) {
+        try {
+            obj.unload();
+        } catch (err) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     *
+     * @param params
+     * @param params.loop {object}
+     * @param params.src[] {string}
+     * @param params.fadeInSpeed {number}
+     * @param params.fadeOutSpeed {number}
+     * @param params.volume {number}
+     * @private
+     */
+    _setLoop (params = {}) {
+        let self = this;
+        let loop = params.loop;
+        let src = params.src;
+        let fadeInSpeed = params.fadeInSpeed;
+        let fadeOutSpeed = params.fadeOutSpeed;
+        let volume = params.volume;
+
+        //записываем в экземпляр класса
+        self[loop] = SoundEffects._newHowl({src: src});
+
+        if (self[loop].state() !== 'loaded') {
+            self[loop].once('load', function () {
+                self[loop].fade(0, volume, fadeInSpeed);
+            });
+        } else {
+            self[loop].fade(0, volume, fadeInSpeed);
+        }
+    }
+
+    /**
+     *
+     * @param params
+     * @param params.src
+     * @private
+     */
+    static _newHowl (params = {}) {
+        let src = params.src;
+
+        return new Howl({
+            src: src,
+            autoplay: true,
+            loop: true,
+            volume: 0
+        });
+    }
+
+    /**
+     *
+     * @param params {object}
+     * @param params.src[] {string}
+     * @param params.srcHowler {string}
+     * @returns {boolean}
+     * @private
+     */
+    static _srcEquals (params = {}) {
+        let src = params.src;
+        let srcHowler = params.srcHowler;
+
+        src.forEach(function (item) {
+            if (item === srcHowler) return true;
+        });
+
+        return false;
     }
 }
 
@@ -275,6 +426,33 @@ class VideoEffects {
 class TextEffects {
     constructor () {
 
+    }
+}
+
+class ImageEffects {
+    constructor () {
+
+    }
+
+    /**
+     *
+     * @param params
+     * @param params.target
+     */
+    static setLeftSide (params = {}) {
+        let target = params.target;
+        let img = target.find('img');
+        let leftSide = $(__WEBPACK_IMPORTED_MODULE_1__ConstsDOM__["a" /* default */].get().leftSide);
+
+        //jquery использует абсолютные пути, поэтому сравниваем таким образом
+        if (leftSide.css('background-image').indexOf(img.attr('src').replace('../', '')) !== -1) return;
+
+        leftSide.addClass('fadeOut');
+        leftSide.one('transitionend', function () {
+            leftSide.css({'background-image': 'url(' + img.attr('src') + ')'});
+            leftSide.removeClass('fadeOut');
+        });
+        //todo: слайдер, если несколько
     }
 }
 
@@ -730,7 +908,7 @@ class Popover {
 
 !function (root, name, definition) {
   if (typeof module != 'undefined' && module.exports) module.exports = definition()
-  else if (true) __webpack_require__(8)(name, definition)
+  else if (true) __webpack_require__(9)(name, definition)
   else root[name] = definition()
 }(this, 'bowser', function () {
   /**
@@ -1339,9 +1517,23 @@ class Volume {
 
     }
 
-    static get () {
-        return 75;
+    /**
+     * @param params {object}
+     * @param params.format {string}
+     * @returns {number}
+     */
+    static getGlobal (params = {}) {
+        let format = params.format;
+        let volume = 75;
+
+        if (format === 'int') {
+            return volume;
+        } else if (format === 'float') {
+            return volume / 100;
+        }
     }
+
+    //todo: get подсказки, фоновый звук
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = Volume;
 
@@ -1542,11 +1734,14 @@ $(window).load(function () {
         __WEBPACK_IMPORTED_MODULE_2__Menu__["c" /* FontSize */].set({$text: $(constsDom.text), direction: 'more'});
     });
 
+    //инициализируем контроллер управления эффектами
+    let EffectsController = new __WEBPACK_IMPORTED_MODULE_3__Effects__["a" /* Effects */]();
+
     //action text click event
     $('[data-effect-target]').on('click', function (e) {
         e.preventDefault();
 
-        __WEBPACK_IMPORTED_MODULE_3__Effects__["a" /* Effects */].play({
+        EffectsController.play({
             target: $('[data-effect-id="' + $(this).data('effect-target') + '"]'),
             effectsParams: $(this).data('effect-params')
         });
@@ -1554,30 +1749,22 @@ $(window).load(function () {
 
     //воспроизводим эффекты, которые должны быть проиграны сразу после загрузки
     $('[data-play-on-load]').each(function (index, item) {
-        __WEBPACK_IMPORTED_MODULE_3__Effects__["a" /* Effects */].play({
+        EffectsController.play({
             target: $(item),
             effectsParams: $(item).data('effect-params')
         });
+    });
+
+    //fadeOut background sounds before change the page
+    //todo: делать потом фейд во время анимации смены страницы
+    $(window).on('unload', function () {
+        EffectsController.soundEffects.stopLoop({loop: 'all'});
     });
 });
 
 /***/ }),
 /* 7 */,
 /* 8 */
-/***/ (function(module, exports) {
-
-module.exports = function() {
-	throw new Error("define cannot be used indirect");
-};
-
-
-/***/ }),
-/* 9 */,
-/* 10 */,
-/* 11 */,
-/* 12 */,
-/* 13 */,
-/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -4383,10 +4570,19 @@ module.exports = function() {
   };
 })();
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ }),
-/* 15 */
+/* 9 */
+/***/ (function(module, exports) {
+
+module.exports = function() {
+	throw new Error("define cannot be used indirect");
+};
+
+
+/***/ }),
+/* 10 */
 /***/ (function(module, exports) {
 
 var g;

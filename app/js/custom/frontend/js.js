@@ -184,11 +184,14 @@ $(window).load(function () {
         FontSize.set({$text: $(constsDom.text), direction: 'more'});
     });
 
+    //инициализируем контроллер управления эффектами
+    let EffectsController = new Effects();
+
     //action text click event
     $('[data-effect-target]').on('click', function (e) {
         e.preventDefault();
 
-        Effects.play({
+        EffectsController.play({
             target: $('[data-effect-id="' + $(this).data('effect-target') + '"]'),
             effectsParams: $(this).data('effect-params')
         });
@@ -196,9 +199,15 @@ $(window).load(function () {
 
     //воспроизводим эффекты, которые должны быть проиграны сразу после загрузки
     $('[data-play-on-load]').each(function (index, item) {
-        Effects.play({
+        EffectsController.play({
             target: $(item),
             effectsParams: $(item).data('effect-params')
         });
+    });
+
+    //fadeOut background sounds before change the page
+    //todo: делать потом фейд во время анимации смены страницы
+    $(window).on('unload', function () {
+        EffectsController.soundEffects.stopLoop({loop: 'all'});
     });
 });

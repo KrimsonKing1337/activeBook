@@ -28,4 +28,4 @@
 }).call(this);
 
 
-//# sourceMappingURL=get-transform.js.map
+//# sourceMappingURL=getGlobal-transform.js.map

@@ -30,7 +30,7 @@ let ConverterInst;
 /**
  * класс-обёртка для Converter,
  * инициализируем конвертер после
- * отработки асинхронной функции files.get
+ * отработки асинхронной функции files.getGlobal
  */
 class ConverterInit {
     constructor(files) {
