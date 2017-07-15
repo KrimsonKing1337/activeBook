@@ -148,7 +148,102 @@ class ConstsDOM {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Volume__ = __webpack_require__(5);
+/**
+ * Created by K on 11.06.2017.
+ */
+class Volume {
+
+    /**
+     *
+     * @param params {object}
+     * @param params.volume {number}
+     * @param params.$audios {object} jquery
+     * @param params.$videos {object} jquery
+     * @param params.loops[] {object} Howler
+     */
+    constructor (params = {}) {
+        this.volume = params.volume;
+        this.$audios = params.$audios;
+        this.$videos = params.$videos;
+        this.loops = params.loops;
+    }
+
+    /**
+     * @param params {object}
+     * @param params.format {string}
+     * @returns {number}
+     */
+    static getGlobal (params = {}) {
+        let format = params.format;
+        let volume = 75;
+
+        if (format === 'int') {
+            return volume;
+        } else if (format === 'float') {
+            return volume / 100;
+        }
+    }
+
+    /**
+     *
+     * @param params {object}
+     * @param params.volume {number}
+     */
+    setGlobal (params = {}) {
+        let self = this;
+        let loops = self.loops;
+        let newVolume = Volume._toInt({volume: params.volume});
+
+        self.volume = newVolume;
+
+        self.$audios.each(function () {
+           this.volume = newVolume / 100;
+        });
+
+        self.$videos.each(function () {
+            this.volume = newVolume / 100;
+        });
+
+        for (let loop in loops) {
+            if (loops[loop] != '') {
+                loops[loop].volume(newVolume / 100);
+            }
+        }
+    }
+
+    //todo: хранить volume во float
+    //todo: подсказки и фоновый звук по отдельности
+    //todo: если громкость === 1, баг, громкость устанавливается в 100
+
+    /**
+     *
+     * @param params {object}
+     * @param params.volume {number}
+     * @private
+     */
+    static _toInt (params = {}) {
+        let volume = params.volume;
+
+        if (volume % 1 !== 0) {
+            volume = volume * 100;
+        }
+
+        if (volume === 1) {
+            volume = 100;
+        }
+
+        return volume;
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Volume;
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Volume__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ConstsDOM__ = __webpack_require__(0);
 /**
  * Created by K on 11.06.2017.
@@ -457,7 +552,7 @@ class ImageEffects {
 }
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -625,7 +720,7 @@ class FontSize {
 
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -897,7 +992,7 @@ class Popover {
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -1504,56 +1599,23 @@ class Popover {
 
 
 /***/ }),
-/* 5 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/**
- * Created by K on 11.06.2017.
- */
-
-class Volume {
-    constructor () {
-
-    }
-
-    /**
-     * @param params {object}
-     * @param params.format {string}
-     * @returns {number}
-     */
-    static getGlobal (params = {}) {
-        let format = params.format;
-        let volume = 75;
-
-        if (format === 'int') {
-            return volume;
-        } else if (format === 'float') {
-            return volume / 100;
-        }
-    }
-
-    //todo: get подсказки, фоновый звук
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = Volume;
-
-
-/***/ }),
 /* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ConstsDOM__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Popover__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Menu__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Effects__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Popover__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Menu__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Effects__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Volume__ = __webpack_require__(1);
 
 
 
 
 
-let bowser = __webpack_require__(4);
+
+let bowser = __webpack_require__(5);
 
 $(window).load(function () {
     //browser compatibility check
@@ -1621,6 +1683,7 @@ $(window).load(function () {
         min: 0,
         max: 100,
         from: 50,
+        step: 1,
         hide_min_max: true,
         hide_from_to: true
     });
@@ -1753,6 +1816,26 @@ $(window).load(function () {
             target: $(item),
             effectsParams: $(item).data('effect-params')
         });
+    });
+
+    let volumeInst = new __WEBPACK_IMPORTED_MODULE_4__Volume__["a" /* default */]({
+        volume: 50,
+        $audios: $('audio'),
+        $videos: $('video'),
+        loops: {
+            loopBgSound: EffectsController.soundEffects.loopBgSound,
+            loopBgSoundNew: EffectsController.soundEffects.loopBgSoundNew,
+            loopBgMusic: EffectsController.soundEffects.loopBgMusic,
+            loopBgMusicNew: EffectsController.soundEffects.loopBgMusicNew
+        }
+    });
+
+    $('.menu__item').has(constsDomMenu.volumeSlider).on('change', function () {
+        let volume = $(this).find(constsDomMenu.volumeSlider).prop('value');
+
+        console.log(volume);
+
+        volumeInst.setGlobal({volume: volume});
     });
 
     //fadeOut background sounds before change the page

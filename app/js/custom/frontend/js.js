@@ -2,6 +2,7 @@ import ConstsDom from './ConstsDOM';
 import Popover from './Popover';
 import {LineHeight, FontSize, GoToPage} from './Menu';
 import {Effects} from './Effects';
+import Volume from './Volume';
 
 let bowser = require('bowser');
 
@@ -71,6 +72,7 @@ $(window).load(function () {
         min: 0,
         max: 100,
         from: 50,
+        step: 1,
         hide_min_max: true,
         hide_from_to: true
     });
@@ -203,6 +205,26 @@ $(window).load(function () {
             target: $(item),
             effectsParams: $(item).data('effect-params')
         });
+    });
+
+    let volumeInst = new Volume({
+        volume: 50,
+        $audios: $('audio'),
+        $videos: $('video'),
+        loops: {
+            loopBgSound: EffectsController.soundEffects.loopBgSound,
+            loopBgSoundNew: EffectsController.soundEffects.loopBgSoundNew,
+            loopBgMusic: EffectsController.soundEffects.loopBgMusic,
+            loopBgMusicNew: EffectsController.soundEffects.loopBgMusicNew
+        }
+    });
+
+    $('.menu__item').has(constsDomMenu.volumeSlider).on('change', function () {
+        let volume = $(this).find(constsDomMenu.volumeSlider).prop('value');
+
+        console.log(volume);
+
+        volumeInst.setGlobal({volume: volume});
     });
 
     //fadeOut background sounds before change the page

@@ -12,11 +12,17 @@ body {
   width: 870px;
   background: url(./img/test.gif) center no-repeat;
   background-size: cover;
-  box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.75); }
+  box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.75);
+  transition: opacity ease 0.3s 0s; }
+  .left-side.fadeOut {
+    opacity: 0; }
 
 .right-side {
   width: 481px;
   box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.75); }
+
+.effects {
+  display: none; }
 
 .text, .table-of-contents {
   position: relative;
