@@ -207,8 +207,8 @@ $(window).load(function () {
         });
     });
 
-    let volumeInst = new Volume({
-        volume: 50,
+    let VolumeController = new Volume({
+        volume: 50, //todo: значение из слайдера
         $audios: $('audio'),
         $videos: $('video'),
         loops: {
@@ -219,12 +219,10 @@ $(window).load(function () {
         }
     });
 
-    $('.menu__item').has(constsDomMenu.volumeSlider).on('change', function () {
-        let volume = $(this).find(constsDomMenu.volumeSlider).prop('value');
+    $('.menu__item').has(constsDomMenu.volumeGlobal).on('change', function () {
+        let volume = $(this).find(constsDomMenu.volumeGlobal).prop('value') / 100;
 
-        console.log(volume);
-
-        volumeInst.setGlobal({volume: volume});
+        VolumeController.setGlobal({volume: volume});
     });
 
     //fadeOut background sounds before change the page

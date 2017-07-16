@@ -9,6 +9,7 @@ let Howler = require('howler');
 export class Effects {
     constructor () {
         this.soundEffects = new SoundEffects();
+        this.volume = ''; //todo: volume.global
     }
 
     /**
@@ -19,7 +20,8 @@ export class Effects {
      */
     play (params = {}) {
         let self = this;
-        let soundEffects = this.soundEffects;
+        let soundEffects = self.soundEffects;
+        let volume = self.volume;
 
         let target = params.target;
         let effectParams = params.effectParams;

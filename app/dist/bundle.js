@@ -112,7 +112,7 @@ class ConstsDOM {
             pagePrev: '.js-page-prev',
             pageNext: '.js-page-next',
             pageNumber: '.js-page-number',
-            volumeSlider: '.js-range-slider',
+            volumeGlobal: '.js-volume-global',
             fontSizeDown: '.js-font-size-down',
             fontSizeUp: '.js-font-size-up'
         }
@@ -136,7 +136,9 @@ class ConstsDOM {
             themeOption: '.js-theme-option',
             lineHeightMinus: '.js-line-height-minus',
             lineHeightPlus: '.js-line-height-plus',
-            lineHeightVal: '.js-line-height-val'
+            lineHeightVal: '.js-line-height-val',
+            volumeHints: '.js-volume-hints',
+            volumeBg: '.js-volume-bg'
         }
     }
 }
@@ -168,20 +170,8 @@ class Volume {
         this.loops = params.loops;
     }
 
-    /**
-     * @param params {object}
-     * @param params.format {string}
-     * @returns {number}
-     */
-    static getGlobal (params = {}) {
-        let format = params.format;
-        let volume = 75;
-
-        if (format === 'int') {
-            return volume;
-        } else if (format === 'float') {
-            return volume / 100;
-        }
+    get global () {
+        return this.volume;
     }
 
     /**
@@ -192,21 +182,21 @@ class Volume {
     setGlobal (params = {}) {
         let self = this;
         let loops = self.loops;
-        let newVolume = Volume._toInt({volume: params.volume});
+        let newVolume = params.volume;
 
         self.volume = newVolume;
 
         self.$audios.each(function () {
-           this.volume = newVolume / 100;
+           this.volume = newVolume;
         });
 
         self.$videos.each(function () {
-            this.volume = newVolume / 100;
+            this.volume = newVolume;
         });
 
         for (let loop in loops) {
             if (loops[loop] != '') {
-                loops[loop].volume(newVolume / 100);
+                loops[loop].volume(newVolume);
             }
         }
     }
@@ -214,26 +204,6 @@ class Volume {
     //todo: хранить volume во float
     //todo: подсказки и фоновый звук по отдельности
     //todo: если громкость === 1, баг, громкость устанавливается в 100
-
-    /**
-     *
-     * @param params {object}
-     * @param params.volume {number}
-     * @private
-     */
-    static _toInt (params = {}) {
-        let volume = params.volume;
-
-        if (volume % 1 !== 0) {
-            volume = volume * 100;
-        }
-
-        if (volume === 1) {
-            volume = 100;
-        }
-
-        return volume;
-    }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = Volume;
 
@@ -256,6 +226,7 @@ let Howler = __webpack_require__(8);
 class Effects {
     constructor () {
         this.soundEffects = new SoundEffects();
+        this.volume = ''; //todo: volume.global
     }
 
     /**
@@ -266,7 +237,8 @@ class Effects {
      */
     play (params = {}) {
         let self = this;
-        let soundEffects = this.soundEffects;
+        let soundEffects = self.soundEffects;
+        let volume = self.volume;
 
         let target = params.target;
         let effectParams = params.effectParams;
@@ -1818,8 +1790,8 @@ $(window).load(function () {
         });
     });
 
-    let volumeInst = new __WEBPACK_IMPORTED_MODULE_4__Volume__["a" /* default */]({
-        volume: 50,
+    let VolumeController = new __WEBPACK_IMPORTED_MODULE_4__Volume__["a" /* default */]({
+        volume: 50, //todo: значение из слайдера
         $audios: $('audio'),
         $videos: $('video'),
         loops: {
@@ -1830,12 +1802,10 @@ $(window).load(function () {
         }
     });
 
-    $('.menu__item').has(constsDomMenu.volumeSlider).on('change', function () {
-        let volume = $(this).find(constsDomMenu.volumeSlider).prop('value');
+    $('.menu__item').has(constsDomMenu.volumeGlobal).on('change', function () {
+        let volume = $(this).find(constsDomMenu.volumeGlobal).prop('value') / 100;
 
-        console.log(volume);
-
-        volumeInst.setGlobal({volume: volume});
+        VolumeController.setGlobal({volume: volume});
     });
 
     //fadeOut background sounds before change the page

@@ -39,7 +39,7 @@ export default class ConstsDOM {
             pagePrev: '.js-page-prev',
             pageNext: '.js-page-next',
             pageNumber: '.js-page-number',
-            volumeSlider: '.js-range-slider',
+            volumeGlobal: '.js-volume-global',
             fontSizeDown: '.js-font-size-down',
             fontSizeUp: '.js-font-size-up'
         }
@@ -63,7 +63,9 @@ export default class ConstsDOM {
             themeOption: '.js-theme-option',
             lineHeightMinus: '.js-line-height-minus',
             lineHeightPlus: '.js-line-height-plus',
-            lineHeightVal: '.js-line-height-val'
+            lineHeightVal: '.js-line-height-val',
+            volumeHints: '.js-volume-hints',
+            volumeBg: '.js-volume-bg'
         }
     }
 }
