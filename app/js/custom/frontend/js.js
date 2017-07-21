@@ -2,7 +2,7 @@ import ConstsDom from './ConstsDOM';
 import Popover from './Popover';
 import {LineHeight, FontSize, GoToPage} from './Menu';
 import {Effects} from './Effects';
-import Volume from './Volume';
+import {Volume, VolumeController} from './Volume';
 
 let bowser = require('bowser');
 
@@ -186,8 +186,28 @@ $(window).load(function () {
         FontSize.set({$text: $(constsDom.text), direction: 'more'});
     });
 
+    //инитим громкость
+    let VolumeInst = new Volume({
+        globalVolume: 50, //todo: значение из слайдера
+        hintsVolume: 50,
+        loopsVolume: 50
+    });
+
     //инициализируем контроллер управления эффектами
-    let EffectsController = new Effects();
+    let EffectsController = new Effects(VolumeInst);
+
+    //инитим управление громкостью
+    let VolumeControllerInst = new VolumeController({
+        Volume: VolumeInst,
+        $audios: $('audio'),
+        $videos: $('video'),
+        loops: {
+            loopBgSound: EffectsController.soundEffects.loopBgSound,
+            loopBgSoundNew: EffectsController.soundEffects.loopBgSoundNew,
+            loopBgMusic: EffectsController.soundEffects.loopBgMusic,
+            loopBgMusicNew: EffectsController.soundEffects.loopBgMusicNew
+        }
+    });
 
     //action text click event
     $('[data-effect-target]').on('click', function (e) {
@@ -207,22 +227,10 @@ $(window).load(function () {
         });
     });
 
-    let VolumeController = new Volume({
-        volume: 50, //todo: значение из слайдера
-        $audios: $('audio'),
-        $videos: $('video'),
-        loops: {
-            loopBgSound: EffectsController.soundEffects.loopBgSound,
-            loopBgSoundNew: EffectsController.soundEffects.loopBgSoundNew,
-            loopBgMusic: EffectsController.soundEffects.loopBgMusic,
-            loopBgMusicNew: EffectsController.soundEffects.loopBgMusicNew
-        }
-    });
-
     $('.menu__item').has(constsDomMenu.volumeGlobal).on('change', function () {
-        let volume = $(this).find(constsDomMenu.volumeGlobal).prop('value') / 100;
+        let volume = $(this).find('.js-range-slider').prop('value') / 100;
 
-        VolumeController.setGlobal({volume: volume});
+        VolumeControllerInst.setGlobal({volume: volume});
     });
 
     //fadeOut background sounds before change the page

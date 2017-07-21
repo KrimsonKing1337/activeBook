@@ -7,9 +7,15 @@ import ConstsDOM from './ConstsDOM';
 let Howler = require('howler');
 
 export class Effects {
-    constructor () {
+    /**
+     *
+     * @param Volume {object}; inst Volume Class
+     */
+    constructor (Volume) {
         this.soundEffects = new SoundEffects();
-        this.volume = ''; //todo: volume.global
+        this.globalVolume = Volume.global;
+        this.hintsVolume = Volume.hints;
+        this.loopsVolume = Volume.loops;
     }
 
     /**
@@ -137,7 +143,7 @@ class SoundEffects {
             src: src,
             fadeInSpeed: fadeInSpeed,
             fadeOutSpeed: fadeOutSpeed,
-            volume: Volume.getGlobal({format: 'float'})
+            volume: self.globalVolume
         };
 
         if (type === 'bg-music') {
@@ -165,7 +171,7 @@ class SoundEffects {
 
         if (!loop) return;
 
-        if (loop == 'all') {
+        if (loop === 'all') {
 
             $.each([self.loopBgSound, self.loopBgSoundNew, self.loopBgMusic, self.loopBgMusicNew], function (index, value) {
                 self.stopLoop({loop: value, fadeOutSpeed: fadeOutSpeed});
@@ -174,7 +180,7 @@ class SoundEffects {
             return;
         }
 
-        let volume = Volume.getGlobal({format: 'float'});
+        let volume = self.globalVolume;
 
         loop.once('fade', function () {
             loop.stop();
