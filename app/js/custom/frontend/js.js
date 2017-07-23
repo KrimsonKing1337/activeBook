@@ -188,9 +188,9 @@ $(window).load(function () {
 
     //инитим громкость
     let VolumeInst = new Volume({
-        globalVolume: 50, //todo: значение из слайдера
-        hintsVolume: 50,
-        loopsVolume: 50
+        global: 50, //todo: значение из слайдера
+        hints: 50,
+        loops: 50
     });
 
     //инициализируем контроллер управления эффектами
@@ -201,12 +201,7 @@ $(window).load(function () {
         Volume: VolumeInst,
         $audios: $('audio'),
         $videos: $('video'),
-        loops: {
-            loopBgSound: EffectsController.soundEffects.loopBgSound,
-            loopBgSoundNew: EffectsController.soundEffects.loopBgSoundNew,
-            loopBgMusic: EffectsController.soundEffects.loopBgMusic,
-            loopBgMusicNew: EffectsController.soundEffects.loopBgMusicNew
-        }
+        loops: EffectsController.soundEffects.AudioLoops
     });
 
     //action text click event

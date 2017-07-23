@@ -158,20 +158,69 @@ class Volume {
     /**
      *
      * @param params {object}
-     * @param params.volume {number}
+     * @param params.global {number}
+     * @param params.hints {number}
+     * @param params.loops {number}
+     */
+    constructor (params = {}) {
+        this.global = params.global;
+        this.hints = params.hints;
+        this.loops = params.loops;
+    }
+
+    /**
+     *
+     * @param value {number}
+     */
+    setGlobal (value) {
+        this.global = value;
+    }
+
+    getGlobal () {
+        return this.global;
+    }
+
+    /**
+     *
+     * @param value {number}
+     */
+    setHints (value) {
+        this.hints = value;
+    }
+
+    getHints () {
+        return this.hints;
+    }
+
+    /**
+     *
+     * @param value {number}
+     */
+    setLoops (value) {
+        this.loops = value;
+    }
+
+    getLoops () {
+        return this.loops;
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Volume;
+
+
+class VolumeController {
+    /**
+     *
+     * @param params {object}
+     * @param params.Volume {object} instance of class Volume;
      * @param params.$audios {object} jquery
      * @param params.$videos {object} jquery
      * @param params.loops[] {object} Howler
      */
     constructor (params = {}) {
-        this.volume = params.volume;
+        this.Volume = params.Volume;
         this.$audios = params.$audios;
         this.$videos = params.$videos;
         this.loops = params.loops;
-    }
-
-    get global () {
-        return this.volume;
     }
 
     /**
@@ -181,16 +230,22 @@ class Volume {
      */
     setGlobal (params = {}) {
         let self = this;
+        let Volume = self.Volume;
         let loops = self.loops;
+        let $audios = self.$audios;
+        let $videos = self.$videos;
         let newVolume = params.volume;
 
-        self.volume = newVolume;
+        /**
+         * обновляем значение глобальной громкости в экземпляре класса Volume
+         */
+        Volume.setGlobal(newVolume);
 
-        self.$audios.each(function () {
-           this.volume = newVolume;
+        $audios.each(function () {
+            this.volume = newVolume;
         });
 
-        self.$videos.each(function () {
+        $videos.each(function () {
             this.volume = newVolume;
         });
 
@@ -201,11 +256,56 @@ class Volume {
         }
     }
 
-    //todo: хранить volume во float
-    //todo: подсказки и фоновый звук по отдельности
-    //todo: если громкость === 1, баг, громкость устанавливается в 100
+    /**
+     *
+     * @param params {object}
+     * @param params.volume {number}
+     */
+    setHints (params = {}) {
+        let self = this;
+        let Volume = self.Volume;
+        let $audios = self.$audios;
+        let $videos = self.$videos;
+        let newVolume = params.volume;
+
+        /**
+         * обновляем значение громкости подсказок в экземпляре класса Volume
+         */
+        Volume.setHints(newVolume);
+
+        $audios.each(function () {
+            this.volume = newVolume;
+        });
+
+        $videos.each(function () {
+            this.volume = newVolume;
+        });
+    }
+
+    /**
+     *
+     * @param params {object}
+     * @param params.volume {number}
+     */
+    setLoops (params = {}) {
+        let self = this;
+        let Volume = self.Volume;
+        let loops = self.loops;
+        let newVolume = params.volume;
+
+        /**
+         * обновляем значение громкости фоновых звуков в экземпляре класса Volume
+         */
+        Volume.setLoops(newVolume);
+
+        for (let loop in loops) {
+            if (loops[loop] != '') {
+                loops[loop].volume(newVolume);
+            }
+        }
+    }
 }
-/* harmony export (immutable) */ __webpack_exports__["a"] = Volume;
+/* harmony export (immutable) */ __webpack_exports__["b"] = VolumeController;
 
 
 /***/ }),
@@ -213,20 +313,28 @@ class Volume {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Volume__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ConstsDOM__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ConstsDOM__ = __webpack_require__(0);
 /**
  * Created by K on 11.06.2017.
  */
 
 
-
 let Howler = __webpack_require__(8);
 
 class Effects {
-    constructor () {
-        this.soundEffects = new SoundEffects();
-        this.volume = ''; //todo: volume.global
+    /**
+     *
+     * @param Volume {object}; inst Volume Class
+     */
+    constructor (Volume) {
+        this.soundEffects = new SoundEffects({
+            AudioLoops: new AudioLoops()
+        });
+        this.volume = {
+            global: Volume.global,
+            hints: Volume.hints,
+            loops: Volume.loops
+        }
     }
 
     /**
@@ -238,20 +346,18 @@ class Effects {
     play (params = {}) {
         let self = this;
         let soundEffects = self.soundEffects;
-        let volume = self.volume;
-
         let target = params.target;
         let effectParams = params.effectParams;
 
         let type = target.data('effect-type');
 
         if (type === 'audio') {
-            SoundEffects.play({target: target});
+            SoundEffects.play({target: target, volume: self.volume.global});
             //todo: video, text, etc.
         } else if (type === 'bg-music') {
-            soundEffects.playLoop({target: target});
+            soundEffects.playLoop({target: target, volume: self.volume.loops});
         } else if (type === 'bg-sound') {
-            soundEffects.playLoop({target: target});
+            soundEffects.playLoop({target: target, volume: self.volume.loops});
         } else if (type === 'image-left-side') {
             ImageEffects.setLeftSide({target: target});
         }
@@ -260,16 +366,26 @@ class Effects {
 /* harmony export (immutable) */ __webpack_exports__["a"] = Effects;
 
 
+/**
+ * single tone
+ */
+class AudioLoops {
+    constructor () {
+        this.bgSound = '';
+        this.bgSoundNew = '';
+        this.bgMusic = '';
+        this.bgMusicNew = '';
+    }
+}
+
 class SoundEffects {
     /**
      *
-     * @param [params] {object}
+     * @param params {object}
+     * @param params.AudioLoops {object} class
      */
     constructor (params = {}) {
-        this.loopBgSound = '';
-        this.loopBgSoundNew = '';
-        this.loopBgMusic = '';
-        this.loopBgMusicNew = '';
+        this.AudioLoops = params.AudioLoops;
     }
 
     static get sounds () {
@@ -295,10 +411,11 @@ class SoundEffects {
      *
      * @param params
      * @param params.target {string}; sounds || bgSound || bgMusic || all;
+     * @param params.volume {number};
      */
     static stop (params = {}) {
         let target = params.target;
-        let volume = __WEBPACK_IMPORTED_MODULE_0__Volume__["a" /* default */].getGlobal({format: 'int'});
+        let volume = params.volume;
 
         if (target === 'sounds') {
             let sounds = SoundEffects.sounds;
@@ -324,12 +441,14 @@ class SoundEffects {
      *
      * @param params
      * @param params.target {object} jquery
+     * @param params.volume {number}
      */
     static play (params = {}) {
         let target = params.target;
+        let volume = params.volume;
 
         if (SoundEffects.getState({target: target}) === 'paused') {
-            SoundEffects.stop({target: 'sounds'});
+            SoundEffects.stop({target: 'sounds', volume: volume});
             target[0].play();
         }
     }
@@ -338,6 +457,7 @@ class SoundEffects {
      *
      * @param params
      * @param params.target {object} jquery
+     * @param params.volume {number}
      */
     playLoop (params = {}) {
         let self = this;
@@ -346,6 +466,7 @@ class SoundEffects {
         let src = [];
         let fadeInSpeed = 1000;
         let fadeOutSpeed = 1000;
+        let volume = params.volume;
 
         target.find('source').each(function (index, item) {
             src.push($(item).attr('src'));
@@ -356,13 +477,13 @@ class SoundEffects {
             src: src,
             fadeInSpeed: fadeInSpeed,
             fadeOutSpeed: fadeOutSpeed,
-            volume: __WEBPACK_IMPORTED_MODULE_0__Volume__["a" /* default */].getGlobal({format: 'float'})
+            volume: volume
         };
 
         if (type === 'bg-music') {
-            newLoopParams.loop = 'loopBgMusic';
+            newLoopParams.loopName = 'bgMusic';
         } else if (type === 'bg-sound') {
-            newLoopParams.loop = 'loopBgSound';
+            newLoopParams.loopName = 'bgSound';
         }
 
         self._setLoop(newLoopParams);
@@ -384,7 +505,7 @@ class SoundEffects {
 
         if (!loop) return;
 
-        if (loop == 'all') {
+        if (loop === 'all') {
 
             $.each([self.loopBgSound, self.loopBgSoundNew, self.loopBgMusic, self.loopBgMusicNew], function (index, value) {
                 self.stopLoop({loop: value, fadeOutSpeed: fadeOutSpeed});
@@ -393,7 +514,7 @@ class SoundEffects {
             return;
         }
 
-        let volume = __WEBPACK_IMPORTED_MODULE_0__Volume__["a" /* default */].getGlobal({format: 'float'});
+        let volume = self.volume.loops;
 
         loop.once('fade', function () {
             loop.stop();
@@ -420,7 +541,7 @@ class SoundEffects {
     /**
      *
      * @param params
-     * @param params.loop {object}
+     * @param params.loopName {object}
      * @param params.src[] {string}
      * @param params.fadeInSpeed {number}
      * @param params.fadeOutSpeed {number}
@@ -429,21 +550,21 @@ class SoundEffects {
      */
     _setLoop (params = {}) {
         let self = this;
-        let loop = params.loop;
+        let loopName = params.loopName;
         let src = params.src;
         let fadeInSpeed = params.fadeInSpeed;
         let fadeOutSpeed = params.fadeOutSpeed;
         let volume = params.volume;
 
         //записываем в экземпляр класса
-        self[loop] = SoundEffects._newHowl({src: src});
+        self.AudioLoops[loopName] = SoundEffects._newHowl({src: src});
 
-        if (self[loop].state() !== 'loaded') {
-            self[loop].once('load', function () {
-                self[loop].fade(0, volume, fadeInSpeed);
+        if (self.AudioLoops[loopName].state() !== 'loaded') {
+            self.AudioLoops[loopName].once('load', function () {
+                self.AudioLoops[loopName].fade(0, volume, fadeInSpeed);
             });
         } else {
-            self[loop].fade(0, volume, fadeInSpeed);
+            self.AudioLoops[loopName].fade(0, volume, fadeInSpeed);
         }
     }
 
@@ -509,7 +630,7 @@ class ImageEffects {
     static setLeftSide (params = {}) {
         let target = params.target;
         let img = target.find('img');
-        let leftSide = $(__WEBPACK_IMPORTED_MODULE_1__ConstsDOM__["a" /* default */].get().leftSide);
+        let leftSide = $(__WEBPACK_IMPORTED_MODULE_0__ConstsDOM__["a" /* default */].get().leftSide);
 
         //jquery использует абсолютные пути, поэтому сравниваем таким образом
         if (leftSide.css('background-image').indexOf(img.attr('src').replace('../', '')) !== -1) return;
@@ -1013,7 +1134,7 @@ class Popover {
       , linux = !android && !sailfish && !tizen && !webos && /linux/i.test(ua)
       , edgeVersion = getFirstMatch(/edge\/(\d+(\.\d+)?)/i)
       , versionIdentifier = getFirstMatch(/version\/(\d+(\.\d+)?)/i)
-      , tablet = /tablet/i.test(ua)
+      , tablet = /tablet/i.test(ua) && !/tablet pc/i.test(ua)
       , mobile = !tablet && /[^-]mobi/i.test(ua)
       , xbox = /xbox/i.test(ua)
       , result
@@ -1769,8 +1890,23 @@ $(window).load(function () {
         __WEBPACK_IMPORTED_MODULE_2__Menu__["c" /* FontSize */].set({$text: $(constsDom.text), direction: 'more'});
     });
 
+    //инитим громкость
+    let VolumeInst = new __WEBPACK_IMPORTED_MODULE_4__Volume__["a" /* Volume */]({
+        global: 50, //todo: значение из слайдера
+        hints: 50,
+        loops: 50
+    });
+
     //инициализируем контроллер управления эффектами
-    let EffectsController = new __WEBPACK_IMPORTED_MODULE_3__Effects__["a" /* Effects */]();
+    let EffectsController = new __WEBPACK_IMPORTED_MODULE_3__Effects__["a" /* Effects */](VolumeInst);
+
+    //инитим управление громкостью
+    let VolumeControllerInst = new __WEBPACK_IMPORTED_MODULE_4__Volume__["b" /* VolumeController */]({
+        Volume: VolumeInst,
+        $audios: $('audio'),
+        $videos: $('video'),
+        loops: EffectsController.soundEffects.AudioLoops
+    });
 
     //action text click event
     $('[data-effect-target]').on('click', function (e) {
@@ -1790,22 +1926,10 @@ $(window).load(function () {
         });
     });
 
-    let VolumeController = new __WEBPACK_IMPORTED_MODULE_4__Volume__["a" /* default */]({
-        volume: 50, //todo: значение из слайдера
-        $audios: $('audio'),
-        $videos: $('video'),
-        loops: {
-            loopBgSound: EffectsController.soundEffects.loopBgSound,
-            loopBgSoundNew: EffectsController.soundEffects.loopBgSoundNew,
-            loopBgMusic: EffectsController.soundEffects.loopBgMusic,
-            loopBgMusicNew: EffectsController.soundEffects.loopBgMusicNew
-        }
-    });
-
     $('.menu__item').has(constsDomMenu.volumeGlobal).on('change', function () {
-        let volume = $(this).find(constsDomMenu.volumeGlobal).prop('value') / 100;
+        let volume = $(this).find('.js-range-slider').prop('value') / 100;
 
-        VolumeController.setGlobal({volume: volume});
+        VolumeControllerInst.setGlobal({volume: volume});
     });
 
     //fadeOut background sounds before change the page

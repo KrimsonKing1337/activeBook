@@ -83,7 +83,7 @@ export class VolumeController {
         let newVolume = params.volume;
 
         /**
-         * обновляем значение в экземпляре класса Volume
+         * обновляем значение глобальной громкости в экземпляре класса Volume
          */
         Volume.setGlobal(newVolume);
 
@@ -101,8 +101,53 @@ export class VolumeController {
             }
         }
     }
-}
 
-//todo: хранить volume во float
-//todo: подсказки и фоновый звук по отдельности
-//todo: если громкость === 1, баг, громкость устанавливается в 100
+    /**
+     *
+     * @param params {object}
+     * @param params.volume {number}
+     */
+    setHints (params = {}) {
+        let self = this;
+        let Volume = self.Volume;
+        let $audios = self.$audios;
+        let $videos = self.$videos;
+        let newVolume = params.volume;
+
+        /**
+         * обновляем значение громкости подсказок в экземпляре класса Volume
+         */
+        Volume.setHints(newVolume);
+
+        $audios.each(function () {
+            this.volume = newVolume;
+        });
+
+        $videos.each(function () {
+            this.volume = newVolume;
+        });
+    }
+
+    /**
+     *
+     * @param params {object}
+     * @param params.volume {number}
+     */
+    setLoops (params = {}) {
+        let self = this;
+        let Volume = self.Volume;
+        let loops = self.loops;
+        let newVolume = params.volume;
+
+        /**
+         * обновляем значение громкости фоновых звуков в экземпляре класса Volume
+         */
+        Volume.setLoops(newVolume);
+
+        for (let loop in loops) {
+            if (loops[loop] != '') {
+                loops[loop].volume(newVolume);
+            }
+        }
+    }
+}
