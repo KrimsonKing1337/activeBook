@@ -188,9 +188,9 @@ $(window).load(function () {
 
     //инитим громкость
     let VolumeInst = new Volume({
-        global: 50, //todo: значение из слайдера
-        hints: 50,
-        loops: 50
+        global: 0.5, //todo: значение из слайдера
+        hints: 0.5,
+        loops: 0.5
     });
 
     //инициализируем контроллер управления эффектами
@@ -222,10 +222,25 @@ $(window).load(function () {
         });
     });
 
-    $('.menu__item').has(constsDomMenu.volumeGlobal).on('change', function () {
+    //событие изменения положения ползунка глобальной громкости
+    $(constsDomMenu.volumeGlobal).on('change', function () {
         let volume = $(this).find('.js-range-slider').prop('value') / 100;
 
         VolumeControllerInst.setGlobal({volume: volume});
+    });
+
+    //событие изменения положения ползунка громкости подсказок
+    $(constsDomPopover.volumeHints).on('change', function () {
+        let volume = $(this).find('.js-range-slider').prop('value') / 100;
+
+        VolumeControllerInst.setHints({volume: volume});
+    });
+
+    //событие изменения положения ползунка громкости фоновых звуков
+    $(constsDomPopover.volumeBg).on('change', function () {
+        let volume = $(this).find('.js-range-slider').prop('value') / 100;
+
+        VolumeControllerInst.setLoops({volume: volume});
     });
 
     //fadeOut background sounds before change the page
