@@ -3,6 +3,7 @@ import Popover from './Popover';
 import {LineHeight, FontSize, GoToPage} from './Menu';
 import {Effects} from './Effects';
 import {Volume, VolumeController} from './Volume';
+import LocalStorage from './LocalStorage';
 
 let bowser = require('bowser');
 
@@ -248,4 +249,31 @@ $(window).load(function () {
     $(window).on('unload', function () {
         EffectsController.soundEffects.stopLoop({loop: 'all'});
     });
+
+    //сохраняем значения настроек
+    $(window).on('unload', function () {
+        LocalStorage.saveState({
+            volume: {
+                global: VolumeInst.getGlobal(),
+                hints: VolumeInst.getHints(),
+                loops: VolumeInst.getLoops()
+            },
+            page: $(constsDomMenu.pageNumber).attr('data-page-number'),
+            fontSize: $(constsDom.text).attr('data-font-size'),
+            lieHeight: $(constsDom.text).attr('data-line-height'),
+            scrollTop: Math.abs(parseInt($('.mCustomScrollBox.mCS-activeBook').find('> .mCSB_container').css('top'))),
+            theme: $(constsDomPopover.themeOption).filter('.active').attr('data-theme-name'),
+            vibro: $(constsDomPopover.vibrationOption).filter('.active').attr('data-vibration')
+        });
+    });
+
+    let states = LocalStorage.loadState();
+
+    if (states !== false) {
+        let volumeGlobalSlider = $(constsDomMenu.volumeGlobal).find('.js-range-slider').data('ionRangeSlider');
+
+        volumeGlobalSlider.update({
+           from: states.volume.global * 100
+        });
+    }
 });

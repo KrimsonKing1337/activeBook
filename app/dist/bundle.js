@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 6);
+/******/ 	return __webpack_require__(__webpack_require__.s = 7);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -150,176 +150,13 @@ class ConstsDOM {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/**
- * Created by K on 11.06.2017.
- */
-class Volume {
-
-    /**
-     *
-     * @param params {object}
-     * @param params.global {number}
-     * @param params.hints {number}
-     * @param params.loops {number}
-     */
-    constructor (params = {}) {
-        this.global = params.global;
-        this.hints = params.hints;
-        this.loops = params.loops;
-    }
-
-    /**
-     *
-     * @param value {number}
-     */
-    setGlobal (value) {
-        this.global = value;
-    }
-
-    getGlobal () {
-        return this.global;
-    }
-
-    /**
-     *
-     * @param value {number}
-     */
-    setHints (value) {
-        this.hints = value;
-    }
-
-    getHints () {
-        return this.hints;
-    }
-
-    /**
-     *
-     * @param value {number}
-     */
-    setLoops (value) {
-        this.loops = value;
-    }
-
-    getLoops () {
-        return this.loops;
-    }
-}
-/* harmony export (immutable) */ __webpack_exports__["a"] = Volume;
-
-
-class VolumeController {
-    /**
-     *
-     * @param params {object}
-     * @param params.Volume {object} instance of class Volume;
-     * @param params.$audios {object} jquery
-     * @param params.$videos {object} jquery
-     * @param params.loops[] {object} Howler
-     */
-    constructor (params = {}) {
-        this.Volume = params.Volume;
-        this.$audios = params.$audios;
-        this.$videos = params.$videos;
-        this.loops = params.loops;
-    }
-
-    /**
-     *
-     * @param params {object}
-     * @param params.volume {number}
-     */
-    setGlobal (params = {}) {
-        let self = this;
-        let Volume = self.Volume;
-        let loops = self.loops;
-        let $audios = self.$audios;
-        let $videos = self.$videos;
-        let newVolume = params.volume;
-
-        /**
-         * обновляем значение глобальной громкости в экземпляре класса Volume
-         */
-        Volume.setGlobal(newVolume);
-
-        $audios.each(function () {
-            this.volume = newVolume;
-        });
-
-        $videos.each(function () {
-            this.volume = newVolume;
-        });
-
-        for (let loop in loops) {
-            if (loops[loop] != '') {
-                loops[loop].volume(newVolume);
-            }
-        }
-    }
-
-    /**
-     *
-     * @param params {object}
-     * @param params.volume {number}
-     */
-    setHints (params = {}) {
-        let self = this;
-        let Volume = self.Volume;
-        let $audios = self.$audios;
-        let $videos = self.$videos;
-        let newVolume = params.volume;
-
-        /**
-         * обновляем значение громкости подсказок в экземпляре класса Volume
-         */
-        Volume.setHints(newVolume);
-
-        $audios.each(function () {
-            this.volume = newVolume;
-        });
-
-        $videos.each(function () {
-            this.volume = newVolume;
-        });
-    }
-
-    /**
-     *
-     * @param params {object}
-     * @param params.volume {number}
-     */
-    setLoops (params = {}) {
-        let self = this;
-        let Volume = self.Volume;
-        let loops = self.loops;
-        let newVolume = params.volume;
-
-        /**
-         * обновляем значение громкости фоновых звуков в экземпляре класса Volume
-         */
-        Volume.setLoops(newVolume);
-
-        for (let loop in loops) {
-            if (loops[loop] != '') {
-                loops[loop].volume(newVolume);
-            }
-        }
-    }
-}
-/* harmony export (immutable) */ __webpack_exports__["b"] = VolumeController;
-
-
-/***/ }),
-/* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ConstsDOM__ = __webpack_require__(0);
 /**
  * Created by K on 11.06.2017.
  */
 
 
-let Howler = __webpack_require__(8);
+let Howler = __webpack_require__(9);
 
 class Effects {
     /**
@@ -643,6 +480,58 @@ class ImageEffects {
         //todo: слайдер, если несколько
     }
 }
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+//сохраняем/загружаем состояния. не забываем, что всё хранится в строках
+class LocalStorage {
+    /**
+     *
+     * @param [params] {object};
+     */
+    constructor(params = {}) {
+
+    }
+
+    /**
+     *
+     * @param params {object};
+     * @param params.volume {object};
+     * @param params.volume.global {number};
+     * @param params.volume.hints {number};
+     * @param params.volume.loops {number};
+     * @param params.page {number};
+     * @param params.fontSize {number};
+     * @param params.lineHeight {number};
+     * @param params.scrollTop {number};
+     * @param params.theme {string};
+     * @param params.vibro {bool};
+     */
+    static saveState(params = {}) {
+        let states = {
+            volume: params.volume,
+            page: params.page,
+            fontSize: params.fontSize,
+            scrollTop: params.scrollTop,
+            theme: params.theme,
+            vibro: params.vibro
+        };
+
+        localStorage.setItem('activeBook', JSON.stringify(states)); //сериализуем объект в строку
+    }
+
+    static loadState(params = {}) {
+        //загружаем настройки из LocalStorage
+        if (!localStorage.getItem('activeBook')) return false;
+
+        return JSON.parse(localStorage.getItem('activeBook')); //получаем значение и десериализируем его в объект
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = LocalStorage;
+;
 
 /***/ }),
 /* 3 */
@@ -1086,6 +975,156 @@ class Popover {
 
 /***/ }),
 /* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/**
+ * Created by K on 11.06.2017.
+ */
+class Volume {
+
+    /**
+     *
+     * @param params {object}
+     * @param params.global {number}
+     * @param params.hints {number}
+     * @param params.loops {number}
+     */
+    constructor (params = {}) {
+        this.global = params.global;
+        this.hints = params.hints;
+        this.loops = params.loops;
+    }
+
+    /**
+     *
+     * @param value {number}
+     */
+    setGlobal (value) {
+        this.global = value;
+    }
+
+    getGlobal () {
+        return this.global;
+    }
+
+    /**
+     *
+     * @param value {number}
+     */
+    setHints (value) {
+        this.hints = value;
+    }
+
+    getHints () {
+        return this.hints;
+    }
+
+    /**
+     *
+     * @param value {number}
+     */
+    setLoops (value) {
+        this.loops = value;
+    }
+
+    getLoops () {
+        return this.loops;
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Volume;
+
+
+class VolumeController {
+    /**
+     *
+     * @param params {object}
+     * @param params.Volume {object} instance of class Volume;
+     * @param params.$audios {object} jquery
+     * @param params.$videos {object} jquery
+     * @param params.loops[] {object} Howler
+     */
+    constructor (params = {}) {
+        this.Volume = params.Volume;
+        this.$audios = params.$audios;
+        this.$videos = params.$videos;
+        this.loops = params.loops;
+    }
+
+    /**
+     *
+     * @param params {object}
+     * @param params.volume {number}
+     */
+    setGlobal (params = {}) {
+        let self = this;
+        let Volume = self.Volume;
+        let newVolume = params.volume;
+
+        /**
+         * обновляем значение глобальной громкости в экземпляре класса Volume
+         */
+        Volume.setGlobal(newVolume);
+
+        self.setHints({volume: newVolume});
+
+        self.setLoops({volume: newVolume});
+    }
+
+    /**
+     *
+     * @param params {object}
+     * @param params.volume {number}
+     */
+    setHints (params = {}) {
+        let self = this;
+        let Volume = self.Volume;
+        let $audios = self.$audios;
+        let $videos = self.$videos;
+        let newVolume = params.volume * self.Volume.global;
+
+        /**
+         * обновляем значение громкости подсказок в экземпляре класса Volume
+         */
+        Volume.setHints(newVolume);
+
+        $audios.each(function () {
+            this.volume = newVolume;
+        });
+
+        $videos.each(function () {
+            this.volume = newVolume;
+        });
+    }
+
+    /**
+     *
+     * @param params {object}
+     * @param params.volume {number}
+     */
+    setLoops (params = {}) {
+        let self = this;
+        let Volume = self.Volume;
+        let loops = self.loops;
+        let newVolume = params.volume * self.Volume.global;
+
+        /**
+         * обновляем значение громкости фоновых звуков в экземпляре класса Volume
+         */
+        Volume.setLoops(newVolume);
+
+        for (let loop in loops) {
+            if (loops[loop] != '') {
+                loops[loop].volume(newVolume);
+            }
+        }
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["b"] = VolumeController;
+
+
+/***/ }),
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -1096,7 +1135,7 @@ class Popover {
 
 !function (root, name, definition) {
   if (typeof module != 'undefined' && module.exports) module.exports = definition()
-  else if (true) __webpack_require__(9)(name, definition)
+  else if (true) __webpack_require__(10)(name, definition)
   else root[name] = definition()
 }(this, 'bowser', function () {
   /**
@@ -1692,7 +1731,7 @@ class Popover {
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1700,15 +1739,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ConstsDOM__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Popover__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Menu__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Effects__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Volume__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Effects__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Volume__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__LocalStorage__ = __webpack_require__(2);
 
 
 
 
 
 
-let bowser = __webpack_require__(5);
+
+let bowser = __webpack_require__(6);
 
 $(window).load(function () {
     //browser compatibility check
@@ -1892,9 +1933,9 @@ $(window).load(function () {
 
     //инитим громкость
     let VolumeInst = new __WEBPACK_IMPORTED_MODULE_4__Volume__["a" /* Volume */]({
-        global: 50, //todo: значение из слайдера
-        hints: 50,
-        loops: 50
+        global: 0.5, //todo: значение из слайдера
+        hints: 0.5,
+        loops: 0.5
     });
 
     //инициализируем контроллер управления эффектами
@@ -1926,10 +1967,25 @@ $(window).load(function () {
         });
     });
 
-    $('.menu__item').has(constsDomMenu.volumeGlobal).on('change', function () {
+    //событие изменения положения ползунка глобальной громкости
+    $(constsDomMenu.volumeGlobal).on('change', function () {
         let volume = $(this).find('.js-range-slider').prop('value') / 100;
 
         VolumeControllerInst.setGlobal({volume: volume});
+    });
+
+    //событие изменения положения ползунка громкости подсказок
+    $(constsDomPopover.volumeHints).on('change', function () {
+        let volume = $(this).find('.js-range-slider').prop('value') / 100;
+
+        VolumeControllerInst.setHints({volume: volume});
+    });
+
+    //событие изменения положения ползунка громкости фоновых звуков
+    $(constsDomPopover.volumeBg).on('change', function () {
+        let volume = $(this).find('.js-range-slider').prop('value') / 100;
+
+        VolumeControllerInst.setLoops({volume: volume});
     });
 
     //fadeOut background sounds before change the page
@@ -1937,11 +1993,38 @@ $(window).load(function () {
     $(window).on('unload', function () {
         EffectsController.soundEffects.stopLoop({loop: 'all'});
     });
+
+    //сохраняем значения настроек
+    $(window).on('unload', function () {
+        __WEBPACK_IMPORTED_MODULE_5__LocalStorage__["a" /* default */].saveState({
+            volume: {
+                global: VolumeInst.getGlobal(),
+                hints: VolumeInst.getHints(),
+                loops: VolumeInst.getLoops()
+            },
+            page: $(constsDomMenu.pageNumber).attr('data-page-number'),
+            fontSize: $(constsDom.text).attr('data-font-size'),
+            lieHeight: $(constsDom.text).attr('data-line-height'),
+            scrollTop: Math.abs(parseInt($('.mCustomScrollBox.mCS-activeBook').find('> .mCSB_container').css('top'))),
+            theme: $(constsDomPopover.themeOption).filter('.active').attr('data-theme-name'),
+            vibro: $(constsDomPopover.vibrationOption).filter('.active').attr('data-vibration')
+        });
+    });
+
+    let states = __WEBPACK_IMPORTED_MODULE_5__LocalStorage__["a" /* default */].loadState();
+
+    if (states !== false) {
+        let volumeGlobalSlider = $(constsDomMenu.volumeGlobal).find('.js-range-slider').data('ionRangeSlider');
+
+        volumeGlobalSlider.update({
+           from: states.volume.global * 100
+        });
+    }
 });
 
 /***/ }),
-/* 7 */,
-/* 8 */
+/* 8 */,
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -4747,10 +4830,10 @@ $(window).load(function () {
   };
 })();
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports) {
 
 module.exports = function() {
@@ -4759,7 +4842,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports) {
 
 var g;
