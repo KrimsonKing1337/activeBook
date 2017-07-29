@@ -189,7 +189,7 @@ $(window).load(function () {
 
     //инитим громкость
     let VolumeInst = new Volume({
-        global: 0.5, //todo: значение из слайдера
+        global: 0.5,
         hints: 0.5,
         loops: 0.5
     });
@@ -225,21 +225,21 @@ $(window).load(function () {
 
     //событие изменения положения ползунка глобальной громкости
     $(constsDomMenu.volumeGlobal).on('change', function () {
-        let volume = $(this).find('.js-range-slider').prop('value') / 100;
+        let volume = $(this).find('.js-range-slider').val() / 100;
 
         VolumeControllerInst.setGlobal({volume: volume});
     });
 
     //событие изменения положения ползунка громкости подсказок
     $(constsDomPopover.volumeHints).on('change', function () {
-        let volume = $(this).find('.js-range-slider').prop('value') / 100;
+        let volume = $(this).find('.js-range-slider').val() / 100;
 
         VolumeControllerInst.setHints({volume: volume});
     });
 
     //событие изменения положения ползунка громкости фоновых звуков
     $(constsDomPopover.volumeBg).on('change', function () {
-        let volume = $(this).find('.js-range-slider').prop('value') / 100;
+        let volume = $(this).find('.js-range-slider').val() / 100;
 
         VolumeControllerInst.setLoops({volume: volume});
     });
@@ -252,11 +252,17 @@ $(window).load(function () {
 
     //сохраняем значения настроек
     $(window).on('unload', function () {
+        let volumeGlobalSlider = $(constsDomMenu.volumeGlobal).find('.js-range-slider');
+        let volumeHintsSlider = $(constsDomPopover.volumeHints).find('.js-range-slider');
+        let volumeBgSlider = $(constsDomPopover.volumeBg).find('.js-range-slider');
+
+        //todo: сохраняем и громкость и положение ползунков слайдера
+
         LocalStorage.saveState({
             volume: {
-                global: VolumeInst.getGlobal(),
-                hints: VolumeInst.getHints(),
-                loops: VolumeInst.getLoops()
+                global: volumeGlobalSlider.val(),
+                hints: volumeHintsSlider.val(),
+                loops: volumeBgSlider.val()
             },
             page: $(constsDomMenu.pageNumber).attr('data-page-number'),
             fontSize: $(constsDom.text).attr('data-font-size'),
@@ -271,9 +277,19 @@ $(window).load(function () {
 
     if (states !== false) {
         let volumeGlobalSlider = $(constsDomMenu.volumeGlobal).find('.js-range-slider').data('ionRangeSlider');
+        let volumeHintsSlider = $(constsDomPopover.volumeHints).find('.js-range-slider').data('ionRangeSlider');
+        let volumeBgSlider = $(constsDomPopover.volumeBg).find('.js-range-slider').data('ionRangeSlider');
 
         volumeGlobalSlider.update({
-           from: states.volume.global * 100
+           from: states.volume.global
+        });
+
+        volumeHintsSlider.update({
+            from: states.volume.hints
+        });
+
+        volumeBgSlider.update({
+            from: states.volume.loops
         });
     }
 });
