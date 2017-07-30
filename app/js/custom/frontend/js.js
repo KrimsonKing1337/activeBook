@@ -1,4 +1,5 @@
 import ConstsDom from './ConstsDOM';
+import Page from './Page';
 import Popover from './Popover';
 import {LineHeight, FontSize, GoToPage} from './Menu';
 import {Effects} from './Effects';
@@ -20,12 +21,7 @@ $(window).load(function () {
     const constsDom = ConstsDom.get();
     const constsDomMenu = ConstsDom.getMenu();
     const constsDomPopover = ConstsDom.getPopover();
-
-    //todo: currentPage, pagesLength и прочие параметры страницы получать из специального геттера класса
-    const page = {
-        current: parseInt($('.js-page-number').attr('data-page-number')),
-        length: parseInt($('.js-page-number').attr('data-pages-length')),
-    };
+    const page = Page.getParams();
 
     //customScrollBar
     $('.js-scrollable-item').mCustomScrollbar({
@@ -116,7 +112,7 @@ $(window).load(function () {
     $(constsDomPopover.tableOfContentsShow).on('click', function () {
         $(constsDom.text).hide();
         $(constsDom.tableOfContents).show();
-        PopoverControl.close({
+        Popover.close({
             $triggerButton: $(this).closest('.menu__item'),
             $popover: $(this).closest(constsDomPopover.popover)
         });
@@ -256,13 +252,16 @@ $(window).load(function () {
         let volumeHintsSlider = $(constsDomPopover.volumeHints).find('.js-range-slider');
         let volumeBgSlider = $(constsDomPopover.volumeBg).find('.js-range-slider');
 
-        //todo: сохраняем и громкость и положение ползунков слайдера
-
         LocalStorage.saveState({
             volume: {
+                global: VolumeInst.getGlobal(),
+                hints: VolumeInst.getHints(),
+                loops: VolumeInst.getLoops()
+            },
+            volumeSlidersPosition: {
                 global: volumeGlobalSlider.val(),
                 hints: volumeHintsSlider.val(),
-                loops: volumeBgSlider.val()
+                bg: volumeBgSlider.val()
             },
             page: $(constsDomMenu.pageNumber).attr('data-page-number'),
             fontSize: $(constsDom.text).attr('data-font-size'),
@@ -276,20 +275,29 @@ $(window).load(function () {
     let states = LocalStorage.loadState();
 
     if (states !== false) {
-        let volumeGlobalSlider = $(constsDomMenu.volumeGlobal).find('.js-range-slider').data('ionRangeSlider');
-        let volumeHintsSlider = $(constsDomPopover.volumeHints).find('.js-range-slider').data('ionRangeSlider');
-        let volumeBgSlider = $(constsDomPopover.volumeBg).find('.js-range-slider').data('ionRangeSlider');
+        //volume sliders position
+        let volumeGlobalSliderInst = $(constsDomMenu.volumeGlobal).find('.js-range-slider').data('ionRangeSlider');
+        let volumeHintsSliderInst = $(constsDomPopover.volumeHints).find('.js-range-slider').data('ionRangeSlider');
+        let volumeBgSliderInst = $(constsDomPopover.volumeBg).find('.js-range-slider').data('ionRangeSlider');
 
-        volumeGlobalSlider.update({
-           from: states.volume.global
+        volumeGlobalSliderInst.update({
+           from: states.volumeSlidersPosition.global
         });
 
-        volumeHintsSlider.update({
-            from: states.volume.hints
+        volumeHintsSliderInst.update({
+            from: states.volumeSlidersPosition.hints
         });
 
-        volumeBgSlider.update({
-            from: states.volume.loops
+        volumeBgSliderInst.update({
+            from: states.volumeSlidersPosition.bg
         });
+
+        //font-size
+        $(constsDom.text).attr('data-font-size', states.fontSize);
+
+        //line-height todo: значение в js-line-height-number должно тоже меняться
+        $(constsDom.text).attr('data-line-height', states.lineHeight);
+
+        //todo: theme, vibro, всё повыносить в классы с методами
     }
 });

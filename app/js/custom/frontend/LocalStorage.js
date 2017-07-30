@@ -15,6 +15,10 @@ export default class LocalStorage {
      * @param params.volume.global {number};
      * @param params.volume.hints {number};
      * @param params.volume.loops {number};
+     * @param params.volumeSlidersPosition {object};
+     * @param params.volumeSlidersPosition.global {number};
+     * @param params.volumeSlidersPosition.hints {number};
+     * @param params.volumeSlidersPosition.bg {number};
      * @param params.page {number};
      * @param params.fontSize {number};
      * @param params.lineHeight {number};
@@ -25,6 +29,7 @@ export default class LocalStorage {
     static saveState(params = {}) {
         let states = {
             volume: params.volume,
+            volumeSlidersPosition: params.volumeSlidersPosition,
             page: params.page,
             fontSize: params.fontSize,
             scrollTop: params.scrollTop,

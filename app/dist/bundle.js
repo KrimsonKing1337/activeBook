@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 7);
+/******/ 	return __webpack_require__(__webpack_require__.s = 8);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -156,7 +156,7 @@ class ConstsDOM {
  */
 
 
-let Howler = __webpack_require__(9);
+let Howler = __webpack_require__(10);
 
 class Effects {
     /**
@@ -503,6 +503,10 @@ class LocalStorage {
      * @param params.volume.global {number};
      * @param params.volume.hints {number};
      * @param params.volume.loops {number};
+     * @param params.volumeSlidersPosition {object};
+     * @param params.volumeSlidersPosition.global {number};
+     * @param params.volumeSlidersPosition.hints {number};
+     * @param params.volumeSlidersPosition.bg {number};
      * @param params.page {number};
      * @param params.fontSize {number};
      * @param params.lineHeight {number};
@@ -513,6 +517,7 @@ class LocalStorage {
     static saveState(params = {}) {
         let states = {
             volume: params.volume,
+            volumeSlidersPosition: params.volumeSlidersPosition,
             page: params.page,
             fontSize: params.fontSize,
             scrollTop: params.scrollTop,
@@ -703,6 +708,28 @@ class FontSize {
 
 /***/ }),
 /* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class Page {
+    constructor () {
+
+    }
+
+    static getParams() {
+        let $pageNumber = $('.js-page-number');
+
+        return {
+            current: parseInt($pageNumber.attr('data-page-number')),
+            length: parseInt($pageNumber.attr('data-pages-length')),
+        }
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Page;
+
+
+/***/ }),
+/* 5 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -974,7 +1001,7 @@ class Popover {
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1124,7 +1151,7 @@ class VolumeController {
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
@@ -1135,7 +1162,7 @@ class VolumeController {
 
 !function (root, name, definition) {
   if (typeof module != 'undefined' && module.exports) module.exports = definition()
-  else if (true) __webpack_require__(10)(name, definition)
+  else if (true) __webpack_require__(11)(name, definition)
   else root[name] = definition()
 }(this, 'bowser', function () {
   /**
@@ -1731,17 +1758,18 @@ class VolumeController {
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ConstsDOM__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Popover__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Menu__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Effects__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Volume__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__LocalStorage__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Page__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Popover__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Menu__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Effects__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__Volume__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__LocalStorage__ = __webpack_require__(2);
 
 
 
@@ -1749,7 +1777,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-let bowser = __webpack_require__(6);
+
+let bowser = __webpack_require__(7);
 
 $(window).load(function () {
     //browser compatibility check
@@ -1764,12 +1793,7 @@ $(window).load(function () {
     const constsDom = __WEBPACK_IMPORTED_MODULE_0__ConstsDOM__["a" /* default */].get();
     const constsDomMenu = __WEBPACK_IMPORTED_MODULE_0__ConstsDOM__["a" /* default */].getMenu();
     const constsDomPopover = __WEBPACK_IMPORTED_MODULE_0__ConstsDOM__["a" /* default */].getPopover();
-
-    //todo: currentPage, pagesLength и прочие параметры страницы получать из специального геттера класса
-    const page = {
-        current: parseInt($('.js-page-number').attr('data-page-number')),
-        length: parseInt($('.js-page-number').attr('data-pages-length')),
-    };
+    const page = __WEBPACK_IMPORTED_MODULE_1__Page__["a" /* default */].getParams();
 
     //customScrollBar
     $('.js-scrollable-item').mCustomScrollbar({
@@ -1827,7 +1851,7 @@ $(window).load(function () {
         let $popover = $(popoverParent).find(constsDomPopover.popover);
         let $triggerButton = $(popoverParent).find(constsDomPopover.triggerButton);
 
-        new __WEBPACK_IMPORTED_MODULE_1__Popover__["a" /* default */]({$popover: $popover, $triggerButton: $triggerButton});
+        new __WEBPACK_IMPORTED_MODULE_2__Popover__["a" /* default */]({$popover: $popover, $triggerButton: $triggerButton});
     });
 
     //переключалка для вибрации
@@ -1860,7 +1884,7 @@ $(window).load(function () {
     $(constsDomPopover.tableOfContentsShow).on('click', function () {
         $(constsDom.text).hide();
         $(constsDom.tableOfContents).show();
-        PopoverControl.close({
+        __WEBPACK_IMPORTED_MODULE_2__Popover__["a" /* default */].close({
             $triggerButton: $(this).closest('.menu__item'),
             $popover: $(this).closest(constsDomPopover.popover)
         });
@@ -1875,29 +1899,29 @@ $(window).load(function () {
     $('.table-of-contents__item').on('click', function () {
         let newVal = $.trim($(this).find('.table-of-contents__item__page').text());
 
-        __WEBPACK_IMPORTED_MODULE_2__Menu__["a" /* GoToPage */].go({currentPage: page.current, pagesLength: page.length, where: Math.abs(parseInt(newVal))});
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["a" /* GoToPage */].go({currentPage: page.current, pagesLength: page.length, where: Math.abs(parseInt(newVal))});
     });
 
     //меняем межстрочный интервал
     $('.js-line-height-minus').on('click', function () {
         let $val = $('.js-line-height-val');
 
-        __WEBPACK_IMPORTED_MODULE_2__Menu__["b" /* LineHeight */].set({$val: $val, direction: 'less', $text: $(constsDom.text)});
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["b" /* LineHeight */].set({$val: $val, direction: 'less', $text: $(constsDom.text)});
     });
 
     $('.js-line-height-plus').on('click', function () {
         let $val = $('.js-line-height-val');
 
-        __WEBPACK_IMPORTED_MODULE_2__Menu__["b" /* LineHeight */].set({$val: $val, direction: 'more', $text: $(constsDom.text)});
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["b" /* LineHeight */].set({$val: $val, direction: 'more', $text: $(constsDom.text)});
     });
 
     //меняем страницу
     $('.js-page-next').on('click', function () {
-        __WEBPACK_IMPORTED_MODULE_2__Menu__["a" /* GoToPage */].go({currentPage: page.current, pagesLength: page.length, where: 'next'});
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["a" /* GoToPage */].go({currentPage: page.current, pagesLength: page.length, where: 'next'});
     });
 
     $('.js-page-prev').on('click', function () {
-        __WEBPACK_IMPORTED_MODULE_2__Menu__["a" /* GoToPage */].go({currentPage: page.current, pagesLength: page.length, where: 'prev'});
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["a" /* GoToPage */].go({currentPage: page.current, pagesLength: page.length, where: 'prev'});
     });
 
     $('.js-page-number').find('input').on('blur', function () {
@@ -1919,30 +1943,30 @@ $(window).load(function () {
             return;
         }
 
-        __WEBPACK_IMPORTED_MODULE_2__Menu__["a" /* GoToPage */].go({currentPage: page.current, pagesLength: page.length, where: Math.abs(parseInt(newVal))});
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["a" /* GoToPage */].go({currentPage: page.current, pagesLength: page.length, where: Math.abs(parseInt(newVal))});
     });
 
     //меняем размер шрифта
     $('.js-font-size-down').on('click', function () {
-        __WEBPACK_IMPORTED_MODULE_2__Menu__["c" /* FontSize */].set({$text: $(constsDom.text), direction: 'less'});
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["c" /* FontSize */].set({$text: $(constsDom.text), direction: 'less'});
     });
 
     $('.js-font-size-up').on('click', function () {
-        __WEBPACK_IMPORTED_MODULE_2__Menu__["c" /* FontSize */].set({$text: $(constsDom.text), direction: 'more'});
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["c" /* FontSize */].set({$text: $(constsDom.text), direction: 'more'});
     });
 
     //инитим громкость
-    let VolumeInst = new __WEBPACK_IMPORTED_MODULE_4__Volume__["a" /* Volume */]({
-        global: 0.5, //todo: значение из слайдера
+    let VolumeInst = new __WEBPACK_IMPORTED_MODULE_5__Volume__["a" /* Volume */]({
+        global: 0.5,
         hints: 0.5,
         loops: 0.5
     });
 
     //инициализируем контроллер управления эффектами
-    let EffectsController = new __WEBPACK_IMPORTED_MODULE_3__Effects__["a" /* Effects */](VolumeInst);
+    let EffectsController = new __WEBPACK_IMPORTED_MODULE_4__Effects__["a" /* Effects */](VolumeInst);
 
     //инитим управление громкостью
-    let VolumeControllerInst = new __WEBPACK_IMPORTED_MODULE_4__Volume__["b" /* VolumeController */]({
+    let VolumeControllerInst = new __WEBPACK_IMPORTED_MODULE_5__Volume__["b" /* VolumeController */]({
         Volume: VolumeInst,
         $audios: $('audio'),
         $videos: $('video'),
@@ -1969,21 +1993,21 @@ $(window).load(function () {
 
     //событие изменения положения ползунка глобальной громкости
     $(constsDomMenu.volumeGlobal).on('change', function () {
-        let volume = $(this).find('.js-range-slider').prop('value') / 100;
+        let volume = $(this).find('.js-range-slider').val() / 100;
 
         VolumeControllerInst.setGlobal({volume: volume});
     });
 
     //событие изменения положения ползунка громкости подсказок
     $(constsDomPopover.volumeHints).on('change', function () {
-        let volume = $(this).find('.js-range-slider').prop('value') / 100;
+        let volume = $(this).find('.js-range-slider').val() / 100;
 
         VolumeControllerInst.setHints({volume: volume});
     });
 
     //событие изменения положения ползунка громкости фоновых звуков
     $(constsDomPopover.volumeBg).on('change', function () {
-        let volume = $(this).find('.js-range-slider').prop('value') / 100;
+        let volume = $(this).find('.js-range-slider').val() / 100;
 
         VolumeControllerInst.setLoops({volume: volume});
     });
@@ -1996,11 +2020,20 @@ $(window).load(function () {
 
     //сохраняем значения настроек
     $(window).on('unload', function () {
-        __WEBPACK_IMPORTED_MODULE_5__LocalStorage__["a" /* default */].saveState({
+        let volumeGlobalSlider = $(constsDomMenu.volumeGlobal).find('.js-range-slider');
+        let volumeHintsSlider = $(constsDomPopover.volumeHints).find('.js-range-slider');
+        let volumeBgSlider = $(constsDomPopover.volumeBg).find('.js-range-slider');
+
+        __WEBPACK_IMPORTED_MODULE_6__LocalStorage__["a" /* default */].saveState({
             volume: {
                 global: VolumeInst.getGlobal(),
                 hints: VolumeInst.getHints(),
                 loops: VolumeInst.getLoops()
+            },
+            volumeSlidersPosition: {
+                global: volumeGlobalSlider.val(),
+                hints: volumeHintsSlider.val(),
+                bg: volumeBgSlider.val()
             },
             page: $(constsDomMenu.pageNumber).attr('data-page-number'),
             fontSize: $(constsDom.text).attr('data-font-size'),
@@ -2011,20 +2044,39 @@ $(window).load(function () {
         });
     });
 
-    let states = __WEBPACK_IMPORTED_MODULE_5__LocalStorage__["a" /* default */].loadState();
+    let states = __WEBPACK_IMPORTED_MODULE_6__LocalStorage__["a" /* default */].loadState();
 
     if (states !== false) {
-        let volumeGlobalSlider = $(constsDomMenu.volumeGlobal).find('.js-range-slider').data('ionRangeSlider');
+        //volume sliders position
+        let volumeGlobalSliderInst = $(constsDomMenu.volumeGlobal).find('.js-range-slider').data('ionRangeSlider');
+        let volumeHintsSliderInst = $(constsDomPopover.volumeHints).find('.js-range-slider').data('ionRangeSlider');
+        let volumeBgSliderInst = $(constsDomPopover.volumeBg).find('.js-range-slider').data('ionRangeSlider');
 
-        volumeGlobalSlider.update({
-           from: states.volume.global * 100
+        volumeGlobalSliderInst.update({
+           from: states.volumeSlidersPosition.global
         });
+
+        volumeHintsSliderInst.update({
+            from: states.volumeSlidersPosition.hints
+        });
+
+        volumeBgSliderInst.update({
+            from: states.volumeSlidersPosition.bg
+        });
+
+        //font-size
+        $(constsDom.text).attr('data-font-size', states.fontSize);
+
+        //line-height todo: значение в js-line-height-number должно тоже меняться
+        $(constsDom.text).attr('data-line-height', states.lineHeight);
+
+        //todo: theme, vibro, всё повыносить в классы с методами
     }
 });
 
 /***/ }),
-/* 8 */,
-/* 9 */
+/* 9 */,
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -4830,10 +4882,10 @@ $(window).load(function () {
   };
 })();
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports) {
 
 module.exports = function() {
@@ -4842,7 +4894,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports) {
 
 var g;
