@@ -1,7 +1,7 @@
 import ConstsDom from './ConstsDOM';
 import Page from './Page';
 import Popover from './Popover';
-import {LineHeight, FontSize, GoToPage} from './Menu';
+import {LineHeight, FontSize, GoToPage, VolumeSliders, Theme, Vibration} from './Menu';
 import {Effects} from './Effects';
 import {Volume, VolumeController} from './Volume';
 import LocalStorage from './LocalStorage';
@@ -85,27 +85,20 @@ $(window).load(function () {
     //переключалка для вибрации
     //todo: если включаем - то давать короткую вибрацию
     $(constsDomPopover.vibrationOption).on('click', function () {
-        let $parent = $(constsDomPopover.vibrationToggle);
-
-        if (!$(this).hasClass('active')) {
-            $parent.find('.active').removeClass('active');
-            $(this).addClass('active');
-        }
+        Vibration.set({
+            $page: $(constsDom.page),
+            val: $(this).attr('data-vibration'),
+            $vibrationOption: $(constsDomPopover.vibrationOption)
+        });
     });
 
     //переключалка темы оформления
     $(constsDomPopover.themeOption).on('click', function () {
-        let $parent = $(this).closest('.theme-options');
-        let $page = $(constsDom.page);
-
-        if (!$(this).hasClass('active')) {
-            let theme = $(this).attr('data-theme-name');
-            let themeForRemove = $page.attr('class').match(/theme-\S+/) || [''];
-
-            $parent.find('.active').removeClass('active');
-            $(this).addClass('active');
-            $page.removeClass(themeForRemove[0]).addClass('theme-' + theme);
-        }
+        Theme.set({
+            $page: $(constsDom.page),
+            val: $(this).attr('data-theme'),
+            $themeOption: $(constsDomPopover.themeOption)
+        });
     });
 
     //оглавление
@@ -132,15 +125,11 @@ $(window).load(function () {
 
     //меняем межстрочный интервал
     $('.js-line-height-minus').on('click', function () {
-        let $val = $('.js-line-height-val');
-
-        LineHeight.set({$val: $val, direction: 'less', $text: $(constsDom.text)});
+        LineHeight.setByDirection({$val: $(constsDomPopover.lineHeightVal), direction: 'less', $text: $(constsDom.text)});
     });
 
     $('.js-line-height-plus').on('click', function () {
-        let $val = $('.js-line-height-val');
-
-        LineHeight.set({$val: $val, direction: 'more', $text: $(constsDom.text)});
+        LineHeight.setByDirection({$val: $(constsDomPopover.lineHeightVal), direction: 'more', $text: $(constsDom.text)});
     });
 
     //меняем страницу
@@ -176,11 +165,11 @@ $(window).load(function () {
 
     //меняем размер шрифта
     $('.js-font-size-down').on('click', function () {
-        FontSize.set({$text: $(constsDom.text), direction: 'less'});
+        FontSize.setByDirection({$text: $(constsDom.text), direction: 'less'});
     });
 
     $('.js-font-size-up').on('click', function () {
-        FontSize.set({$text: $(constsDom.text), direction: 'more'});
+        FontSize.setByDirection({$text: $(constsDom.text), direction: 'more'});
     });
 
     //инитим громкость
@@ -240,6 +229,11 @@ $(window).load(function () {
         VolumeControllerInst.setLoops({volume: volume});
     });
 
+    //устанавливаем закладку
+    $(constsDomMenu.bookmark).on('click', function () {
+        $(this).find(constsDomMenu.svgWrapper).toggleClass('active');
+    });
+
     //fadeOut background sounds before change the page
     //todo: делать потом фейд во время анимации смены страницы
     $(window).on('unload', function () {
@@ -265,39 +259,60 @@ $(window).load(function () {
             },
             page: $(constsDomMenu.pageNumber).attr('data-page-number'),
             fontSize: $(constsDom.text).attr('data-font-size'),
-            lieHeight: $(constsDom.text).attr('data-line-height'),
+            lineHeight: $(constsDom.text).attr('data-line-height'),
             scrollTop: Math.abs(parseInt($('.mCustomScrollBox.mCS-activeBook').find('> .mCSB_container').css('top'))),
-            theme: $(constsDomPopover.themeOption).filter('.active').attr('data-theme-name'),
-            vibro: $(constsDomPopover.vibrationOption).filter('.active').attr('data-vibration')
+            theme: $(constsDom.page).attr('data-theme'),
+            vibration: $(constsDom.page).attr('data-vibration'),
+            bookmark: $(constsDomMenu.bookmark)
         });
     });
 
-    let states = LocalStorage.loadState();
+    let states = LocalStorage.getState();
 
     if (states !== false) {
         //volume sliders position
-        let volumeGlobalSliderInst = $(constsDomMenu.volumeGlobal).find('.js-range-slider').data('ionRangeSlider');
-        let volumeHintsSliderInst = $(constsDomPopover.volumeHints).find('.js-range-slider').data('ionRangeSlider');
-        let volumeBgSliderInst = $(constsDomPopover.volumeBg).find('.js-range-slider').data('ionRangeSlider');
-
-        volumeGlobalSliderInst.update({
-           from: states.volumeSlidersPosition.global
-        });
-
-        volumeHintsSliderInst.update({
-            from: states.volumeSlidersPosition.hints
-        });
-
-        volumeBgSliderInst.update({
-            from: states.volumeSlidersPosition.bg
+        VolumeSliders.set({
+            sliders: {
+                global: {
+                    inst: $(constsDomMenu.volumeGlobal).find('.js-range-slider').data('ionRangeSlider'),
+                    val: states.volumeSlidersPosition.global
+                },
+                hints: {
+                    inst: $(constsDomPopover.volumeHints).find('.js-range-slider').data('ionRangeSlider'),
+                    val: states.volumeSlidersPosition.hints
+                },
+                bg: {
+                    inst: $(constsDomPopover.volumeBg).find('.js-range-slider').data('ionRangeSlider'),
+                    val: states.volumeSlidersPosition.bg
+                }
+            }
         });
 
         //font-size
-        $(constsDom.text).attr('data-font-size', states.fontSize);
+        FontSize.set({
+            $text: $(constsDom.text),
+            newVal: states.fontSize
+        });
 
-        //line-height todo: значение в js-line-height-number должно тоже меняться
-        $(constsDom.text).attr('data-line-height', states.lineHeight);
+        //line-height
+        LineHeight.set({
+            $text: $(constsDom.text),
+            $val: $(constsDomPopover.lineHeightVal),
+            newVal: states.lineHeight
+        });
 
-        //todo: theme, vibro, всё повыносить в классы с методами
+        //theme
+        Theme.set({
+            $page: $(constsDom.page),
+            val: states.theme,
+            $themeOption: $(constsDomPopover.themeOption)
+        });
+
+        //vibration
+        Vibration.set({
+            $page: $(constsDom.page),
+            val: states.vibration,
+            $vibrationOption: $(constsDomPopover.vibrationOption)
+        });
     }
 });

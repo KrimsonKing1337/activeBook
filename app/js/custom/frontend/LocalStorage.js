@@ -24,7 +24,7 @@ export default class LocalStorage {
      * @param params.lineHeight {number};
      * @param params.scrollTop {number};
      * @param params.theme {string};
-     * @param params.vibro {bool};
+     * @param params.vibration {bool};
      */
     static saveState(params = {}) {
         let states = {
@@ -32,18 +32,38 @@ export default class LocalStorage {
             volumeSlidersPosition: params.volumeSlidersPosition,
             page: params.page,
             fontSize: params.fontSize,
+            lineHeight: params.lineHeight,
             scrollTop: params.scrollTop,
             theme: params.theme,
-            vibro: params.vibro
+            vibration: params.vibration
         };
 
         localStorage.setItem('activeBook', JSON.stringify(states)); //сериализуем объект в строку
     }
 
-    static loadState(params = {}) {
-        //загружаем настройки из LocalStorage
+    /**
+     *
+     * @param params
+     * получаем настройки из LocalStorage
+     */
+    static getState(params = {}) {
+        //получаем настройки из LocalStorage
         if (!localStorage.getItem('activeBook')) return false;
 
         return JSON.parse(localStorage.getItem('activeBook')); //получаем значение и десериализируем его в объект
+    }
+
+    /**
+     *
+     * @param params
+     * применяем настройки
+     */
+    static loadState(params = {}) {
+        let sliders = {};
+        let fontSize;
+        let lineHeight;
+        let theme;
+        let vibro;
+
     }
 };

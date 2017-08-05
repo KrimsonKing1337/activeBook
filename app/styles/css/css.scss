@@ -556,20 +556,20 @@ $p-line-height: 1.2;
           margin-left: 0;
         }
 
-        &.theme-default {
+        &[data-theme="default"] {
           border: 1px #F2994A solid;
           background: #fff;
         }
 
-        &.theme-gray {
+        &[data-theme="gray"] {
           background: #828282;
         }
 
-        &.theme-yellow {
+        &[data-theme="yellow"] {
           background: #FDF5DE;
         }
 
-        &.theme-dark-blue {
+        &[data-theme="dark-blue"] {
           background: #728C9A;
         }
 
@@ -667,19 +667,19 @@ $p-line-height: 1.2;
 
 //page modificators themes
 .page {
-  &.theme-default {
+  &[data-theme="default"] {
     @include theme('default');
   }
 
-  &.theme-gray {
+  &[data-theme="gray"] {
     @include theme('gray');
   }
 
-  &.theme-yellow {
+  &[data-theme="yellow"] {
     @include theme('yellow');
   }
 
-  &.theme-dark-blue {
+  &[data-theme="dark-blue"] {
     @include theme('dark-blue');
   }
 }

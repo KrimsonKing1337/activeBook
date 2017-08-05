@@ -69,7 +69,7 @@ function migrateWarnProp( obj, prop, value, msg ) {
 		}
 	}
 
-	// Non-ES5 (or broken) browser; just set the property
+	// Non-ES5 (or broken) browser; just setByDirection the property
 	jQuery._definePropertyBroken = true;
 	obj[ prop ] = value;
 }
@@ -110,7 +110,7 @@ jQuery.attr = function( elem, name, value, pass ) {
 		}
 	}
 
-	// Warn if user tries to set `type`, since it breaks on IE 6/7/8; by checking
+	// Warn if user tries to setByDirection `type`, since it breaks on IE 6/7/8; by checking
 	// for disconnected elements we don't warn on $( "<button>", { type: "button" } ).
 	if ( nameWithoutExt === "type" && value !== undefined && rnoType.test( elem.nodeName ) && elem.parentNode ) {
 		migrateWarn("Can't change the 'type' of an input or button in IE 6/7/8");
@@ -133,14 +133,14 @@ jQuery.attr = function( elem, name, value, pass ) {
 			set: function( elem, value, name ) {
 				var propName;
 				if ( value === false ) {
-					// Remove boolean attributes when set to false
+					// Remove boolean attributes when setByDirection to false
 					jQuery.removeAttr( elem, nameWithoutExt );
 				} else {
 					// value is true since we know at this point it's type boolean and not false
-					// Set boolean attributes to the same nameWithoutExt and set the DOM property
+					// Set boolean attributes to the same nameWithoutExt and setByDirection the DOM property
 					propName = jQuery.propFix[ nameWithoutExt ] || nameWithoutExt;
 					if ( propName in elem ) {
-						// Only set the IDL specifically if it already exists on the element
+						// Only setByDirection the IDL specifically if it already exists on the element
 						elem[ propName ] = true;
 					}
 

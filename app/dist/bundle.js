@@ -114,7 +114,8 @@ class ConstsDOM {
             pageNumber: '.js-page-number',
             volumeGlobal: '.js-volume-global',
             fontSizeDown: '.js-font-size-down',
-            fontSizeUp: '.js-font-size-up'
+            fontSizeUp: '.js-font-size-up',
+            svgWrapper: '.obj-img__wrapper'
         }
     }
 
@@ -512,7 +513,7 @@ class LocalStorage {
      * @param params.lineHeight {number};
      * @param params.scrollTop {number};
      * @param params.theme {string};
-     * @param params.vibro {bool};
+     * @param params.vibration {bool};
      */
     static saveState(params = {}) {
         let states = {
@@ -520,19 +521,39 @@ class LocalStorage {
             volumeSlidersPosition: params.volumeSlidersPosition,
             page: params.page,
             fontSize: params.fontSize,
+            lineHeight: params.lineHeight,
             scrollTop: params.scrollTop,
             theme: params.theme,
-            vibro: params.vibro
+            vibration: params.vibration
         };
 
         localStorage.setItem('activeBook', JSON.stringify(states)); //сериализуем объект в строку
     }
 
-    static loadState(params = {}) {
-        //загружаем настройки из LocalStorage
+    /**
+     *
+     * @param params
+     * получаем настройки из LocalStorage
+     */
+    static getState(params = {}) {
+        //получаем настройки из LocalStorage
         if (!localStorage.getItem('activeBook')) return false;
 
         return JSON.parse(localStorage.getItem('activeBook')); //получаем значение и десериализируем его в объект
+    }
+
+    /**
+     *
+     * @param params
+     * применяем настройки
+     */
+    static loadState(params = {}) {
+        let sliders = {};
+        let fontSize;
+        let lineHeight;
+        let theme;
+        let vibro;
+
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = LocalStorage;
@@ -553,12 +574,27 @@ class LineHeight {
 
     /**
      *
+     * @param params {object}
+     * @param params.$text {object} jquery
+     * @param params.$val {object} jquery
+     * @param params.newVal {number}
+     */
+    static set (params = {}) {
+        let $text = params.$text;
+        let $val = params.$val;
+        let newVal = params.newVal;
+
+        LineHeight._apply({$text: $text, $val: $val, newVal: newVal});
+    }
+
+    /**
+     *
      * @param params {object};
      * @param params.$text {object};
      * @param params.$val {object} jquery;
      * @param params.direction {string} less || more;
      */
-    static set (params = {}) {
+    static setByDirection (params = {}) {
         let $text = params.$text;
         let $val = params.$val;
         let direction = params.direction;
@@ -598,7 +634,7 @@ class LineHeight {
         $text.attr('data-line-height', newVal);
     }
 }
-/* harmony export (immutable) */ __webpack_exports__["b"] = LineHeight;
+/* harmony export (immutable) */ __webpack_exports__["d"] = LineHeight;
 
 
 /**
@@ -649,7 +685,7 @@ class GoToPage {
         location.href = '../pages/page_' + newVal + '.html';
     }
 }
-/* harmony export (immutable) */ __webpack_exports__["a"] = GoToPage;
+/* harmony export (immutable) */ __webpack_exports__["c"] = GoToPage;
 
 
 /**
@@ -662,11 +698,24 @@ class FontSize {
 
     /**
      *
+     * @param params {object}
+     * @param params.$text {object} jquery
+     * @param params.newVal {number}
+     */
+    static set (params = {}) {
+        let $text = params.$text;
+        let newVal = params.newVal;
+
+        FontSize._apply({$text: $text, newVal: newVal});
+    }
+
+    /**
+     *
      * @param params {object};
      * @param params.$text {object};
      * @param params.direction {string} less || more;
      */
-    static set (params = {}) {
+    static setByDirection (params = {}) {
         let $text = params.$text;
         let direction = params.direction;
 
@@ -703,7 +752,97 @@ class FontSize {
         $text.attr('data-font-size', newVal);
     }
 }
-/* harmony export (immutable) */ __webpack_exports__["c"] = FontSize;
+/* harmony export (immutable) */ __webpack_exports__["e"] = FontSize;
+
+
+/**
+ * меняем положение ползунков громкости
+ */
+class VolumeSliders {
+    constructor () {
+
+    }
+
+    /**
+     *
+     * @param params {object}
+     * @param params.sliders {object} instances of sliders
+     * @param params.sliders.global {object}
+     * @param params.sliders.global.inst {object}
+     * @param params.sliders.global.val {number}
+     * @param params.sliders.hints {object}
+     * @param params.sliders.hints.inst {object}
+     * @param params.sliders.hints.val {number}
+     * @param params.sliders.bg {object}
+     * @param params.sliders.bg.inst {object}
+     * @param params.sliders.bg.val {number}
+     */
+    static set(params = {}) {
+        let sliders = params.sliders;
+
+        for (let i in sliders) {
+            let slider = sliders[i];
+            let inst = slider.inst;
+            let val = slider.val;
+
+            inst.update({
+                from: val
+            })
+        }
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["f"] = VolumeSliders;
+
+
+class Theme {
+    constructor () {
+
+    }
+
+    /**
+     *
+     * @param params {object}
+     * @param params.$page {object}
+     * @param params.$themeOption {object}
+     * @param params.val {object}
+     */
+    static set(params = {}) {
+        let $page = params.$page;
+        let $themeOption = params.$themeOption;
+        let val = params.val;
+
+        $page.attr('data-theme', val);
+
+        $themeOption.filter('.active').removeClass('active');
+        $themeOption.filter('[data-theme="' + val + '"]').addClass('active');
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["b"] = Theme;
+
+
+class Vibration {
+    constructor () {
+
+    }
+
+    /**
+     *
+     * @param params {object}
+     * @param params.$page {object}
+     * @param params.$vibrationOption {object}
+     * @param params.val {object}
+     */
+    static set(params = {}) {
+        let $page = params.$page;
+        let $vibrationOption = params.$vibrationOption;
+        let val = params.val;
+
+        $vibrationOption.filter('.active').removeClass('active');
+        $vibrationOption.filter('[data-vibration="' + val + '"]').addClass('active');
+        $page.attr('data-vibration', val);
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["a"] = Vibration;
 
 
 /***/ }),
@@ -1857,27 +1996,20 @@ $(window).load(function () {
     //переключалка для вибрации
     //todo: если включаем - то давать короткую вибрацию
     $(constsDomPopover.vibrationOption).on('click', function () {
-        let $parent = $(constsDomPopover.vibrationToggle);
-
-        if (!$(this).hasClass('active')) {
-            $parent.find('.active').removeClass('active');
-            $(this).addClass('active');
-        }
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["a" /* Vibration */].set({
+            $page: $(constsDom.page),
+            val: $(this).attr('data-vibration'),
+            $vibrationOption: $(constsDomPopover.vibrationOption)
+        });
     });
 
     //переключалка темы оформления
     $(constsDomPopover.themeOption).on('click', function () {
-        let $parent = $(this).closest('.theme-options');
-        let $page = $(constsDom.page);
-
-        if (!$(this).hasClass('active')) {
-            let theme = $(this).attr('data-theme-name');
-            let themeForRemove = $page.attr('class').match(/theme-\S+/) || [''];
-
-            $parent.find('.active').removeClass('active');
-            $(this).addClass('active');
-            $page.removeClass(themeForRemove[0]).addClass('theme-' + theme);
-        }
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["b" /* Theme */].set({
+            $page: $(constsDom.page),
+            val: $(this).attr('data-theme'),
+            $themeOption: $(constsDomPopover.themeOption)
+        });
     });
 
     //оглавление
@@ -1899,29 +2031,25 @@ $(window).load(function () {
     $('.table-of-contents__item').on('click', function () {
         let newVal = $.trim($(this).find('.table-of-contents__item__page').text());
 
-        __WEBPACK_IMPORTED_MODULE_3__Menu__["a" /* GoToPage */].go({currentPage: page.current, pagesLength: page.length, where: Math.abs(parseInt(newVal))});
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["c" /* GoToPage */].go({currentPage: page.current, pagesLength: page.length, where: Math.abs(parseInt(newVal))});
     });
 
     //меняем межстрочный интервал
     $('.js-line-height-minus').on('click', function () {
-        let $val = $('.js-line-height-val');
-
-        __WEBPACK_IMPORTED_MODULE_3__Menu__["b" /* LineHeight */].set({$val: $val, direction: 'less', $text: $(constsDom.text)});
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["d" /* LineHeight */].setByDirection({$val: $(constsDomPopover.lineHeightVal), direction: 'less', $text: $(constsDom.text)});
     });
 
     $('.js-line-height-plus').on('click', function () {
-        let $val = $('.js-line-height-val');
-
-        __WEBPACK_IMPORTED_MODULE_3__Menu__["b" /* LineHeight */].set({$val: $val, direction: 'more', $text: $(constsDom.text)});
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["d" /* LineHeight */].setByDirection({$val: $(constsDomPopover.lineHeightVal), direction: 'more', $text: $(constsDom.text)});
     });
 
     //меняем страницу
     $('.js-page-next').on('click', function () {
-        __WEBPACK_IMPORTED_MODULE_3__Menu__["a" /* GoToPage */].go({currentPage: page.current, pagesLength: page.length, where: 'next'});
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["c" /* GoToPage */].go({currentPage: page.current, pagesLength: page.length, where: 'next'});
     });
 
     $('.js-page-prev').on('click', function () {
-        __WEBPACK_IMPORTED_MODULE_3__Menu__["a" /* GoToPage */].go({currentPage: page.current, pagesLength: page.length, where: 'prev'});
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["c" /* GoToPage */].go({currentPage: page.current, pagesLength: page.length, where: 'prev'});
     });
 
     $('.js-page-number').find('input').on('blur', function () {
@@ -1943,16 +2071,16 @@ $(window).load(function () {
             return;
         }
 
-        __WEBPACK_IMPORTED_MODULE_3__Menu__["a" /* GoToPage */].go({currentPage: page.current, pagesLength: page.length, where: Math.abs(parseInt(newVal))});
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["c" /* GoToPage */].go({currentPage: page.current, pagesLength: page.length, where: Math.abs(parseInt(newVal))});
     });
 
     //меняем размер шрифта
     $('.js-font-size-down').on('click', function () {
-        __WEBPACK_IMPORTED_MODULE_3__Menu__["c" /* FontSize */].set({$text: $(constsDom.text), direction: 'less'});
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["e" /* FontSize */].setByDirection({$text: $(constsDom.text), direction: 'less'});
     });
 
     $('.js-font-size-up').on('click', function () {
-        __WEBPACK_IMPORTED_MODULE_3__Menu__["c" /* FontSize */].set({$text: $(constsDom.text), direction: 'more'});
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["e" /* FontSize */].setByDirection({$text: $(constsDom.text), direction: 'more'});
     });
 
     //инитим громкость
@@ -2012,6 +2140,11 @@ $(window).load(function () {
         VolumeControllerInst.setLoops({volume: volume});
     });
 
+    //устанавливаем закладку
+    $(constsDomMenu.bookmark).on('click', function () {
+        $(this).find(constsDomMenu.svgWrapper).toggleClass('active');
+    });
+
     //fadeOut background sounds before change the page
     //todo: делать потом фейд во время анимации смены страницы
     $(window).on('unload', function () {
@@ -2037,40 +2170,61 @@ $(window).load(function () {
             },
             page: $(constsDomMenu.pageNumber).attr('data-page-number'),
             fontSize: $(constsDom.text).attr('data-font-size'),
-            lieHeight: $(constsDom.text).attr('data-line-height'),
+            lineHeight: $(constsDom.text).attr('data-line-height'),
             scrollTop: Math.abs(parseInt($('.mCustomScrollBox.mCS-activeBook').find('> .mCSB_container').css('top'))),
-            theme: $(constsDomPopover.themeOption).filter('.active').attr('data-theme-name'),
-            vibro: $(constsDomPopover.vibrationOption).filter('.active').attr('data-vibration')
+            theme: $(constsDom.page).attr('data-theme'),
+            vibration: $(constsDom.page).attr('data-vibration'),
+            bookmark: $(constsDomMenu.bookmark)
         });
     });
 
-    let states = __WEBPACK_IMPORTED_MODULE_6__LocalStorage__["a" /* default */].loadState();
+    let states = __WEBPACK_IMPORTED_MODULE_6__LocalStorage__["a" /* default */].getState();
 
     if (states !== false) {
         //volume sliders position
-        let volumeGlobalSliderInst = $(constsDomMenu.volumeGlobal).find('.js-range-slider').data('ionRangeSlider');
-        let volumeHintsSliderInst = $(constsDomPopover.volumeHints).find('.js-range-slider').data('ionRangeSlider');
-        let volumeBgSliderInst = $(constsDomPopover.volumeBg).find('.js-range-slider').data('ionRangeSlider');
-
-        volumeGlobalSliderInst.update({
-           from: states.volumeSlidersPosition.global
-        });
-
-        volumeHintsSliderInst.update({
-            from: states.volumeSlidersPosition.hints
-        });
-
-        volumeBgSliderInst.update({
-            from: states.volumeSlidersPosition.bg
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["f" /* VolumeSliders */].set({
+            sliders: {
+                global: {
+                    inst: $(constsDomMenu.volumeGlobal).find('.js-range-slider').data('ionRangeSlider'),
+                    val: states.volumeSlidersPosition.global
+                },
+                hints: {
+                    inst: $(constsDomPopover.volumeHints).find('.js-range-slider').data('ionRangeSlider'),
+                    val: states.volumeSlidersPosition.hints
+                },
+                bg: {
+                    inst: $(constsDomPopover.volumeBg).find('.js-range-slider').data('ionRangeSlider'),
+                    val: states.volumeSlidersPosition.bg
+                }
+            }
         });
 
         //font-size
-        $(constsDom.text).attr('data-font-size', states.fontSize);
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["e" /* FontSize */].set({
+            $text: $(constsDom.text),
+            newVal: states.fontSize
+        });
 
-        //line-height todo: значение в js-line-height-number должно тоже меняться
-        $(constsDom.text).attr('data-line-height', states.lineHeight);
+        //line-height
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["d" /* LineHeight */].set({
+            $text: $(constsDom.text),
+            $val: $(constsDomPopover.lineHeightVal),
+            newVal: states.lineHeight
+        });
 
-        //todo: theme, vibro, всё повыносить в классы с методами
+        //theme
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["b" /* Theme */].set({
+            $page: $(constsDom.page),
+            val: states.theme,
+            $themeOption: $(constsDomPopover.themeOption)
+        });
+
+        //vibration
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["a" /* Vibration */].set({
+            $page: $(constsDom.page),
+            val: states.vibration,
+            $vibrationOption: $(constsDomPopover.vibrationOption)
+        });
     }
 });
 

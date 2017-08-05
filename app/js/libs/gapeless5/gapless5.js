@@ -1564,14 +1564,14 @@ var Init = function(elem_id, options, tickMS) {
 		$("#transportbar" + that.id).addClass("g5transport-1pxup");
 	}
 
-	// set up button mappings
+	// setByDirection up button mappings
 	$('#prev' + that.id)[0].addEventListener("mousedown", GAPLESS5_PLAYERS[that.id].prev);
 	$('#play' + that.id)[0].addEventListener("mousedown", GAPLESS5_PLAYERS[that.id].playpause);
 	$('#stop' + that.id)[0].addEventListener("mousedown", GAPLESS5_PLAYERS[that.id].stop);
 	$('#shuffle' + that.id)[0].addEventListener("mousedown", GAPLESS5_PLAYERS[that.id].shuffleToggle);
 	$('#next' + that.id)[0].addEventListener("mousedown", GAPLESS5_PLAYERS[that.id].next);
 
-	// set up key mappings
+	// setByDirection up key mappings
 	if (options != null && 'mapKeys' in options)
 	{
 		that.mapKeys(options['mapKeys']);
@@ -1587,7 +1587,7 @@ var Init = function(elem_id, options, tickMS) {
 	enableButton('play', true);
 	enableButton('stop', true);
 
-	// set up whether shuffleButton appears or not (default is invisible)
+	// setByDirection up whether shuffleButton appears or not (default is invisible)
 	if (( options != null ) && ( 'shuffleButton' in options ) && ( options.shuffleButton != true))
 	{
 		// Style items per earlier Gapless versions
@@ -1601,10 +1601,10 @@ var Init = function(elem_id, options, tickMS) {
 	}
 	SCRUB_WIDTH = $("#transportbar" + that.id).width();
 
-	// set up whether shuffle is enabled when the player loads (default is false)
+	// setByDirection up whether shuffle is enabled when the player loads (default is false)
 	var shuffleInit = (( options != null ) && ( 'shuffle' in options ) && ( options.shuffle == true))
 
-	// set up starting track number
+	// setByDirection up starting track number
 	if ( options != null && 'startingTrack' in options)
 	{
 		if (typeof options.startingTrack == 'number')
@@ -1617,7 +1617,7 @@ var Init = function(elem_id, options, tickMS) {
 		}
 	}
 
-	// set up tracks into a FileList object
+	// setByDirection up tracks into a FileList object
 	if ( options != null && 'tracks' in options)
 	{
 		if (typeof options.tracks == 'string')
