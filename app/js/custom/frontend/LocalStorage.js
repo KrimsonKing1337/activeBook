@@ -19,7 +19,7 @@ export default class LocalStorage {
      * @param params.volumeSlidersPosition.global {number};
      * @param params.volumeSlidersPosition.hints {number};
      * @param params.volumeSlidersPosition.bg {number};
-     * @param params.page {number};
+     * @param params.currentPage {number};
      * @param params.fontSize {number};
      * @param params.lineHeight {number};
      * @param params.scrollTop {number};
@@ -30,7 +30,7 @@ export default class LocalStorage {
         let states = {
             volume: params.volume,
             volumeSlidersPosition: params.volumeSlidersPosition,
-            page: params.page,
+            currentPage: params.currentPage,
             fontSize: params.fontSize,
             lineHeight: params.lineHeight,
             scrollTop: params.scrollTop,
@@ -56,14 +56,8 @@ export default class LocalStorage {
     /**
      *
      * @param params
-     * применяем настройки
      */
-    static loadState(params = {}) {
-        let sliders = {};
-        let fontSize;
-        let lineHeight;
-        let theme;
-        let vibro;
+    static beforeUnload(params = {}) {
 
     }
 };

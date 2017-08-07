@@ -80,26 +80,37 @@ export class GoToPage {
     /**
      *
      * @param params {object};
-     * @param params.currentPage {string};
-     * @param params.pagesLength {string};
-     * @param params.where {number || string} next || prev;
+     * @param params.val {string};
      */
     static go (params = {}) {
-        let where = params.where;
+        let val = params.val;
+
+        location.href = '../pages/page_' + val + '.html';
+    }
+
+    /**
+     *
+     * @param params {object};
+     * @param params.currentPage {string};
+     * @param params.pagesLength {string};
+     * @param params.direction {number || string} next || prev;
+     */
+    static goWithDirection (params = {}) {
+        let direction = params.direction;
         let currentPage = params.currentPage;
         let pagesLength = params.pagesLength;
 
         let newVal;
         let limit;
 
-        if (where === 'next') {
+        if (direction === 'next') {
             newVal = currentPage + 1;
             limit = currentPage >= pagesLength;
-        } else if (where === 'prev') {
+        } else if (direction === 'prev') {
             newVal = currentPage - 1;
             limit = currentPage <= 1;
-        } else if (typeof where === 'number' && isNaN(where) === false) {
-            newVal = where;
+        } else if (typeof direction === 'number' && isNaN(direction) === false) {
+            newVal = direction;
 
             if (newVal <= 1) {
                 newVal = 1;
@@ -109,12 +120,14 @@ export class GoToPage {
 
             limit = newVal === currentPage;
         } else {
-            new Error('Unrecognized param "where" (' + where + '). Only next, prev and number is allowed');
+            new Error('Unrecognized param "where" (' + direction + '). Only next, prev and number is allowed');
         }
 
         if (limit === true) return;
 
-        location.href = '../pages/page_' + newVal + '.html';
+        window.flags.changePageAfterLoad = false;
+
+        GoToPage.go({val: newVal});
     }
 }
 

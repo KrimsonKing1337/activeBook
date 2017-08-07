@@ -120,7 +120,7 @@ $(window).load(function () {
     $('.table-of-contents__item').on('click', function () {
         let newVal = $.trim($(this).find('.table-of-contents__item__page').text());
 
-        GoToPage.go({currentPage: page.current, pagesLength: page.length, where: Math.abs(parseInt(newVal))});
+        GoToPage.goWithDirection({currentPage: page.current, pagesLength: page.length, direction: Math.abs(parseInt(newVal))});
     });
 
     //меняем межстрочный интервал
@@ -134,11 +134,11 @@ $(window).load(function () {
 
     //меняем страницу
     $('.js-page-next').on('click', function () {
-        GoToPage.go({currentPage: page.current, pagesLength: page.length, where: 'next'});
+        GoToPage.goWithDirection({currentPage: page.current, pagesLength: page.length, direction: 'next'});
     });
 
     $('.js-page-prev').on('click', function () {
-        GoToPage.go({currentPage: page.current, pagesLength: page.length, where: 'prev'});
+        GoToPage.goWithDirection({currentPage: page.current, pagesLength: page.length, direction: 'prev'});
     });
 
     $('.js-page-number').find('input').on('blur', function () {
@@ -160,7 +160,7 @@ $(window).load(function () {
             return;
         }
 
-        GoToPage.go({currentPage: page.current, pagesLength: page.length, where: Math.abs(parseInt(newVal))});
+        GoToPage.goWithDirection({currentPage: page.current, pagesLength: page.length, direction: Math.abs(parseInt(newVal))});
     });
 
     //меняем размер шрифта
@@ -257,7 +257,7 @@ $(window).load(function () {
                 hints: volumeHintsSlider.val(),
                 bg: volumeBgSlider.val()
             },
-            page: $(constsDomMenu.pageNumber).attr('data-page-number'),
+            currentPage: $(constsDomMenu.pageNumber).attr('data-page-number'),
             fontSize: $(constsDom.text).attr('data-font-size'),
             lineHeight: $(constsDom.text).attr('data-line-height'),
             scrollTop: Math.abs(parseInt($('.mCustomScrollBox.mCS-activeBook').find('> .mCSB_container').css('top'))),
@@ -314,5 +314,7 @@ $(window).load(function () {
             val: states.vibration,
             $vibrationOption: $(constsDomPopover.vibrationOption)
         });
+
+        //todo: go to page
     }
 });

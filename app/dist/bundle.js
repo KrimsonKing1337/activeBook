@@ -508,7 +508,7 @@ class LocalStorage {
      * @param params.volumeSlidersPosition.global {number};
      * @param params.volumeSlidersPosition.hints {number};
      * @param params.volumeSlidersPosition.bg {number};
-     * @param params.page {number};
+     * @param params.currentPage {number};
      * @param params.fontSize {number};
      * @param params.lineHeight {number};
      * @param params.scrollTop {number};
@@ -519,7 +519,7 @@ class LocalStorage {
         let states = {
             volume: params.volume,
             volumeSlidersPosition: params.volumeSlidersPosition,
-            page: params.page,
+            currentPage: params.currentPage,
             fontSize: params.fontSize,
             lineHeight: params.lineHeight,
             scrollTop: params.scrollTop,
@@ -545,14 +545,8 @@ class LocalStorage {
     /**
      *
      * @param params
-     * применяем настройки
      */
-    static loadState(params = {}) {
-        let sliders = {};
-        let fontSize;
-        let lineHeight;
-        let theme;
-        let vibro;
+    static beforeUnload(params = {}) {
 
     }
 }
@@ -648,26 +642,37 @@ class GoToPage {
     /**
      *
      * @param params {object};
-     * @param params.currentPage {string};
-     * @param params.pagesLength {string};
-     * @param params.where {number || string} next || prev;
+     * @param params.val {string};
      */
     static go (params = {}) {
-        let where = params.where;
+        let val = params.val;
+
+        location.href = '../pages/page_' + val + '.html';
+    }
+
+    /**
+     *
+     * @param params {object};
+     * @param params.currentPage {string};
+     * @param params.pagesLength {string};
+     * @param params.direction {number || string} next || prev;
+     */
+    static goWithDirection (params = {}) {
+        let direction = params.direction;
         let currentPage = params.currentPage;
         let pagesLength = params.pagesLength;
 
         let newVal;
         let limit;
 
-        if (where === 'next') {
+        if (direction === 'next') {
             newVal = currentPage + 1;
             limit = currentPage >= pagesLength;
-        } else if (where === 'prev') {
+        } else if (direction === 'prev') {
             newVal = currentPage - 1;
             limit = currentPage <= 1;
-        } else if (typeof where === 'number' && isNaN(where) === false) {
-            newVal = where;
+        } else if (typeof direction === 'number' && isNaN(direction) === false) {
+            newVal = direction;
 
             if (newVal <= 1) {
                 newVal = 1;
@@ -677,12 +682,14 @@ class GoToPage {
 
             limit = newVal === currentPage;
         } else {
-            new Error('Unrecognized param "where" (' + where + '). Only next, prev and number is allowed');
+            new Error('Unrecognized param "where" (' + direction + '). Only next, prev and number is allowed');
         }
 
         if (limit === true) return;
 
-        location.href = '../pages/page_' + newVal + '.html';
+        window.flags.changePageAfterLoad = false;
+
+        GoToPage.go({val: newVal});
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["c"] = GoToPage;
@@ -2031,7 +2038,7 @@ $(window).load(function () {
     $('.table-of-contents__item').on('click', function () {
         let newVal = $.trim($(this).find('.table-of-contents__item__page').text());
 
-        __WEBPACK_IMPORTED_MODULE_3__Menu__["c" /* GoToPage */].go({currentPage: page.current, pagesLength: page.length, where: Math.abs(parseInt(newVal))});
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["c" /* GoToPage */].goWithDirection({currentPage: page.current, pagesLength: page.length, direction: Math.abs(parseInt(newVal))});
     });
 
     //меняем межстрочный интервал
@@ -2045,11 +2052,11 @@ $(window).load(function () {
 
     //меняем страницу
     $('.js-page-next').on('click', function () {
-        __WEBPACK_IMPORTED_MODULE_3__Menu__["c" /* GoToPage */].go({currentPage: page.current, pagesLength: page.length, where: 'next'});
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["c" /* GoToPage */].goWithDirection({currentPage: page.current, pagesLength: page.length, direction: 'next'});
     });
 
     $('.js-page-prev').on('click', function () {
-        __WEBPACK_IMPORTED_MODULE_3__Menu__["c" /* GoToPage */].go({currentPage: page.current, pagesLength: page.length, where: 'prev'});
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["c" /* GoToPage */].goWithDirection({currentPage: page.current, pagesLength: page.length, direction: 'prev'});
     });
 
     $('.js-page-number').find('input').on('blur', function () {
@@ -2071,7 +2078,7 @@ $(window).load(function () {
             return;
         }
 
-        __WEBPACK_IMPORTED_MODULE_3__Menu__["c" /* GoToPage */].go({currentPage: page.current, pagesLength: page.length, where: Math.abs(parseInt(newVal))});
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["c" /* GoToPage */].goWithDirection({currentPage: page.current, pagesLength: page.length, direction: Math.abs(parseInt(newVal))});
     });
 
     //меняем размер шрифта
@@ -2168,7 +2175,7 @@ $(window).load(function () {
                 hints: volumeHintsSlider.val(),
                 bg: volumeBgSlider.val()
             },
-            page: $(constsDomMenu.pageNumber).attr('data-page-number'),
+            currentPage: $(constsDomMenu.pageNumber).attr('data-page-number'),
             fontSize: $(constsDom.text).attr('data-font-size'),
             lineHeight: $(constsDom.text).attr('data-line-height'),
             scrollTop: Math.abs(parseInt($('.mCustomScrollBox.mCS-activeBook').find('> .mCSB_container').css('top'))),
@@ -2225,6 +2232,8 @@ $(window).load(function () {
             val: states.vibration,
             $vibrationOption: $(constsDomPopover.vibrationOption)
         });
+
+        //todo: go to page
     }
 });
 
