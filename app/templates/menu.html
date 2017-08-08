@@ -2,14 +2,26 @@
     <div class="menu__item bookmark js-bookmark">
         <img class="fill" src="../styles/images/menu/bookmark.svg" />
     </div>
-    <div class="menu__item arrow-left js-page-prev">
-        <img class="fill" src="../styles/images/menu/arrow-left.svg" />
-    </div>
-    <div class="menu__item page-number js-page-number" data-page-number="{%pageNumber}" data-pages-length="{%pagesLength}">
-        <input type="text" value="" placeholder="{%pageNumber} из {%pagesLength}" pattern="[0-9]" />
-    </div>
-    <div class="menu__item arrow-right js-page-next">
-        <img class="fill" src="../styles/images/menu/arrow-right.svg" />
+    <div class="menu__item navigator">
+        <div class="go-to-page-by-number js-go-to-page-by-number">
+            <div class="go-to-page-by-number__input">
+                <input type="text" class="js-page-input" value="" placeholder="{%pageNumber}" pattern="[0-9]" />
+            </div>
+            <div class="go-to-page-by-number__button js-go-to-page-trigger">
+                Перейти
+            </div>
+        </div>
+        <div class="go-to-page-by-arrows js-go-to-page-by-arrows active">
+            <div class="go-to-page-by-arrows__arrow-left js-page-prev">
+                <img class="fill" src="../styles/images/menu/arrow-left.svg" />
+            </div>
+            <div class="go-to-page-by-arrows__page-number js-page-number" data-page-number="{%pageNumber}" data-pages-length="{%pagesLength}">
+                <input type="text" value="" placeholder="{%pageNumber} из {%pagesLength}" pattern="[0-9]" />
+            </div>
+            <div class="go-to-page-by-arrows__arrow-right js-page-next">
+                <img class="fill" src="../styles/images/menu/arrow-right.svg" />
+            </div>
+        </div>
     </div>
     <div class="menu__item volume">
         <img class="fill" src="../styles/images/menu/sound-icon.svg" />

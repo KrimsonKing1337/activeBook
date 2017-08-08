@@ -125,8 +125,6 @@ export class GoToPage {
 
         if (limit === true) return;
 
-        window.flags.changePageAfterLoad = false;
-
         GoToPage.go({val: newVal});
     }
 }

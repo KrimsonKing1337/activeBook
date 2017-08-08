@@ -302,28 +302,83 @@ $p-line-height: 1.2;
       margin-left: 10px;
     }
 
-    &.page-number {
-      margin-left: 24px;
+    .go-to-page-by-number {
+      font-family: RobotoRegular, Arial, Helvetica, sans-serif;
+      font-size: 12px;
+      display: none; //change by script
+      align-items: center;
+      justify-content: flex-start;
+      width: 130px;
+      height: 23px;
+      background: #F2994A;
+      border-radius: 20px;
 
-      input {
-        width: 60px;
-        font-family: RobotoRegular, Arial, Helvetica, sans-serif;
-        font-size: 12px;
-        text-align: center;
-        background: transparent;
+      &.active {
+        display: flex;
+      }
 
-        &::-webkit-input-placeholder {
-          color: #000;
+      &__input {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 52px;
+        height: 21px;
+        background: #fff;
+        color: #000;
+        margin-left: 1px;
+        border-radius: 20px;
+
+        &.error {
+          border: 1px red solid;
         }
 
-        &::-moz-placeholder {
-          color: #000;
+        input {
+          text-align: center;
+          width: 100%;
+          background: none;
+          outline: none;
         }
+      }
+
+      &__button {
+        color: #fff;
+        padding-left: 13px;
+        @include hover-default;
       }
     }
 
-    &.arrow-right {
-      margin-left: 24px;
+    .go-to-page-by-arrows {
+      display: none; //change by script
+      align-items: center;
+      justify-content: flex-start;
+
+      &.active {
+        display: flex;
+      }
+
+      &__page-number {
+        margin-left: 24px;
+
+        input {
+          width: 60px;
+          font-family: RobotoRegular, Arial, Helvetica, sans-serif;
+          font-size: 12px;
+          text-align: center;
+          background: transparent;
+
+          &::-webkit-input-placeholder {
+            color: #000;
+          }
+
+          &::-moz-placeholder {
+            color: #000;
+          }
+        }
+      }
+
+      &__arrow-right {
+        margin-left: 24px;
+      }
     }
 
     &.volume {

@@ -141,26 +141,42 @@ $(window).load(function () {
         GoToPage.goWithDirection({currentPage: page.current, pagesLength: page.length, direction: 'prev'});
     });
 
-    $('.js-page-number').find('input').on('blur', function () {
-        let $val = $('.js-page-number');
-        let pattern = $val.find('input').attr('pattern');
-        let newVal = $(this).val();
+    $('.js-go-to-page-by-number').on('click', function (e) {
+       e.stopPropagation();
+    });
+
+    $('.js-go-to-page-trigger').on('click', function () {
+        let $input = $('.js-page-input');
+        let pattern = $input.attr('pattern');
+        let newVal = $input.val();
 
         if (newVal.length === 0) return;
 
         //only numbers allows
         if (new RegExp('^' + pattern + '+$').test(newVal) === false) {
-            $(this).css({'background': 'red'});
-            $(this).val('');
+            $input.parent().addClass('error');
+            $input.val('');
 
-            $(this).one('keydown', function () {
-                $(this).css({'background': ''});
+            $input.one('keydown', function () {
+                $input.parent().removeClass('error');
             });
 
             return;
         }
 
         GoToPage.goWithDirection({currentPage: page.current, pagesLength: page.length, direction: Math.abs(parseInt(newVal))});
+    });
+
+    $('.js-page-number').find('input').on('focus', function () {
+        $('.js-go-to-page-by-arrows').removeClass('active');
+        $('.js-go-to-page-by-number').addClass('active');
+
+        $('.js-page-input').focus();
+
+        $(document).one('click', function () {
+            $('.js-go-to-page-by-number').removeClass('active');
+            $('.js-go-to-page-by-arrows').addClass('active');
+        });
     });
 
     //меняем размер шрифта
