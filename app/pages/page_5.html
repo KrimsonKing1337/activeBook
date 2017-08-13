@@ -52,7 +52,7 @@
     <script src="../dist/bundle.js"></script>
 </head>
 <body>
-    <div class="page">
+    <div class="page" data-theme="default" data-vibration="true">
     <div class="left-side"></div>
     <div class="right-side">
         <div class="text-and-effects">
@@ -182,54 +182,115 @@
 <g id="Canvas" transform="translate(-3906 -769)" figma:type="canvas">
 <g id="bookmark" figma:type="instance">
 <g id="Vector" figma:type="vector">
-<use xlink:href="#pfd832son5gfabi0ms4i" transform="translate(3909.5 770)"></use>
+<use xlink:href="#w2ksmwpew59wf6layvi" transform="translate(3909.5 770)"></use>
 </g>
 <g id="Vector 2" figma:type="vector">
-<use xlink:href="#017lwq3lghrq4pe97ldi" transform="translate(3907 770)"></use>
+<use xlink:href="#jipbe338gq2vxebb21emi" transform="translate(3907 770)"></use>
 </g>
 </g>
 </g>
 <defs>
-<path id="pfd832son5gfabi0ms4i" d="M 0 0L 0 -0.5L -0.5 -0.5L -0.5 0L 0 0ZM 0 12L -0.5 12L -0.5 13.2071L 0.353553 12.3536L 0 12ZM 5 7L 5.35355 6.64645L 5 6.29289L 4.64645 6.64645L 5 7ZM 10 12L 9.64645 12.3536L 10.5 13.2071L 10.5 12L 10 12ZM 8 -0.5L 0 -0.5L 0 0.5L 8 0.5L 8 -0.5ZM -0.5 0L -0.5 12L 0.5 12L 0.5 0L -0.5 0ZM 0.353553 12.3536L 5.35355 7.35355L 4.64645 6.64645L -0.353553 11.6464L 0.353553 12.3536ZM 4.64645 7.35355L 9.64645 12.3536L 10.3536 11.6464L 5.35355 6.64645L 4.64645 7.35355ZM 10.5 12L 10.5 2L 9.5 2L 9.5 12L 10.5 12ZM 8 0.5C 8.82843 0.5 9.5 1.17157 9.5 2L 10.5 2C 10.5 0.619288 9.38071 -0.5 8 -0.5L 8 0.5Z"></path>
-<path id="017lwq3lghrq4pe97ldi" d="M 0 6L -0.5 6L -0.5 6.5L 0 6.5L 0 6ZM 2.5 -0.5L 2 -0.5L 2 0.5L 2.5 0.5L 2.5 -0.5ZM -0.5 2L -0.5 6L 0.5 6L 0.5 2L -0.5 2ZM 0 6.5L 2.5 6.5L 2.5 5.5L 0 5.5L 0 6.5ZM 2 -0.5C 0.619288 -0.5 -0.5 0.619288 -0.5 2L 0.5 2C 0.5 1.17157 1.17157 0.5 2 0.5L 2 -0.5Z"></path>
+<path id="w2ksmwpew59wf6layvi" d="M 0 0L 0 -0.5L -0.5 -0.5L -0.5 0L 0 0ZM 0 12L -0.5 12L -0.5 13.2071L 0.353553 12.3536L 0 12ZM 5 7L 5.35355 6.64645L 5 6.29289L 4.64645 6.64645L 5 7ZM 10 12L 9.64645 12.3536L 10.5 13.2071L 10.5 12L 10 12ZM 8 -0.5L 0 -0.5L 0 0.5L 8 0.5L 8 -0.5ZM -0.5 0L -0.5 12L 0.5 12L 0.5 0L -0.5 0ZM 0.353553 12.3536L 5.35355 7.35355L 4.64645 6.64645L -0.353553 11.6464L 0.353553 12.3536ZM 4.64645 7.35355L 9.64645 12.3536L 10.3536 11.6464L 5.35355 6.64645L 4.64645 7.35355ZM 10.5 12L 10.5 2L 9.5 2L 9.5 12L 10.5 12ZM 8 0.5C 8.82843 0.5 9.5 1.17157 9.5 2L 10.5 2C 10.5 0.619288 9.38071 -0.5 8 -0.5L 8 0.5Z"></path>
+<path id="jipbe338gq2vxebb21emi" d="M 0 6L -0.5 6L -0.5 6.5L 0 6.5L 0 6ZM 2.5 -0.5L 2 -0.5L 2 0.5L 2.5 0.5L 2.5 -0.5ZM -0.5 2L -0.5 6L 0.5 6L 0.5 2L -0.5 2ZM 0 6.5L 2.5 6.5L 2.5 5.5L 0 5.5L 0 6.5ZM 2 -0.5C 0.619288 -0.5 -0.5 0.619288 -0.5 2L 0.5 2C 0.5 1.17157 1.17157 0.5 2 0.5L 2 -0.5Z"></path>
 </defs>
 </svg>
 </div>
+
+        <div class="add-settings">
+            <div class="add-settings__item header-button js-bookmark-create">
+                <div class="add-settings__item__label">Создать закладку</div>
+            </div>
+            <div class="add-settings__item">
+                <div class="bookmarks-list js-bookmarks-list">
+                    <!-- template START -->
+                    <div class="bookmarks-list__item js-bookmark-item template">
+                        <div class="bookmarks-list__item__date js-bookmark-date">
+
+                        </div>
+                        <div class="bookmarks-list__item__page js-bookmark-page">
+
+                        </div>
+                        <div class="bookmarks-list__item__remove js-bookmark-remove">x</div>
+                    </div>
+                    <!-- template END -->
+                    <div class="bookmarks-list__item js-bookmark-item">
+                        <div class="bookmarks-list__item__date js-bookmark-date">
+                            22/12/17
+                        </div>
+                        <div class="bookmarks-list__item__page js-bookmark-page">
+                            10
+                        </div>
+                        <div class="bookmarks-list__item__remove js-bookmark-remove">x</div>
+                    </div>
+                    <div class="bookmarks-list__item js-bookmark-item">
+                        <div class="bookmarks-list__item__date">
+                            22/12/17
+                        </div>
+                        <div class="bookmarks-list__item__page js-bookmark-page">
+                            2
+                        </div>
+                        <div class="bookmarks-list__item__remove js-bookmark-remove">x</div>
+                    </div>
+                    <div class="bookmarks-list__item js-bookmark-item">
+                        <div class="bookmarks-list__item__date">
+                            22/12/17
+                        </div>
+                        <div class="bookmarks-list__item__page js-bookmark-page">
+                            7
+                        </div>
+                        <div class="bookmarks-list__item__remove js-bookmark-remove">x</div>
+                    </div>
+                </div>
+            </div>
+            <img class="add-settings__bottom" src="../styles/images/add-settings-bottom.svg">
+        </div>
     </div>
-    <div class="menu__item arrow-left js-page-prev">
-        <div class="obj-img__wrapper">
+    <div class="menu__item navigator">
+        <div class="go-to-page-by-number js-go-to-page-by-number">
+            <div class="go-to-page-by-number__input">
+                <input type="text" class="js-page-input" value="" placeholder="5" pattern="[0-9]">
+            </div>
+            <div class="go-to-page-by-number__button js-go-to-page-trigger">
+                Перейти
+            </div>
+        </div>
+        <div class="go-to-page-by-arrows js-go-to-page-by-arrows active">
+            <div class="go-to-page-by-arrows__arrow-left js-page-prev">
+                <div class="obj-img__wrapper">
     <svg width="7" height="14" viewBox="0 0 7 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:figma="http://www.figma.com/figma/ns">
 <title>arrow-left</title>
 <desc>Created using Figma</desc>
 <g id="Canvas" transform="translate(-3910 -792)" figma:type="canvas">
 <g id="arrow-left" figma:type="vector">
-<use xlink:href="#h5gh2z3qo4gouvw2vs4i" transform="translate(3911 793)"></use>
+<use xlink:href="#wefd0xhtslo03co3l3di" transform="translate(3911 793)"></use>
 </g>
 </g>
 <defs>
-<path id="h5gh2z3qo4gouvw2vs4i" d="M 5.38411 0.320092C 5.56089 0.107954 5.53223 -0.207329 5.32009 -0.384111C 5.10795 -0.560893 4.79267 -0.532231 4.61589 -0.320092L 5.38411 0.320092ZM 0 6L -0.384111 5.67991C -0.53863 5.86533 -0.53863 6.13467 -0.384111 6.32009L 0 6ZM 4.61589 12.3201C 4.79267 12.5322 5.10795 12.5609 5.32009 12.3841C 5.53223 12.2073 5.56089 11.892 5.38411 11.6799L 4.61589 12.3201ZM 4.61589 -0.320092L -0.384111 5.67991L 0.384111 6.32009L 5.38411 0.320092L 4.61589 -0.320092ZM -0.384111 6.32009L 4.61589 12.3201L 5.38411 11.6799L 0.384111 5.67991L -0.384111 6.32009Z"></path>
+<path id="wefd0xhtslo03co3l3di" d="M 5.38411 0.320092C 5.56089 0.107954 5.53223 -0.207329 5.32009 -0.384111C 5.10795 -0.560893 4.79267 -0.532231 4.61589 -0.320092L 5.38411 0.320092ZM 0 6L -0.384111 5.67991C -0.53863 5.86533 -0.53863 6.13467 -0.384111 6.32009L 0 6ZM 4.61589 12.3201C 4.79267 12.5322 5.10795 12.5609 5.32009 12.3841C 5.53223 12.2073 5.56089 11.892 5.38411 11.6799L 4.61589 12.3201ZM 4.61589 -0.320092L -0.384111 5.67991L 0.384111 6.32009L 5.38411 0.320092L 4.61589 -0.320092ZM -0.384111 6.32009L 4.61589 12.3201L 5.38411 11.6799L 0.384111 5.67991L -0.384111 6.32009Z"></path>
 </defs>
 </svg>
 </div>
-    </div>
-    <div class="menu__item page-number js-page-number" data-page-number="5" data-pages-length="12">
-        <input type="text" value="" placeholder="5 из 12" pattern="[0-9]">
-    </div>
-    <div class="menu__item arrow-right js-page-next">
-        <div class="obj-img__wrapper">
+            </div>
+            <div class="go-to-page-by-arrows__page-number js-page-number" data-page-number="5" data-pages-length="12">
+                <input type="text" value="" placeholder="5 из 12" pattern="[0-9]">
+            </div>
+            <div class="go-to-page-by-arrows__arrow-right js-page-next">
+                <div class="obj-img__wrapper">
     <svg width="7" height="14" viewBox="0 0 7 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:figma="http://www.figma.com/figma/ns">
 <title>arrow-right</title>
 <desc>Created using Figma</desc>
 <g id="Canvas" transform="translate(-3910 -815)" figma:type="canvas">
 <g id="arrow-right" figma:type="vector">
-<use xlink:href="#dg5ez2ig0wvlpi7y6tj4i" transform="matrix(-1 1.22465e-16 -1.22465e-16 -1 3916 828)"></use>
+<use xlink:href="#coxm3dkl1uemin855ewmi" transform="matrix(-1 1.22465e-16 -1.22465e-16 -1 3916 828)"></use>
 </g>
 </g>
 <defs>
-<path id="dg5ez2ig0wvlpi7y6tj4i" d="M 5.38411 0.320092C 5.56089 0.107954 5.53223 -0.207329 5.32009 -0.384111C 5.10795 -0.560893 4.79267 -0.532231 4.61589 -0.320092L 5.38411 0.320092ZM 0 6L -0.384111 5.67991C -0.53863 5.86533 -0.53863 6.13467 -0.384111 6.32009L 0 6ZM 4.61589 12.3201C 4.79267 12.5322 5.10795 12.5609 5.32009 12.3841C 5.53223 12.2073 5.56089 11.892 5.38411 11.6799L 4.61589 12.3201ZM 4.61589 -0.320092L -0.384111 5.67991L 0.384111 6.32009L 5.38411 0.320092L 4.61589 -0.320092ZM -0.384111 6.32009L 4.61589 12.3201L 5.38411 11.6799L 0.384111 5.67991L -0.384111 6.32009Z"></path>
+<path id="coxm3dkl1uemin855ewmi" d="M 5.38411 0.320092C 5.56089 0.107954 5.53223 -0.207329 5.32009 -0.384111C 5.10795 -0.560893 4.79267 -0.532231 4.61589 -0.320092L 5.38411 0.320092ZM 0 6L -0.384111 5.67991C -0.53863 5.86533 -0.53863 6.13467 -0.384111 6.32009L 0 6ZM 4.61589 12.3201C 4.79267 12.5322 5.10795 12.5609 5.32009 12.3841C 5.53223 12.2073 5.56089 11.892 5.38411 11.6799L 4.61589 12.3201ZM 4.61589 -0.320092L -0.384111 5.67991L 0.384111 6.32009L 5.38411 0.320092L 4.61589 -0.320092ZM -0.384111 6.32009L 4.61589 12.3201L 5.38411 11.6799L 0.384111 5.67991L -0.384111 6.32009Z"></path>
 </defs>
 </svg>
 </div>
+            </div>
+        </div>
     </div>
     <div class="menu__item volume">
         <div class="obj-img__wrapper">
@@ -239,20 +300,20 @@
 <g id="Canvas" transform="translate(-3907 -851)" figma:type="canvas">
 <g id="sound-icon" figma:type="instance">
 <g id="Ellipse" figma:type="vector">
-<use xlink:href="#9eli9bje47d2ya05dn29" transform="matrix(-1 -1.22465e-16 1.22465e-16 -1 3917.5 862)"></use>
+<use xlink:href="#h8s9ga7g5uzblhxgvi" transform="matrix(-1 -1.22465e-16 1.22465e-16 -1 3917.5 862)"></use>
 </g>
 <g id="Vector 3" figma:type="vector">
-<use xlink:href="#kuaspwmmyidvtw7sc3di" transform="matrix(-1 -1.22465e-16 1.22465e-16 -1 3918 863)"></use>
+<use xlink:href="#zxxicc6kmq7be2ltbj4i" transform="matrix(-1 -1.22465e-16 1.22465e-16 -1 3918 863)"></use>
 </g>
 <g id="Rectangle 4" figma:type="vector">
-<use xlink:href="#k7ezxq7vp37fqqkf0f6r" transform="matrix(-1 -1.22465e-16 1.22465e-16 -1 3916 858)"></use>
+<use xlink:href="#f7h047c55jy05xe9izfr" transform="matrix(-1 -1.22465e-16 1.22465e-16 -1 3916 858)"></use>
 </g>
 </g>
 </g>
 <defs>
-<path id="9eli9bje47d2ya05dn29" d="M 3 5C 3 6.31065 2.69251 7.45723 2.16148 8.25958C 1.63919 9.0487 0.909712 9.5 0 9.5L 0 10.5C 1.29943 10.5 2.31994 9.83201 2.99538 8.81149C 3.66206 7.80419 4 6.45077 4 5L 3 5ZM 0 0.5C 0.909712 0.5 1.63919 0.951301 2.16148 1.74042C 2.69251 2.54277 3 3.68935 3 5L 4 5C 4 3.54923 3.66206 2.19581 2.99538 1.18851C 2.31994 0.167987 1.29943 -0.5 0 -0.5L 0 0.5Z"></path>
-<path id="kuaspwmmyidvtw7sc3di" d="M 6.76943 8.13176L 6.52136 7.69764L 6.76943 8.13176ZM 1.49614 11.1451L 1.24807 10.7109L 1.49614 11.1451ZM 6.76943 3.86824L 7.01749 3.43412L 6.76943 3.86824ZM -0.5 1.72318L -0.5 10.2768L 0.5 10.2768L 0.5 1.72318L -0.5 1.72318ZM 1.74421 11.5792L 7.01749 8.56588L 6.52136 7.69764L 1.24807 10.7109L 1.74421 11.5792ZM 7.26556 8.5L 9 8.5L 9 7.5L 7.26556 7.5L 7.26556 8.5ZM 10.5 7L 10.5 5L 9.5 5L 9.5 7L 10.5 7ZM 9 3.5L 7.26556 3.5L 7.26556 4.5L 9 4.5L 9 3.5ZM 7.01749 3.43412L 1.74421 0.420815L 1.24807 1.28906L 6.52136 4.30236L 7.01749 3.43412ZM 0.5 1.72318C 0.5 1.33927 0.914741 1.09858 1.24807 1.28906L 1.74421 0.420815C 0.744223 -0.150605 -0.5 0.571446 -0.5 1.72318L 0.5 1.72318ZM -0.5 10.2768C -0.5 11.4286 0.744223 12.1506 1.74421 11.5792L 1.24807 10.7109C 0.914741 10.9014 0.5 10.6607 0.5 10.2768L -0.5 10.2768ZM 7.01749 8.56588C 7.11032 8.50799 7.15625 8.49579 7.26556 8.5L 7.26556 7.5C 7.02683 7.50421 6.73073 7.58284 6.52136 7.69764L 7.01749 8.56588ZM 9 8.5C 9.82843 8.5 10.5 7.82843 10.5 7L 9.5 7C 9.5 7.27614 9.27614 7.5 9 7.5L 9 8.5ZM 10.5 5C 10.5 4.17157 9.82843 3.5 9 3.5L 9 4.5C 9.27614 4.5 9.5 4.72386 9.5 5L 10.5 5ZM 7.26556 3.5C 7.15625 3.50421 7.11032 3.49201 7.01749 3.43412L 6.52136 4.30236C 6.73073 4.41716 7.02683 4.49579 7.26556 4.5L 7.26556 3.5Z"></path>
-<path id="k7ezxq7vp37fqqkf0f6r" d="M 0 1C 0 0.447715 0.447715 0 1 0L 2 0L 2 2L 1 2C 0.447715 2 0 1.55228 0 1L 0 1Z"></path>
+<path id="h8s9ga7g5uzblhxgvi" d="M 3 5C 3 6.31065 2.69251 7.45723 2.16148 8.25958C 1.63919 9.0487 0.909712 9.5 0 9.5L 0 10.5C 1.29943 10.5 2.31994 9.83201 2.99538 8.81149C 3.66206 7.80419 4 6.45077 4 5L 3 5ZM 0 0.5C 0.909712 0.5 1.63919 0.951301 2.16148 1.74042C 2.69251 2.54277 3 3.68935 3 5L 4 5C 4 3.54923 3.66206 2.19581 2.99538 1.18851C 2.31994 0.167987 1.29943 -0.5 0 -0.5L 0 0.5Z"></path>
+<path id="zxxicc6kmq7be2ltbj4i" d="M 6.76943 8.13176L 6.52136 7.69764L 6.76943 8.13176ZM 1.49614 11.1451L 1.24807 10.7109L 1.49614 11.1451ZM 6.76943 3.86824L 7.01749 3.43412L 6.76943 3.86824ZM -0.5 1.72318L -0.5 10.2768L 0.5 10.2768L 0.5 1.72318L -0.5 1.72318ZM 1.74421 11.5792L 7.01749 8.56588L 6.52136 7.69764L 1.24807 10.7109L 1.74421 11.5792ZM 7.26556 8.5L 9 8.5L 9 7.5L 7.26556 7.5L 7.26556 8.5ZM 10.5 7L 10.5 5L 9.5 5L 9.5 7L 10.5 7ZM 9 3.5L 7.26556 3.5L 7.26556 4.5L 9 4.5L 9 3.5ZM 7.01749 3.43412L 1.74421 0.420815L 1.24807 1.28906L 6.52136 4.30236L 7.01749 3.43412ZM 0.5 1.72318C 0.5 1.33927 0.914741 1.09858 1.24807 1.28906L 1.74421 0.420815C 0.744223 -0.150605 -0.5 0.571446 -0.5 1.72318L 0.5 1.72318ZM -0.5 10.2768C -0.5 11.4286 0.744223 12.1506 1.74421 11.5792L 1.24807 10.7109C 0.914741 10.9014 0.5 10.6607 0.5 10.2768L -0.5 10.2768ZM 7.01749 8.56588C 7.11032 8.50799 7.15625 8.49579 7.26556 8.5L 7.26556 7.5C 7.02683 7.50421 6.73073 7.58284 6.52136 7.69764L 7.01749 8.56588ZM 9 8.5C 9.82843 8.5 10.5 7.82843 10.5 7L 9.5 7C 9.5 7.27614 9.27614 7.5 9 7.5L 9 8.5ZM 10.5 5C 10.5 4.17157 9.82843 3.5 9 3.5L 9 4.5C 9.27614 4.5 9.5 4.72386 9.5 5L 10.5 5ZM 7.26556 3.5C 7.15625 3.50421 7.11032 3.49201 7.01749 3.43412L 6.52136 4.30236C 6.73073 4.41716 7.02683 4.49579 7.26556 4.5L 7.26556 3.5Z"></path>
+<path id="f7h047c55jy05xe9izfr" d="M 0 1C 0 0.447715 0.447715 0 1 0L 2 0L 2 2L 1 2C 0.447715 2 0 1.55228 0 1L 0 1Z"></path>
 </defs>
 </svg>
 </div>
@@ -284,16 +345,16 @@
 <g id="Canvas" transform="translate(-3905 -902)" figma:type="canvas">
 <g id="font-small" figma:type="instance">
 <g id="a" figma:type="text">
-<use xlink:href="#hp4h5luld7dgv8qto6r" transform="translate(3911 902)"></use>
+<use xlink:href="#nq660v4p99lse1rk3ayvi" transform="translate(3911 902)"></use>
 </g>
 <g id="Vector 5" figma:type="vector">
-<use xlink:href="#0o2usv0ospw36254gqfr" transform="matrix(-1 1.22465e-16 -1.22465e-16 -1 3910 914.5)"></use>
+<use xlink:href="#rb5p3i0c5sosg243g14i" transform="matrix(-1 1.22465e-16 -1.22465e-16 -1 3910 914.5)"></use>
 </g>
 </g>
 </g>
 <defs>
-<path id="hp4h5luld7dgv8qto6r" d="M 5.52344 13C 5.45052 12.8542 5.39128 12.5944 5.3457 12.2207C 4.75781 12.8314 4.05599 13.1367 3.24023 13.1367C 2.51107 13.1367 1.91178 12.9316 1.44238 12.5215C 0.977539 12.1068 0.745117 11.5827 0.745117 10.9492C 0.745117 10.179 1.03678 9.58203 1.62012 9.1582C 2.20801 8.72982 3.03288 8.51562 4.09473 8.51562L 5.3252 8.51562L 5.3252 7.93457C 5.3252 7.49251 5.19303 7.1416 4.92871 6.88184C 4.66439 6.61751 4.27474 6.48535 3.75977 6.48535C 3.30859 6.48535 2.93034 6.59928 2.625 6.82715C 2.31966 7.05501 2.16699 7.33073 2.16699 7.6543L 0.895508 7.6543C 0.895508 7.28516 1.02539 6.92969 1.28516 6.58789C 1.54948 6.24154 1.90495 5.9681 2.35156 5.76758C 2.80273 5.56706 3.2972 5.4668 3.83496 5.4668C 4.68717 5.4668 5.35482 5.68099 5.83789 6.10938C 6.32096 6.5332 6.57161 7.11882 6.58984 7.86621L 6.58984 11.2705C 6.58984 11.9495 6.67643 12.4896 6.84961 12.8906L 6.84961 13L 5.52344 13ZM 3.4248 12.0361C 3.82129 12.0361 4.19727 11.9336 4.55273 11.7285C 4.9082 11.5234 5.16569 11.2568 5.3252 10.9287L 5.3252 9.41113L 4.33398 9.41113C 2.78451 9.41113 2.00977 9.86458 2.00977 10.7715C 2.00977 11.168 2.14193 11.4779 2.40625 11.7012C 2.67057 11.9245 3.01009 12.0361 3.4248 12.0361Z"></path>
-<path id="0o2usv0ospw36254gqfr" d="M 1.5 8.5C 1.5 8.77614 1.72386 9 2 9C 2.27614 9 2.5 8.77614 2.5 8.5L 1.5 8.5ZM 2 0L 2.41603 -0.27735C 2.32329 -0.416449 2.16718 -0.5 2 -0.5C 1.83282 -0.5 1.67671 -0.416449 1.58397 -0.27735L 2 0ZM -0.416025 2.72265C -0.569201 2.95241 -0.507114 3.26285 -0.27735 3.41603C -0.0475858 3.5692 0.262849 3.50711 0.416025 3.27735L -0.416025 2.72265ZM 3.58397 3.27735C 3.73715 3.50711 4.04759 3.5692 4.27735 3.41603C 4.50711 3.26285 4.5692 2.95241 4.41603 2.72265L 3.58397 3.27735ZM 2.5 8.5L 2.5 0L 1.5 0L 1.5 8.5L 2.5 8.5ZM 1.58397 -0.27735L -0.416025 2.72265L 0.416025 3.27735L 2.41603 0.27735L 1.58397 -0.27735ZM 4.41603 2.72265L 2.41603 -0.27735L 1.58397 0.27735L 3.58397 3.27735L 4.41603 2.72265Z"></path>
+<path id="nq660v4p99lse1rk3ayvi" d="M 5.52344 13C 5.45052 12.8542 5.39128 12.5944 5.3457 12.2207C 4.75781 12.8314 4.05599 13.1367 3.24023 13.1367C 2.51107 13.1367 1.91178 12.9316 1.44238 12.5215C 0.977539 12.1068 0.745117 11.5827 0.745117 10.9492C 0.745117 10.179 1.03678 9.58203 1.62012 9.1582C 2.20801 8.72982 3.03288 8.51562 4.09473 8.51562L 5.3252 8.51562L 5.3252 7.93457C 5.3252 7.49251 5.19303 7.1416 4.92871 6.88184C 4.66439 6.61751 4.27474 6.48535 3.75977 6.48535C 3.30859 6.48535 2.93034 6.59928 2.625 6.82715C 2.31966 7.05501 2.16699 7.33073 2.16699 7.6543L 0.895508 7.6543C 0.895508 7.28516 1.02539 6.92969 1.28516 6.58789C 1.54948 6.24154 1.90495 5.9681 2.35156 5.76758C 2.80273 5.56706 3.2972 5.4668 3.83496 5.4668C 4.68717 5.4668 5.35482 5.68099 5.83789 6.10938C 6.32096 6.5332 6.57161 7.11882 6.58984 7.86621L 6.58984 11.2705C 6.58984 11.9495 6.67643 12.4896 6.84961 12.8906L 6.84961 13L 5.52344 13ZM 3.4248 12.0361C 3.82129 12.0361 4.19727 11.9336 4.55273 11.7285C 4.9082 11.5234 5.16569 11.2568 5.3252 10.9287L 5.3252 9.41113L 4.33398 9.41113C 2.78451 9.41113 2.00977 9.86458 2.00977 10.7715C 2.00977 11.168 2.14193 11.4779 2.40625 11.7012C 2.67057 11.9245 3.01009 12.0361 3.4248 12.0361Z"></path>
+<path id="rb5p3i0c5sosg243g14i" d="M 1.5 8.5C 1.5 8.77614 1.72386 9 2 9C 2.27614 9 2.5 8.77614 2.5 8.5L 1.5 8.5ZM 2 0L 2.41603 -0.27735C 2.32329 -0.416449 2.16718 -0.5 2 -0.5C 1.83282 -0.5 1.67671 -0.416449 1.58397 -0.27735L 2 0ZM -0.416025 2.72265C -0.569201 2.95241 -0.507114 3.26285 -0.27735 3.41603C -0.0475858 3.5692 0.262849 3.50711 0.416025 3.27735L -0.416025 2.72265ZM 3.58397 3.27735C 3.73715 3.50711 4.04759 3.5692 4.27735 3.41603C 4.50711 3.26285 4.5692 2.95241 4.41603 2.72265L 3.58397 3.27735ZM 2.5 8.5L 2.5 0L 1.5 0L 1.5 8.5L 2.5 8.5ZM 1.58397 -0.27735L -0.416025 2.72265L 0.416025 3.27735L 2.41603 0.27735L 1.58397 -0.27735ZM 4.41603 2.72265L 2.41603 -0.27735L 1.58397 0.27735L 3.58397 3.27735L 4.41603 2.72265Z"></path>
 </defs>
 </svg>
 </div>
@@ -306,16 +367,16 @@
 <g id="Canvas" transform="translate(-3905 -874)" figma:type="canvas">
 <g id="font-big" figma:type="instance">
 <g id="A" figma:type="text">
-<use xlink:href="#96jddvhvx3hgtsrwwmi" transform="translate(3911 874)"></use>
+<use xlink:href="#c76jsmbs8tcx54pmsra4i" transform="translate(3911 874)"></use>
 </g>
 <g id="Vector 5" figma:type="vector">
-<use xlink:href="#kjkvpd7h91dk351u1sjor" transform="translate(3906 878)"></use>
+<use xlink:href="#sy3st9pxduslbre9afw29" transform="translate(3906 878)"></use>
 </g>
 </g>
 </g>
 <defs>
-<path id="96jddvhvx3hgtsrwwmi" d="M 6.65137 10.4023L 2.48145 10.4023L 1.54492 13L 0.191406 13L 3.99219 3.04688L 5.14062 3.04688L 8.94824 13L 7.60156 13L 6.65137 10.4023ZM 2.87793 9.32227L 6.26172 9.32227L 4.56641 4.66699L 2.87793 9.32227Z"></path>
-<path id="kjkvpd7h91dk351u1sjor" d="M 1.5 8.5C 1.5 8.77614 1.72386 9 2 9C 2.27614 9 2.5 8.77614 2.5 8.5L 1.5 8.5ZM 2 0L 2.41603 -0.27735C 2.32329 -0.416449 2.16718 -0.5 2 -0.5C 1.83282 -0.5 1.67671 -0.416449 1.58397 -0.27735L 2 0ZM -0.416025 2.72265C -0.569201 2.95241 -0.507114 3.26285 -0.27735 3.41603C -0.0475858 3.5692 0.262849 3.50711 0.416025 3.27735L -0.416025 2.72265ZM 3.58397 3.27735C 3.73715 3.50711 4.04759 3.5692 4.27735 3.41603C 4.50711 3.26285 4.5692 2.95241 4.41603 2.72265L 3.58397 3.27735ZM 2.5 8.5L 2.5 0L 1.5 0L 1.5 8.5L 2.5 8.5ZM 1.58397 -0.27735L -0.416025 2.72265L 0.416025 3.27735L 2.41603 0.27735L 1.58397 -0.27735ZM 4.41603 2.72265L 2.41603 -0.27735L 1.58397 0.27735L 3.58397 3.27735L 4.41603 2.72265Z"></path>
+<path id="c76jsmbs8tcx54pmsra4i" d="M 6.65137 10.4023L 2.48145 10.4023L 1.54492 13L 0.191406 13L 3.99219 3.04688L 5.14062 3.04688L 8.94824 13L 7.60156 13L 6.65137 10.4023ZM 2.87793 9.32227L 6.26172 9.32227L 4.56641 4.66699L 2.87793 9.32227Z"></path>
+<path id="sy3st9pxduslbre9afw29" d="M 1.5 8.5C 1.5 8.77614 1.72386 9 2 9C 2.27614 9 2.5 8.77614 2.5 8.5L 1.5 8.5ZM 2 0L 2.41603 -0.27735C 2.32329 -0.416449 2.16718 -0.5 2 -0.5C 1.83282 -0.5 1.67671 -0.416449 1.58397 -0.27735L 2 0ZM -0.416025 2.72265C -0.569201 2.95241 -0.507114 3.26285 -0.27735 3.41603C -0.0475858 3.5692 0.262849 3.50711 0.416025 3.27735L -0.416025 2.72265ZM 3.58397 3.27735C 3.73715 3.50711 4.04759 3.5692 4.27735 3.41603C 4.50711 3.26285 4.5692 2.95241 4.41603 2.72265L 3.58397 3.27735ZM 2.5 8.5L 2.5 0L 1.5 0L 1.5 8.5L 2.5 8.5ZM 1.58397 -0.27735L -0.416025 2.72265L 0.416025 3.27735L 2.41603 0.27735L 1.58397 -0.27735ZM 4.41603 2.72265L 2.41603 -0.27735L 1.58397 0.27735L 3.58397 3.27735L 4.41603 2.72265Z"></path>
 </defs>
 </svg>
 </div>
@@ -329,38 +390,38 @@
 <g id="menu-icon" figma:type="instance">
 <g id="menu-icon-off" figma:type="frame">
 <g id="Ellipse 2" figma:type="ellipse">
-<use xlink:href="#85oeytgyvcav9r4quxr" transform="translate(3908 839)"></use>
+<use xlink:href="#igoxtpy5sqem0qhyqfr" transform="translate(3908 839)"></use>
 </g>
 <g id="Ellipse 2" figma:type="ellipse">
-<use xlink:href="#85oeytgyvcav9r4quxr" transform="translate(3912 839)"></use>
+<use xlink:href="#igoxtpy5sqem0qhyqfr" transform="translate(3912 839)"></use>
 </g>
 <g id="Ellipse 2" figma:type="ellipse">
-<use xlink:href="#85oeytgyvcav9r4quxr" transform="translate(3916 839)"></use>
+<use xlink:href="#igoxtpy5sqem0qhyqfr" transform="translate(3916 839)"></use>
 </g>
 </g>
 </g>
 </g>
 <defs>
-<path id="85oeytgyvcav9r4quxr" d="M 2 1C 2 1.55228 1.55228 2 1 2C 0.447715 2 0 1.55228 0 1C 0 0.447715 0.447715 0 1 0C 1.55228 0 2 0.447715 2 1Z"></path>
+<path id="igoxtpy5sqem0qhyqfr" d="M 2 1C 2 1.55228 1.55228 2 1 2C 0.447715 2 0 1.55228 0 1C 0 0.447715 0.447715 0 1 0C 1.55228 0 2 0.447715 2 1Z"></path>
 </defs>
 </svg>
 </div>
 
         <div class="add-settings">
-            <div class="add-settings__item table-of-contents-button js-table-of-contents-show">
+            <div class="add-settings__item header-button js-table-of-contents-show">
                 <div class="add-settings__item__label">Оглавление</div>
             </div>
             <div class="add-settings__item theme-options">
-                <div class="add-settings__item__theme-option js-theme-option theme-default active" data-theme-name="default">
+                <div class="add-settings__item__theme-option js-theme-option active" data-theme="default">
                     <i class="fa fa-check" aria-hidden="true"></i>
                 </div>
-                <div class="add-settings__item__theme-option js-theme-option theme-gray" data-theme-name="gray">
+                <div class="add-settings__item__theme-option js-theme-option" data-theme="gray">
                     <i class="fa fa-check" aria-hidden="true"></i>
                 </div>
-                <div class="add-settings__item__theme-option js-theme-option theme-yellow" data-theme-name="yellow">
+                <div class="add-settings__item__theme-option js-theme-option" data-theme="yellow">
                     <i class="fa fa-check" aria-hidden="true"></i>
                 </div>
-                <div class="add-settings__item__theme-option js-theme-option theme-dark-blue" data-theme-name="dark-blue">
+                <div class="add-settings__item__theme-option js-theme-option" data-theme="dark-blue">
                     <i class="fa fa-check" aria-hidden="true"></i>
                 </div>
             </div>

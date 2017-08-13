@@ -31,6 +31,13 @@ $(window).load(function () {
         scrollbarPosition: 'outside'
     });
 
+    $('.js-bookmarks-list').closest('.add-settings__item').mCustomScrollbar({
+        theme: 'activeBook',
+        autoDraggerLength: true,
+        mouseWheel: {scrollAmount: 75},
+        scrollbarPosition: 'outside'
+    });
+
     //стрелки, pageUp, pageDown, Home, End передаются в mCustomScrollBar
     //todo: влево/вправо в него не передавать, а в нём самом запретить их обработку
     /**
@@ -120,16 +127,28 @@ $(window).load(function () {
     $('.table-of-contents__item').on('click', function () {
         let newVal = $.trim($(this).find('.table-of-contents__item__page').text());
 
-        GoToPage.goWithDirection({currentPage: page.current, pagesLength: page.length, direction: Math.abs(parseInt(newVal))});
+        GoToPage.goWithDirection({
+            currentPage: page.current,
+            pagesLength: page.length,
+            direction: Math.abs(parseInt(newVal))
+        });
     });
 
     //меняем межстрочный интервал
     $('.js-line-height-minus').on('click', function () {
-        LineHeight.setByDirection({$val: $(constsDomPopover.lineHeightVal), direction: 'less', $text: $(constsDom.text)});
+        LineHeight.setByDirection({
+            $val: $(constsDomPopover.lineHeightVal),
+            direction: 'less',
+            $text: $(constsDom.text)
+        });
     });
 
     $('.js-line-height-plus').on('click', function () {
-        LineHeight.setByDirection({$val: $(constsDomPopover.lineHeightVal), direction: 'more', $text: $(constsDom.text)});
+        LineHeight.setByDirection({
+            $val: $(constsDomPopover.lineHeightVal),
+            direction: 'more',
+            $text: $(constsDom.text)
+        });
     });
 
     //меняем страницу
@@ -142,7 +161,7 @@ $(window).load(function () {
     });
 
     $('.js-go-to-page-by-number').on('click', function (e) {
-       e.stopPropagation();
+        e.stopPropagation();
     });
 
     $('.js-go-to-page-trigger').on('click', function () {
@@ -164,7 +183,11 @@ $(window).load(function () {
             return;
         }
 
-        GoToPage.goWithDirection({currentPage: page.current, pagesLength: page.length, direction: Math.abs(parseInt(newVal))});
+        GoToPage.goWithDirection({
+            currentPage: page.current,
+            pagesLength: page.length,
+            direction: Math.abs(parseInt(newVal))
+        });
     });
 
     $('.js-page-number').find('input').on('focus', function () {
@@ -245,9 +268,39 @@ $(window).load(function () {
         VolumeControllerInst.setLoops({volume: volume});
     });
 
-    //устанавливаем закладку
-    $(constsDomMenu.bookmark).on('click', function () {
-        $(this).find(constsDomMenu.svgWrapper).toggleClass('active');
+    //переходим по закладке
+    //$(document).on('click', '.js-bookmark-item', function () {
+    $('.js-bookmark-item').on('click', function () {
+        let page = $(this).find('.js-bookmark-page').text().trim();
+
+        GoToPage.go({val: page});
+    });
+
+    //создаём закладку
+    $('.js-bookmark-create').on('click', function () {
+        let template = $(this).closest('.add-settings').find('.js-bookmark-item').filter('.template').clone()
+            .removeClass('template');
+        let dateNow = new Date();
+        let dayNow = dateNow.getDate();
+        let monthNow = (dateNow.getMonth() + 1);
+        if (monthNow < 10) monthNow = '0' + monthNow;
+        let yearNow = dateNow.getFullYear().toString().substring(2);
+        let parseDate = dayNow + '/' + monthNow + '/' + yearNow;
+        let pageNumber = Page.getParams().current;
+
+        template.find('.js-bookmark-date').text(parseDate);
+        template.find('.js-bookmark-page').text(pageNumber);
+
+        $('.js-bookmarks-list').append(template);
+    });
+
+    //удаляем закладку
+    //$(document).on('click', '.js-bookmark-remove', function (e) {
+    $('.js-bookmark-remove').on('click', function (e) {
+        e.stopPropagation();
+
+        debugger;
+        $(this).closest('.js-bookmark-item').remove();
     });
 
     //fadeOut background sounds before change the page
