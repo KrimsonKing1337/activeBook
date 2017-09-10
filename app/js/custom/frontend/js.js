@@ -299,7 +299,6 @@ $(window).load(function () {
     $('.js-bookmark-remove').on('click', function (e) {
         e.stopPropagation();
 
-        debugger;
         $(this).closest('.js-bookmark-item').remove();
     });
 

@@ -687,8 +687,6 @@ class GoToPage {
 
         if (limit === true) return;
 
-        window.flags.changePageAfterLoad = false;
-
         GoToPage.go({val: newVal});
     }
 }
@@ -1949,6 +1947,13 @@ $(window).load(function () {
         scrollbarPosition: 'outside'
     });
 
+    $('.js-bookmarks-list').closest('.add-settings__item').mCustomScrollbar({
+        theme: 'activeBook',
+        autoDraggerLength: true,
+        mouseWheel: {scrollAmount: 75},
+        scrollbarPosition: 'outside'
+    });
+
     //стрелки, pageUp, pageDown, Home, End передаются в mCustomScrollBar
     //todo: влево/вправо в него не передавать, а в нём самом запретить их обработку
     /**
@@ -2038,16 +2043,28 @@ $(window).load(function () {
     $('.table-of-contents__item').on('click', function () {
         let newVal = $.trim($(this).find('.table-of-contents__item__page').text());
 
-        __WEBPACK_IMPORTED_MODULE_3__Menu__["c" /* GoToPage */].goWithDirection({currentPage: page.current, pagesLength: page.length, direction: Math.abs(parseInt(newVal))});
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["c" /* GoToPage */].goWithDirection({
+            currentPage: page.current,
+            pagesLength: page.length,
+            direction: Math.abs(parseInt(newVal))
+        });
     });
 
     //меняем межстрочный интервал
     $('.js-line-height-minus').on('click', function () {
-        __WEBPACK_IMPORTED_MODULE_3__Menu__["d" /* LineHeight */].setByDirection({$val: $(constsDomPopover.lineHeightVal), direction: 'less', $text: $(constsDom.text)});
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["d" /* LineHeight */].setByDirection({
+            $val: $(constsDomPopover.lineHeightVal),
+            direction: 'less',
+            $text: $(constsDom.text)
+        });
     });
 
     $('.js-line-height-plus').on('click', function () {
-        __WEBPACK_IMPORTED_MODULE_3__Menu__["d" /* LineHeight */].setByDirection({$val: $(constsDomPopover.lineHeightVal), direction: 'more', $text: $(constsDom.text)});
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["d" /* LineHeight */].setByDirection({
+            $val: $(constsDomPopover.lineHeightVal),
+            direction: 'more',
+            $text: $(constsDom.text)
+        });
     });
 
     //меняем страницу
@@ -2059,26 +2076,46 @@ $(window).load(function () {
         __WEBPACK_IMPORTED_MODULE_3__Menu__["c" /* GoToPage */].goWithDirection({currentPage: page.current, pagesLength: page.length, direction: 'prev'});
     });
 
-    $('.js-page-number').find('input').on('blur', function () {
-        let $val = $('.js-page-number');
-        let pattern = $val.find('input').attr('pattern');
-        let newVal = $(this).val();
+    $('.js-go-to-page-by-number').on('click', function (e) {
+        e.stopPropagation();
+    });
+
+    $('.js-go-to-page-trigger').on('click', function () {
+        let $input = $('.js-page-input');
+        let pattern = $input.attr('pattern');
+        let newVal = $input.val();
 
         if (newVal.length === 0) return;
 
         //only numbers allows
         if (new RegExp('^' + pattern + '+$').test(newVal) === false) {
-            $(this).css({'background': 'red'});
-            $(this).val('');
+            $input.parent().addClass('error');
+            $input.val('');
 
-            $(this).one('keydown', function () {
-                $(this).css({'background': ''});
+            $input.one('keydown', function () {
+                $input.parent().removeClass('error');
             });
 
             return;
         }
 
-        __WEBPACK_IMPORTED_MODULE_3__Menu__["c" /* GoToPage */].goWithDirection({currentPage: page.current, pagesLength: page.length, direction: Math.abs(parseInt(newVal))});
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["c" /* GoToPage */].goWithDirection({
+            currentPage: page.current,
+            pagesLength: page.length,
+            direction: Math.abs(parseInt(newVal))
+        });
+    });
+
+    $('.js-page-number').find('input').on('focus', function () {
+        $('.js-go-to-page-by-arrows').removeClass('active');
+        $('.js-go-to-page-by-number').addClass('active');
+
+        $('.js-page-input').focus();
+
+        $(document).one('click', function () {
+            $('.js-go-to-page-by-number').removeClass('active');
+            $('.js-go-to-page-by-arrows').addClass('active');
+        });
     });
 
     //меняем размер шрифта
@@ -2147,9 +2184,38 @@ $(window).load(function () {
         VolumeControllerInst.setLoops({volume: volume});
     });
 
-    //устанавливаем закладку
-    $(constsDomMenu.bookmark).on('click', function () {
-        $(this).find(constsDomMenu.svgWrapper).toggleClass('active');
+    //переходим по закладке
+    //$(document).on('click', '.js-bookmark-item', function () {
+    $('.js-bookmark-item').on('click', function () {
+        let page = $(this).find('.js-bookmark-page').text().trim();
+
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["c" /* GoToPage */].go({val: page});
+    });
+
+    //создаём закладку
+    $('.js-bookmark-create').on('click', function () {
+        let template = $(this).closest('.add-settings').find('.js-bookmark-item').filter('.template').clone()
+            .removeClass('template');
+        let dateNow = new Date();
+        let dayNow = dateNow.getDate();
+        let monthNow = (dateNow.getMonth() + 1);
+        if (monthNow < 10) monthNow = '0' + monthNow;
+        let yearNow = dateNow.getFullYear().toString().substring(2);
+        let parseDate = dayNow + '/' + monthNow + '/' + yearNow;
+        let pageNumber = __WEBPACK_IMPORTED_MODULE_1__Page__["a" /* default */].getParams().current;
+
+        template.find('.js-bookmark-date').text(parseDate);
+        template.find('.js-bookmark-page').text(pageNumber);
+
+        $('.js-bookmarks-list').append(template);
+    });
+
+    //удаляем закладку
+    //$(document).on('click', '.js-bookmark-remove', function (e) {
+    $('.js-bookmark-remove').on('click', function (e) {
+        e.stopPropagation();
+
+        $(this).closest('.js-bookmark-item').remove();
     });
 
     //fadeOut background sounds before change the page

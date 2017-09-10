@@ -29,19 +29,16 @@
     $rail: #fff;
   }
 
-  .text,
-  .table-of-contents {
-    .mCS-activeBook {
-      &.mCSB_scrollTools {
-        .mCSB_dragger {
-          .mCSB_dragger_bar {
-            background: $bar;
-          }
+  .mCS-activeBook {
+    &.mCSB_scrollTools {
+      .mCSB_dragger {
+        .mCSB_dragger_bar {
+          background: $bar;
         }
+      }
 
-        .mCSB_draggerRail{
-          background-color: $rail;
-        }
+      .mCSB_draggerRail{
+        background-color: $rail;
       }
     }
   }
