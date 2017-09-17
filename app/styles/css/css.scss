@@ -458,7 +458,9 @@ $p-line-height: 1.2;
 .add-settings {
   $border-radius: 8px;
 
-  display: none; //change by script
+  display: flex;
+  visibility: hidden;
+  opacity: 0;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
@@ -475,7 +477,8 @@ $p-line-height: 1.2;
   cursor: default;
 
   &.active {
-    display: flex;
+    visibility: visible;
+    opacity: 1;
   }
 
   &__bottom {

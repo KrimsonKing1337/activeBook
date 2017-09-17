@@ -146,21 +146,17 @@ body {
     .table-of-contents__close:hover {
       opacity: 0.65; }
 
-.text .mCS-activeBook.mCSB_scrollTools, .table-of-contents .mCS-activeBook.mCSB_scrollTools,
-.table-of-contents .mCS-activeBook.mCSB_scrollTools {
+.mCS-activeBook.mCSB_scrollTools {
   opacity: 0.8; }
-  .text .mCS-activeBook.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar, .table-of-contents .mCS-activeBook.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar,
-  .table-of-contents .mCS-activeBook.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
+  .mCS-activeBook.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
     width: 6px;
     border-radius: 100px;
     background: #f2994a; }
-  .text .mCS-activeBook.mCSB_scrollTools .mCSB_draggerRail, .table-of-contents .mCS-activeBook.mCSB_scrollTools .mCSB_draggerRail,
-  .table-of-contents .mCS-activeBook.mCSB_scrollTools .mCSB_draggerRail {
+  .mCS-activeBook.mCSB_scrollTools .mCSB_draggerRail {
     background-color: #fff; }
 
-.text .mCS-activeBook.mCSB_scrollTools_vertical, .table-of-contents .mCS-activeBook.mCSB_scrollTools_vertical,
-.table-of-contents .mCS-activeBook.mCSB_scrollTools_vertical {
-  right: -5px;
+.mCS-activeBook.mCSB_scrollTools_vertical {
+  right: -5px !important;
   margin: 10px 0; }
 
 .menu {
@@ -292,10 +288,12 @@ body {
       max-height: 100px; }
 
 .add-settings {
-  display: none;
+  display: flex;
+  visibility: hidden;
+  opacity: 0;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   position: absolute;
   top: 0;
   left: 0;
@@ -308,7 +306,8 @@ body {
   z-index: 1;
   cursor: default; }
   .add-settings.active {
-    display: flex; }
+    visibility: visible;
+    opacity: 1; }
   .add-settings__bottom {
     position: absolute;
     bottom: -16px;
@@ -489,6 +488,9 @@ body {
       padding-left: 8px;
       padding-right: 8px; }
 
+.menu__item.bookmark .add-settings {
+  max-height: 147px; }
+
 .obj-img__wrapper {
   position: relative;
   display: flex;
@@ -502,12 +504,10 @@ body {
 .uppercase {
   text-transform: uppercase; }
 
-.page[data-theme="default"] .text .mCS-activeBook.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar, .page[data-theme="default"] .table-of-contents .mCS-activeBook.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar,
-.page[data-theme="default"] .table-of-contents .mCS-activeBook.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
+.page[data-theme="default"] .mCS-activeBook.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
   background: #f2994a; }
 
-.page[data-theme="default"] .text .mCS-activeBook.mCSB_scrollTools .mCSB_draggerRail, .page[data-theme="default"] .table-of-contents .mCS-activeBook.mCSB_scrollTools .mCSB_draggerRail,
-.page[data-theme="default"] .table-of-contents .mCS-activeBook.mCSB_scrollTools .mCSB_draggerRail {
+.page[data-theme="default"] .mCS-activeBook.mCSB_scrollTools .mCSB_draggerRail {
   background-color: #fff; }
 
 .page[data-theme="default"] .menu__item .obj-img__wrapper svg path {
@@ -560,12 +560,10 @@ body {
   .page[data-theme="default"] .add-settings__item.header-button .page[data-theme="default"] .add-settings__item__label {
     color: #fff; }
 
-.page[data-theme="gray"] .text .mCS-activeBook.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar, .page[data-theme="gray"] .table-of-contents .mCS-activeBook.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar,
-.page[data-theme="gray"] .table-of-contents .mCS-activeBook.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
+.page[data-theme="gray"] .mCS-activeBook.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
   background: #828282; }
 
-.page[data-theme="gray"] .text .mCS-activeBook.mCSB_scrollTools .mCSB_draggerRail, .page[data-theme="gray"] .table-of-contents .mCS-activeBook.mCSB_scrollTools .mCSB_draggerRail,
-.page[data-theme="gray"] .table-of-contents .mCS-activeBook.mCSB_scrollTools .mCSB_draggerRail {
+.page[data-theme="gray"] .mCS-activeBook.mCSB_scrollTools .mCSB_draggerRail {
   background-color: #fff; }
 
 .page[data-theme="gray"] .menu__item .obj-img__wrapper svg path {
@@ -618,12 +616,10 @@ body {
   .page[data-theme="gray"] .add-settings__item.header-button .page[data-theme="gray"] .add-settings__item__label {
     color: #fff; }
 
-.page[data-theme="yellow"] .text .mCS-activeBook.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar, .page[data-theme="yellow"] .table-of-contents .mCS-activeBook.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar,
-.page[data-theme="yellow"] .table-of-contents .mCS-activeBook.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
+.page[data-theme="yellow"] .mCS-activeBook.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
   background: #fdf5de; }
 
-.page[data-theme="yellow"] .text .mCS-activeBook.mCSB_scrollTools .mCSB_draggerRail, .page[data-theme="yellow"] .table-of-contents .mCS-activeBook.mCSB_scrollTools .mCSB_draggerRail,
-.page[data-theme="yellow"] .table-of-contents .mCS-activeBook.mCSB_scrollTools .mCSB_draggerRail {
+.page[data-theme="yellow"] .mCS-activeBook.mCSB_scrollTools .mCSB_draggerRail {
   background-color: #fff; }
 
 .page[data-theme="yellow"] .menu__item .obj-img__wrapper svg path {
@@ -676,12 +672,10 @@ body {
   .page[data-theme="yellow"] .add-settings__item.header-button .page[data-theme="yellow"] .add-settings__item__label {
     color: #fff; }
 
-.page[data-theme="dark-blue"] .text .mCS-activeBook.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar, .page[data-theme="dark-blue"] .table-of-contents .mCS-activeBook.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar,
-.page[data-theme="dark-blue"] .table-of-contents .mCS-activeBook.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
+.page[data-theme="dark-blue"] .mCS-activeBook.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
   background: #728c9a; }
 
-.page[data-theme="dark-blue"] .text .mCS-activeBook.mCSB_scrollTools .mCSB_draggerRail, .page[data-theme="dark-blue"] .table-of-contents .mCS-activeBook.mCSB_scrollTools .mCSB_draggerRail,
-.page[data-theme="dark-blue"] .table-of-contents .mCS-activeBook.mCSB_scrollTools .mCSB_draggerRail {
+.page[data-theme="dark-blue"] .mCS-activeBook.mCSB_scrollTools .mCSB_draggerRail {
   background-color: #fff; }
 
 .page[data-theme="dark-blue"] .menu__item .obj-img__wrapper svg path {

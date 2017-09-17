@@ -226,10 +226,10 @@ export default class Popover {
         let self = this;
         let $popover = self.$popover;
 
-        $popover.css({
+        /*$popover.css({
             'transform' : 'translate(0, 0)',
             'opacity' : '0'
-        });
+        });*/
 
         let $popoverBottom = $popover.find(self.constDomPopover.popoverBottom);
         $popoverBottom.removeClass('revert');
