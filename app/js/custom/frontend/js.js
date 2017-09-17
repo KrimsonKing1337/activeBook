@@ -1,7 +1,7 @@
 import ConstsDom from './ConstsDOM';
 import Page from './Page';
 import Popover from './Popover';
-import {LineHeight, FontSize, GoToPage, VolumeSliders, Theme, Vibration} from './Menu';
+import {LineHeight, FontSize, GoToPage, VolumeSliders, Theme, Vibration, Bookmarks} from './Menu';
 import {Effects} from './Effects';
 import {Volume, VolumeController} from './Volume';
 import LocalStorage from './LocalStorage';
@@ -269,7 +269,6 @@ $(window).load(function () {
     });
 
     //переходим по закладке
-    //$(document).on('click', '.js-bookmark-item', function () {
     $('.js-bookmark-item').on('click', function () {
         let page = $(this).find('.js-bookmark-page').text().trim();
 
@@ -278,8 +277,7 @@ $(window).load(function () {
 
     //создаём закладку
     $('.js-bookmark-create').on('click', function () {
-        let template = $(this).closest('.add-settings').find('.js-bookmark-item').filter('.template').clone()
-            .removeClass('template');
+        let $newBookmark = $('.js-bookmark-item.template').clone(true).removeClass('template');
         let dateNow = new Date();
         let dayNow = dateNow.getDate();
         let monthNow = (dateNow.getMonth() + 1);
@@ -288,14 +286,13 @@ $(window).load(function () {
         let parseDate = dayNow + '/' + monthNow + '/' + yearNow;
         let pageNumber = Page.getParams().current;
 
-        template.find('.js-bookmark-date').text(parseDate);
-        template.find('.js-bookmark-page').text(pageNumber);
+        $newBookmark.find('.js-bookmark-date').text(parseDate);
+        $newBookmark.find('.js-bookmark-page').text(pageNumber);
 
-        $('.js-bookmarks-list').append(template);
+        $('.js-bookmarks-list').append($newBookmark);
     });
 
     //удаляем закладку
-    //$(document).on('click', '.js-bookmark-remove', function (e) {
     $('.js-bookmark-remove').on('click', function (e) {
         e.stopPropagation();
 
@@ -314,6 +311,19 @@ $(window).load(function () {
         let volumeHintsSlider = $(constsDomPopover.volumeHints).find('.js-range-slider');
         let volumeBgSlider = $(constsDomPopover.volumeBg).find('.js-range-slider');
 
+        let bookmarks = [];
+
+        $('.js-bookmark-item:not(.template)').each(function (i, item) {
+            let $bookmark = $(item);
+            let date = $bookmark.find('.js-bookmark-date').text().trim();
+            let page = $bookmark.find('.js-bookmark-page').text().trim();
+
+            bookmarks.push({
+                date: date,
+                page: page
+            });
+        });
+
         LocalStorage.saveState({
             volume: {
                 global: VolumeInst.getGlobal(),
@@ -331,7 +341,7 @@ $(window).load(function () {
             scrollTop: Math.abs(parseInt($('.mCustomScrollBox.mCS-activeBook').find('> .mCSB_container').css('top'))),
             theme: $(constsDom.page).attr('data-theme'),
             vibration: $(constsDom.page).attr('data-vibration'),
-            bookmark: $(constsDomMenu.bookmark)
+            bookmarks: bookmarks
         });
     });
 
@@ -383,6 +393,11 @@ $(window).load(function () {
             $vibrationOption: $(constsDomPopover.vibrationOption)
         });
 
-        //todo: go to page
+        //bookmarks
+        Bookmarks.set({
+            $bookmarkContainer: $('.js-bookmarks-list'),
+            $bookmarkTemplate: $('.js-bookmark-item.template'),
+            bookmarksArr: states.bookmarks
+        })
     }
 });

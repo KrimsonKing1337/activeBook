@@ -466,6 +466,8 @@ body {
         .add-settings__item .bookmarks-list__item > div {
           flex-shrink: 0; }
         .add-settings__item .bookmarks-list__item__remove {
+          width: 25px;
+          text-align: right;
           transition: all ease 0.3s 0s; }
           .add-settings__item .bookmarks-list__item__remove:hover {
             color: #a30101; }

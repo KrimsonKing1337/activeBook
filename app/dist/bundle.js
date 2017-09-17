@@ -514,6 +514,7 @@ class LocalStorage {
      * @param params.scrollTop {number};
      * @param params.theme {string};
      * @param params.vibration {bool};
+     * @param params.bookmarks[] {object};
      */
     static saveState(params = {}) {
         let states = {
@@ -524,7 +525,8 @@ class LocalStorage {
             lineHeight: params.lineHeight,
             scrollTop: params.scrollTop,
             theme: params.theme,
-            vibration: params.vibration
+            vibration: params.vibration,
+            bookmarks: params.bookmarks
         };
 
         localStorage.setItem('activeBook', JSON.stringify(states)); //сериализуем объект в строку
@@ -532,7 +534,33 @@ class LocalStorage {
 
     /**
      *
-     * @param params
+     * @param params {object}
+     * @param params.key {string}
+     * @param params.val {string}
+     */
+    static write(params = {}) {
+        let key = params.key;
+        let val = params.val;
+
+        localStorage.setItem(key, JSON.stringify(val)); //сериализуем объект в строку
+    }
+
+    /**
+     *
+     * @param params {object}
+     * @param params.key {string}
+     */
+    static read(params = {}) {
+        let key = params.key;
+
+        if (!localStorage.getItem(key)) return false;
+
+        return JSON.parse(localStorage.getItem(key)); //получаем значение и десериализируем его в объект
+    }
+
+    /**
+     *
+     * @param params {object}
      * получаем настройки из LocalStorage
      */
     static getState(params = {}) {
@@ -850,6 +878,41 @@ class Vibration {
 /* harmony export (immutable) */ __webpack_exports__["a"] = Vibration;
 
 
+class Bookmarks {
+    constructor () {
+
+    }
+
+    /**
+     *
+     * @param params {object}
+     * @param params.$bookmarkContainer {object}
+     * @param params.$bookmarkTemplate {object}
+     * @param params.bookmarksArr[] {object}
+     */
+    static set(params = {}) {
+        let $bookmarkContainer = params.$bookmarkContainer;
+        let $bookmarkTemplate = params.$bookmarkTemplate;
+        let bookmarksArr = params.bookmarksArr;
+
+        if (!bookmarksArr) return;
+
+        bookmarksArr.forEach(function (bookmark) {
+            let date = bookmark.date;
+            let page = bookmark.page;
+
+            let $newBookmark = $bookmarkTemplate.clone(true).removeClass('template');
+
+            $newBookmark.find('.js-bookmark-date').text(date);
+            $newBookmark.find('.js-bookmark-page').text(page);
+
+            $bookmarkContainer.append($newBookmark);
+        });
+    }
+}
+/* harmony export (immutable) */ __webpack_exports__["g"] = Bookmarks;
+
+
 /***/ }),
 /* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -1107,8 +1170,7 @@ class Popover {
         let $popover = self.$popover;
 
         $popover.css({
-            'transform' : 'translate(0, 0)',
-            'opacity' : '0'
+            'transform' : 'translate(0, 0)'
         });
 
         let $popoverBottom = $popover.find(self.constDomPopover.popoverBottom);
@@ -2185,7 +2247,6 @@ $(window).load(function () {
     });
 
     //переходим по закладке
-    //$(document).on('click', '.js-bookmark-item', function () {
     $('.js-bookmark-item').on('click', function () {
         let page = $(this).find('.js-bookmark-page').text().trim();
 
@@ -2194,8 +2255,7 @@ $(window).load(function () {
 
     //создаём закладку
     $('.js-bookmark-create').on('click', function () {
-        let template = $(this).closest('.add-settings').find('.js-bookmark-item').filter('.template').clone()
-            .removeClass('template');
+        let $newBookmark = $('.js-bookmark-item.template').clone(true).removeClass('template');
         let dateNow = new Date();
         let dayNow = dateNow.getDate();
         let monthNow = (dateNow.getMonth() + 1);
@@ -2204,14 +2264,13 @@ $(window).load(function () {
         let parseDate = dayNow + '/' + monthNow + '/' + yearNow;
         let pageNumber = __WEBPACK_IMPORTED_MODULE_1__Page__["a" /* default */].getParams().current;
 
-        template.find('.js-bookmark-date').text(parseDate);
-        template.find('.js-bookmark-page').text(pageNumber);
+        $newBookmark.find('.js-bookmark-date').text(parseDate);
+        $newBookmark.find('.js-bookmark-page').text(pageNumber);
 
-        $('.js-bookmarks-list').append(template);
+        $('.js-bookmarks-list').append($newBookmark);
     });
 
     //удаляем закладку
-    //$(document).on('click', '.js-bookmark-remove', function (e) {
     $('.js-bookmark-remove').on('click', function (e) {
         e.stopPropagation();
 
@@ -2230,6 +2289,19 @@ $(window).load(function () {
         let volumeHintsSlider = $(constsDomPopover.volumeHints).find('.js-range-slider');
         let volumeBgSlider = $(constsDomPopover.volumeBg).find('.js-range-slider');
 
+        let bookmarks = [];
+
+        $('.js-bookmark-item:not(.template)').each(function (i, item) {
+            let $bookmark = $(item);
+            let date = $bookmark.find('.js-bookmark-date').text().trim();
+            let page = $bookmark.find('.js-bookmark-page').text().trim();
+
+            bookmarks.push({
+                date: date,
+                page: page
+            });
+        });
+
         __WEBPACK_IMPORTED_MODULE_6__LocalStorage__["a" /* default */].saveState({
             volume: {
                 global: VolumeInst.getGlobal(),
@@ -2247,7 +2319,7 @@ $(window).load(function () {
             scrollTop: Math.abs(parseInt($('.mCustomScrollBox.mCS-activeBook').find('> .mCSB_container').css('top'))),
             theme: $(constsDom.page).attr('data-theme'),
             vibration: $(constsDom.page).attr('data-vibration'),
-            bookmark: $(constsDomMenu.bookmark)
+            bookmarks: bookmarks
         });
     });
 
@@ -2299,7 +2371,12 @@ $(window).load(function () {
             $vibrationOption: $(constsDomPopover.vibrationOption)
         });
 
-        //todo: go to page
+        //bookmarks
+        __WEBPACK_IMPORTED_MODULE_3__Menu__["g" /* Bookmarks */].set({
+            $bookmarkContainer: $('.js-bookmarks-list'),
+            $bookmarkTemplate: $('.js-bookmark-item.template'),
+            bookmarksArr: states.bookmarks
+        })
     }
 });
 

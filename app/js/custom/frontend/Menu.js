@@ -277,3 +277,36 @@ export class Vibration {
         $page.attr('data-vibration', val);
     }
 }
+
+export class Bookmarks {
+    constructor () {
+
+    }
+
+    /**
+     *
+     * @param params {object}
+     * @param params.$bookmarkContainer {object}
+     * @param params.$bookmarkTemplate {object}
+     * @param params.bookmarksArr[] {object}
+     */
+    static set(params = {}) {
+        let $bookmarkContainer = params.$bookmarkContainer;
+        let $bookmarkTemplate = params.$bookmarkTemplate;
+        let bookmarksArr = params.bookmarksArr;
+
+        if (!bookmarksArr) return;
+
+        bookmarksArr.forEach(function (bookmark) {
+            let date = bookmark.date;
+            let page = bookmark.page;
+
+            let $newBookmark = $bookmarkTemplate.clone(true).removeClass('template');
+
+            $newBookmark.find('.js-bookmark-date').text(date);
+            $newBookmark.find('.js-bookmark-page').text(page);
+
+            $bookmarkContainer.append($newBookmark);
+        });
+    }
+}

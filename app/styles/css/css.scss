@@ -703,6 +703,8 @@ $p-line-height: 1.2;
         }
 
         &__remove {
+          width: 25px;
+          text-align: right;
           @include transition-default;
 
           &:hover {

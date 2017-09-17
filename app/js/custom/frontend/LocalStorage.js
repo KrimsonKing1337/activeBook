@@ -25,6 +25,7 @@ export default class LocalStorage {
      * @param params.scrollTop {number};
      * @param params.theme {string};
      * @param params.vibration {bool};
+     * @param params.bookmarks[] {object};
      */
     static saveState(params = {}) {
         let states = {
@@ -35,7 +36,8 @@ export default class LocalStorage {
             lineHeight: params.lineHeight,
             scrollTop: params.scrollTop,
             theme: params.theme,
-            vibration: params.vibration
+            vibration: params.vibration,
+            bookmarks: params.bookmarks
         };
 
         localStorage.setItem('activeBook', JSON.stringify(states)); //сериализуем объект в строку
@@ -43,7 +45,33 @@ export default class LocalStorage {
 
     /**
      *
-     * @param params
+     * @param params {object}
+     * @param params.key {string}
+     * @param params.val {string}
+     */
+    static write(params = {}) {
+        let key = params.key;
+        let val = params.val;
+
+        localStorage.setItem(key, JSON.stringify(val)); //сериализуем объект в строку
+    }
+
+    /**
+     *
+     * @param params {object}
+     * @param params.key {string}
+     */
+    static read(params = {}) {
+        let key = params.key;
+
+        if (!localStorage.getItem(key)) return false;
+
+        return JSON.parse(localStorage.getItem(key)); //получаем значение и десериализируем его в объект
+    }
+
+    /**
+     *
+     * @param params {object}
      * получаем настройки из LocalStorage
      */
     static getState(params = {}) {
