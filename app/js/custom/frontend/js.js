@@ -233,17 +233,21 @@ $(window).load(function () {
     $('[data-effect-target]').on('click', function (e) {
         e.preventDefault();
 
+        let effectParams = $(this).data('effect-params'); //.data() переводит JSON в obj сама
+
         EffectsController.play({
             target: $('[data-effect-id="' + $(this).data('effect-target') + '"]'),
-            effectsParams: $(this).data('effect-params')
+            effectParams: effectParams
         });
     });
 
     //воспроизводим эффекты, которые должны быть проиграны сразу после загрузки
     $('[data-play-on-load]').each(function (index, item) {
+        let effectParams = $(item).data('effect-params'); //.data() переводит JSON в obj сама
+
         EffectsController.play({
             target: $(item),
-            effectsParams: $(item).data('effect-params')
+            effectParams: effectParams
         });
     });
 
@@ -302,7 +306,10 @@ $(window).load(function () {
     //fadeOut background sounds before change the page
     //todo: делать потом фейд во время анимации смены страницы
     $(window).on('unload', function () {
-        EffectsController.soundEffects.stopLoop({loop: 'all'});
+        EffectsController.soundEffects.stopLoop({
+            loop: 'all',
+            volume: EffectsController.volume.loops
+        });
     });
 
     //сохраняем значения настроек

@@ -36,12 +36,12 @@ export class Effects {
         let type = target.data('effect-type');
 
         if (type === 'audio') {
-            SoundEffects.play({target: target, volume: self.volume.global});
+            SoundEffects.play({target: target, volume: self.volume.global, effectParams: effectParams});
             //todo: video, text, etc.
         } else if (type === 'bg-music') {
-            soundEffects.playLoop({target: target, volume: self.volume.loops});
+            soundEffects.playLoop({target: target, volume: self.volume.loops, effectParams: effectParams});
         } else if (type === 'bg-sound') {
-            soundEffects.playLoop({target: target, volume: self.volume.loops});
+            soundEffects.playLoop({target: target, volume: self.volume.loops, effectParams: effectParams});
         } else if (type === 'image-left-side') {
             ImageEffects.setLeftSide({target: target});
         }
@@ -140,26 +140,34 @@ class SoundEffects {
      * @param params
      * @param params.target {object} jquery
      * @param params.volume {number}
+     * @param params.effectParams {object}
      */
     playLoop (params = {}) {
         let self = this;
         let target = params.target;
         let type = target.data('effect-type');
         let src = [];
-        let fadeInSpeed = 1000;
-        let fadeOutSpeed = 1000;
+        let effectParams = params.effectParams;
         let volume = params.volume;
 
         target.find('source').each(function (index, item) {
             src.push($(item).attr('src'));
         });
 
-        //todo: fadeIn, fadeOut
+        let fadeInSpeed = 5000;
+        let fadeOutSpeed = 5000;
+
+        if (effectParams) {
+            fadeInSpeed = effectParams.fadeInSpeed || 1000;
+            fadeOutSpeed = effectParams.fadeOutSpeed || 1000;
+        }
+
         let newLoopParams = {
             src: src,
             fadeInSpeed: fadeInSpeed,
             fadeOutSpeed: fadeOutSpeed,
-            volume: volume
+            volume: volume,
+            addParams: effectParams
         };
 
         if (type === 'bg-music') {
@@ -174,6 +182,7 @@ class SoundEffects {
     /**
      *
      * @param params {object}
+     * @param params.volume {number} - громкость лупа
      * @param params.loop {object} || string - loop-звук, который нужно остановить.
      * если нужно остановить все фоновые звуки - передаём 'all'
      * @param [params.fadeOutSpeed] {number} - скорость, с которой будет происходить fadeOut
@@ -182,21 +191,19 @@ class SoundEffects {
         let self = this;
 
         let loop = params.loop;
+        let volume = params.volume;
         let fadeOutSpeed = params.fadeOutSpeed;
         if (typeof fadeOutSpeed === 'undefined') fadeOutSpeed = 1000;
 
         if (!loop) return;
 
         if (loop === 'all') {
-
             $.each([self.loopBgSound, self.loopBgSoundNew, self.loopBgMusic, self.loopBgMusicNew], function (index, value) {
-                self.stopLoop({loop: value, fadeOutSpeed: fadeOutSpeed});
+                self.stopLoop({loop: value, fadeOutSpeed: fadeOutSpeed, volume: volume});
             });
 
             return;
         }
-
-        let volume = self.volume.loops;
 
         loop.once('fade', function () {
             loop.stop();
@@ -228,6 +235,7 @@ class SoundEffects {
      * @param params.fadeInSpeed {number}
      * @param params.fadeOutSpeed {number}
      * @param params.volume {number}
+     * @param params.addParams {number}
      * @private
      */
     _setLoop (params = {}) {
@@ -237,16 +245,62 @@ class SoundEffects {
         let fadeInSpeed = params.fadeInSpeed;
         let fadeOutSpeed = params.fadeOutSpeed;
         let volume = params.volume;
+        let addParams = params.addParams;
 
         //записываем в экземпляр класса
         self.AudioLoops[loopName] = SoundEffects._newHowl({src: src});
 
+        let playLoopParams = {
+            loopName: loopName,
+            fadeInSpeed: fadeInSpeed,
+            fadeOutSpeed: fadeOutSpeed,
+            volume: volume,
+            addParams: addParams
+        };
+
         if (self.AudioLoops[loopName].state() !== 'loaded') {
             self.AudioLoops[loopName].once('load', function () {
-                self.AudioLoops[loopName].fade(0, volume, fadeInSpeed);
+                self._playLoop(playLoopParams);
             });
         } else {
-            self.AudioLoops[loopName].fade(0, volume, fadeInSpeed);
+            self._playLoop(playLoopParams);
+        }
+    }
+
+    /**
+     *
+     * @param params
+     * @param params.loopName {object}
+     * @param params.fadeInSpeed {number}
+     * @param params.fadeOutSpeed {number}
+     * @param params.volume {number}
+     * @param params.addParams {object}
+     * @param params.addParams.stopBy {string}
+     * @private
+     */
+    _playLoop (params = {}) {
+        let self = this;
+        let loopName = params.loopName;
+        let fadeInSpeed = params.fadeInSpeed;
+        let fadeOutSpeed = params.fadeOutSpeed;
+        let volume = params.volume;
+        let addParams = params.addParams;
+        let stopBy;
+
+        if (addParams && addParams.stopBy) {
+            stopBy = addParams.stopBy;
+        }
+
+        self.AudioLoops[loopName].fade(0, volume, fadeInSpeed);
+
+        if (stopBy) {
+            setTimeout(function () {
+                self.stopLoop({
+                    loop: self.AudioLoops[loopName],
+                    volume: volume,
+                    fadeOutSpeed: fadeOutSpeed
+                })
+            }, stopBy);
         }
     }
 
