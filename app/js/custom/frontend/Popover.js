@@ -56,7 +56,7 @@ export default class Popover {
             /**
              * позиционируем поповер
              */
-            self._positioning();
+            self.positioning();
 
             /**
              * навешиваем дополнительные события
@@ -145,10 +145,7 @@ export default class Popover {
         $triggerButton.removeClass('active');
     }
 
-    /**
-     * @private
-     */
-     _positioning () {
+     positioning () {
         let self = this;
         let $popover = self.$popover;
 

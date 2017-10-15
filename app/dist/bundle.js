@@ -112,9 +112,11 @@ class ConstsDOM {
             pagePrev: '.js-page-prev',
             pageNext: '.js-page-next',
             pageNumber: '.js-page-number',
+            volume: '.js-volume',
             volumeGlobal: '.js-volume-global',
             fontSizeDown: '.js-font-size-down',
             fontSizeUp: '.js-font-size-up',
+            etc: '.js-etc',
             svgWrapper: '.obj-img__wrapper'
         }
     }
@@ -190,12 +192,12 @@ class Effects {
         let type = target.data('effect-type');
 
         if (type === 'audio') {
-            SoundEffects.play({target: target, volume: self.volume.global});
+            SoundEffects.play({target: target, volume: self.volume.global, effectParams: effectParams});
             //todo: video, text, etc.
         } else if (type === 'bg-music') {
-            soundEffects.playLoop({target: target, volume: self.volume.loops});
+            soundEffects.playLoop({target: target, volume: self.volume.loops, effectParams: effectParams});
         } else if (type === 'bg-sound') {
-            soundEffects.playLoop({target: target, volume: self.volume.loops});
+            soundEffects.playLoop({target: target, volume: self.volume.loops, effectParams: effectParams});
         } else if (type === 'image-left-side') {
             ImageEffects.setLeftSide({target: target});
         }
@@ -296,26 +298,34 @@ class SoundEffects {
      * @param params
      * @param params.target {object} jquery
      * @param params.volume {number}
+     * @param params.effectParams {object}
      */
     playLoop (params = {}) {
         let self = this;
         let target = params.target;
         let type = target.data('effect-type');
         let src = [];
-        let fadeInSpeed = 1000;
-        let fadeOutSpeed = 1000;
+        let effectParams = params.effectParams;
         let volume = params.volume;
 
         target.find('source').each(function (index, item) {
             src.push($(item).attr('src'));
         });
 
-        //todo: fadeIn, fadeOut
+        let fadeInSpeed = 5000;
+        let fadeOutSpeed = 5000;
+
+        if (effectParams) {
+            fadeInSpeed = effectParams.fadeInSpeed || 1000;
+            fadeOutSpeed = effectParams.fadeOutSpeed || 1000;
+        }
+
         let newLoopParams = {
             src: src,
             fadeInSpeed: fadeInSpeed,
             fadeOutSpeed: fadeOutSpeed,
-            volume: volume
+            volume: volume,
+            addParams: effectParams
         };
 
         if (type === 'bg-music') {
@@ -330,6 +340,7 @@ class SoundEffects {
     /**
      *
      * @param params {object}
+     * @param params.volume {number} - громкость лупа
      * @param params.loop {object} || string - loop-звук, который нужно остановить.
      * если нужно остановить все фоновые звуки - передаём 'all'
      * @param [params.fadeOutSpeed] {number} - скорость, с которой будет происходить fadeOut
@@ -338,21 +349,19 @@ class SoundEffects {
         let self = this;
 
         let loop = params.loop;
+        let volume = params.volume;
         let fadeOutSpeed = params.fadeOutSpeed;
         if (typeof fadeOutSpeed === 'undefined') fadeOutSpeed = 1000;
 
         if (!loop) return;
 
         if (loop === 'all') {
-
             $.each([self.loopBgSound, self.loopBgSoundNew, self.loopBgMusic, self.loopBgMusicNew], function (index, value) {
-                self.stopLoop({loop: value, fadeOutSpeed: fadeOutSpeed});
+                self.stopLoop({loop: value, fadeOutSpeed: fadeOutSpeed, volume: volume});
             });
 
             return;
         }
-
-        let volume = self.volume.loops;
 
         loop.once('fade', function () {
             loop.stop();
@@ -384,6 +393,7 @@ class SoundEffects {
      * @param params.fadeInSpeed {number}
      * @param params.fadeOutSpeed {number}
      * @param params.volume {number}
+     * @param params.addParams {number}
      * @private
      */
     _setLoop (params = {}) {
@@ -393,16 +403,62 @@ class SoundEffects {
         let fadeInSpeed = params.fadeInSpeed;
         let fadeOutSpeed = params.fadeOutSpeed;
         let volume = params.volume;
+        let addParams = params.addParams;
 
         //записываем в экземпляр класса
         self.AudioLoops[loopName] = SoundEffects._newHowl({src: src});
 
+        let playLoopParams = {
+            loopName: loopName,
+            fadeInSpeed: fadeInSpeed,
+            fadeOutSpeed: fadeOutSpeed,
+            volume: volume,
+            addParams: addParams
+        };
+
         if (self.AudioLoops[loopName].state() !== 'loaded') {
             self.AudioLoops[loopName].once('load', function () {
-                self.AudioLoops[loopName].fade(0, volume, fadeInSpeed);
+                self._playLoop(playLoopParams);
             });
         } else {
-            self.AudioLoops[loopName].fade(0, volume, fadeInSpeed);
+            self._playLoop(playLoopParams);
+        }
+    }
+
+    /**
+     *
+     * @param params
+     * @param params.loopName {object}
+     * @param params.fadeInSpeed {number}
+     * @param params.fadeOutSpeed {number}
+     * @param params.volume {number}
+     * @param params.addParams {object}
+     * @param params.addParams.stopBy {string}
+     * @private
+     */
+    _playLoop (params = {}) {
+        let self = this;
+        let loopName = params.loopName;
+        let fadeInSpeed = params.fadeInSpeed;
+        let fadeOutSpeed = params.fadeOutSpeed;
+        let volume = params.volume;
+        let addParams = params.addParams;
+        let stopBy;
+
+        if (addParams && addParams.stopBy) {
+            stopBy = addParams.stopBy;
+        }
+
+        self.AudioLoops[loopName].fade(0, volume, fadeInSpeed);
+
+        if (stopBy) {
+            setTimeout(function () {
+                self.stopLoop({
+                    loop: self.AudioLoops[loopName],
+                    volume: volume,
+                    fadeOutSpeed: fadeOutSpeed
+                })
+            }, stopBy);
         }
     }
 
@@ -999,7 +1055,7 @@ class Popover {
             /**
              * позиционируем поповер
              */
-            self._positioning();
+            self.positioning();
 
             /**
              * навешиваем дополнительные события
@@ -1088,10 +1144,7 @@ class Popover {
         $triggerButton.removeClass('active');
     }
 
-    /**
-     * @private
-     */
-     _positioning () {
+     positioning () {
         let self = this;
         let $popover = self.$popover;
 
@@ -2009,13 +2062,6 @@ $(window).load(function () {
         scrollbarPosition: 'outside'
     });
 
-    $('.js-bookmarks-list').closest('.add-settings__item').mCustomScrollbar({
-        theme: 'activeBook',
-        autoDraggerLength: true,
-        mouseWheel: {scrollAmount: 75},
-        scrollbarPosition: 'outside'
-    });
-
     //стрелки, pageUp, pageDown, Home, End передаются в mCustomScrollBar
     //todo: влево/вправо в него не передавать, а в нём самом запретить их обработку
     /**
@@ -2060,11 +2106,24 @@ $(window).load(function () {
     });
 
     //отображаем доп. меню для элементов с поповером
-    $('.menu__item').has(constsDomPopover.popover).each(function (index, popoverParent) {
-        let $popover = $(popoverParent).find(constsDomPopover.popover);
-        let $triggerButton = $(popoverParent).find(constsDomPopover.triggerButton);
+    /**
+     *
+     * для того, чтобы можно было использовать методы экземляра класса,
+     * записываем каждый экземпляр поповера в переменную
+     */
+    let bookmarkPopover = new __WEBPACK_IMPORTED_MODULE_2__Popover__["a" /* default */]({
+        $popover: $(constsDomMenu.bookmark).find(constsDomPopover.popover),
+        $triggerButton: $(constsDomMenu.bookmark).find(constsDomPopover.triggerButton)
+    });
 
-        new __WEBPACK_IMPORTED_MODULE_2__Popover__["a" /* default */]({$popover: $popover, $triggerButton: $triggerButton});
+    let volumePopover = new __WEBPACK_IMPORTED_MODULE_2__Popover__["a" /* default */]({
+        $popover: $(constsDomMenu.volume).find(constsDomPopover.popover),
+        $triggerButton: $(constsDomMenu.volume).find(constsDomPopover.triggerButton)
+    });
+
+    let etcPopover = new __WEBPACK_IMPORTED_MODULE_2__Popover__["a" /* default */]({
+        $popover: $(constsDomMenu.etc).find(constsDomPopover.popover),
+        $triggerButton: $(constsDomMenu.etc).find(constsDomPopover.triggerButton)
     });
 
     //переключалка для вибрации
@@ -2211,17 +2270,21 @@ $(window).load(function () {
     $('[data-effect-target]').on('click', function (e) {
         e.preventDefault();
 
+        let effectParams = $(this).data('effect-params'); //.data() переводит JSON в obj сама
+
         EffectsController.play({
             target: $('[data-effect-id="' + $(this).data('effect-target') + '"]'),
-            effectsParams: $(this).data('effect-params')
+            effectParams: effectParams
         });
     });
 
     //воспроизводим эффекты, которые должны быть проиграны сразу после загрузки
     $('[data-play-on-load]').each(function (index, item) {
+        let effectParams = $(item).data('effect-params'); //.data() переводит JSON в obj сама
+
         EffectsController.play({
             target: $(item),
-            effectsParams: $(item).data('effect-params')
+            effectParams: effectParams
         });
     });
 
@@ -2268,6 +2331,8 @@ $(window).load(function () {
         $newBookmark.find('.js-bookmark-page').text(pageNumber);
 
         $('.js-bookmarks-list').append($newBookmark);
+
+        bookmarkPopover.positioning();
     });
 
     //удаляем закладку
@@ -2275,12 +2340,17 @@ $(window).load(function () {
         e.stopPropagation();
 
         $(this).closest('.js-bookmark-item').remove();
+
+        bookmarkPopover.positioning();
     });
 
     //fadeOut background sounds before change the page
     //todo: делать потом фейд во время анимации смены страницы
     $(window).on('unload', function () {
-        EffectsController.soundEffects.stopLoop({loop: 'all'});
+        EffectsController.soundEffects.stopLoop({
+            loop: 'all',
+            volume: EffectsController.volume.loops
+        });
     });
 
     //сохраняем значения настроек

@@ -6,7 +6,7 @@
             <div class="add-settings__item header-button js-bookmark-create">
                 <div class="add-settings__item__label">Создать закладку</div>
             </div>
-            <div class="add-settings__item">
+            <div class="add-settings__item js-scrollable-item">
                 <div class="bookmarks-list js-bookmarks-list">
                     <!-- template START -->
                     <div class="bookmarks-list__item js-bookmark-item template">
@@ -37,7 +37,8 @@
             <div class="go-to-page-by-arrows__arrow-left js-page-prev">
                 <img class="fill" src="../styles/images/menu/arrow-left.svg" />
             </div>
-            <div class="go-to-page-by-arrows__page-number js-page-number" data-page-number="{%pageNumber}" data-pages-length="{%pagesLength}">
+            <div class="go-to-page-by-arrows__page-number js-page-number"
+                 data-page-number="{%pageNumber}" data-pages-length="{%pagesLength}">
                 <input type="text" value="" placeholder="{%pageNumber} из {%pagesLength}" pattern="[0-9]" />
             </div>
             <div class="go-to-page-by-arrows__arrow-right js-page-next">
@@ -45,7 +46,7 @@
             </div>
         </div>
     </div>
-    <div class="menu__item volume">
+    <div class="menu__item volume js-volume">
         <img class="fill" src="../styles/images/menu/sound-icon.svg" />
         <div class="range-slider__wrapper js-volume-global">
             <div class="js-range-slider"></div>
@@ -73,7 +74,7 @@
     <div class="menu__item font-size-up js-font-size-up">
         <img class="fill" src="../styles/images/menu/font-big.svg" />
     </div>
-    <div class="menu__item etc">
+    <div class="menu__item etc js-etc">
         <img class="fill" src="../styles/images/menu/menu-icon.svg" />
 
         <div class="add-settings">

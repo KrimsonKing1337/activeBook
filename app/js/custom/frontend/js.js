@@ -31,13 +31,6 @@ $(window).load(function () {
         scrollbarPosition: 'outside'
     });
 
-    $('.js-bookmarks-list').closest('.add-settings__item').mCustomScrollbar({
-        theme: 'activeBook',
-        autoDraggerLength: true,
-        mouseWheel: {scrollAmount: 75},
-        scrollbarPosition: 'outside'
-    });
-
     //стрелки, pageUp, pageDown, Home, End передаются в mCustomScrollBar
     //todo: влево/вправо в него не передавать, а в нём самом запретить их обработку
     /**
@@ -82,11 +75,24 @@ $(window).load(function () {
     });
 
     //отображаем доп. меню для элементов с поповером
-    $('.menu__item').has(constsDomPopover.popover).each(function (index, popoverParent) {
-        let $popover = $(popoverParent).find(constsDomPopover.popover);
-        let $triggerButton = $(popoverParent).find(constsDomPopover.triggerButton);
+    /**
+     *
+     * для того, чтобы можно было использовать методы экземляра класса,
+     * записываем каждый экземпляр поповера в переменную
+     */
+    let bookmarkPopover = new Popover({
+        $popover: $(constsDomMenu.bookmark).find(constsDomPopover.popover),
+        $triggerButton: $(constsDomMenu.bookmark).find(constsDomPopover.triggerButton)
+    });
 
-        new Popover({$popover: $popover, $triggerButton: $triggerButton});
+    let volumePopover = new Popover({
+        $popover: $(constsDomMenu.volume).find(constsDomPopover.popover),
+        $triggerButton: $(constsDomMenu.volume).find(constsDomPopover.triggerButton)
+    });
+
+    let etcPopover = new Popover({
+        $popover: $(constsDomMenu.etc).find(constsDomPopover.popover),
+        $triggerButton: $(constsDomMenu.etc).find(constsDomPopover.triggerButton)
     });
 
     //переключалка для вибрации
@@ -294,6 +300,8 @@ $(window).load(function () {
         $newBookmark.find('.js-bookmark-page').text(pageNumber);
 
         $('.js-bookmarks-list').append($newBookmark);
+
+        bookmarkPopover.positioning();
     });
 
     //удаляем закладку
@@ -301,6 +309,8 @@ $(window).load(function () {
         e.stopPropagation();
 
         $(this).closest('.js-bookmark-item').remove();
+
+        bookmarkPopover.positioning();
     });
 
     //fadeOut background sounds before change the page

@@ -39,9 +39,11 @@ export default class ConstsDOM {
             pagePrev: '.js-page-prev',
             pageNext: '.js-page-next',
             pageNumber: '.js-page-number',
+            volume: '.js-volume',
             volumeGlobal: '.js-volume-global',
             fontSizeDown: '.js-font-size-down',
             fontSizeUp: '.js-font-size-up',
+            etc: '.js-etc',
             svgWrapper: '.obj-img__wrapper'
         }
     }
