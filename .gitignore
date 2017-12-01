@@ -1,10 +1,6 @@
-docs/
-sources/
-inspiration/
 .idea/
 node_modules/
-dist/
-pages/
+build/
 *.mp3
 *.ogg
 *.mp4

@@ -1,0 +1,200 @@
+@mixin transition-default () {
+  transition: all ease 0.3s 0s;
+}
+
+@mixin transition-fade-default () {
+  transition: opacity ease 0.3s 0s;
+}
+
+@mixin hover-default () {
+  @include transition-default;
+
+  &:hover {
+    opacity: 0.65;
+  }
+}
+
+@mixin theme-scroll ($theme) {
+  $bar: #f2994a;
+  $rail: #fff;
+
+  @if ($theme == 'gray') {
+    $bar: #828282;
+    $rail: #fff;
+  } @else if ($theme == 'yellow') {
+    $bar: #fdf5de;
+    $rail: #fff;
+  } @else if ($theme == 'dark-blue') {
+    $bar: #728c9a;
+    $rail: #fff;
+  }
+
+  .mCS-activeBook {
+    &.mCSB_scrollTools {
+      .mCSB_dragger {
+        .mCSB_dragger_bar {
+          background: $bar;
+        }
+      }
+
+      .mCSB_draggerRail{
+        background-color: $rail;
+      }
+    }
+  }
+}
+
+@mixin theme-menu ($theme) {
+  $fill: #000;
+  $hover: #f2c94c;
+  $active: #f2994a;
+
+  @if ($theme == 'gray') {
+    $fill: #000;
+    $hover: #9c9c9c;
+    $active: #828282;
+  } @else if ($theme == 'yellow') {
+    $fill: #000;
+    $hover: #9c9c9c;
+    $active: #fdf5de;
+  } @else if ($theme == 'dark-blue') {
+    $fill: #000;
+    $hover: #9bc4d9;
+    $active: #728c9a;
+  }
+
+  .menu {
+    &__item {
+      .obj-img__wrapper {
+        svg {
+          path {
+            fill: $fill;
+            @include transition-default;
+          }
+        }
+
+        &:hover {
+          svg {
+            path {
+              fill: $hover;
+            }
+          }
+        }
+
+        &.active {
+          svg {
+            path {
+              fill: $active;
+            }
+          }
+        }
+      }
+
+      &.page-number {
+        input {
+          &::-webkit-input-placeholder {
+            color: $fill;
+          }
+
+          &::-moz-placeholder {
+            color: $fill;
+          }
+        }
+      }
+
+      .range-slider__wrapper {
+        .irs {
+          .irs-line,
+          .irs-bar,
+          .irs-bar-edge {
+            background: $active;
+          }
+
+          .irs-line {
+            background: $fill;
+            opacity: 0.2;
+          }
+        }
+
+        &:hover {
+          .irs-slider {
+            background: $active;
+          }
+        }
+      }
+    }
+  }
+}
+
+@mixin theme-add-settings ($theme) {
+  $main: #f2994a;
+  $second: #fff;
+  $numeric: #000;
+
+  @if ($theme == 'gray') {
+    $main: #828282;
+    $second: #fff;
+    $numeric: #000;
+  } @else if ($theme == 'yellow') {
+    $main: #fdf5de;
+    $second: #fff;
+    $numeric: #000;
+  } @else if ($theme == 'dark-blue') {
+    $main: #728c9a;
+    $second: #fff;
+    $numeric: #000;
+  }
+
+  .add-settings {
+    &__item {
+      $item: &;
+
+      &__toggle {
+        border: 1px $main solid;
+
+        &__item {
+          color: $main;
+
+          &.active {
+            background: $main;
+            color: $second;
+          }
+        }
+      }
+
+      &__numeric {
+        &__item {
+          color: $numeric;
+
+          input,
+          &.val {
+            color: $main;
+
+            &::-webkit-input-placeholder {
+              color: $main;
+            }
+
+            &::-moz-placeholder {
+              color: $main;
+            }
+          }
+        }
+      }
+
+      &.header-button {
+        background: $main;
+
+        #{$item}__label {
+          color: $second;
+        }
+      }
+    }
+  }
+}
+
+//theme
+@mixin theme ($theme) {
+  @include theme-scroll($theme);
+  @include theme-menu($theme);
+  @include theme-add-settings($theme);
+}
