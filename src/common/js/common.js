@@ -111,6 +111,8 @@ $(window).on('load', () => {
             $path.attr('id', `svg-id-${svgCount}-${i}`);
             oldCountValue = i;
         });
+
+        $svgCur.wrap('<div class="obj-img__wrapper" />');
     });
 
     //отображаем доп. меню для элементов с поповером
