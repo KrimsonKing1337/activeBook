@@ -14,11 +14,11 @@ export class LineHeight {
      * @param params.newVal {number}
      */
     static set (params = {}) {
-        let $text = params.$text;
-        let $val = params.$val;
-        let newVal = params.newVal;
+        const $text = params.$text;
+        const $val = params.$val;
+        const newVal = params.newVal;
 
-        LineHeight._apply({$text: $text, $val: $val, newVal: newVal});
+        LineHeight._apply({$text, $val, newVal});
     }
 
     /**
@@ -29,11 +29,11 @@ export class LineHeight {
      * @param params.direction {string} less || more;
      */
     static setByDirection (params = {}) {
-        let $text = params.$text;
-        let $val = params.$val;
-        let direction = params.direction;
+        const $text = params.$text;
+        const $val = params.$val;
+        const direction = params.direction;
 
-        let currentVal = parseInt($text.attr('data-line-height')) || 100;
+        const currentVal = parseInt($text.attr('data-line-height')) || 100;
 
         let newVal;
         let limit;
@@ -48,7 +48,7 @@ export class LineHeight {
 
         if (limit === true) return;
 
-        LineHeight._apply({$text: $text, $val: $val, newVal: newVal});
+        LineHeight._apply({$text, $val, newVal});
     }
 
     /**
@@ -60,11 +60,11 @@ export class LineHeight {
      * @private
      */
     static _apply (params = {}) {
-        let $text = params.$text;
-        let $val = params.$val;
-        let newVal = params.newVal;
+        const $text = params.$text;
+        const $val = params.$val;
+        const newVal = params.newVal;
 
-        $val.text(newVal + '%');
+        $val.text(`${newVal }%`);
         $text.attr('data-line-height', newVal);
     }
 }
@@ -83,9 +83,9 @@ export class GoToPage {
      * @param params.val {string};
      */
     static go (params = {}) {
-        let val = params.val;
+        const val = params.val;
 
-        location.href = '../pages/page_' + val + '.html';
+        location.href = `/page-${ val }.html`;
     }
 
     /**
@@ -96,9 +96,9 @@ export class GoToPage {
      * @param params.direction {number || string} next || prev;
      */
     static goWithDirection (params = {}) {
-        let direction = params.direction;
-        let currentPage = params.currentPage;
-        let pagesLength = params.pagesLength;
+        const direction = params.direction;
+        const currentPage = params.currentPage;
+        const pagesLength = params.pagesLength;
 
         let newVal;
         let limit;
@@ -120,7 +120,7 @@ export class GoToPage {
 
             limit = newVal === currentPage;
         } else {
-            new Error('Unrecognized param "where" (' + direction + '). Only next, prev and number is allowed');
+            new Error(`Unrecognized param "where" (${ direction }). Only next, prev and number is allowed`);
         }
 
         if (limit === true) return;
@@ -144,10 +144,10 @@ export class FontSize {
      * @param params.newVal {number}
      */
     static set (params = {}) {
-        let $text = params.$text;
-        let newVal = params.newVal;
+        const $text = params.$text;
+        const newVal = params.newVal;
 
-        FontSize._apply({$text: $text, newVal: newVal});
+        FontSize._apply({$text, newVal});
     }
 
     /**
@@ -157,10 +157,10 @@ export class FontSize {
      * @param params.direction {string} less || more;
      */
     static setByDirection (params = {}) {
-        let $text = params.$text;
-        let direction = params.direction;
+        const $text = params.$text;
+        const direction = params.direction;
 
-        let currentVal = parseInt($text.attr('data-font-size')) || 100;
+        const currentVal = parseInt($text.attr('data-font-size')) || 100;
 
         let newVal;
         let limit;
@@ -175,7 +175,7 @@ export class FontSize {
 
         if (limit === true) return;
 
-        FontSize._apply({$text: $text, newVal: newVal});
+        FontSize._apply({$text, newVal});
     }
 
     /**
@@ -187,8 +187,8 @@ export class FontSize {
      * @private
      */
     static _apply (params = {}) {
-        let $text = params.$text;
-        let newVal = params.newVal;
+        const $text = params.$text;
+        const newVal = params.newVal;
 
         $text.attr('data-font-size', newVal);
     }
@@ -217,12 +217,12 @@ export class VolumeSliders {
      * @param params.sliders.bg.val {number}
      */
     static set(params = {}) {
-        let sliders = params.sliders;
+        const sliders = params.sliders;
 
-        for (let i in sliders) {
-            let slider = sliders[i];
-            let inst = slider.inst;
-            let val = slider.val;
+        for (const i in sliders) {
+            const slider = sliders[i];
+            const inst = slider.inst;
+            const val = slider.val;
 
             inst.update({
                 from: val
@@ -244,14 +244,14 @@ export class Theme {
      * @param params.val {object}
      */
     static set(params = {}) {
-        let $page = params.$page;
-        let $themeOption = params.$themeOption;
-        let val = params.val;
+        const $page = params.$page;
+        const $themeOption = params.$themeOption;
+        const val = params.val;
 
         $page.attr('data-theme', val);
 
         $themeOption.filter('.active').removeClass('active');
-        $themeOption.filter('[data-theme="' + val + '"]').addClass('active');
+        $themeOption.filter(`[data-theme="${ val }"]`).addClass('active');
     }
 }
 
@@ -268,12 +268,12 @@ export class Vibration {
      * @param params.val {object}
      */
     static set(params = {}) {
-        let $page = params.$page;
-        let $vibrationOption = params.$vibrationOption;
-        let val = params.val;
+        const $page = params.$page;
+        const $vibrationOption = params.$vibrationOption;
+        const val = params.val;
 
         $vibrationOption.filter('.active').removeClass('active');
-        $vibrationOption.filter('[data-vibration="' + val + '"]').addClass('active');
+        $vibrationOption.filter(`[data-vibration="${ val }"]`).addClass('active');
         $page.attr('data-vibration', val);
     }
 }
@@ -291,17 +291,17 @@ export class Bookmarks {
      * @param params.bookmarksArr[] {object}
      */
     static set(params = {}) {
-        let $bookmarkContainer = params.$bookmarkContainer;
-        let $bookmarkTemplate = params.$bookmarkTemplate;
-        let bookmarksArr = params.bookmarksArr;
+        const $bookmarkContainer = params.$bookmarkContainer;
+        const $bookmarkTemplate = params.$bookmarkTemplate;
+        const bookmarksArr = params.bookmarksArr;
 
         if (!bookmarksArr) return;
 
-        bookmarksArr.forEach(function (bookmark) {
-            let date = bookmark.date;
-            let page = bookmark.page;
+        bookmarksArr.forEach((bookmark) => {
+            const date = bookmark.date;
+            const page = bookmark.page;
 
-            let $newBookmark = $bookmarkTemplate.clone(true).removeClass('template');
+            const $newBookmark = $bookmarkTemplate.clone(true).removeClass('template');
 
             $newBookmark.find('.js-bookmark-date').text(date);
             $newBookmark.find('.js-bookmark-page').text(page);
