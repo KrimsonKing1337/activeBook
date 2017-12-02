@@ -28,19 +28,6 @@ https://nodejs.org/en/download/
 curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
 sudo apt-get install -y nodejs 
 ```
-### scss:
-
-**Windows:**
-
-http://rubyinstaller.org/
-```gem install sass```
-
-**Ubuntu:**
-```
-sudo apt-get install ruby-full
-sudo su -c "gem install sass"
-```
-Установится в /usr/local/bin/scss 
 
 ### ffmpeg:
 
@@ -55,31 +42,36 @@ sudo apt update && sudo apt install ffmpeg libav-tools x264 x265
 ```
 (_собирать из исходников с поддержкой ogg?_)
 
-### git, git flow:
+### git:
 **Windows:**
 
 https://git-scm.com/download/win
 
-https://github.com/nvie/gitflow/wiki/Windows
-
 **Ubuntu:**
 ```
-sudo apt-get install git-flow
+sudo apt-get install git
 ```
 
 Далее ставим PhpStorm (https://www.jetbrains.com/phpstorm/), делаем ```git clone```.
 В PhpStorm включаем проверку синтаксиса node.js (Enable core).
-Устанавливаем плагин git flow.
 
 Переходим в папку app *(это корневой каталог нашего приложения, все дальнейшие консольные команды выполняем на основе её)*.
 
 Далее выполняем ```npm install```, чтобы node.js установила все зависимости, указанные в package.json.
 
-Также устанавливаем webpack глобально ```npm -g install webpack```. После чего можно запустить его вотчер ```webpack -w``` 
+Также устанавливаем webpack глобально ```npm -g install webpack```.
 
-Все новые модули устанавливаем через ```nmp install --save```, чтобы они автоматически прописывались в package.json.
+Если проект разворачивается под Windows, нужно установить ещё два пакета (они могут понадобиться в случаях, если требуется пересобрать какой-нибудь пакет - node-sass часто этого просит):
 
-Все изменения производим в отдельной ветке, через git flow (что это такое и зачем нужно, можно почитать здесь: https://danielkummer.github.io/git-flow-cheatsheet/index.ru_RU.html).
+```
+npm install --global --production windows-build-tools
+npm install --global node-gyp
+```
+
+
+Все новые модули устанавливаем через ```nmp install --save``` или ```nmp install --save-dev``` чтобы они автоматически прописывались в package.json.
+
+Все изменения производим в отдельной ветке.
 
 ___
 

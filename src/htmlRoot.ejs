@@ -4,6 +4,8 @@ var title = options.title;
 var context = options.context;
 var rootPath = options.rootPath;
 
+require('elements/common.ejs')({rootPath: rootPath});
+
 var params = {
     context: context,
     pagesLength: options.pagesLength,

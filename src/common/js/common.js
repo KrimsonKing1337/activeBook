@@ -10,10 +10,10 @@ import 'malihu-custom-scrollbar-plugin';
 import 'ion-rangeslider';
 import bowser from 'bowser';
 
-$(window).on('load', function () {
+$(window).on('load', () => {
     //browser compatibility check
     if (!bowser.blink && !bowser.gecko) {
-        let $body = $('body');
+        const $body = $('body');
 
         $body.empty();
         $body.append('<div class="warning">Пожалуйста, используйте Google Chrome версии 58+ или Firefox версии 53+</div>');
@@ -43,7 +43,7 @@ $(window).on('load', function () {
      * что активный элемент - это .mCustomScrollBox.
      * иначе будет бесконечный цикл и ошибка в итоге
      */
-    $(document).on('keydown', function (e) {
+    $(document).on('keydown', (e) => {
         if (e.which < 33 || e.which > 40) return;
 
         //todo: trigger click заменить на вызов функции перехода
@@ -58,7 +58,7 @@ $(window).on('load', function () {
             return;
         }
 
-        let $scrollableItem = $('.js-scrollable-item:visible');
+        const $scrollableItem = $('.js-scrollable-item:visible');
 
         if ($scrollableItem.find('> .mCustomScrollBox')[0] === document.activeElement) return;
 
@@ -76,23 +76,60 @@ $(window).on('load', function () {
         hide_from_to: true
     });
 
+    /**
+     * пробегаемся по каждому тэгу use
+     * внутри svg.
+     * ищем соответствующий тэгу <use> тэг <path>:
+     * аттрибут у <use> xlink:href и id у <path> совпадают.
+     * если нет <path> с таким id, значит несколько <use> ссылаются
+     * на один и тот же <path>.
+     * в этом случае записываем старый уникальный id и выходим из функции.
+     * тогда у нас будет уникальный id и все <use> будут ссылаться
+     * на один и тот же <path>
+     */
+    $('svg').each((i, item) => {
+        const $svgCur = $(item);
+        const svgCount = i;
+        const $use = $svgCur.find('use');
+        const $defs = $svgCur.find('defs');
+        let oldCountValue = 0;
+
+        $use.each((i, item) => {
+            const $useCur = $(item);
+            const id = $useCur.attr('xlink:href');
+            const $path = $useCur.find(id);
+            const $defsPath = $defs.find('path').eq(i);
+
+            if ($defsPath.length === 0) {
+                $useCur.attr('xlink:href', `#svg-id-${svgCount}-${oldCountValue}`);
+                $path.attr('id', `svg-id-${svgCount}-${oldCountValue}`);
+                return;
+            }
+
+            $defsPath.attr('id', `svg-id-${svgCount}-${i}`);
+            $useCur.attr('xlink:href', `#svg-id-${svgCount}-${i}`);
+            $path.attr('id', `svg-id-${svgCount}-${i}`);
+            oldCountValue = i;
+        });
+    });
+
     //отображаем доп. меню для элементов с поповером
     /**
      *
      * для того, чтобы можно было использовать методы экземляра класса,
      * записываем каждый экземпляр поповера в переменную
      */
-    let bookmarkPopover = new Popover({
+    const bookmarkPopover = new Popover({
         $popover: $(constsDomMenu.bookmark).find(constsDomPopover.popover),
         $triggerButton: $(constsDomMenu.bookmark).find(constsDomPopover.triggerButton)
     });
 
-    let volumePopover = new Popover({
+    const volumePopover = new Popover({
         $popover: $(constsDomMenu.volume).find(constsDomPopover.popover),
         $triggerButton: $(constsDomMenu.volume).find(constsDomPopover.triggerButton)
     });
 
-    let etcPopover = new Popover({
+    const etcPopover = new Popover({
         $popover: $(constsDomMenu.etc).find(constsDomPopover.popover),
         $triggerButton: $(constsDomMenu.etc).find(constsDomPopover.triggerButton)
     });
@@ -126,14 +163,14 @@ $(window).on('load', function () {
         });
     });
 
-    $('.js-table-of-contents-close').on('click', function () {
+    $('.js-table-of-contents-close').on('click', () => {
         $(constsDom.tableOfContents).hide();
         $(constsDom.text).show();
     });
 
     //клик по элементу оглавления (главе)
     $('.table-of-contents__item').on('click', function () {
-        let newVal = $.trim($(this).find('.table-of-contents__item__page').text());
+        const newVal = $.trim($(this).find('.table-of-contents__item__page').text());
 
         GoToPage.goWithDirection({
             currentPage: page.current,
@@ -143,7 +180,7 @@ $(window).on('load', function () {
     });
 
     //меняем межстрочный интервал
-    $('.js-line-height-minus').on('click', function () {
+    $('.js-line-height-minus').on('click', () => {
         LineHeight.setByDirection({
             $val: $(constsDomPopover.lineHeightVal),
             direction: 'less',
@@ -151,7 +188,7 @@ $(window).on('load', function () {
         });
     });
 
-    $('.js-line-height-plus').on('click', function () {
+    $('.js-line-height-plus').on('click', () => {
         LineHeight.setByDirection({
             $val: $(constsDomPopover.lineHeightVal),
             direction: 'more',
@@ -160,31 +197,31 @@ $(window).on('load', function () {
     });
 
     //меняем страницу
-    $('.js-page-next').on('click', function () {
+    $('.js-page-next').on('click', () => {
         GoToPage.goWithDirection({currentPage: page.current, pagesLength: page.length, direction: 'next'});
     });
 
-    $('.js-page-prev').on('click', function () {
+    $('.js-page-prev').on('click', () => {
         GoToPage.goWithDirection({currentPage: page.current, pagesLength: page.length, direction: 'prev'});
     });
 
-    $('.js-go-to-page-by-number').on('click', function (e) {
+    $('.js-go-to-page-by-number').on('click', (e) => {
         e.stopPropagation();
     });
 
-    $('.js-go-to-page-trigger').on('click', function () {
-        let $input = $('.js-page-input');
-        let pattern = $input.attr('pattern');
-        let newVal = $input.val();
+    $('.js-go-to-page-trigger').on('click', () => {
+        const $input = $('.js-page-input');
+        const pattern = $input.attr('pattern');
+        const newVal = $input.val();
 
         if (newVal.length === 0) return;
 
         //only numbers allows
-        if (new RegExp('^' + pattern + '+$').test(newVal) === false) {
+        if (new RegExp(`^${ pattern }+$`).test(newVal) === false) {
             $input.parent().addClass('error');
             $input.val('');
 
-            $input.one('keydown', function () {
+            $input.one('keydown', () => {
                 $input.parent().removeClass('error');
             });
 
@@ -198,39 +235,39 @@ $(window).on('load', function () {
         });
     });
 
-    $('.js-page-number').find('input').on('focus', function () {
+    $('.js-page-number').find('input').on('focus', () => {
         $('.js-go-to-page-by-arrows').removeClass('active');
         $('.js-go-to-page-by-number').addClass('active');
 
         $('.js-page-input').focus();
 
-        $(document).one('click', function () {
+        $(document).one('click', () => {
             $('.js-go-to-page-by-number').removeClass('active');
             $('.js-go-to-page-by-arrows').addClass('active');
         });
     });
 
     //меняем размер шрифта
-    $('.js-font-size-down').on('click', function () {
+    $('.js-font-size-down').on('click', () => {
         FontSize.setByDirection({$text: $(constsDom.text), direction: 'less'});
     });
 
-    $('.js-font-size-up').on('click', function () {
+    $('.js-font-size-up').on('click', () => {
         FontSize.setByDirection({$text: $(constsDom.text), direction: 'more'});
     });
 
     //инитим громкость
-    let VolumeInst = new Volume({
+    const VolumeInst = new Volume({
         global: 0.5,
         hints: 0.5,
         loops: 0.5
     });
 
     //инициализируем контроллер управления эффектами
-    let EffectsController = new Effects(VolumeInst);
+    const EffectsController = new Effects(VolumeInst);
 
     //инитим управление громкостью
-    let VolumeControllerInst = new VolumeController({
+    const VolumeControllerInst = new VolumeController({
         Volume: VolumeInst,
         $audios: $('audio'),
         $videos: $('video'),
@@ -241,62 +278,62 @@ $(window).on('load', function () {
     $('[data-effect-target]').on('click', function (e) {
         e.preventDefault();
 
-        let effectParams = $(this).data('effect-params'); //.data() переводит JSON в obj сама
+        const effectParams = $(this).data('effect-params'); //.data() переводит JSON в obj сама
 
         EffectsController.play({
-            target: $('[data-effect-id="' + $(this).data('effect-target') + '"]'),
-            effectParams: effectParams
+            target: $(`[data-effect-id="${ $(this).data('effect-target') }"]`),
+            effectParams
         });
     });
 
     //воспроизводим эффекты, которые должны быть проиграны сразу после загрузки
-    $('[data-play-on-load]').each(function (index, item) {
-        let effectParams = $(item).data('effect-params'); //.data() переводит JSON в obj сама
+    $('[data-play-on-load]').each((index, item) => {
+        const effectParams = $(item).data('effect-params'); //.data() переводит JSON в obj сама
 
         EffectsController.play({
             target: $(item),
-            effectParams: effectParams
+            effectParams
         });
     });
 
     //событие изменения положения ползунка глобальной громкости
     $(constsDomMenu.volumeGlobal).on('change', function () {
-        let volume = $(this).find('.js-range-slider').val() / 100;
+        const volume = $(this).find('.js-range-slider').val() / 100;
 
-        VolumeControllerInst.setGlobal({volume: volume});
+        VolumeControllerInst.setGlobal({volume});
     });
 
     //событие изменения положения ползунка громкости подсказок
     $(constsDomPopover.volumeHints).on('change', function () {
-        let volume = $(this).find('.js-range-slider').val() / 100;
+        const volume = $(this).find('.js-range-slider').val() / 100;
 
-        VolumeControllerInst.setHints({volume: volume});
+        VolumeControllerInst.setHints({volume});
     });
 
     //событие изменения положения ползунка громкости фоновых звуков
     $(constsDomPopover.volumeBg).on('change', function () {
-        let volume = $(this).find('.js-range-slider').val() / 100;
+        const volume = $(this).find('.js-range-slider').val() / 100;
 
-        VolumeControllerInst.setLoops({volume: volume});
+        VolumeControllerInst.setLoops({volume});
     });
 
     //переходим по закладке
     $('.js-bookmark-item').on('click', function () {
-        let page = $(this).find('.js-bookmark-page').text().trim();
+        const page = $(this).find('.js-bookmark-page').text().trim();
 
         GoToPage.go({val: page});
     });
 
     //создаём закладку
-    $('.js-bookmark-create').on('click', function () {
-        let $newBookmark = $('.js-bookmark-item.template').clone(true).removeClass('template');
-        let dateNow = new Date();
-        let dayNow = dateNow.getDate();
+    $('.js-bookmark-create').on('click', () => {
+        const $newBookmark = $('.js-bookmark-item.template').clone(true).removeClass('template');
+        const dateNow = new Date();
+        const dayNow = dateNow.getDate();
         let monthNow = (dateNow.getMonth() + 1);
-        if (monthNow < 10) monthNow = '0' + monthNow;
-        let yearNow = dateNow.getFullYear().toString().substring(2);
-        let parseDate = dayNow + '/' + monthNow + '/' + yearNow;
-        let pageNumber = Page.getParams().current;
+        if (monthNow < 10) monthNow = `0${ monthNow}`;
+        const yearNow = dateNow.getFullYear().toString().substring(2);
+        const parseDate = `${dayNow }/${ monthNow }/${ yearNow}`;
+        const pageNumber = Page.getParams().current;
 
         $newBookmark.find('.js-bookmark-date').text(parseDate);
         $newBookmark.find('.js-bookmark-page').text(pageNumber);
@@ -317,7 +354,7 @@ $(window).on('load', function () {
 
     //fadeOut background sounds before change the page
     //todo: делать потом фейд во время анимации смены страницы
-    $(window).on('unload', function () {
+    $(window).on('unload', () => {
         EffectsController.soundEffects.stopLoop({
             loop: 'all',
             volume: EffectsController.volume.loops
@@ -325,21 +362,21 @@ $(window).on('load', function () {
     });
 
     //сохраняем значения настроек
-    $(window).on('unload', function () {
-        let volumeGlobalSlider = $(constsDomMenu.volumeGlobal).find('.js-range-slider');
-        let volumeHintsSlider = $(constsDomPopover.volumeHints).find('.js-range-slider');
-        let volumeBgSlider = $(constsDomPopover.volumeBg).find('.js-range-slider');
+    $(window).on('unload', () => {
+        const volumeGlobalSlider = $(constsDomMenu.volumeGlobal).find('.js-range-slider');
+        const volumeHintsSlider = $(constsDomPopover.volumeHints).find('.js-range-slider');
+        const volumeBgSlider = $(constsDomPopover.volumeBg).find('.js-range-slider');
 
-        let bookmarks = [];
+        const bookmarks = [];
 
-        $('.js-bookmark-item:not(.template)').each(function (i, item) {
-            let $bookmark = $(item);
-            let date = $bookmark.find('.js-bookmark-date').text().trim();
-            let page = $bookmark.find('.js-bookmark-page').text().trim();
+        $('.js-bookmark-item:not(.template)').each((i, item) => {
+            const $bookmark = $(item);
+            const date = $bookmark.find('.js-bookmark-date').text().trim();
+            const page = $bookmark.find('.js-bookmark-page').text().trim();
 
             bookmarks.push({
-                date: date,
-                page: page
+                date,
+                page
             });
         });
 
@@ -360,11 +397,11 @@ $(window).on('load', function () {
             scrollTop: Math.abs(parseInt($('.mCustomScrollBox.mCS-activeBook').find('> .mCSB_container').css('top'))),
             theme: $(constsDom.page).attr('data-theme'),
             vibration: $(constsDom.page).attr('data-vibration'),
-            bookmarks: bookmarks
+            bookmarks
         });
     });
 
-    let states = LocalStorage.getState();
+    const states = LocalStorage.getState();
 
     if (states !== false) {
         //volume sliders position

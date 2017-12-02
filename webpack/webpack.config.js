@@ -15,6 +15,8 @@ const extractSass = new ExtractTextPlugin({
 
 const rootPath = resolve(__dirname, '../');
 
+const HtmlWebpackInlineSVGPlugin = require('html-webpack-inline-svg-plugin');
+
 const htmlWebpackPluginChunks = pagesConfig.map((obj) => {
     const {title, context, pageNumber, pagesLength} = obj;
 
@@ -26,7 +28,13 @@ const htmlWebpackPluginChunks = pagesConfig.map((obj) => {
         template: `${rootPath}/src/htmlRoot.ejs`,
         filename: `${context}.html`,
         inject: 'body',
-        rootPath
+        rootPath,
+        svgoConfig: {
+            cleanupIDs: true,
+            removeTitle: false,
+            removeAttrs: false,
+            removeViewBox: true
+        }
     });
 });
 
@@ -52,6 +60,7 @@ module.exports = {
             'window.jQuery': 'jquery'
         }),
         ...htmlWebpackPluginChunks,
+        new HtmlWebpackInlineSVGPlugin(),
         new CopyWebpackPlugin([{
             from: `${rootPath}/public/`,
             to: `${rootPath}/build/`
