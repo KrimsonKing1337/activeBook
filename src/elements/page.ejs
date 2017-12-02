@@ -2,7 +2,7 @@
     <div class="left-side"></div>
     <div class="right-side">
         <%= require('./text-and-effects.ejs')({context: context}) %>
-        <%= require('./table-of-contents.ejs')({context: context}) %>
-        <%= require('./menu.ejs')({context: context}) %>
+        <%= require('./table-of-contents.ejs')() %>
+        <%= require('./menu.ejs')({pageNumber: pageNumber, pagesLength: pagesLength}) %>
     </div>
 </div>

@@ -16,11 +16,13 @@ const extractSass = new ExtractTextPlugin({
 const rootPath = resolve(__dirname, '../');
 
 const htmlWebpackPluginChunks = pagesConfig.map((obj) => {
-    const {title, context} = obj;
+    const {title, context, pageNumber, pagesLength} = obj;
 
     return new HtmlWebpackPlugin({
         title,
         context,
+        pageNumber,
+        pagesLength,
         template: `${rootPath}/src/htmlRoot.ejs`,
         filename: `${context}.html`,
         inject: 'body',

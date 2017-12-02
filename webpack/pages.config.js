@@ -60,6 +60,8 @@ for (let i = 1; i <= 12; i++) {
     pagesConfig.push({
         title: 'activeBook 2.0 demo',
         context: `page-${i}`,
+        pageNumber: i,
+        pagesLength: 12
     });
 }
 

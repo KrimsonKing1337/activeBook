@@ -27,7 +27,7 @@
     <div class="menu__item navigator">
         <div class="go-to-page-by-number js-go-to-page-by-number">
             <div class="go-to-page-by-number__input">
-                <input type="text" class="js-page-input" value="" placeholder="{%pageNumber}" pattern="[0-9]" />
+                <input type="text" class="js-page-input" value="" placeholder="<%= pageNumber %>" pattern="[0-9]" />
             </div>
             <div class="go-to-page-by-number__button js-go-to-page-trigger">
                 Перейти
@@ -38,8 +38,8 @@
                 <img class="fill" src="/img/menu/arrow-left.svg" />
             </div>
             <div class="go-to-page-by-arrows__page-number js-page-number"
-                 data-page-number="{%pageNumber}" data-pages-length="{%pagesLength}">
-                <input type="text" value="" placeholder="{%pageNumber} из {%pagesLength}" pattern="[0-9]" />
+                 data-page-number="<%= pageNumber %>" data-pages-length="<%= pagesLength %>">
+                <input type="text" value="" placeholder="<%= pageNumber %> из <%= pagesLength %>" pattern="[0-9]" />
             </div>
             <div class="go-to-page-by-arrows__arrow-right js-page-next">
                 <img class="fill" src="/img/menu/arrow-right.svg" />
