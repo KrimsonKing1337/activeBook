@@ -4,7 +4,7 @@ export default class Page {
     }
 
     static getParams() {
-        let $pageNumber = $('.js-page-number');
+        const $pageNumber = $('.js-page-number');
 
         return {
             current: parseInt($pageNumber.attr('data-page-number')),

@@ -2,7 +2,7 @@
  * Created by K on 11.06.2017.
  */
 
-import ConstsDOM from './ConstsDOM';
+import getDOMSelectors from './GetDOMSelectors';
 const Howler = require('howler');
 
 export class Effects {
@@ -316,7 +316,7 @@ class ImageEffects {
      */
     static setLeftSide ({target} = {}) {
         const img = target.find('img');
-        const leftSide = $(ConstsDOM.get().leftSide);
+        const leftSide = $(getDOMSelectors.get().leftSide);
 
         //jquery использует абсолютные пути, поэтому сравниваем таким образом
         if (leftSide.css('background-image').indexOf(img.attr('src').replace('../', '')) !== -1) return;

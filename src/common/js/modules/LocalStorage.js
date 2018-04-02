@@ -28,7 +28,7 @@ export default class LocalStorage {
      * @param params.bookmarks[] {object};
      */
     static saveState(params = {}) {
-        let states = {
+        const states = {
             volume: params.volume,
             volumeSlidersPosition: params.volumeSlidersPosition,
             currentPage: params.currentPage,
@@ -50,8 +50,8 @@ export default class LocalStorage {
      * @param params.val {string}
      */
     static write(params = {}) {
-        let key = params.key;
-        let val = params.val;
+        const key = params.key;
+        const val = params.val;
 
         localStorage.setItem(key, JSON.stringify(val)); //сериализуем объект в строку
     }
@@ -62,7 +62,7 @@ export default class LocalStorage {
      * @param params.key {string}
      */
     static read(params = {}) {
-        let key = params.key;
+        const key = params.key;
 
         if (!localStorage.getItem(key)) return false;
 

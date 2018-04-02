@@ -1,4 +1,4 @@
-import ConstsDom from './modules/ConstsDOM';
+import getDOMSelectors from './modules/GetDOMSelectors';
 import Page from './modules/Page';
 import Popover from './modules/Popover';
 import {LineHeight, FontSize, GoToPage, VolumeSliders, Theme, Vibration, Bookmarks} from './modules/Menu';
@@ -20,9 +20,7 @@ $(window).on('load', () => {
         return;
     }
 
-    const constsDom = ConstsDom.get();
-    const constsDomMenu = ConstsDom.getMenu();
-    const constsDomPopover = ConstsDom.getPopover();
+    const DOMSelectors = getDOMSelectors();
     const page = Page.getParams();
 
     //customScrollBar
@@ -122,52 +120,52 @@ $(window).on('load', () => {
      * записываем каждый экземпляр поповера в переменную
      */
     const bookmarkPopover = new Popover({
-        $popover: $(constsDomMenu.bookmark).find(constsDomPopover.popover),
-        $triggerButton: $(constsDomMenu.bookmark).find(constsDomPopover.triggerButton)
+        $popover: $(DOMSelectors.bookmark).find(DOMSelectors.addSettings),
+        $triggerButton: $(DOMSelectors.bookmark).find(DOMSelectors.svgWrapper)
     });
 
     const volumePopover = new Popover({
-        $popover: $(constsDomMenu.volume).find(constsDomPopover.popover),
-        $triggerButton: $(constsDomMenu.volume).find(constsDomPopover.triggerButton)
+        $popover: $(DOMSelectors.volume).find(DOMSelectors.addSettings),
+        $triggerButton: $(DOMSelectors.volume).find(DOMSelectors.svgWrapper)
     });
 
     const etcPopover = new Popover({
-        $popover: $(constsDomMenu.etc).find(constsDomPopover.popover),
-        $triggerButton: $(constsDomMenu.etc).find(constsDomPopover.triggerButton)
+        $popover: $(DOMSelectors.etc).find(DOMSelectors.addSettings),
+        $triggerButton: $(DOMSelectors.etc).find(DOMSelectors.svgWrapper)
     });
 
     //переключалка для вибрации
     //todo: если включаем - то давать короткую вибрацию
-    $(constsDomPopover.vibrationOption).on('click', function () {
+    $(DOMSelectors.vibrationOption).on('click', function () {
         Vibration.set({
-            $page: $(constsDom.page),
+            $page: $(DOMSelectors.page),
             val: $(this).attr('data-vibration'),
-            $vibrationOption: $(constsDomPopover.vibrationOption)
+            $vibrationOption: $(DOMSelectors.vibrationOption)
         });
     });
 
     //переключалка темы оформления
-    $(constsDomPopover.themeOption).on('click', function () {
+    $(DOMSelectors.themeOption).on('click', function () {
         Theme.set({
-            $page: $(constsDom.page),
+            $page: $(DOMSelectors.page),
             val: $(this).attr('data-theme'),
-            $themeOption: $(constsDomPopover.themeOption)
+            $themeOption: $(DOMSelectors.themeOption)
         });
     });
 
     //оглавление
-    $(constsDomPopover.tableOfContentsShow).on('click', function () {
-        $(constsDom.text).hide();
-        $(constsDom.tableOfContents).show();
+    $(DOMSelectors.tableOfContentsShow).on('click', function () {
+        $(DOMSelectors.text).hide();
+        $(DOMSelectors.tableOfContents).show();
         Popover.close({
             $triggerButton: $(this).closest('.menu__item'),
-            $popover: $(this).closest(constsDomPopover.popover)
+            $popover: $(this).closest(DOMSelectors.addSettings)
         });
     });
 
     $('.js-table-of-contents-close').on('click', () => {
-        $(constsDom.tableOfContents).hide();
-        $(constsDom.text).show();
+        $(DOMSelectors.tableOfContents).hide();
+        $(DOMSelectors.text).show();
     });
 
     //клик по элементу оглавления (главе)
@@ -184,17 +182,17 @@ $(window).on('load', () => {
     //меняем межстрочный интервал
     $('.js-line-height-minus').on('click', () => {
         LineHeight.setByDirection({
-            $val: $(constsDomPopover.lineHeightVal),
+            $val: $(DOMSelectors.lineHeightVal),
             direction: 'less',
-            $text: $(constsDom.text)
+            $text: $(DOMSelectors.text)
         });
     });
 
     $('.js-line-height-plus').on('click', () => {
         LineHeight.setByDirection({
-            $val: $(constsDomPopover.lineHeightVal),
+            $val: $(DOMSelectors.lineHeightVal),
             direction: 'more',
-            $text: $(constsDom.text)
+            $text: $(DOMSelectors.text)
         });
     });
 
@@ -251,11 +249,11 @@ $(window).on('load', () => {
 
     //меняем размер шрифта
     $('.js-font-size-down').on('click', () => {
-        FontSize.setByDirection({$text: $(constsDom.text), direction: 'less'});
+        FontSize.setByDirection({$text: $(DOMSelectors.text), direction: 'less'});
     });
 
     $('.js-font-size-up').on('click', () => {
-        FontSize.setByDirection({$text: $(constsDom.text), direction: 'more'});
+        FontSize.setByDirection({$text: $(DOMSelectors.text), direction: 'more'});
     });
 
     //инитим громкость
@@ -299,21 +297,21 @@ $(window).on('load', () => {
     });
 
     //событие изменения положения ползунка глобальной громкости
-    $(constsDomMenu.volumeGlobal).on('change', function () {
+    $(DOMSelectors.volumeGlobal).on('change', function () {
         const volume = $(this).find('.js-range-slider').val() / 100;
 
         VolumeControllerInst.setGlobal({volume});
     });
 
     //событие изменения положения ползунка громкости подсказок
-    $(constsDomPopover.volumeHints).on('change', function () {
+    $(DOMSelectors.volumeHints).on('change', function () {
         const volume = $(this).find('.js-range-slider').val() / 100;
 
         VolumeControllerInst.setHints({volume});
     });
 
     //событие изменения положения ползунка громкости фоновых звуков
-    $(constsDomPopover.volumeBg).on('change', function () {
+    $(DOMSelectors.volumeBg).on('change', function () {
         const volume = $(this).find('.js-range-slider').val() / 100;
 
         VolumeControllerInst.setLoops({volume});
@@ -365,9 +363,9 @@ $(window).on('load', () => {
 
     //сохраняем значения настроек
     $(window).on('unload', () => {
-        const volumeGlobalSlider = $(constsDomMenu.volumeGlobal).find('.js-range-slider');
-        const volumeHintsSlider = $(constsDomPopover.volumeHints).find('.js-range-slider');
-        const volumeBgSlider = $(constsDomPopover.volumeBg).find('.js-range-slider');
+        const volumeGlobalSlider = $(DOMSelectors.volumeGlobal).find('.js-range-slider');
+        const volumeHintsSlider = $(DOMSelectors.volumeHints).find('.js-range-slider');
+        const volumeBgSlider = $(DOMSelectors.volumeBg).find('.js-range-slider');
 
         const bookmarks = [];
 
@@ -393,12 +391,12 @@ $(window).on('load', () => {
                 hints: volumeHintsSlider.val(),
                 bg: volumeBgSlider.val()
             },
-            currentPage: $(constsDomMenu.pageNumber).attr('data-page-number'),
-            fontSize: $(constsDom.text).attr('data-font-size'),
-            lineHeight: $(constsDom.text).attr('data-line-height'),
+            currentPage: $(DOMSelectors.pageNumber).attr('data-page-number'),
+            fontSize: $(DOMSelectors.text).attr('data-font-size'),
+            lineHeight: $(DOMSelectors.text).attr('data-line-height'),
             scrollTop: Math.abs(parseInt($('.mCustomScrollBox.mCS-activeBook').find('> .mCSB_container').css('top'))),
-            theme: $(constsDom.page).attr('data-theme'),
-            vibration: $(constsDom.page).attr('data-vibration'),
+            theme: $(DOMSelectors.page).attr('data-theme'),
+            vibration: $(DOMSelectors.page).attr('data-vibration'),
             bookmarks
         });
     });
@@ -410,15 +408,15 @@ $(window).on('load', () => {
         VolumeSliders.set({
             sliders: {
                 global: {
-                    inst: $(constsDomMenu.volumeGlobal).find('.js-range-slider').data('ionRangeSlider'),
+                    inst: $(DOMSelectors.volumeGlobal).find('.js-range-slider').data('ionRangeSlider'),
                     val: states.volumeSlidersPosition.global
                 },
                 hints: {
-                    inst: $(constsDomPopover.volumeHints).find('.js-range-slider').data('ionRangeSlider'),
+                    inst: $(DOMSelectors.volumeHints).find('.js-range-slider').data('ionRangeSlider'),
                     val: states.volumeSlidersPosition.hints
                 },
                 bg: {
-                    inst: $(constsDomPopover.volumeBg).find('.js-range-slider').data('ionRangeSlider'),
+                    inst: $(DOMSelectors.volumeBg).find('.js-range-slider').data('ionRangeSlider'),
                     val: states.volumeSlidersPosition.bg
                 }
             }
@@ -426,29 +424,29 @@ $(window).on('load', () => {
 
         //font-size
         FontSize.set({
-            $text: $(constsDom.text),
+            $text: $(DOMSelectors.text),
             newVal: states.fontSize
         });
 
         //line-height
         LineHeight.set({
-            $text: $(constsDom.text),
-            $val: $(constsDomPopover.lineHeightVal),
+            $text: $(DOMSelectors.text),
+            $val: $(DOMSelectors.lineHeightVal),
             newVal: states.lineHeight
         });
 
         //theme
         Theme.set({
-            $page: $(constsDom.page),
+            $page: $(DOMSelectors.page),
             val: states.theme,
-            $themeOption: $(constsDomPopover.themeOption)
+            $themeOption: $(DOMSelectors.themeOption)
         });
 
         //vibration
         Vibration.set({
-            $page: $(constsDom.page),
+            $page: $(DOMSelectors.page),
             val: states.vibration,
-            $vibrationOption: $(constsDomPopover.vibrationOption)
+            $vibrationOption: $(DOMSelectors.vibrationOption)
         });
 
         //bookmarks

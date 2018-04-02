@@ -18,7 +18,7 @@ export class LineHeight {
         const $val = params.$val;
         const newVal = params.newVal;
 
-        LineHeight._apply({$text, $val, newVal});
+        LineHeight.apply({$text, $val, newVal});
     }
 
     /**
@@ -48,7 +48,7 @@ export class LineHeight {
 
         if (limit === true) return;
 
-        LineHeight._apply({$text, $val, newVal});
+        LineHeight.apply({$text, $val, newVal});
     }
 
     /**
@@ -59,7 +59,7 @@ export class LineHeight {
      * @param params.newVal {number};
      * @private
      */
-    static _apply (params = {}) {
+    static apply (params = {}) {
         const $text = params.$text;
         const $val = params.$val;
         const newVal = params.newVal;
@@ -147,7 +147,7 @@ export class FontSize {
         const $text = params.$text;
         const newVal = params.newVal;
 
-        FontSize._apply({$text, newVal});
+        FontSize.apply({$text, newVal});
     }
 
     /**
@@ -175,7 +175,7 @@ export class FontSize {
 
         if (limit === true) return;
 
-        FontSize._apply({$text, newVal});
+        FontSize.apply({$text, newVal});
     }
 
     /**
@@ -186,7 +186,7 @@ export class FontSize {
      * @param params.newVal {number};
      * @private
      */
-    static _apply (params = {}) {
+    static apply (params = {}) {
         const $text = params.$text;
         const newVal = params.newVal;
 
