@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 
 const pagesConfig = require('./pages.config');
 
@@ -65,6 +66,9 @@ module.exports = {
             from: `${rootPath}/public/`,
             to: `${rootPath}/build/`
         }]),
+        new OpenBrowserPlugin({
+            url: 'http://localhost:3000/page-1.html'
+        })
     ],
     context: rootPath,
     resolve: {
@@ -123,9 +127,9 @@ module.exports = {
         }]
     },
     devServer: {
-        host: 'active-book.loc',
-        port: '8081',
-        //public: '192.168.1.7:8081',
+        //url: http://localhost:3000/page-1.html
+        host: 'localhost',
+        port: '3000',
         contentBase: resolve(__dirname, '../public'),
         publicPath: '/',
         historyApiFallback: {

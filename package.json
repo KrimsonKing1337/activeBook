@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=production webpack-dev-server --config webpack/webpack.config.js",
-    "start:debug": "npm run start -- --env.debug",
+    "start:dev": "cross-env NODE_ENV=development webpack-dev-server --config webpack/webpack.config.js",
     "build": "cross-env NODE_ENV=production webpack --optimize-minimize --config webpack/webpack.config.js",
-    "build:debug": "npm run build -- --env.debug",
+    "build:dev": "cross-env NODE_ENV=development webpack --optimize-minimize --config webpack/webpack.config.js",
     "lint": "eslint .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -64,6 +64,7 @@
     "jsdom": "^10.0.0",
     "node-sass": "^4.5.3",
     "node-static": "^0.7.10",
+    "open-browser-webpack-plugin": "0.0.5",
     "postcss": "^6.0.13",
     "postcss-loader": "^2.0.6",
     "postcss-reporter": "^5.0.0",
