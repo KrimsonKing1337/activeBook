@@ -42,6 +42,6 @@ export default function getDOMSelectors() {
         volumeBg: '.js-volume-bg',
         addContentClose: '.js-add-content-close',
         addContentFullSize: '.js-add-content-full-size',
-        addContentInner: '.js-add-content__inner'
+        addContentInner: '.js-add-content-inner'
     }
 }
