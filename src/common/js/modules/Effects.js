@@ -316,7 +316,7 @@ class ImageEffects {
      */
     static setLeftSide ({target} = {}) {
         const img = target.find('img');
-        const leftSide = $(getDOMSelectors.get().leftSide);
+        const leftSide = $(getDOMSelectors.get().popup);
 
         //jquery использует абсолютные пути, поэтому сравниваем таким образом
         if (leftSide.css('background-image').indexOf(img.attr('src').replace('../', '')) !== -1) return;

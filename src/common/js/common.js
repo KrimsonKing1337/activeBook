@@ -456,4 +456,6 @@ $(window).on('load', () => {
             bookmarksArr: states.bookmarks
         })
     }
+
+    $(DOMSelectors.page).removeClass('loading');
 });
