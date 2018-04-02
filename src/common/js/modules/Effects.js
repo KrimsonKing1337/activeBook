@@ -38,8 +38,8 @@ export class Effects {
             soundEffects.prepareToPlayLoop({target, volume: this.volume.loops, effectParams});
         } else if (type === 'bg-sound') {
             soundEffects.prepareToPlayLoop({target, volume: this.volume.loops, effectParams});
-        } else if (type === 'image-left-side') {
-            ImageEffects.setLeftSide({target});
+        } else if (type === 'add-content') {
+            ImageEffects.setAddContent({target});
         }
     }
 }
@@ -314,18 +314,22 @@ class ImageEffects {
      *
      * @param target
      */
-    static setLeftSide ({target} = {}) {
-        const img = target.find('img');
-        const leftSide = $(getDOMSelectors.get().popup);
+    static setAddContent ({target} = {}) {
+        const contents = target.contents();
+        const $addContent = $(getDOMSelectors().addContent);
+        const $addContentInner = $(getDOMSelectors().addContentInner);
 
         //jquery использует абсолютные пути, поэтому сравниваем таким образом
-        if (leftSide.css('background-image').indexOf(img.attr('src').replace('../', '')) !== -1) return;
+        /*if ($addContent.css('background-image').indexOf(img.attr('src').replace('../', '')) !== -1) return;
 
-        leftSide.addClass('fadeOut');
-        leftSide.one('transitionend', () => {
-            leftSide.css({'background-image': `url(${ img.attr('src') })`});
-            leftSide.removeClass('fadeOut');
-        });
+        $addContent.addClass('fadeOut');
+        $addContent.one('transitionend', () => {
+            $addContent.css({'background-image': `url(${ img.attr('src') })`});
+            $addContent.removeClass('fadeOut');
+        });*/
+
+        $addContentInner.append(contents);
+        $addContent.fadeIn();
         //todo: слайдер, если несколько
     }
 }

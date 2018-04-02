@@ -15,7 +15,7 @@ export default function getDOMSelectors() {
         text: '.text',
         tableOfContents: '.table-of-contents',
         menu: '.menu',
-        popup: '.popup',
+        addContent: '.add-content',
         mainContent: '.main-content',
         action: '.action',
         page: '.page',
@@ -39,6 +39,9 @@ export default function getDOMSelectors() {
         lineHeightPlus: '.js-line-height-plus',
         lineHeightVal: '.js-line-height-val',
         volumeHints: '.js-volume-hints',
-        volumeBg: '.js-volume-bg'
+        volumeBg: '.js-volume-bg',
+        addContentClose: '.js-add-content-close',
+        addContentFullSize: '.js-add-content-full-size',
+        addContentInner: '.js-add-content__inner'
     }
 }

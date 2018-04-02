@@ -1,5 +1,12 @@
 <div class="page loading" data-theme="default" data-vibration="true">
-    <div class="popup"></div>
+    <div class="add-content">
+        <div class="add-content__close js-add-content-close" title="Закрыть">x</div>
+        <div class="add-content__full-size js-add-content-full-size"
+             title="Показать полный размер (откроется в новой вкладке)">
+            }{
+        </div>
+        <div class="add-content__inner js-add-content__inner"></div>
+    </div>
     <div class="main-content">
         <%= require('./text-and-effects.ejs')({context: context}) %>
         <%= require('./table-of-contents.ejs')() %>

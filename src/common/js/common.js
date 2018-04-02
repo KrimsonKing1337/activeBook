@@ -110,6 +110,7 @@ $(window).on('load', () => {
             oldCountValue = i;
         });
 
+        $svgCur.find('title').remove();
         $svgCur.wrap('<div class="obj-img__wrapper" />');
     });
 
@@ -456,6 +457,26 @@ $(window).on('load', () => {
             bookmarksArr: states.bookmarks
         })
     }
+
+    $(DOMSelectors.addContentClose).on('click', () => {
+        $(DOMSelectors.addContent).fadeOut();
+    });
+
+    $(DOMSelectors.addContentFullSize).on('click', () => {
+        const children = $(DOMSelectors.addContentInner).children();
+
+        let src;
+        const video = children.filter('video');
+        const img = children.filter('img');
+
+        if (img.length > 0) {
+            src = img.attr('src');
+        }
+
+        //todo: video
+
+        window.location.href = src;
+    });
 
     $(DOMSelectors.page).removeClass('loading');
 });
