@@ -21,7 +21,7 @@ var params = {
     <!-- <link rel="shortcut icon" href="/common/favicon.ico" type="image/x-icon" /> -->
     <title><%= title %></title>
 </head>
-<body data-page="<%= context %>">
+<body id="inside" data-page="<%= context %>" data-type="inside">
     <%= require('elements/page.ejs')(params) %>
 </body>
 </html>

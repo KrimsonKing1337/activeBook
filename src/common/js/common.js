@@ -11,10 +11,21 @@ import 'ion-rangeslider';
 import bowser from 'bowser';
 
 $(window).on('load', () => {
+    const $body = $('body');
+
+    if ($body.data('type') === 'outside') {
+        /**
+         * scripts for outside here
+         */
+        const $iframe = $('iframe');
+
+        document.title = $iframe[0].contentDocument.title;
+
+        return;
+    }
+
     //browser compatibility check
     if (!bowser.blink && !bowser.gecko && !bowser.safari) {
-        const $body = $('body');
-
         $body.empty();
         $body.append('<div class="warning">Пожалуйста, используйте Google Chrome версии 58+ или Firefox версии 53+</div>');
         return;
@@ -208,6 +219,12 @@ $(window).on('load', () => {
 
     $('.js-go-to-page-by-number').on('click', (e) => {
         e.stopPropagation();
+    });
+
+    $('.js-page-input').on('keypress', (e) => {
+        if (e.which === 13) {
+            $('.js-go-to-page-trigger').trigger('click');
+        }
     });
 
     $('.js-go-to-page-trigger').on('click', () => {

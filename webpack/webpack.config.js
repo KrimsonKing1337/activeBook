@@ -61,13 +61,19 @@ module.exports = {
             'window.jQuery': 'jquery'
         }),
         ...htmlWebpackPluginChunks,
+        new HtmlWebpackPlugin({
+            template: `${rootPath}/src/index.ejs`,
+            filename: 'index.html',
+            inject: 'body'
+        }),
         new HtmlWebpackInlineSVGPlugin(),
         new CopyWebpackPlugin([{
             from: `${rootPath}/public/`,
             to: `${rootPath}/build/`
         }]),
         new OpenBrowserPlugin({
-            url: 'http://localhost:3000/page-1.html'
+            //url: 'http://localhost:3000/page-1.html'
+            url: 'http://localhost:3000'
         })
     ],
     context: rootPath,
