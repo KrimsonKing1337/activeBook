@@ -75,18 +75,17 @@ export class VolumeController {
      * @param params.volume {number}
      */
     setGlobal (params = {}) {
-        let self = this;
-        let Volume = self.Volume;
-        let newVolume = params.volume;
+        const Volume = this.Volume;
+        const newVolume = params.volume;
 
         /**
          * обновляем значение глобальной громкости в экземпляре класса Volume
          */
         Volume.setGlobal(newVolume);
 
-        self.setHints({volume: newVolume});
+        this.setHints({volume: newVolume});
 
-        self.setLoops({volume: newVolume});
+        this.setLoops({volume: newVolume});
     }
 
     /**
@@ -95,11 +94,10 @@ export class VolumeController {
      * @param params.volume {number}
      */
     setHints (params = {}) {
-        let self = this;
-        let Volume = self.Volume;
-        let $audios = self.$audios;
-        let $videos = self.$videos;
-        let newVolume = params.volume * self.Volume.global;
+        const Volume = this.Volume;
+        const $audios = this.$audios;
+        const $videos = this.$videos;
+        const newVolume = params.volume * this.Volume.global;
 
         /**
          * обновляем значение громкости подсказок в экземпляре класса Volume
@@ -121,18 +119,17 @@ export class VolumeController {
      * @param params.volume {number}
      */
     setLoops (params = {}) {
-        let self = this;
-        let Volume = self.Volume;
-        let loops = self.loops;
-        let newVolume = params.volume * self.Volume.global;
+        const Volume = this.Volume;
+        const loops = this.loops;
+        const newVolume = params.volume * this.Volume.global;
 
         /**
          * обновляем значение громкости фоновых звуков в экземпляре класса Volume
          */
         Volume.setLoops(newVolume);
 
-        for (let loop in loops) {
-            if (loops[loop] != '') {
+        for (const loop in loops) {
+            if (loops[loop]) {
                 loops[loop].volume(newVolume);
             }
         }
