@@ -12,7 +12,7 @@ import bowser from 'bowser';
 
 $(window).on('load', () => {
     //browser compatibility check
-    if (!bowser.blink && !bowser.gecko) {
+    if (!bowser.blink && !bowser.gecko && !bowser.safari) {
         const $body = $('body');
 
         $body.empty();
