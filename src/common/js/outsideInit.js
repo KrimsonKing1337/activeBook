@@ -1,17 +1,25 @@
 import {Effects} from './modules/Effects';
 import {getVolumeInst} from './getVolumeInst';
 import {getVolumeControllerInst} from './getVolumeControllerInst';
+import {getJSON} from './getJSON';
 
-export function outsideInit() {
-    const $iframe = $('iframe');
+export async function outsideInit() {
+    const iframe = $('iframe')[0];
 
-    document.title = $iframe[0].contentDocument.title;
+    document.title = iframe.contentDocument.title;
+
+    const page = $(iframe.contentDocument).find('body#inside').data('page');
+
+    const effectsDescriptions = await getJSON(`/${page}.json`);
 
     //инитим громкость
     const VolumeInst = getVolumeInst();
 
     //инициализируем контроллер управления эффектами
-    const EffectsController = new Effects(VolumeInst);
+    const EffectsController = new Effects({
+        VolumeInst,
+        effectsDescriptions
+    });
 
     //инитим управление громкостью
     const VolumeControllerInst = getVolumeControllerInst({

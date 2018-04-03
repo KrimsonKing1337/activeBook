@@ -12,8 +12,9 @@ import {loadStates} from './loadStates';
 import {getVolumeInst} from './getVolumeInst';
 import {getVolumeControllerInst} from './getVolumeControllerInst';
 import {outsideInit} from './outsideInit';
+import {getJSON} from "./getJSON";
 
-$(window).on('load', () => {
+$(window).on('load', async () => {
     const $body = $('body');
 
     if ($body.data('type') === 'outside') {
@@ -185,11 +186,16 @@ $(window).on('load', () => {
         FontSize.setByDirection({$text: $(DOMSelectors.text), direction: 'more'});
     });
 
+    const effectsDescriptions = await getJSON(`/page-${page.current}.json`);
+
     //инитим громкость
     const VolumeInst = getVolumeInst();
 
     //инициализируем контроллер управления эффектами
-    const EffectsController = new Effects(VolumeInst);
+    const EffectsController = new Effects({
+        VolumeInst,
+        effectsDescriptions
+    });
 
     //инитим управление громкостью
     const VolumeControllerInst = getVolumeControllerInst({

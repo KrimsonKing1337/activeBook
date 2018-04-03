@@ -67,10 +67,16 @@ module.exports = {
             inject: 'body'
         }),
         new HtmlWebpackInlineSVGPlugin(),
-        new CopyWebpackPlugin([{
-            from: `${rootPath}/public/`,
-            to: `${rootPath}/build/`
-        }]),
+        new CopyWebpackPlugin([
+            {
+                from: `${rootPath}/public/`,
+                to: `${rootPath}/build/`
+            }, {
+                from: `${rootPath}/src/components/*.json`,
+                to: `${rootPath}/build/`,
+                flatten: true
+            }
+        ]),
         new OpenBrowserPlugin({
             //url: 'http://localhost:3000/page-1.html'
             url: 'http://localhost:3000'
@@ -140,7 +146,7 @@ module.exports = {
         publicPath: '/',
         historyApiFallback: {
             rewrites: [
-                { from: /./, to: '/err-404.html' }
+                {from: /./, to: '/err-404.html'}
             ]
         },
         //hot: true

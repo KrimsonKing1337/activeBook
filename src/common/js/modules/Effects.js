@@ -9,17 +9,19 @@ const Howler = require('howler');
 export class Effects {
     /**
      *
-     * @param Volume {object}; inst Volume Class
+     * @param VolumeInst {object}; inst volumeInst Class
+     * @param effectsDescriptions {object}; effects description from JSON
      */
-    constructor(Volume) {
+    constructor({VolumeInst, effectsDescriptions} = {}) {
         this.soundEffects = new SoundEffects({
             AudioLoops: new AudioLoops()
         });
         this.volume = {
-            global: Volume.global,
-            hints: Volume.hints,
-            loops: Volume.loops
-        }
+            global: VolumeInst.global,
+            hints: VolumeInst.hints,
+            loops: VolumeInst.loops
+        };
+        this.descriptions = effectsDescriptions;
     }
 
     /**
