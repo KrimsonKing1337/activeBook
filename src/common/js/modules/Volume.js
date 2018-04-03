@@ -5,26 +5,25 @@ export class Volume {
 
     /**
      *
-     * @param params {object}
-     * @param params.global {number}
-     * @param params.hints {number}
-     * @param params.loops {number}
+     * @param global {number}
+     * @param hints {number}
+     * @param loops {number}
      */
-    constructor (params = {}) {
-        this.global = params.global;
-        this.hints = params.hints;
-        this.loops = params.loops;
+    constructor({global, hints, loops} = {}) {
+        this.global = global;
+        this.hints = hints;
+        this.loops = loops;
     }
 
     /**
      *
      * @param value {number}
      */
-    setGlobal (value) {
+    setGlobal(value) {
         this.global = value;
     }
 
-    getGlobal () {
+    getGlobal() {
         return this.global;
     }
 
@@ -32,11 +31,11 @@ export class Volume {
      *
      * @param value {number}
      */
-    setHints (value) {
+    setHints(value) {
         this.hints = value;
     }
 
-    getHints () {
+    getHints() {
         return this.hints;
     }
 
@@ -44,11 +43,11 @@ export class Volume {
      *
      * @param value {number}
      */
-    setLoops (value) {
+    setLoops(value) {
         this.loops = value;
     }
 
-    getLoops () {
+    getLoops() {
         return this.loops;
     }
 }
@@ -62,7 +61,7 @@ export class VolumeController {
      * @param params.$videos {object} jquery
      * @param params.loops[] {object} Howler
      */
-    constructor (params = {}) {
+    constructor(params = {}) {
         this.Volume = params.Volume;
         this.$audios = params.$audios;
         this.$videos = params.$videos;
@@ -74,7 +73,7 @@ export class VolumeController {
      * @param params {object}
      * @param params.volume {number}
      */
-    setGlobal (params = {}) {
+    setGlobal(params = {}) {
         const Volume = this.Volume;
         const newVolume = params.volume;
 
@@ -93,7 +92,7 @@ export class VolumeController {
      * @param params {object}
      * @param params.volume {number}
      */
-    setHints (params = {}) {
+    setHints(params = {}) {
         const Volume = this.Volume;
         const $audios = this.$audios;
         const $videos = this.$videos;
@@ -118,7 +117,7 @@ export class VolumeController {
      * @param params {object}
      * @param params.volume {number}
      */
-    setLoops (params = {}) {
+    setLoops(params = {}) {
         const Volume = this.Volume;
         const loops = this.loops;
         const newVolume = params.volume * this.Volume.global;

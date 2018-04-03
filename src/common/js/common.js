@@ -21,6 +21,34 @@ $(window).on('load', () => {
 
         document.title = $iframe[0].contentDocument.title;
 
+        //инитим громкость
+        const VolumeInst = new Volume({
+            global: 0.5,
+            hints: 0.5,
+            loops: 0.5
+        });
+
+        //инициализируем контроллер управления эффектами
+        const EffectsController = new Effects(VolumeInst);
+
+        //инитим управление громкостью
+        const VolumeControllerInst = new VolumeController({
+            Volume: VolumeInst,
+            $audios: $('audio'),
+            $videos: $('video'),
+            loops: EffectsController.soundEffects.AudioLoops
+        });
+
+        //воспроизводим эффекты, которые должны быть проиграны сразу после загрузки
+        $('[data-play-on-load]').each((index, item) => {
+            const effectParams = $(item).data('effect-params'); //.data() переводит JSON в obj сама
+
+            EffectsController.play({
+                target: $(item),
+                effectParams
+            });
+        });
+
         return;
     }
 
@@ -372,6 +400,7 @@ $(window).on('load', () => {
 
     //fadeOut background sounds before change the page
     //todo: делать потом фейд во время анимации смены страницы
+    //todo: iframe unload
     $(window).on('unload', () => {
         EffectsController.soundEffects.stopLoop({
             loop: 'all',
@@ -419,6 +448,7 @@ $(window).on('load', () => {
         });
     });
 
+    //загружаем значения настроек
     const states = LocalStorage.getState();
 
     if (states !== false) {

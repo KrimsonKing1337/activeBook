@@ -3,6 +3,7 @@
  */
 
 import getDOMSelectors from './GetDOMSelectors';
+
 const Howler = require('howler');
 
 export class Effects {
@@ -10,7 +11,7 @@ export class Effects {
      *
      * @param Volume {object}; inst Volume Class
      */
-    constructor (Volume) {
+    constructor(Volume) {
         this.soundEffects = new SoundEffects({
             AudioLoops: new AudioLoops()
         });
@@ -26,7 +27,7 @@ export class Effects {
      * @param target {object} jquery
      * @param effectParams {object}
      */
-    play ({target, effectParams} = {}) {
+    play({target, effectParams} = {}) {
         const soundEffects = this.soundEffects;
 
         const type = target.data('effect-type');
@@ -48,7 +49,7 @@ export class Effects {
  * single tone
  */
 class AudioLoops {
-    constructor () {
+    constructor() {
         this.bgSound = '';
         this.bgSoundNew = '';
         this.bgMusic = '';
@@ -62,11 +63,11 @@ class SoundEffects {
      * @param params {object}
      * @param params.AudioLoops {object} class
      */
-    constructor (params = {}) {
+    constructor(params = {}) {
         this.AudioLoops = params.AudioLoops;
     }
 
-    static get sounds () {
+    static get sounds() {
         return $('audio');
     }
 
@@ -74,7 +75,7 @@ class SoundEffects {
      * @param target {object} jquery
      * @returns {string}
      */
-    static getState ({target} = {}) {
+    static getState({target} = {}) {
         if (target[0].duration > 0 && !target[0].paused) {
             return 'playing';
         } else {
@@ -87,7 +88,7 @@ class SoundEffects {
      * @param target {string}; sounds || bgSound || bgMusic || all;
      * @param volume {number};
      */
-    static stop ({target, volume} = {}) {
+    static stop({target, volume} = {}) {
         if (target === 'sounds') {
             const sounds = SoundEffects.sounds;
 
@@ -111,7 +112,7 @@ class SoundEffects {
      * @param target {object} jquery
      * @param volume {number}
      */
-    static play ({target, volume} = {}) {
+    static play({target, volume} = {}) {
         if (SoundEffects.getState({target}) === 'paused') {
             SoundEffects.stop({target: 'sounds', volume});
             target[0].play();
@@ -124,7 +125,7 @@ class SoundEffects {
      * @param volume {number}
      * @param effectParams {object}
      */
-    prepareToPlayLoop ({target, volume, effectParams} = {}) {
+    prepareToPlayLoop({target, volume, effectParams} = {}) {
         const self = this;
         const type = target.data('effect-type');
         const src = [];
@@ -165,7 +166,7 @@ class SoundEffects {
      * если нужно остановить все фоновые звуки - передаём 'all'
      * @param [fadeOutSpeed] {number} - скорость, с которой будет происходить fadeOut
      */
-    stopLoop ({volume, loop, fadeOutSpeed} = {}) {
+    stopLoop({volume, loop, fadeOutSpeed} = {}) {
         if (typeof fadeOutSpeed === 'undefined') fadeOutSpeed = 1000;
 
         if (!loop) return;
@@ -190,7 +191,7 @@ class SoundEffects {
 
     //Unload and destroy a Howl object.
     //This will immediately stop all sounds attached to this sound and remove it from the cache.
-    static tryCatchHowlUnload (obj) {
+    static tryCatchHowlUnload(obj) {
         try {
             obj.unload();
         } catch (err) {
@@ -210,7 +211,7 @@ class SoundEffects {
      * @param addParams {number}
      * @private
      */
-    setLoop ({loopName, src, fadeInSpeed, fadeOutSpeed, volume, addParams} = {}) {
+    setLoop({loopName, src, fadeInSpeed, fadeOutSpeed, volume, addParams} = {}) {
         const self = this;
 
         //записываем в экземпляр класса
@@ -243,7 +244,7 @@ class SoundEffects {
      * @param addParams.stopBy {string}
      * @private
      */
-    playLoop ({loopName, fadeInSpeed, fadeOutSpeed, volume, addParams} = {}) {
+    playLoop({loopName, fadeInSpeed, fadeOutSpeed, volume, addParams} = {}) {
         let stopBy;
 
         if (addParams && addParams.stopBy) {
@@ -268,7 +269,7 @@ class SoundEffects {
      * @param src
      * @private
      */
-    static newHowl ({src} = {}) {
+    static newHowl({src} = {}) {
         return new Howl({
             src,
             autoplay: true,
@@ -284,7 +285,7 @@ class SoundEffects {
      * @returns {boolean}
      * @private
      */
-    static srcEquals ({src, srcHowler} = {}) {
+    static srcEquals({src, srcHowler} = {}) {
         src.forEach((item) => {
             if (item === srcHowler) return true;
         });
@@ -294,19 +295,19 @@ class SoundEffects {
 }
 
 class VideoEffects {
-    constructor () {
+    constructor() {
 
     }
 }
 
 class TextEffects {
-    constructor () {
+    constructor() {
 
     }
 }
 
 class ImageEffects {
-    constructor () {
+    constructor() {
 
     }
 
@@ -314,7 +315,7 @@ class ImageEffects {
      *
      * @param target
      */
-    static setAddContent ({target} = {}) {
+    static setAddContent({target} = {}) {
         const contents = target.contents();
         const $addContent = $(getDOMSelectors().addContent);
         const $addContentInner = $(getDOMSelectors().addContentInner);
