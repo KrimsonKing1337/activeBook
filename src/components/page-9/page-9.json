@@ -1,0 +1,12 @@
+{
+  "effects": {
+    "smoking": {
+      "type": "loop",
+      "src": [
+        "/book_data/audios/sound/Smoking.ogg",
+        "/book_data/audios/sound/Smoking.mp3"
+      ],
+      "playOnLoad": true
+    }
+  }
+}

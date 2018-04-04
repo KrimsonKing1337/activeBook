@@ -1,0 +1,21 @@
+{
+  "effects": {
+    "clock-alarm": {
+      "type": "loop",
+      "src": [
+        "/book_data/audios/sound/Alarm_clock.ogg",
+        "/book_data/audios/sound/Alarm_clock.mp3"
+      ],
+      "playOnLoad": true,
+      "stopBy": {
+        "duration": 7000,
+        "fadeOutSpeed": 0
+      },
+      "vibration": {
+        "duration": 200,
+        "repeat": 5,
+        "sleep": 1000
+      }
+    }
+  }
+}

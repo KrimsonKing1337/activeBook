@@ -72,7 +72,7 @@ module.exports = {
                 from: `${rootPath}/public/`,
                 to: `${rootPath}/build/`
             }, {
-                from: `${rootPath}/src/components/*.json`,
+                from: `${rootPath}/src/components/**/*.json`,
                 to: `${rootPath}/build/`,
                 flatten: true
             }

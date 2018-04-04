@@ -6,7 +6,7 @@
         "/book_data/audios/sound/Water_flush.ogg",
         "/book_data/audios/sound/Water_flush.mp3"
       ],
-      "vibration": "200"
+      "vibration": 200
     }
   }
 }

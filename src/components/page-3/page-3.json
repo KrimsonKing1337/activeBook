@@ -1,0 +1,12 @@
+{
+  "effects": {
+    "cicada-japan": {
+      "type": "loop",
+      "src": [
+        "/book_data/audios/sound/Cicada_Japan.ogg",
+        "/book_data/audios/sound/Cicada_Japan.mp3"
+      ],
+      "playOnLoad": true
+    }
+  }
+}

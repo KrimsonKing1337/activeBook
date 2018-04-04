@@ -1,0 +1,10 @@
+{
+  "effects": {
+    "mask": {
+      "type": "addContent",
+      "src": [
+        "/book_data/images/mask.png"
+      ]
+    }
+  }
+}

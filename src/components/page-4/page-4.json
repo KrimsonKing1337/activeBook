@@ -1,0 +1,12 @@
+{
+  "effects": {
+    "punch": {
+      "type": "oneShot",
+      "src": [
+        "/book_data/audios/sound/Punch.ogg",
+        "/book_data/audios/sound/Punch.mp3"
+      ],
+      "vibration": 200
+    }
+  }
+}

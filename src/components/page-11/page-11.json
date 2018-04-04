@@ -1,0 +1,12 @@
+{
+  "effects": {
+    "electroshock-and-woman-screams": {
+      "type": "loop",
+      "src": [
+        "/book_data/audios/sound/Electro_Shoks_and_woman_screams.ogg",
+        "/book_data/audios/sound/Electro_Shoks_and_woman_screams.mp3"
+      ],
+      "playOnLoad": true
+    }
+  }
+}

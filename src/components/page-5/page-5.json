@@ -1,0 +1,12 @@
+{
+  "effects": {
+    "heartbeat": {
+      "type": "loop",
+      "src": [
+        "/book_data/audios/sound/Heartbeat_sound.ogg",
+        "/book_data/audios/sound/Heartbeat_sound.mp3"
+      ],
+      "playOnLoad": true
+    }
+  }
+}
