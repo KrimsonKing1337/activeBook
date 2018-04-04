@@ -1,21 +1,12 @@
 {
   "effects": {
-    "sounds": [
-      {
-        "id": "water-flush",
-        "type": "audio",
-        "source": [
-          {
-            "src": "/book_data/audios/sound/Water_flush.ogg",
-            "type": "audio/ogg"
-          },
-          {
-            "src": "/book_data/audios/sound/Water_flush.mp3",
-            "type": "audio/mpeg"
-          }
-        ],
-        "vibration": "200"
-      }
-    ]
+    "water-flush": {
+      "type": "oneShot",
+      "src": [
+        "/book_data/audios/sound/Water_flush.ogg",
+        "/book_data/audios/sound/Water_flush.mp3"
+      ],
+      "vibration": "200"
+    }
   }
 }

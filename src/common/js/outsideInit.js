@@ -10,7 +10,7 @@ export async function outsideInit() {
 
     const page = $(iframe.contentDocument).find('body#inside').data('page');
 
-    const effectsDescriptions = await getJSON(`/${page}.json`);
+    const effectsJSON = await getJSON(`/${page}.json`);
 
     //инитим громкость
     const VolumeInst = getVolumeInst();
@@ -18,7 +18,7 @@ export async function outsideInit() {
     //инициализируем контроллер управления эффектами
     const EffectsController = new Effects({
         VolumeInst,
-        effectsDescriptions
+        effects: effectsJSON.effects
     });
 
     //инитим управление громкостью
@@ -29,12 +29,7 @@ export async function outsideInit() {
 
     //воспроизводим эффекты, которые должны быть проиграны сразу после загрузки
     $('[data-play-on-load]').each((index, item) => {
-        const effectParams = $(item).data('effect-params'); //.data() переводит JSON в obj сама
-
-        EffectsController.play({
-            target: $(item),
-            effectParams
-        });
+        EffectsController.play($(item).data('effect-target'));
     });
 
     //todo: инициализировать громкость; на volume.global = ..., etc.

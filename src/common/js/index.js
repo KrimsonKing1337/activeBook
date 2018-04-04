@@ -186,7 +186,7 @@ $(window).on('load', async () => {
         FontSize.setByDirection({$text: $(DOMSelectors.text), direction: 'more'});
     });
 
-    const effectsDescriptions = await getJSON(`/page-${page.current}.json`);
+    const effectsJSON = await getJSON(`/page-${page.current}.json`);
 
     //инитим громкость
     const VolumeInst = getVolumeInst();
@@ -194,7 +194,7 @@ $(window).on('load', async () => {
     //инициализируем контроллер управления эффектами
     const EffectsController = new Effects({
         VolumeInst,
-        effectsDescriptions
+        effects: effectsJSON.effects
     });
 
     //инитим управление громкостью
@@ -207,12 +207,7 @@ $(window).on('load', async () => {
     $('[data-effect-target]').on('click', function (e) {
         e.preventDefault();
 
-        const effectParams = $(this).data('effect-params'); //.data() переводит JSON в obj сама
-
-        EffectsController.play({
-            target: $(`[data-effect-id="${ $(this).data('effect-target') }"]`),
-            effectParams
-        });
+        EffectsController.play($(this).data('effect-target'));
     });
 
     //событие изменения положения ползунка глобальной громкости
