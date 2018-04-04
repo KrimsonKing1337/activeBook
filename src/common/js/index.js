@@ -274,6 +274,8 @@ $(window).on('load', async () => {
 
     //сохраняем значения настроек
     $(window).on('unload', () => {
+        window.parent.postMessage(['unload', true], '*');
+
         saveStates(VolumeInst);
     });
 
@@ -299,6 +301,4 @@ $(window).on('load', async () => {
 
         window.location.href = src;
     });
-
-    $(DOMSelectors.page).removeClass('loading');
 });

@@ -51,6 +51,10 @@ export async function outsideInit() {
             VolumeControllerInst.setHints({volume: data});
         } else if (eventName === 'volumeBgChange') {
             VolumeControllerInst.setLoops({volume: data});
+        } else if (eventName === 'load') {
+            $('body#outside').removeClass('loading');
+        } else if (eventName === 'unload') {
+            $('body#outside').addClass('loading');
         }
     });
 
@@ -85,5 +89,9 @@ export async function outsideInit() {
                 EffectsController.play(playOnLoadEffectCur.id);
             });
         }
+
+        $('body#outside').removeClass('loading');
     });
+
+    $('body#outside').removeClass('loading');
 }
