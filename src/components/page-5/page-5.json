@@ -1,6 +1,7 @@
 {
-  "effects": {
-    "heartbeat": {
+  "effects": [
+    {
+      "id": "heartbeat",
       "type": "loop",
       "src": [
         "/book_data/audios/sound/Heartbeat_sound.ogg",
@@ -8,5 +9,5 @@
       ],
       "playOnLoad": true
     }
-  }
+  ]
 }

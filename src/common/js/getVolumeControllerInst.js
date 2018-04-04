@@ -5,6 +5,6 @@ export function getVolumeControllerInst({VolumeInst, EffectsController, $audios 
         Volume: VolumeInst,
         $audios,
         $videos,
-        loops: EffectsController.soundEffects.AudioLoops
+        loops: EffectsController.soundEffectsInst.AudioLoops
     });
 }

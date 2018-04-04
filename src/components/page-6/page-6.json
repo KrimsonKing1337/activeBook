@@ -1,6 +1,7 @@
 {
-  "effects": {
-    "heavy-woman-breathing": {
+  "effects": [
+    {
+      "id": "heavy-woman-breathing",
       "type": "loop",
       "src": [
         "/book_data/audios/sound/Heavy_Breathing_Woman_Sound.ogg",
@@ -8,5 +9,5 @@
       ],
       "playOnLoad": true
     }
-  }
+  ]
 }

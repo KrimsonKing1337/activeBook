@@ -2,37 +2,40 @@ import {Effects} from './modules/Effects';
 import {getVolumeInst} from './getVolumeInst';
 import {getVolumeControllerInst} from './getVolumeControllerInst';
 import {getJSON} from './getJSON';
+import filter from 'lodash-es/filter';
 
 export async function outsideInit() {
     const iframe = $('iframe')[0];
 
     document.title = iframe.contentDocument.title;
 
-    const page = $(iframe.contentDocument).find('body#inside').data('page');
+    let page = $(iframe.contentDocument).find('body#inside').data('page');
 
-    const effectsJSON = await getJSON(`/${page}.json`);
+    let effectsJSON = await getJSON(`/${page}.json`);
 
     //инитим громкость
-    const VolumeInst = getVolumeInst();
+    let VolumeInst = getVolumeInst();
 
     //инициализируем контроллер управления эффектами
-    const EffectsController = new Effects({
+    let EffectsController = new Effects({
         VolumeInst,
         effects: effectsJSON.effects
     });
 
     //инитим управление громкостью
-    const VolumeControllerInst = getVolumeControllerInst({
+    let VolumeControllerInst = getVolumeControllerInst({
         VolumeInst,
         EffectsController
     });
 
     //воспроизводим эффекты, которые должны быть проиграны сразу после загрузки
-    $('[data-play-on-load]').each((index, item) => {
-        EffectsController.play($(item).data('effect-target'));
-    });
+    const playOnLoadEffects = filter(effectsJSON.effects, 'playOnLoad');
 
-    //todo: инициализировать громкость; на volume.global = ..., etc.
+    if (playOnLoadEffects.length > 0) {
+        playOnLoadEffects.forEach((playOnLoadEffectCur) => {
+            EffectsController.play(playOnLoadEffectCur.id);
+        });
+    }
 
     /**
      * ловим события с iframe и реагируем на них,
@@ -48,6 +51,39 @@ export async function outsideInit() {
             VolumeControllerInst.setHints({volume: data});
         } else if (eventName === 'volumeBgChange') {
             VolumeControllerInst.setLoops({volume: data});
+        }
+    });
+
+    //событие перехода на другую страницу
+    $(iframe).on('load', async () => {
+        EffectsController.stopAll('loops');
+
+        page = $(iframe.contentDocument).find('body#inside').data('page');
+
+        effectsJSON = await getJSON(`/${page}.json`);
+
+        //инитим громкость
+        VolumeInst = getVolumeInst();
+
+        //инициализируем контроллер управления эффектами
+        EffectsController = new Effects({
+            VolumeInst,
+            effects: effectsJSON.effects
+        });
+
+        //инитим управление громкостью
+        VolumeControllerInst = getVolumeControllerInst({
+            VolumeInst,
+            EffectsController
+        });
+
+        //воспроизводим эффекты, которые должны быть проиграны сразу после загрузки
+        const playOnLoadEffects = filter(effectsJSON.effects, 'playOnLoad');
+
+        if (playOnLoadEffects.length > 0) {
+            playOnLoadEffects.forEach((playOnLoadEffectCur) => {
+                EffectsController.play(playOnLoadEffectCur.id);
+            });
         }
     });
 }

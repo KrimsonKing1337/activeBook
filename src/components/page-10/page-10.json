@@ -1,6 +1,7 @@
 {
-  "effects": {
-    "clock-alarm": {
+  "effects": [
+    {
+      "id": "clock-alarm",
       "type": "loop",
       "src": [
         "/book_data/audios/sound/Alarm_clock.ogg",
@@ -17,5 +18,5 @@
         "sleep": 1000
       }
     }
-  }
+  ]
 }

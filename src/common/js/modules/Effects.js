@@ -3,6 +3,7 @@
  */
 
 import getDOMSelectors from './GetDOMSelectors';
+import find from 'lodash-es/find';
 
 const Howler = require('howler');
 
@@ -13,8 +14,8 @@ export class Effects {
      * @param effects[] {object}; effects description from JSON
      */
     constructor({VolumeInst, effects} = {}) {
-        this.soundEffects = new SoundEffects({
-            AudioLoops: new AudioLoops(),
+        this.soundEffectsInst = new SoundEffects({
+            loops: {},
             oneShots: {},
         });
         this.volume = {
@@ -30,171 +31,186 @@ export class Effects {
      * @param id {string} jquery
      */
     play(id) {
-        const soundEffects = this.soundEffects;
-        const effectCur = this.effects[id];
+        const soundEffectsInst = this.soundEffectsInst;
+        const effectCur = find(this.effects, {id});
 
         //todo: инициализировать все звуки на странице сразу, а не по требованию
-        if (!soundEffects.oneShots[id]) {
-            soundEffects.oneShots[id] = SoundEffects.newHowlOneShot({
-                src: effectCur.src,
-                volume: this.volume.hints
-            });
-        }
 
         const type = effectCur.type;
 
         if (type === 'oneShot') {
-            soundEffects.play(id);
-            //todo: video, text, etc.
-        } else if (type === 'bg-music') {
-            soundEffects.prepareToPlayLoop({target, volume: this.volume.loops});
-        } else if (type === 'bg-sound') {
-            soundEffects.prepareToPlayLoop({target, volume: this.volume.loops});
+            this.checkAndSetNewOneShot({id, src: effectCur.src});
+
+            soundEffectsInst.playOneShot(id);
+        } else if (type === 'loop') {
+            this.checkAndSetNewLoop({id, src: effectCur.src});
+
+            soundEffectsInst.playLoop(id);
         } else if (type === 'add-content') {
             ImageEffects.setAddContent({target});
         }
-    }
-}
 
-/**
- * single tone
- */
-class AudioLoops {
-    constructor() {
-        this.bgSound = '';
-        this.bgSoundNew = '';
-        this.bgMusic = '';
-        this.bgMusicNew = '';
-    }
-}
-
-class SoundEffects {
-    /**
-     *
-     * @param AudioLoops {object} class
-     * @param oneShots {object}
-     */
-    constructor({AudioLoops, oneShots} = {}) {
-        this.AudioLoops = AudioLoops;
-        this.oneShots = oneShots;
+        //todo: video, text, etc.
     }
 
-    static get sounds() {
-        return $('audio');
-    }
+    stop(id) {
+        const soundEffectsInst = this.soundEffectsInst;
+        const effectCur = find(this.effects, {id});
+        const type = effectCur.type;
 
-    /**
-     * @param target {object} jquery
-     * @returns {string}
-     */
-    static getState({target} = {}) {
-        if (target[0].duration > 0 && !target[0].paused) {
-            return 'playing';
-        } else {
-            return 'paused';
+        if (type === 'oneShot') {
+            soundEffectsInst.stopOneShot(id);
+        } else if (type === 'loop') {
+            soundEffectsInst.stopLoop(id);
         }
     }
 
+    stopAll(target) {
+        const soundEffectsInst = this.soundEffectsInst;
+
+        soundEffectsInst.stopAll(target);
+    }
+
     /**
      *
-     * @param target {string}; sounds || bgSound || bgMusic || all;
-     * @param volume {number};
+     * @param id {string}
+     * @param src {string}
      */
-    stop({target, volume} = {}) {
-        if (target === 'sounds') {
-            this.oneShots.each((index, item) => {
-                //todo: fadeout
+    checkAndSetNewOneShot({id, src}) {
+        const soundEffectsInst = this.soundEffectsInst;
+        if (!soundEffectsInst.oneShots[id]) {
+            soundEffectsInst.oneShots[id] = SoundEffects.newHowlOneShot({
+                src,
+                volume: this.volume.hints
             });
-            //todo: bgSound, bgMusic, all
-        } else if (target === 'bgSound') {
-
         }
     }
 
     /**
      *
      * @param id {string}
+     * @param src {string}
      */
-    play(id) {
-        const oneShots = this.oneShots;
-
-        //todo: приглушать остальные звуки перед воспроизведением нового
-        /*if (oneShots[id].state() === 'paused') {
-            this.stop({target: 'sounds', volume});
-            target[0].play();
-        }*/
-
-        oneShots[id].play();
-    }
-
-    /**
-     *
-     * @param target {object} jquery
-     * @param volume {number}
-     * @param effectParams {object}
-     */
-    prepareToPlayLoop({target, volume, effectParams} = {}) {
-        const self = this;
-        const type = target.data('effect-type');
-        const src = [];
-
-        target.find('source').each((index, item) => {
-            src.push($(item).attr('src'));
-        });
-
-        let fadeInSpeed = 5000;
-        let fadeOutSpeed = 5000;
-
-        if (effectParams) {
-            fadeInSpeed = effectParams.fadeInSpeed || 1000;
-            fadeOutSpeed = effectParams.fadeOutSpeed || 1000;
-        }
-
-        const newLoopParams = {
-            src,
-            fadeInSpeed,
-            fadeOutSpeed,
-            volume,
-            addParams: effectParams
-        };
-
-        if (type === 'bg-music') {
-            newLoopParams.loopName = 'bgMusic';
-        } else if (type === 'bg-sound') {
-            newLoopParams.loopName = 'bgSound';
-        }
-
-        self.setLoop(newLoopParams);
-    }
-
-    /**
-     *
-     * @param volume {number} - громкость лупа
-     * @param loop {object} || string - loop-звук, который нужно остановить.
-     * если нужно остановить все фоновые звуки - передаём 'all'
-     * @param [fadeOutSpeed] {number} - скорость, с которой будет происходить fadeOut
-     */
-    stopLoop({volume, loop, fadeOutSpeed} = {}) {
-        if (typeof fadeOutSpeed === 'undefined') fadeOutSpeed = 1000;
-
-        if (!loop) return;
-
-        if (loop === 'all') {
-            $.each([this.loopBgSound, this.loopBgSoundNew, this.loopBgMusic, this.loopBgMusicNew], (index, value) => {
-                this.stopLoop({loop: value, fadeOutSpeed, volume});
+    checkAndSetNewLoop({id, src}) {
+        const soundEffectsInst = this.soundEffectsInst;
+        if (!soundEffectsInst.loops[id]) {
+            soundEffectsInst.loops[id] = SoundEffects.newHowlLoop({
+                src,
+                volume: this.volume.loops
             });
-
-            return;
         }
+    }
+}
 
-        loop.once('fade', () => {
-            loop.stop();
+class SoundEffects {
+    /**
+     *
+     * @param loops {object}
+     * @param oneShots {object}
+     */
+    constructor({loops, oneShots} = {}) {
+        this.loops = loops;
+        this.oneShots = oneShots;
+    }
 
-            if (SoundEffects.tryCatchHowlUnload(loop)) loop.unload();
+    /**
+     *
+     * @param target {string}; oneShots || loops || all;
+     * @param [fadeOutSpeed] {number};
+     */
+    stopAll(target, fadeOutSpeed = 1000) {
+        if (target === 'oneShots') {
+            Object.keys(this.oneShots).forEach((item) => {
+                const oneShotCur = this.oneShots[item];
+
+                SoundEffects.fadeOut(oneShotCur, fadeOutSpeed);
+            });
+            //todo: bgSound, bgMusic, all
+        } else if (target === 'loops') {
+            Object.keys(this.loops).forEach((item) => {
+                const loopCur = this.loops[item];
+
+                SoundEffects.fadeOut(loopCur, fadeOutSpeed);
+            });
+        } else if (target === 'all') {
+            this.stopAll('oneShots', fadeOutSpeed);
+            this.stopAll('loops', fadeOutSpeed);
+        }
+    }
+
+    /**
+     *
+     * @param target {object}; howler inst sound;
+     * @param [fadeOutSpeed] {number};
+     */
+    static fadeOut(target, fadeOutSpeed = 1000) {
+        target.once('fade', () => {
+            target.stop();
         });
 
         //некорректное поведение, если задавать fadeOutSpeed = 0;
-        loop.fade(volume, 0, fadeOutSpeed > 0 ? fadeOutSpeed : 1);
+        target.fade(0.5, 0, fadeOutSpeed > 0 ? fadeOutSpeed : 1);
+    }
+
+    /**
+     *
+     * @param target {object}; howler inst sound;
+     * @param [fadeInSpeed] {number};
+     */
+    static fadeIn(target, fadeInSpeed = 1000) {
+        target.play();
+        //некорректное поведение, если задавать fadeOutSpeed = 0;
+        target.fade(0, 0.5, fadeInSpeed > 0 ? fadeInSpeed : 1);
+    }
+
+    /**
+     *
+     * @param id {string}
+     * @param fadeOutSpeed {number}
+     */
+    stopOneShot(id, fadeOutSpeed = 1000) {
+        const oneShot = this.oneShots[id];
+
+        SoundEffects.fadeOut(oneShot, fadeOutSpeed);
+    }
+
+    /**
+     *
+     * @param id {string}
+     * @param fadeInSpeed {number}
+     */
+    playOneShot(id, fadeInSpeed = 0) {
+        const oneShots = this.oneShots;
+
+        if (oneShots[id].playing() === true) {
+            this.stopAll('oneShots');
+        }
+
+        SoundEffects.fadeIn(oneShots[id], fadeInSpeed);
+    }
+
+    /**
+     *
+     * @param id {string}
+     * @param fadeOutSpeed {number}
+     */
+    stopLoop(id, fadeOutSpeed = 1000) {
+        const loop = this.loops[id];
+
+        SoundEffects.fadeOut(loop, fadeOutSpeed);
+    }
+
+    /**
+     *
+     * @param id {string}
+     * @param type {string}
+     */
+    unload({id, type}) {
+        const sound = this[`${type}s`][id];
+
+        if (SoundEffects.tryCatchHowlUnload(sound)) {
+            sound.unload();
+        }
     }
 
     //Unload and destroy a Howl object.
@@ -211,64 +227,19 @@ class SoundEffects {
 
     /**
      *
-     * @param loopName {object}
-     * @param src[] {string}
-     * @param fadeInSpeed {number}
-     * @param fadeOutSpeed {number}
-     * @param volume {number}
-     * @param addParams {number}
-     * @private
+     * @param id {object}
+     * @param [fadeInSpeed {number}]
+     * @param [stopBy {object}]
      */
-    setLoop({loopName, src, fadeInSpeed, fadeOutSpeed, volume, addParams} = {}) {
-        const self = this;
+    playLoop(id, fadeInSpeed = 1000, stopBy) {
+        const loops = this.loops;
 
-        //записываем в экземпляр класса
-        self.AudioLoops[loopName] = SoundEffects.newHowlLoop({src});
-
-        const playLoopParams = {
-            loopName,
-            fadeInSpeed,
-            fadeOutSpeed,
-            volume,
-            addParams
-        };
-
-        if (self.AudioLoops[loopName].state() !== 'loaded') {
-            self.AudioLoops[loopName].once('load', () => {
-                self.playLoop(playLoopParams);
-            });
-        } else {
-            self.playLoop(playLoopParams);
-        }
-    }
-
-    /**
-     *
-     * @param loopName {object}
-     * @param fadeInSpeed {number}
-     * @param fadeOutSpeed {number}
-     * @param volume {number}
-     * @param addParams {object}
-     * @param addParams.stopBy {string}
-     * @private
-     */
-    playLoop({loopName, fadeInSpeed, fadeOutSpeed, volume, addParams} = {}) {
-        let stopBy;
-
-        if (addParams && addParams.stopBy) {
-            stopBy = addParams.stopBy;
-        }
-
-        this.AudioLoops[loopName].fade(0, volume, fadeInSpeed);
+        loops[id].fade(0, 0.5, fadeInSpeed);
 
         if (stopBy) {
             setTimeout(() => {
-                this.stopLoop({
-                    loop: this.AudioLoops[loopName],
-                    volume,
-                    fadeOutSpeed
-                })
-            }, stopBy);
+                this.stopLoop(this.loops[id], stopBy.fadeOutSpeed);
+            }, stopBy.duration);
         }
     }
 
@@ -297,21 +268,6 @@ class SoundEffects {
             loop: false,
             volume
         });
-    }
-
-    /**
-     *
-     * @param src[] {string}
-     * @param srcHowler {string}
-     * @returns {boolean}
-     * @private
-     */
-    static srcEquals({src, srcHowler} = {}) {
-        src.forEach((item) => {
-            if (item === srcHowler) return true;
-        });
-
-        return false;
     }
 }
 

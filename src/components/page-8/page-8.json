@@ -1,6 +1,7 @@
 {
-  "effects": {
-    "angelic-process": {
+  "effects": [
+    {
+      "id": "angelic-process",
       "type": "loop",
       "src": [
         "/book_data/audios/music/The_Angelic_Process_-_The_Resonance_Of_Goodbye.ogg",
@@ -8,5 +9,5 @@
       ],
       "playOnLoad": true
     }
-  }
+  ]
 }

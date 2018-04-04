@@ -1,6 +1,7 @@
 {
-  "effects": {
-    "cicada-japan": {
+  "effects": [
+    {
+      "id": "cicada-japan",
       "type": "loop",
       "src": [
         "/book_data/audios/sound/Cicada_Japan.ogg",
@@ -8,5 +9,5 @@
       ],
       "playOnLoad": true
     }
-  }
+  ]
 }

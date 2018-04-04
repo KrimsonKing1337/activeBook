@@ -272,16 +272,6 @@ $(window).on('load', async () => {
         bookmarkPopover.positioning();
     });
 
-    //fadeOut background sounds before change the page
-    //todo: делать потом фейд во время анимации смены страницы
-    //todo: iframe unload
-    $(window).on('unload', () => {
-        EffectsController.soundEffects.stopLoop({
-            loop: 'all',
-            volume: EffectsController.volume.loops
-        });
-    });
-
     //сохраняем значения настроек
     $(window).on('unload', () => {
         saveStates(VolumeInst);

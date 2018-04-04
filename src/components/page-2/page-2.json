@@ -1,6 +1,7 @@
 {
-  "effects": {
-    "the-opened-way": {
+  "effects": [
+    {
+      "id": "the-opened-way",
       "type": "loop",
       "src": [
         "/book_data/audios/music/Koh_Ohtani_-_The_Opened_Way_Battle_With_the_Colossus.ogg",
@@ -8,5 +9,5 @@
       ],
       "playOnLoad": true
     }
-  }
+  ]
 }

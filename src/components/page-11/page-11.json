@@ -1,6 +1,7 @@
 {
-  "effects": {
-    "electroshock-and-woman-screams": {
+  "effects": [
+    {
+      "id": "electroshock-and-woman-screams",
       "type": "loop",
       "src": [
         "/book_data/audios/sound/Electro_Shoks_and_woman_screams.ogg",
@@ -8,5 +9,5 @@
       ],
       "playOnLoad": true
     }
-  }
+  ]
 }

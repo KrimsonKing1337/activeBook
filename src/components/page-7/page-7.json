@@ -1,10 +1,11 @@
 {
-  "effects": {
-    "mask": {
+  "effects": [
+    {
+      "id": "mask",
       "type": "addContent",
       "src": [
         "/book_data/images/mask.png"
       ]
     }
-  }
+  ]
 }

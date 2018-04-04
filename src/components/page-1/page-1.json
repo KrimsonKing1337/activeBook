@@ -1,6 +1,7 @@
 {
-  "effects": {
-    "water-flush": {
+  "effects": [
+    {
+      "id": "water-flush",
       "type": "oneShot",
       "src": [
         "/book_data/audios/sound/Water_flush.ogg",
@@ -8,5 +9,5 @@
       ],
       "vibration": 200
     }
-  }
+  ]
 }

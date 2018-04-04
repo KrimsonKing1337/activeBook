@@ -1,6 +1,7 @@
 {
-  "effects": {
-    "smoking": {
+  "effects": [
+    {
+      "id": "smoking",
       "type": "loop",
       "src": [
         "/book_data/audios/sound/Smoking.ogg",
@@ -8,5 +9,5 @@
       ],
       "playOnLoad": true
     }
-  }
+  ]
 }
