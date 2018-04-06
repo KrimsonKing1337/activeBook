@@ -4,7 +4,7 @@ body {
   overflow: hidden;
 }
 
-body#outside {
+body#parent {
   .content {
     width: 100%;
     height: 100vh;
@@ -21,7 +21,7 @@ body#outside {
   }
 }
 
-#outside.loading {
+#parent.loading {
   .content {
     opacity: 0; //if display: none mCustomScrollbar going crazy
   }

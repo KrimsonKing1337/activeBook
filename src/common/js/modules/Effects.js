@@ -15,11 +15,27 @@ export class Effects {
      */
     constructor({VolumeInst, effects} = {}) {
         this.soundEffectsInst = new SoundEffects({
+            VolumeInst,
             loops: {},
             oneShots: {},
         });
         this.VolumeInst = VolumeInst;
         this.effects = effects;
+
+        /**
+         * инициализируем звуки на странице
+         */
+        this.effects.forEach((effectCur) => {
+            const id = effectCur.id;
+            const type = effectCur.type;
+            const src = effectCur.src;
+
+            if (type === 'oneShot') {
+                this.checkAndSetNewOneShot({id, src});
+            } else if (type === 'loop') {
+                this.checkAndSetNewLoop({id, src});
+            }
+        });
     }
 
     /**
@@ -30,18 +46,12 @@ export class Effects {
         const soundEffectsInst = this.soundEffectsInst;
         const effectCur = find(this.effects, {id});
 
-        //todo: инициализировать все звуки на странице сразу, а не по требованию
-
         const type = effectCur.type;
 
         if (type === 'oneShot') {
-            this.checkAndSetNewOneShot({id, src: effectCur.src});
-
-            soundEffectsInst.playOneShot(id, this.VolumeInst.getOneShots());
+            soundEffectsInst.playOneShot(id);
         } else if (type === 'loop') {
-            this.checkAndSetNewLoop({id, src: effectCur.src});
-
-            soundEffectsInst.playLoop(id, this.VolumeInst.getLoops());
+            soundEffectsInst.playLoop(id);
         } else if (type === 'add-content') {
             ImageEffects.setAddContent({target});
         }
@@ -59,16 +69,16 @@ export class Effects {
         const type = effectCur.type;
 
         if (type === 'oneShot') {
-            soundEffectsInst.stopOneShot(id, this.VolumeInst.getOneShots());
+            soundEffectsInst.stopOneShot(id);
         } else if (type === 'loop') {
-            soundEffectsInst.stopLoop(id, this.VolumeInst.getLoops());
+            soundEffectsInst.stopLoop(id);
         }
     }
 
-    stopAll(target) {
+    stopAll({target, fadeOutSpeed = 1000, unload = false} = {}) {
         const soundEffectsInst = this.soundEffectsInst;
 
-        soundEffectsInst.stopAll(target, this.VolumeInst.getOneShots(), this.VolumeInst.getLoops());
+        soundEffectsInst.stopAll({target, fadeOutSpeed, unload});
     }
 
     /**
@@ -78,6 +88,7 @@ export class Effects {
      */
     checkAndSetNewOneShot({id, src}) {
         const soundEffectsInst = this.soundEffectsInst;
+
         if (!soundEffectsInst.oneShots[id]) {
             soundEffectsInst.oneShots[id] = SoundEffects.newHowlOneShot({
                 src,
@@ -93,6 +104,7 @@ export class Effects {
      */
     checkAndSetNewLoop({id, src}) {
         const soundEffectsInst = this.soundEffectsInst;
+
         if (!soundEffectsInst.loops[id]) {
             soundEffectsInst.loops[id] = SoundEffects.newHowlLoop({
                 src,
@@ -104,11 +116,12 @@ export class Effects {
 
 class SoundEffects {
     /**
-     *
+     * @param VolumeInst {object}
      * @param loops {object}
      * @param oneShots {object}
      */
-    constructor({loops, oneShots} = {}) {
+    constructor({VolumeInst, loops, oneShots} = {}) {
+        this.VolumeInst = VolumeInst;
         this.loops = loops;
         this.oneShots = oneShots;
     }
@@ -116,26 +129,42 @@ class SoundEffects {
     /**
      *
      * @param target {string}; oneShots || loops || all;
-     * @param volumeOneShots {number}
-     * @param volumeLoops {number}
      * @param [fadeOutSpeed] {number};
+     * @param [unload] {bool}; выгрузить из памяти звук (уничтожить связанный объект Howler)
      */
-    stopAll(target, volumeOneShots, volumeLoops, fadeOutSpeed = 1000) {
+    stopAll({target, fadeOutSpeed = 1000, unload = false} = {}) {
         if (target === 'oneShots') {
-            Object.keys(this.oneShots).forEach((item) => {
-                const oneShotCur = this.oneShots[item];
+            Object.keys(this.oneShots).forEach((key) => {
+                const oneShotCur = this.oneShots[key];
 
-                SoundEffects.fadeOut(oneShotCur, volumeOneShots, fadeOutSpeed);
+                SoundEffects.fadeOut(oneShotCur, this.VolumeInst.getOneShots(), fadeOutSpeed);
+
+                if (unload === true) {
+                    SoundEffects.unload(oneShotCur);
+                }
             });
         } else if (target === 'loops') {
-            Object.keys(this.loops).forEach((item) => {
-                const loopCur = this.loops[item];
+            Object.keys(this.loops).forEach((key) => {
+                const loopCur = this.loops[key];
 
-                SoundEffects.fadeOut(loopCur, volumeLoops, fadeOutSpeed);
+                SoundEffects.fadeOut(loopCur, this.VolumeInst.getLoops(), fadeOutSpeed);
+
+                if (unload === true) {
+                    SoundEffects.unload(loopCur);
+                }
             });
         } else if (target === 'all') {
-            this.stopAll('oneShots', volumeOneShots, volumeLoops, fadeOutSpeed);
-            this.stopAll('loops', volumeOneShots, volumeLoops, fadeOutSpeed);
+            this.stopAll({
+                target: 'oneShots',
+                fadeOutSpeed,
+                unload
+            });
+
+            this.stopAll({
+                target: 'loops',
+                fadeOutSpeed,
+                unload
+            });
         }
     }
 
@@ -169,53 +198,47 @@ class SoundEffects {
     /**
      *
      * @param id {string}
-     * @param volume {number}
      * @param [fadeOutSpeed] {number}
      */
-    stopOneShot(id, volume, fadeOutSpeed = 1000) {
+    stopOneShot(id, fadeOutSpeed = 1000) {
         const oneShot = this.oneShots[id];
 
-        SoundEffects.fadeOut(oneShot, volume, fadeOutSpeed);
+        SoundEffects.fadeOut(oneShot, this.VolumeInst.getOneShots(), fadeOutSpeed);
     }
 
     /**
      *
      * @param id {string}
-     * @param volume {number}
      * @param [fadeInSpeed] {number}
      */
-    playOneShot(id, volume, fadeInSpeed = 0) {
-        const oneShots = this.oneShots;
+    playOneShot(id, fadeInSpeed = 0) {
+        const oneShot = this.oneShots[id];
 
-        if (oneShots[id].playing() === true) {
-            //this.stopAll('oneShots');
+        if (oneShot.playing() === true) {
+            this.stopAll({target: 'oneShots'});
         }
 
-        SoundEffects.fadeIn(oneShots[id], volume, fadeInSpeed);
+        SoundEffects.fadeIn(oneShot, this.VolumeInst.getOneShots(), fadeInSpeed);
     }
 
     /**
      *
      * @param id {string}
-     * @param volume {number}
      * @param [fadeOutSpeed] {number}
      */
-    stopLoop(id, volume, fadeOutSpeed = 1000) {
+    stopLoop(id, fadeOutSpeed = 1000) {
         const loop = this.loops[id];
 
-        SoundEffects.fadeOut(loop, volume, fadeOutSpeed);
+        SoundEffects.fadeOut(loop, this.VolumeInst.getLoops(), fadeOutSpeed);
     }
 
     /**
      *
-     * @param id {string}
-     * @param type {string}
+     * @param target {object} Howler;
      */
-    unload({id, type}) {
-        const sound = this[`${type}s`][id];
-
-        if (SoundEffects.tryCatchHowlUnload(sound)) {
-            sound.unload();
+    static unload(target) {
+        if (SoundEffects.tryCatchHowlUnload(target)) {
+            target.unload();
         }
     }
 
@@ -234,14 +257,13 @@ class SoundEffects {
     /**
      *
      * @param id {object}
-     * @param volume {number}
      * @param [fadeInSpeed {number}]
      * @param [stopBy {object}]
      */
-    playLoop(id, volume, fadeInSpeed = 1000, stopBy) {
+    playLoop(id, fadeInSpeed = 1000, stopBy) {
         const loops = this.loops;
 
-        loops[id].fade(0, volume, fadeInSpeed);
+        loops[id].fade(0, this.VolumeInst.getLoops(), fadeInSpeed);
 
         if (stopBy) {
             setTimeout(() => {

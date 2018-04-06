@@ -4,14 +4,17 @@ import {getVolumeControllerInst} from './getVolumeControllerInst';
 import {getJSON} from './getJSON';
 import filter from 'lodash-es/filter';
 
-export async function outsideInit() {
+export async function parentInit() {
     const iframe = $('iframe')[0];
+    const $bodyParent = $('body#parent');
 
     document.title = iframe.contentDocument.title;
 
-    let page = $(iframe.contentDocument).find('body#inside').data('page');
+    let page = $(iframe.contentDocument).find('body#child').data('page');
 
     let effectsJSON = await getJSON(`/${page}.json`);
+
+    //todo: инициализировать всё только в родительском окне, в iframe только сообщать события
 
     //инитим громкость
     let VolumeInst = getVolumeInst();
@@ -52,19 +55,24 @@ export async function outsideInit() {
         } else if (eventName === 'volumeBgChange') {
             VolumeControllerInst.setLoops({volume: data});
         } else if (eventName === 'load') {
-            $('body#outside').removeClass('loading');
+            $bodyParent.removeClass('loading');
         } else if (eventName === 'unload') {
-            $('body#outside').addClass('loading');
+            $bodyParent.addClass('loading');
         }
     });
 
     //событие перехода на другую страницу
     $(iframe).on('load', async () => {
-        EffectsController.stopAll('loops');
+        EffectsController.stopAll({
+            target: 'all',
+            unload: true
+        });
 
-        page = $(iframe.contentDocument).find('body#inside').data('page');
+        page = $(iframe.contentDocument).find('body#child').data('page');
 
         effectsJSON = await getJSON(`/${page}.json`);
+
+        //todo: не инитить заново всё, что ниже. подменять только effectsJSON
 
         //инитим громкость
         VolumeInst = getVolumeInst();
@@ -90,8 +98,8 @@ export async function outsideInit() {
             });
         }
 
-        $('body#outside').removeClass('loading');
+        $bodyParent.removeClass('loading');
     });
 
-    $('body#outside').removeClass('loading');
+    $bodyParent.removeClass('loading');
 }

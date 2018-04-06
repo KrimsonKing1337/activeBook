@@ -11,17 +11,17 @@ import {saveStates} from './saveStates';
 import {loadStates} from './loadStates';
 import {getVolumeInst} from './getVolumeInst';
 import {getVolumeControllerInst} from './getVolumeControllerInst';
-import {outsideInit} from './outsideInit';
+import {parentInit} from './parentInit';
 import {getJSON} from "./getJSON";
 
 $(window).on('load', async () => {
     const $body = $('body');
 
-    if ($body.data('type') === 'outside') {
+    if ($body.data('type') === 'parent') {
         /**
-         * scripts for outside here
+         * scripts for parent window here
          */
-        outsideInit();
+        parentInit();
 
         return;
     }
