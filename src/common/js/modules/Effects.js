@@ -59,9 +59,15 @@ export class Effects {
         }
 
         if (type === 'oneShot') {
-            soundEffectsInst.playOneShot(id, effectCur.stopBy);
+            soundEffectsInst.playOneShot(id, {
+                fadeInSpeed: effectCur.fadeInSpeed,
+                stopBy: effectCur.stopBy
+            });
         } else if (type === 'loop') {
-            soundEffectsInst.playLoop(id, 1000, effectCur.stopBy);
+            soundEffectsInst.playLoop(id, {
+                fadeInSpeed: effectCur.fadeInSpeed,
+                stopBy: effectCur.stopBy
+            });
         } else if (type === 'image') {
             imageEffectsInst.play(id);
         }
@@ -176,7 +182,7 @@ class SoundEffects {
      * @param id {string}
      * @param [fadeOutSpeed] {number}
      */
-    stopOneShot(id, fadeOutSpeed = 1000) {
+    stopOneShot(id, {fadeOutSpeed = 1000} = {}) {
         const oneShot = this.oneShots[id];
 
         SoundEffects.fadeOut(oneShot, this.VolumeInst.getOneShots(), fadeOutSpeed);
@@ -186,8 +192,9 @@ class SoundEffects {
      *
      * @param id {string}
      * @param [fadeInSpeed] {number}
+     * @param [stopBy] {number}
      */
-    playOneShot(id, fadeInSpeed = 0) {
+    playOneShot(id, {fadeInSpeed = 0, stopBy} = {}) {
         const oneShot = this.oneShots[id];
 
         if (oneShot.playing() === true) {
@@ -202,7 +209,7 @@ class SoundEffects {
      * @param id {string}
      * @param [fadeOutSpeed] {number}
      */
-    stopLoop(id, fadeOutSpeed = 1000) {
+    stopLoop(id, {fadeOutSpeed = 1000} = {}) {
         const loop = this.loops[id];
 
         SoundEffects.fadeOut(loop, this.VolumeInst.getLoops(), fadeOutSpeed);
@@ -236,14 +243,14 @@ class SoundEffects {
      * @param [fadeInSpeed {number}]
      * @param [stopBy {object}]
      */
-    playLoop(id, fadeInSpeed = 1000, stopBy) {
+    playLoop(id, {fadeInSpeed = 1000, stopBy} = {}) {
         const loop = this.loops[id];
 
         SoundEffects.fadeIn(loop, this.VolumeInst.getLoops(), fadeInSpeed);
 
         if (stopBy) {
             setTimeout(() => {
-                this.stopLoop(id, stopBy.fadeOutSpeed);
+                this.stopLoop(id, {fadeOutSpeed: stopBy.fadeOutSpeed});
 
             }, stopBy.duration);
         }
