@@ -18,11 +18,6 @@ export class Effects {
             loops: {},
             oneShots: {},
         });
-        this.volume = {
-            global: VolumeInst.global,
-            oneShots: VolumeInst.oneShots,
-            loops: VolumeInst.loops
-        };
         this.VolumeInst = VolumeInst;
         this.effects = effects;
     }
@@ -64,16 +59,16 @@ export class Effects {
         const type = effectCur.type;
 
         if (type === 'oneShot') {
-            soundEffectsInst.stopOneShot(id, this.volume.oneShots);
+            soundEffectsInst.stopOneShot(id, this.VolumeInst.getOneShots());
         } else if (type === 'loop') {
-            soundEffectsInst.stopLoop(id, this.volume.loops);
+            soundEffectsInst.stopLoop(id, this.VolumeInst.getLoops());
         }
     }
 
     stopAll(target) {
         const soundEffectsInst = this.soundEffectsInst;
 
-        soundEffectsInst.stopAll(target, this.volume.oneShots, this.volume.loops);
+        soundEffectsInst.stopAll(target, this.VolumeInst.getOneShots(), this.VolumeInst.getLoops());
     }
 
     /**
@@ -86,7 +81,7 @@ export class Effects {
         if (!soundEffectsInst.oneShots[id]) {
             soundEffectsInst.oneShots[id] = SoundEffects.newHowlOneShot({
                 src,
-                volume: this.volume.oneShots
+                volume: this.VolumeInst.getOneShots()
             });
         }
     }
@@ -101,7 +96,7 @@ export class Effects {
         if (!soundEffectsInst.loops[id]) {
             soundEffectsInst.loops[id] = SoundEffects.newHowlLoop({
                 src,
-                volume: this.volume.loops
+                volume: this.VolumeInst.getLoops()
             });
         }
     }
