@@ -304,6 +304,8 @@ $(window).on('load', async () => {
 
         //todo: video
 
-        window.location.href = src;
+        $(DOMSelectors.addContentClose).trigger('click');
+
+        window.open(`${window.location.origin}/${src}`, '_blank');
     });
 });
