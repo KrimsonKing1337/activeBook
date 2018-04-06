@@ -6,7 +6,7 @@ const DOMSelectors = getDOMSelectors();
 
 export function saveStates(VolumeInst) {
     const volumeGlobalSlider = $(DOMSelectors.volumeGlobal).find('.js-range-slider');
-    const volumeHintsSlider = $(DOMSelectors.volumeHints).find('.js-range-slider');
+    const volumeOneShotsSlider = $(DOMSelectors.volumeOneShots).find('.js-range-slider');
     const volumeBgSlider = $(DOMSelectors.volumeBg).find('.js-range-slider');
 
     const bookmarks = [];
@@ -25,12 +25,12 @@ export function saveStates(VolumeInst) {
     LocalStorage.saveState({
         volume: {
             global: VolumeInst.getGlobal(),
-            hints: VolumeInst.getHints(),
+            oneShots: VolumeInst.getOneShots(),
             loops: VolumeInst.getLoops()
         },
         volumeSlidersPosition: {
             global: volumeGlobalSlider.val(),
-            hints: volumeHintsSlider.val(),
+            oneShots: volumeOneShotsSlider.val(),
             bg: volumeBgSlider.val()
         },
         currentPage: $(DOMSelectors.pageNumber).attr('data-page-number'),

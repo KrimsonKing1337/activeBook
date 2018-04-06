@@ -38,7 +38,7 @@ export default function getDOMSelectors() {
         lineHeightMinus: '.js-line-height-minus',
         lineHeightPlus: '.js-line-height-plus',
         lineHeightVal: '.js-line-height-val',
-        volumeHints: '.js-volume-hints',
+        volumeOneShots: '.js-volume-one-shots',
         volumeBg: '.js-volume-bg',
         addContentClose: '.js-add-content-close',
         addContentFullSize: '.js-add-content-full-size',

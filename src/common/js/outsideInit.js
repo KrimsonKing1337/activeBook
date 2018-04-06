@@ -47,8 +47,8 @@ export async function outsideInit() {
 
         if (eventName === 'volumeGlobalChange') {
             VolumeControllerInst.setGlobal({volume: data});
-        } else if (eventName === 'volumeHintsChange') {
-            VolumeControllerInst.setHints({volume: data});
+        } else if (eventName === 'volumeOneShotsChange') {
+            VolumeControllerInst.setOneShots({volume: data});
         } else if (eventName === 'volumeBgChange') {
             VolumeControllerInst.setLoops({volume: data});
         } else if (eventName === 'load') {

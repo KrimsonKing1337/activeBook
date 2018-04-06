@@ -6,12 +6,12 @@ export class Volume {
     /**
      *
      * @param global {number}
-     * @param hints {number}
+     * @param oneShots {number}
      * @param loops {number}
      */
-    constructor({global, hints, loops} = {}) {
+    constructor({global, oneShots, loops} = {}) {
         this.global = global;
-        this.hints = hints;
+        this.oneShots = oneShots;
         this.loops = loops;
     }
 
@@ -31,12 +31,12 @@ export class Volume {
      *
      * @param value {number}
      */
-    setHints(value) {
-        this.hints = value;
+    setOneShots(value) {
+        this.oneShots = value;
     }
 
-    getHints() {
-        return this.hints;
+    getOneShots() {
+        return this.oneShots;
     }
 
     /**
@@ -82,7 +82,7 @@ export class VolumeController {
          */
         Volume.setGlobal(newVolume);
 
-        this.setHints({volume: newVolume});
+        this.setOneShots({volume: newVolume});
 
         this.setLoops({volume: newVolume});
     }
@@ -92,7 +92,7 @@ export class VolumeController {
      * @param params {object}
      * @param params.volume {number}
      */
-    setHints(params = {}) {
+    setOneShots(params = {}) {
         const Volume = this.Volume;
         const $audios = this.$audios;
         const $videos = this.$videos;
@@ -101,7 +101,7 @@ export class VolumeController {
         /**
          * обновляем значение громкости подсказок в экземпляре класса Volume
          */
-        Volume.setHints(newVolume);
+        Volume.setOneShots(newVolume);
 
         $audios.each(function () {
             this.volume = newVolume;

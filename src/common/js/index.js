@@ -220,12 +220,12 @@ $(window).on('load', async () => {
     });
 
     //событие изменения положения ползунка громкости подсказок (звуков в тексте)
-    $(DOMSelectors.volumeHints).on('change', function () {
+    $(DOMSelectors.volumeOneShots).on('change', function () {
         const volume = $(this).find('.js-range-slider').val() / 100;
 
-        VolumeControllerInst.setHints({volume});
+        VolumeControllerInst.setOneShots({volume});
 
-        window.parent.postMessage(['volumeHintsChange', volume], '*');
+        window.parent.postMessage(['volumeOneShotsChange', volume], '*');
     });
 
     //событие изменения положения ползунка громкости фоновых звуков

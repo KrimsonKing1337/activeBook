@@ -13,7 +13,7 @@ export default class LocalStorage {
      * @param params {object};
      * @param params.volume {object};
      * @param params.volume.global {number};
-     * @param params.volume.hints {number};
+     * @param params.volume.oneShots {number};
      * @param params.volume.loops {number};
      * @param params.volumeSlidersPosition {object};
      * @param params.volumeSlidersPosition.global {number};

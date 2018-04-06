@@ -209,9 +209,9 @@ export class VolumeSliders {
      * @param params.sliders.global {object}
      * @param params.sliders.global.inst {object}
      * @param params.sliders.global.val {number}
-     * @param params.sliders.hints {object}
-     * @param params.sliders.hints.inst {object}
-     * @param params.sliders.hints.val {number}
+     * @param params.sliders.oneShots {object}
+     * @param params.sliders.oneShots.inst {object}
+     * @param params.sliders.oneShots.val {number}
      * @param params.sliders.bg {object}
      * @param params.sliders.bg.inst {object}
      * @param params.sliders.bg.val {number}

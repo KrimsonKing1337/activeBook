@@ -16,9 +16,9 @@ export function loadStates() {
                 inst: $(DOMSelectors.volumeGlobal).find('.js-range-slider').data('ionRangeSlider'),
                 val: states.volumeSlidersPosition.global
             },
-            hints: {
-                inst: $(DOMSelectors.volumeHints).find('.js-range-slider').data('ionRangeSlider'),
-                val: states.volumeSlidersPosition.hints
+            oneShots: {
+                inst: $(DOMSelectors.volumeOneShots).find('.js-range-slider').data('ionRangeSlider'),
+                val: states.volumeSlidersPosition.oneShots
             },
             bg: {
                 inst: $(DOMSelectors.volumeBg).find('.js-range-slider').data('ionRangeSlider'),
@@ -30,7 +30,7 @@ export function loadStates() {
     //todo: заменить на volume.global = ..., etc.
 
     $(DOMSelectors.volumeGlobal).trigger('change');
-    $(DOMSelectors.volumeHints).trigger('change');
+    $(DOMSelectors.volumeOneShots).trigger('change');
     $(DOMSelectors.volumeBg).trigger('change');
 
     //font-size

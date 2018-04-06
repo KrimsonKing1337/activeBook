@@ -20,7 +20,7 @@ export class Effects {
         });
         this.volume = {
             global: VolumeInst.global,
-            hints: VolumeInst.hints,
+            oneShots: VolumeInst.oneShots,
             loops: VolumeInst.loops
         };
         this.effects = effects;
@@ -28,7 +28,7 @@ export class Effects {
 
     /**
      *
-     * @param id {string} jquery
+     * @param id {string}
      */
     play(id) {
         const soundEffectsInst = this.soundEffectsInst;
@@ -53,6 +53,10 @@ export class Effects {
         //todo: video, text, etc.
     }
 
+    /**
+     *
+     * @param id {string}
+     */
     stop(id) {
         const soundEffectsInst = this.soundEffectsInst;
         const effectCur = find(this.effects, {id});
@@ -81,7 +85,7 @@ export class Effects {
         if (!soundEffectsInst.oneShots[id]) {
             soundEffectsInst.oneShots[id] = SoundEffects.newHowlOneShot({
                 src,
-                volume: this.volume.hints
+                volume: this.volume.oneShots
             });
         }
     }
