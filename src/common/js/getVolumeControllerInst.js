@@ -1,10 +1,10 @@
 import {VolumeController} from './modules/Volume';
 
-export function getVolumeControllerInst({VolumeInst, EffectsController, $audios = $('audio'), $videos = $('video')} = {}) {
+export function getVolumeControllerInst({VolumeInst, EffectsController, $videos = $('video')} = {}) {
     return new VolumeController({
         Volume: VolumeInst,
-        $audios,
         $videos,
-        loops: EffectsController.soundEffectsInst.AudioLoops
+        oneShots: EffectsController.soundEffectsInst.oneShots,
+        loops: EffectsController.soundEffectsInst.loops
     });
 }

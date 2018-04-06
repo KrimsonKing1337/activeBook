@@ -23,6 +23,7 @@ export class Effects {
             oneShots: VolumeInst.oneShots,
             loops: VolumeInst.loops
         };
+        this.VolumeInst = VolumeInst;
         this.effects = effects;
     }
 
@@ -41,11 +42,11 @@ export class Effects {
         if (type === 'oneShot') {
             this.checkAndSetNewOneShot({id, src: effectCur.src});
 
-            soundEffectsInst.playOneShot(id);
+            soundEffectsInst.playOneShot(id, this.VolumeInst.getOneShots());
         } else if (type === 'loop') {
             this.checkAndSetNewLoop({id, src: effectCur.src});
 
-            soundEffectsInst.playLoop(id);
+            soundEffectsInst.playLoop(id, this.VolumeInst.getLoops());
         } else if (type === 'add-content') {
             ImageEffects.setAddContent({target});
         }
@@ -63,16 +64,16 @@ export class Effects {
         const type = effectCur.type;
 
         if (type === 'oneShot') {
-            soundEffectsInst.stopOneShot(id);
+            soundEffectsInst.stopOneShot(id, this.volume.oneShots);
         } else if (type === 'loop') {
-            soundEffectsInst.stopLoop(id);
+            soundEffectsInst.stopLoop(id, this.volume.loops);
         }
     }
 
     stopAll(target) {
         const soundEffectsInst = this.soundEffectsInst;
 
-        soundEffectsInst.stopAll(target);
+        soundEffectsInst.stopAll(target, this.volume.oneShots, this.volume.loops);
     }
 
     /**
@@ -120,88 +121,94 @@ class SoundEffects {
     /**
      *
      * @param target {string}; oneShots || loops || all;
+     * @param volumeOneShots {number}
+     * @param volumeLoops {number}
      * @param [fadeOutSpeed] {number};
      */
-    stopAll(target, fadeOutSpeed = 1000) {
+    stopAll(target, volumeOneShots, volumeLoops, fadeOutSpeed = 1000) {
         if (target === 'oneShots') {
             Object.keys(this.oneShots).forEach((item) => {
                 const oneShotCur = this.oneShots[item];
 
-                SoundEffects.fadeOut(oneShotCur, fadeOutSpeed);
+                SoundEffects.fadeOut(oneShotCur, volumeOneShots, fadeOutSpeed);
             });
-            //todo: bgSound, bgMusic, all
         } else if (target === 'loops') {
             Object.keys(this.loops).forEach((item) => {
                 const loopCur = this.loops[item];
 
-                SoundEffects.fadeOut(loopCur, fadeOutSpeed);
+                SoundEffects.fadeOut(loopCur, volumeLoops, fadeOutSpeed);
             });
         } else if (target === 'all') {
-            this.stopAll('oneShots', fadeOutSpeed);
-            this.stopAll('loops', fadeOutSpeed);
+            this.stopAll('oneShots', volumeOneShots, volumeLoops, fadeOutSpeed);
+            this.stopAll('loops', volumeOneShots, volumeLoops, fadeOutSpeed);
         }
     }
 
     /**
      *
      * @param target {object}; howler inst sound;
+     * @param volume {number};
      * @param [fadeOutSpeed] {number};
      */
-    static fadeOut(target, fadeOutSpeed = 1000) {
+    static fadeOut(target, volume, fadeOutSpeed = 1000) {
         target.once('fade', () => {
             target.stop();
         });
 
         //некорректное поведение, если задавать fadeOutSpeed = 0;
-        target.fade(0.5, 0, fadeOutSpeed > 0 ? fadeOutSpeed : 1);
+        target.fade(volume, 0, fadeOutSpeed > 0 ? fadeOutSpeed : 1);
     }
 
     /**
      *
      * @param target {object}; howler inst sound;
+     * @param volume {number};
      * @param [fadeInSpeed] {number};
      */
-    static fadeIn(target, fadeInSpeed = 1000) {
+    static fadeIn(target, volume, fadeInSpeed = 1000) {
         target.play();
         //некорректное поведение, если задавать fadeOutSpeed = 0;
-        target.fade(0, 0.5, fadeInSpeed > 0 ? fadeInSpeed : 1);
+        target.fade(0, volume, fadeInSpeed > 0 ? fadeInSpeed : 1);
     }
 
     /**
      *
      * @param id {string}
-     * @param fadeOutSpeed {number}
+     * @param volume {number}
+     * @param [fadeOutSpeed] {number}
      */
-    stopOneShot(id, fadeOutSpeed = 1000) {
+    stopOneShot(id, volume, fadeOutSpeed = 1000) {
         const oneShot = this.oneShots[id];
 
-        SoundEffects.fadeOut(oneShot, fadeOutSpeed);
+        SoundEffects.fadeOut(oneShot, volume, fadeOutSpeed);
     }
 
     /**
      *
      * @param id {string}
-     * @param fadeInSpeed {number}
+     * @param volume {number}
+     * @param [fadeInSpeed] {number}
      */
-    playOneShot(id, fadeInSpeed = 0) {
+    playOneShot(id, volume, fadeInSpeed = 0) {
         const oneShots = this.oneShots;
 
         if (oneShots[id].playing() === true) {
-            this.stopAll('oneShots');
+            //this.stopAll('oneShots');
         }
 
-        SoundEffects.fadeIn(oneShots[id], fadeInSpeed);
+        SoundEffects.fadeIn(oneShots[id], volume, fadeInSpeed);
     }
 
     /**
      *
      * @param id {string}
-     * @param fadeOutSpeed {number}
+     * @param volume {number}
+     * @param [fadeOutSpeed] {number}
      */
-    stopLoop(id, fadeOutSpeed = 1000) {
+    stopLoop(id, volume, fadeOutSpeed = 1000) {
         const loop = this.loops[id];
 
-        SoundEffects.fadeOut(loop, fadeOutSpeed);
+        SoundEffects.fadeOut(loop, volume, fadeOutSpeed);
     }
 
     /**
@@ -232,13 +239,14 @@ class SoundEffects {
     /**
      *
      * @param id {object}
+     * @param volume {number}
      * @param [fadeInSpeed {number}]
      * @param [stopBy {object}]
      */
-    playLoop(id, fadeInSpeed = 1000, stopBy) {
+    playLoop(id, volume, fadeInSpeed = 1000, stopBy) {
         const loops = this.loops;
 
-        loops[id].fade(0, 0.5, fadeInSpeed);
+        loops[id].fade(0, volume, fadeInSpeed);
 
         if (stopBy) {
             setTimeout(() => {

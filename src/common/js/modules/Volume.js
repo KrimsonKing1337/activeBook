@@ -57,14 +57,14 @@ export class VolumeController {
      *
      * @param params {object}
      * @param params.Volume {object} instance of class Volume;
-     * @param params.$audios {object} jquery
      * @param params.$videos {object} jquery
+     * @param params.oneShots[] {object} Howler
      * @param params.loops[] {object} Howler
      */
     constructor(params = {}) {
         this.Volume = params.Volume;
-        this.$audios = params.$audios;
         this.$videos = params.$videos;
+        this.oneShots = params.oneShots;
         this.loops = params.loops;
     }
 
@@ -94,8 +94,8 @@ export class VolumeController {
      */
     setOneShots(params = {}) {
         const Volume = this.Volume;
-        const $audios = this.$audios;
         const $videos = this.$videos;
+        const oneShots = this.oneShots;
         const newVolume = params.volume * this.Volume.global;
 
         /**
@@ -103,8 +103,8 @@ export class VolumeController {
          */
         Volume.setOneShots(newVolume);
 
-        $audios.each(function () {
-            this.volume = newVolume;
+        Object.keys(oneShots).forEach((key) => {
+            oneShots[key].volume(newVolume);
         });
 
         $videos.each(function () {
@@ -127,10 +127,8 @@ export class VolumeController {
          */
         Volume.setLoops(newVolume);
 
-        for (const loop in loops) {
-            if (loops[loop]) {
-                loops[loop].volume(newVolume);
-            }
-        }
+        Object.keys(loops).forEach((key) => {
+            loops[key].volume(newVolume);
+        });
     }
 }
