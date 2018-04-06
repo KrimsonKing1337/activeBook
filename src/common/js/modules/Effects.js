@@ -14,26 +14,32 @@ export class Effects {
      * @param effects[] {object}; effects description from JSON
      */
     constructor({VolumeInst, effects} = {}) {
+        this.VolumeInst = VolumeInst;
+
         this.soundEffectsInst = new SoundEffects({
-            VolumeInst,
+            VolumeInst: this.VolumeInst,
             loops: {},
             oneShots: {},
         });
-        this.VolumeInst = VolumeInst;
+
+        this.imageEffectsInst = new ImageEffects({
+            images: {}
+        });
+
         this.effects = effects;
 
         /**
-         * инициализируем звуки на странице
+         * инициализируем эффекты на странице
          */
         this.effects.forEach((effectCur) => {
-            const id = effectCur.id;
             const type = effectCur.type;
-            const src = effectCur.src;
 
             if (type === 'oneShot') {
-                this.checkAndSetNewOneShot({id, src});
+                this.soundEffectsInst.checkAndSetNewOneShot(effectCur);
             } else if (type === 'loop') {
-                this.checkAndSetNewLoop({id, src});
+                this.soundEffectsInst.checkAndSetNewLoop(effectCur);
+            } else if (type === 'image') {
+                this.imageEffectsInst.checkAndSet(effectCur);
             }
         });
     }
@@ -44,19 +50,21 @@ export class Effects {
      */
     play(id) {
         const soundEffectsInst = this.soundEffectsInst;
+        const imageEffectsInst = this.imageEffectsInst;
         const effectCur = find(this.effects, {id});
-
         const type = effectCur.type;
 
-        if (type === 'oneShot') {
-            soundEffectsInst.playOneShot(id);
-        } else if (type === 'loop') {
-            soundEffectsInst.playLoop(id);
-        } else if (type === 'add-content') {
-            ImageEffects.setAddContent({target});
+        if (effectCur.vibration && VibrationEffects.state() === true) {
+            VibrationEffects.play(effectCur.vibration);
         }
 
-        //todo: video, text, etc.
+        if (type === 'oneShot') {
+            soundEffectsInst.playOneShot(id, effectCur.stopBy);
+        } else if (type === 'loop') {
+            soundEffectsInst.playLoop(id, 1000, effectCur.stopBy);
+        } else if (type === 'image') {
+            imageEffectsInst.play(id);
+        }
     }
 
     /**
@@ -79,38 +87,6 @@ export class Effects {
         const soundEffectsInst = this.soundEffectsInst;
 
         soundEffectsInst.stopAll({target, fadeOutSpeed, unload});
-    }
-
-    /**
-     *
-     * @param id {string}
-     * @param src {string}
-     */
-    checkAndSetNewOneShot({id, src}) {
-        const soundEffectsInst = this.soundEffectsInst;
-
-        if (!soundEffectsInst.oneShots[id]) {
-            soundEffectsInst.oneShots[id] = SoundEffects.newHowlOneShot({
-                src,
-                volume: this.VolumeInst.getOneShots()
-            });
-        }
-    }
-
-    /**
-     *
-     * @param id {string}
-     * @param src {string}
-     */
-    checkAndSetNewLoop({id, src}) {
-        const soundEffectsInst = this.soundEffectsInst;
-
-        if (!soundEffectsInst.loops[id]) {
-            soundEffectsInst.loops[id] = SoundEffects.newHowlLoop({
-                src,
-                volume: this.VolumeInst.getLoops()
-            });
-        }
     }
 }
 
@@ -256,19 +232,52 @@ class SoundEffects {
 
     /**
      *
-     * @param id {object}
+     * @param id {string}
      * @param [fadeInSpeed {number}]
      * @param [stopBy {object}]
      */
     playLoop(id, fadeInSpeed = 1000, stopBy) {
-        const loops = this.loops;
+        const loop = this.loops[id];
 
-        loops[id].fade(0, this.VolumeInst.getLoops(), fadeInSpeed);
+        SoundEffects.fadeIn(loop, this.VolumeInst.getLoops(), fadeInSpeed);
 
         if (stopBy) {
             setTimeout(() => {
-                this.stopLoop(this.loops[id], stopBy.fadeOutSpeed);
+                this.stopLoop(id, stopBy.fadeOutSpeed);
+
             }, stopBy.duration);
+        }
+    }
+
+    /**
+     *
+     * @param oneShotCur {object}
+     */
+    checkAndSetNewOneShot(oneShotCur) {
+        const oneShots = this.oneShots;
+        const id = oneShotCur.id;
+
+        if (!oneShots[id]) {
+            oneShots[id] = SoundEffects.newHowlOneShot({
+                src: oneShotCur.src,
+                volume: this.VolumeInst.getOneShots()
+            });
+        }
+    }
+
+    /**
+     *
+     * @param loopCur {object}
+     */
+    checkAndSetNewLoop(loopCur) {
+        const loops = this.loops;
+        const id = loopCur.id;
+
+        if (!loops[id]) {
+            loops[id] = SoundEffects.newHowlLoop({
+                src: loopCur.src,
+                volume: this.VolumeInst.getLoops()
+            });
         }
     }
 
@@ -279,7 +288,7 @@ class SoundEffects {
     static newHowlLoop({src} = {}) {
         return new Howl({
             src,
-            autoplay: true,
+            autoplay: false,
             loop: true,
             volume: 0
         });
@@ -313,30 +322,83 @@ class TextEffects {
 }
 
 class ImageEffects {
-    constructor() {
-
+    constructor(images) {
+        this.images = images;
     }
 
     /**
      *
-     * @param target
+     * @param imageCur {object};
      */
-    static setAddContent({target} = {}) {
-        const contents = target.contents();
-        const $addContent = $(getDOMSelectors().addContent);
+    checkAndSet(imageCur) {
+        const images = this.images;
+        const id = imageCur.id;
+
+        if (!images[id]) {
+            //кэшируем
+            ImageEffects.set(imageCur.src);
+
+            images[id] = imageCur;
+        }
+        //todo: слайдер, если несколько
+    }
+
+    /**
+     *
+     * @param src {string};
+     */
+    static set(src) {
+        const $img = `<img src="${src}" />`;
         const $addContentInner = $(getDOMSelectors().addContentInner);
 
-        //jquery использует абсолютные пути, поэтому сравниваем таким образом
-        /*if ($addContent.css('background-image').indexOf(img.attr('src').replace('../', '')) !== -1) return;
+        $addContentInner.html($img);
+    }
 
-        $addContent.addClass('fadeOut');
-        $addContent.one('transitionend', () => {
-            $addContent.css({'background-image': `url(${ img.attr('src') })`});
-            $addContent.removeClass('fadeOut');
-        });*/
+    /**
+     *
+     * @param id {string};
+     */
+    play(id) {
+        const images = this.images;
+        const $addContent = $(getDOMSelectors().addContent);
 
-        $addContentInner.append(contents);
+        ImageEffects.set(images[id].src);
         $addContent.fadeIn();
-        //todo: слайдер, если несколько
+    }
+}
+
+class VibrationEffects {
+    constructor() {
+        //todo: геттеры, сеттеры, записываем и меняем состояние вибрации здесь, отвязываемся от DOM-элемента
+    }
+
+    /**
+     *
+     * @param duration {number}
+     * @param [repeat] {number}
+     * @param [sleep] {number}
+     */
+    static play({duration, repeat = 0, sleep = 100} = {}) {
+        window.navigator.vibrate(duration);
+
+        if (repeat > 1) {
+            let i = 1;
+
+            const interval = setInterval(() => {
+                if (i >= repeat) clearInterval(interval);
+
+                window.navigator.vibrate(duration);
+
+                i++;
+            }, sleep);
+        }
+    }
+
+    static stop() {
+        window.navigator.vibrate(0);
+    }
+
+    static state() {
+        return $(getDOMSelectors().page).attr('data-vibration');
     }
 }

@@ -59,11 +59,16 @@ $(window).on('load', async () => {
     });
 
     //переключалка для вибрации
-    //todo: если включаем - то давать короткую вибрацию
     $(DOMSelectors.vibrationOption).on('click', function () {
+        const val = $(this).attr('data-vibration');
+
+        if (val === false) {
+            window.navigator.vibrate(50);
+        }
+
         Vibration.set({
             $page: $(DOMSelectors.page),
-            val: $(this).attr('data-vibration'),
+            val,
             $vibrationOption: $(DOMSelectors.vibrationOption)
         });
     });

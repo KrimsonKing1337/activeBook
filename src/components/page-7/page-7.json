@@ -2,7 +2,7 @@
   "effects": [
     {
       "id": "mask",
-      "type": "addContent",
+      "type": "image",
       "src": [
         "/book_data/images/mask.png"
       ]
