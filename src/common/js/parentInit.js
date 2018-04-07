@@ -78,9 +78,16 @@ export async function parentInit() {
         }
 
         $bodyParent.removeClass('loading');
+
+        $(iframe.contentDocument).focus();
+        $(iframe.contentWindow).focus();
     });
 
+
     $bodyParent.removeClass('loading');
+
+    $(iframe.contentDocument).focus();
+    $(iframe.contentWindow).focus();
 
     /**
      * ловим события с iframe и реагируем на них,
