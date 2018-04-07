@@ -31,7 +31,23 @@ $(window).on('load', async () => {
     const DOMSelectors = getDOMSelectors();
     const page = Page.getParams();
 
-    mCustomScrollbarInit();
+    //mCustomScrollbarInit();
+
+    //стрелка вперёд = след. страница,
+    //стрелка назад = пред. страница
+    $(document).on('keydown', (e) => {
+        if (e.which === 37) {
+            $('.js-page-prev').trigger('click');
+        } else if (e.which === 39) {
+            $('.js-page-next').trigger('click');
+        } else if (e.which === 38 || e.which === 40) {
+            $('.js-scrollable-item:visible').trigger(e);
+        }
+    });
+
+    $('.js-scrollable-item:visible').on('keydown', (e) => {
+        e.stopPropagation();
+    });
 
     ionRangeSliderInit();
 
