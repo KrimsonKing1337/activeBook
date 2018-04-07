@@ -54,8 +54,12 @@ export class Effects {
         const effectCur = find(this.effects, {id});
         const type = effectCur.type;
 
-        if (effectCur.vibration && VibrationEffects.state() === true) {
-            VibrationEffects.play(effectCur.vibration);
+        //todo: VibrationEffects.state() возвращает undefined если вибрация воспроизводится сразу после загрузки страницы
+        //if (effectCur.vibration && VibrationEffects.state() === true) {
+        if (effectCur.vibration) {
+            setTimeout(() => {
+                VibrationEffects.play(effectCur.vibration);
+            }, 300);
         }
 
         if (type === 'oneShot') {
@@ -386,7 +390,9 @@ class VibrationEffects {
      * @param [sleep] {number}
      */
     static play({duration, repeat = 0, sleep = 100} = {}) {
-        window.navigator.vibrate(duration);
+        navigator.vibrate(duration);
+
+        console.log(arguments);
 
         if (repeat > 1) {
             let i = 1;
@@ -394,7 +400,7 @@ class VibrationEffects {
             const interval = setInterval(() => {
                 if (i >= repeat) clearInterval(interval);
 
-                window.navigator.vibrate(duration);
+                navigator.vibrate(duration);
 
                 i++;
             }, sleep);
@@ -402,10 +408,10 @@ class VibrationEffects {
     }
 
     static stop() {
-        window.navigator.vibrate(0);
+        navigator.vibrate(0);
     }
 
     static state() {
-        return $(getDOMSelectors().page).attr('data-vibration');
+        return $(getDOMSelectors().page).data('vibration');
     }
 }

@@ -76,10 +76,10 @@ $(window).on('load', async () => {
 
     //переключалка для вибрации
     $(DOMSelectors.vibrationOption).on('click', function () {
-        const val = $(this).attr('data-vibration');
+        const val = $(this).data('vibration');
 
-        if (val === false) {
-            window.navigator.vibrate(50);
+        if (val === true) {
+            navigator.vibrate(150);
         }
 
         Vibration.set({
