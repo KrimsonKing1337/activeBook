@@ -194,6 +194,10 @@ $p-line-height: 1.2;
   font-size: 100%;
   overflow: auto;
 
+  &.hide {
+    display: none;//change by script;
+  }
+
   header {
     font-family: RobotoBold, Arial, Helvetica, sans-serif;
     font-size: 2em;//32px;
@@ -339,7 +343,6 @@ $p-line-height: 1.2;
 .table-of-contents {
   @extend .text;
 
-  display: none;//change by script;
   position: relative;
   top: 0;
   left: 0;

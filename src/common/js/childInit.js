@@ -27,12 +27,8 @@ export function childInit() {
         } else if (e.which === 39) {
             $('.js-page-next').trigger('click');
         } else if (e.which === 38 || e.which === 40) {
-            $('.js-scrollable-item:visible').trigger(e);
-        }
-    });
 
-    $('.js-scrollable-item:visible').on('keydown', (e) => {
-        e.stopPropagation();
+        }
     });
 
     $(DOMSelectors.text).swiperight(() => {
@@ -62,8 +58,6 @@ export function childInit() {
         $('.js-line-height-minus'),
         $('.js-line-height-plus')
     ]);
-
-
 
     //отображаем доп. меню для элементов с поповером
     /**
@@ -116,8 +110,9 @@ export function childInit() {
 
     //оглавление
     $(DOMSelectors.tableOfContentsShow).on('click', function () {
-        $(DOMSelectors.text).hide();
-        $(DOMSelectors.tableOfContents).show();
+        $(DOMSelectors.tableOfContents).removeClass('hide');
+        $(DOMSelectors.text).addClass('hide');
+
         Popover.close({
             $triggerButton: $(this).closest('.menu__item'),
             $popover: $(this).closest(DOMSelectors.addSettings)
@@ -125,8 +120,8 @@ export function childInit() {
     });
 
     $('.js-table-of-contents-close').on('click', () => {
-        $(DOMSelectors.tableOfContents).hide();
-        $(DOMSelectors.text).show();
+        $(DOMSelectors.tableOfContents).addClass('hide');
+        $(DOMSelectors.text).removeClass('hide');
     });
 
     //клик по элементу оглавления (главе)
@@ -340,4 +335,6 @@ export function childInit() {
 
         window.open(`${window.location.origin}/${src}`, '_blank');
     });
+
+    $(DOMSelectors).focus();
 }
