@@ -252,6 +252,7 @@ class SoundEffects {
 
         SoundEffects.fadeIn(loop, this.VolumeInst.getLoops(), fadeInSpeed);
 
+        //todo: start timer after loaded and start play
         if (stopBy) {
             setTimeout(() => {
                 this.stopLoop(id, {fadeOutSpeed: stopBy.fadeOutSpeed});
