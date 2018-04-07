@@ -5,7 +5,7 @@
  */
 export function hoverInit(elems) {
     elems.forEach(($elemCur) => {
-        $elemCur.tap(function (e) {
+        $elemCur.click(function (e) {
             const $el = $(this);
 
             $el.addClass('hover');
