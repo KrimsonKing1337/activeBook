@@ -1,8 +1,8 @@
-<svg width="7" height="14" viewBox="0 0 7 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:figma="http://www.figma.com/figma/ns">
+<svg width="11" height="21" viewBox="0 0 11 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <title>arrow-right</title>
 <desc>Created using Figma</desc>
-<g id="Canvas" transform="translate(-3910 -815)" figma:type="canvas">
-<g id="arrow-right" figma:type="vector">
+<g id="Canvas" transform="matrix(1.5 0 0 1.5 -5865 -1222.5)">
+<g id="arrow-right">
 <use xlink:href="#path0_stroke" transform="matrix(-1 1.22465e-16 -1.22465e-16 -1 3916 828)"/>
 </g>
 </g>

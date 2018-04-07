@@ -1,16 +1,16 @@
-<svg width="10" height="2" viewBox="0 0 10 2" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:figma="http://www.figma.com/figma/ns">
+<svg width="15" height="3" viewBox="0 0 15 3" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 <title>menu-icon</title>
 <desc>Created using Figma</desc>
-<g id="Canvas" transform="translate(-3908 -839)" figma:type="canvas">
-<g id="menu-icon" figma:type="instance">
-<g id="menu-icon-off" figma:type="frame">
-<g id="Ellipse 2" figma:type="ellipse">
+<g id="Canvas" transform="matrix(1.5 0 0 1.5 -5862 -1258.5)">
+<g id="menu-icon">
+<g id="menu-icon-off">
+<g id="Ellipse 2">
 <use xlink:href="#path0_fill" transform="translate(3908 839)"/>
 </g>
-<g id="Ellipse 2" figma:type="ellipse">
+<g id="Ellipse 2">
 <use xlink:href="#path0_fill" transform="translate(3912 839)"/>
 </g>
-<g id="Ellipse 2" figma:type="ellipse">
+<g id="Ellipse 2">
 <use xlink:href="#path0_fill" transform="translate(3916 839)"/>
 </g>
 </g>
