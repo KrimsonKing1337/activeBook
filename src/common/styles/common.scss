@@ -85,6 +85,19 @@ audio {
   box-sizing: border-box;
 }
 
+/*
+  убираем стрелки у input number
+ */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 .page {
   display: flex;
   align-items: flex-start;
