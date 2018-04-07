@@ -29,6 +29,8 @@ body#parent {
 }
 
 #parent.loading {
+  pointer-events: none;
+
   .content {
     opacity: 0; //if display: none mCustomScrollbar going crazy
   }
