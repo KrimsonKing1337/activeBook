@@ -24,9 +24,9 @@ export function saveStates(VolumeInst) {
 
     LocalStorage.saveState({
         volume: {
-            global: VolumeInst.getGlobal(),
-            oneShots: VolumeInst.getOneShots(),
-            loops: VolumeInst.getLoops()
+            global: VolumeInst.global,
+            oneShots: VolumeInst.oneShots,
+            loops: VolumeInst.loops
         },
         volumeSlidersPosition: {
             global: volumeGlobalSlider.val(),

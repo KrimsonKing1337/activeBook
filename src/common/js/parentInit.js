@@ -40,27 +40,6 @@ export async function parentInit() {
         });
     }
 
-    /**
-     * ловим события с iframe и реагируем на них,
-     * в данном случае только касательно громкости
-     */
-    window.addEventListener('message', (e) => {
-        const eventName = e.data[0];
-        const data = e.data[1];
-
-        if (eventName === 'volumeGlobalChange') {
-            VolumeControllerInst.setGlobal({volume: data});
-        } else if (eventName === 'volumeOneShotsChange') {
-            VolumeControllerInst.setOneShots({volume: data});
-        } else if (eventName === 'volumeBgChange') {
-            VolumeControllerInst.setLoops({volume: data});
-        } else if (eventName === 'load') {
-            $bodyParent.removeClass('loading');
-        } else if (eventName === 'unload') {
-            $bodyParent.addClass('loading');
-        }
-    });
-
     //событие перехода на другую страницу
     $(iframe).on('load', async () => {
         EffectsController.stopAll({
@@ -102,4 +81,29 @@ export async function parentInit() {
     });
 
     $bodyParent.removeClass('loading');
+
+    /**
+     * ловим события с iframe и реагируем на них,
+     * в данном случае только касательно громкости
+     */
+    window.addEventListener('message', (e) => {
+        const eventName = e.data[0];
+        const data = e.data[1];
+
+        if (eventName === 'volumeGlobalChange') {
+            VolumeControllerInst.setGlobal({volume: data});
+        } else if (eventName === 'volumeOneShotsChange') {
+            VolumeControllerInst.setOneShots({volume: data});
+        } else if (eventName === 'volumeBgChange') {
+            VolumeControllerInst.setLoops({volume: data});
+        } else if (eventName === 'actionTextClick') {
+            EffectsController.play(data);
+        } else if (eventName === 'load') {
+            $bodyParent.removeClass('loading');
+        } else if (eventName === 'unload') {
+            $bodyParent.addClass('loading');
+        } else if (eventName === 'saveStates') {
+            iframe.contentWindow.postMessage(['saveStates', VolumeInst], '*');
+        }
+    });
 }

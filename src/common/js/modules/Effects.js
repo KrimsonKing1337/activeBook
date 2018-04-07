@@ -393,8 +393,6 @@ class VibrationEffects {
     static play({duration, repeat = 0, sleep = 100} = {}) {
         navigator.vibrate(duration);
 
-        console.log(arguments);
-
         if (repeat > 1) {
             let i = 1;
 

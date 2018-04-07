@@ -87,6 +87,8 @@ $(window).on('load', async () => {
             val,
             $vibrationOption: $(DOMSelectors.vibrationOption)
         });
+
+        window.parent.postMessage(['saveStates', true], '*');
     });
 
     //переключалка темы оформления
@@ -96,6 +98,8 @@ $(window).on('load', async () => {
             val: $(this).attr('data-theme'),
             $themeOption: $(DOMSelectors.themeOption)
         });
+
+        window.parent.postMessage(['saveStates', true], '*');
     });
 
     //оглавление
@@ -131,6 +135,8 @@ $(window).on('load', async () => {
             direction: 'less',
             $text: $(DOMSelectors.text)
         });
+
+        window.parent.postMessage(['saveStates', true], '*');
     });
 
     $('.js-line-height-plus').on('click', () => {
@@ -139,6 +145,8 @@ $(window).on('load', async () => {
             direction: 'more',
             $text: $(DOMSelectors.text)
         });
+
+        window.parent.postMessage(['saveStates', true], '*');
     });
 
     //меняем страницу
@@ -201,61 +209,45 @@ $(window).on('load', async () => {
     //меняем размер шрифта
     $('.js-font-size-down').on('click', () => {
         FontSize.setByDirection({$text: $(DOMSelectors.text), direction: 'less'});
+
+        window.parent.postMessage(['saveStates', true], '*');
     });
 
     $('.js-font-size-up').on('click', () => {
         FontSize.setByDirection({$text: $(DOMSelectors.text), direction: 'more'});
-    });
 
-    const effectsJSON = await getJSON(`/page-${page.current}.json`);
-
-    //инитим громкость
-    const VolumeInst = getVolumeInst();
-
-    //инициализируем контроллер управления эффектами
-    const EffectsController = new Effects({
-        VolumeInst,
-        effects: effectsJSON.effects
-    });
-
-    //инитим управление громкостью
-    const VolumeControllerInst = getVolumeControllerInst({
-        VolumeInst,
-        EffectsController
+        window.parent.postMessage(['saveStates', true], '*');
     });
 
     //action text click event
     $('[data-effect-target]').on('click', function (e) {
         e.preventDefault();
 
-        EffectsController.play($(this).data('effect-target'));
+        window.parent.postMessage(['actionTextClick', $(this).data('effect-target')], '*');
     });
 
     //событие изменения положения ползунка глобальной громкости
     $(DOMSelectors.volumeGlobal).on('change', function () {
         const volume = $(this).find('.js-range-slider').val() / 100;
 
-        VolumeControllerInst.setGlobal({volume});
-
         window.parent.postMessage(['volumeGlobalChange', volume], '*');
+        window.parent.postMessage(['saveStates', true], '*');
     });
 
     //событие изменения положения ползунка громкости подсказок (звуков в тексте)
     $(DOMSelectors.volumeOneShots).on('change', function () {
         const volume = $(this).find('.js-range-slider').val() / 100;
 
-        VolumeControllerInst.setOneShots({volume});
-
         window.parent.postMessage(['volumeOneShotsChange', volume], '*');
+        window.parent.postMessage(['saveStates', true], '*');
     });
 
     //событие изменения положения ползунка громкости фоновых звуков
     $(DOMSelectors.volumeBg).on('change', function () {
         const volume = $(this).find('.js-range-slider').val() / 100;
 
-        VolumeControllerInst.setLoops({volume});
-
         window.parent.postMessage(['volumeBgChange', volume], '*');
+        window.parent.postMessage(['saveStates', true], '*');
     });
 
     //переходим по закладке
@@ -282,6 +274,8 @@ $(window).on('load', async () => {
         $('.js-bookmarks-list').append($newBookmark);
 
         bookmarkPopover.positioning();
+
+        window.parent.postMessage(['saveStates', true], '*');
     });
 
     //удаляем закладку
@@ -291,13 +285,23 @@ $(window).on('load', async () => {
         $(this).closest('.js-bookmark-item').remove();
 
         bookmarkPopover.positioning();
+
+        window.parent.postMessage(['saveStates', true], '*');
+    });
+
+    window.addEventListener('message', (e) => {
+        const eventName = e.data[0];
+        const data = e.data[1];
+
+        if (eventName === 'saveStates') {
+            saveStates(data);
+        }
     });
 
     //сохраняем значения настроек
     $(window).on('unload', () => {
         window.parent.postMessage(['unload', true], '*');
-
-        saveStates(VolumeInst);
+        window.parent.postMessage(['saveStates', true], '*');
     });
 
     //загружаем значения настроек
