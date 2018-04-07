@@ -8,6 +8,8 @@ import {ionRangeSliderInit} from './ionRangeSliderInit';
 import {svgInit} from './svgInit';
 import {saveStates} from './saveStates';
 import {loadStates} from './loadStates';
+import 'jquery-touch-events';
+import {hoverInit} from './hoverInit';
 
 export function childInit() {
     if (browserCheck() === false) return;
@@ -33,9 +35,35 @@ export function childInit() {
         e.stopPropagation();
     });
 
+    $(DOMSelectors.text).swiperight(() => {
+        $('.js-page-prev').trigger('click');
+    });
+
+    $(DOMSelectors.text).swipeleft(() => {
+        $('.js-page-next').trigger('click');
+    });
+
     ionRangeSliderInit();
 
     svgInit();
+
+    hoverInit([
+        $(DOMSelectors.action),
+        $(DOMSelectors.svgWrapper),
+        $(DOMSelectors.volumeGlobal),
+        $(DOMSelectors.volumeOneShots),
+        $(DOMSelectors.volumeBg),
+        $('.js-bookmark-create'),
+        $('.js-bookmark-item'),
+        $('.js-bookmark-remove'),
+        $('.js-table-of-contents-show'),
+        $('.js-theme-option'),
+        $('.js-vibration-option'),
+        $('.js-line-height-minus'),
+        $('.js-line-height-plus')
+    ]);
+
+
 
     //отображаем доп. меню для элементов с поповером
     /**

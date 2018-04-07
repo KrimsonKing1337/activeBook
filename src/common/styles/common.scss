@@ -233,7 +233,8 @@ $p-line-height: 1.2;
       opacity: 0.85;
       @include transition-default;
 
-      &:hover {
+      &:hover,
+      &.hover {
         opacity: 1;
         text-shadow: 2px 2px 2px #fd0006;
       }
@@ -422,7 +423,8 @@ $p-line-height: 1.2;
         }
       }
 
-      &:hover {
+      &:hover,
+      &.hover {
         svg {
           path {
             fill: #F2C94C;
@@ -574,7 +576,8 @@ $p-line-height: 1.2;
         }
       }
 
-      &:hover {
+      &:hover,
+      &.hover {
         .irs-line,
         .irs-bar,
         .irs-bar-edge {
@@ -738,6 +741,7 @@ $p-line-height: 1.2;
         }
 
         &.val {
+          &.hover,
           &:hover {
             opacity: 1;
           }
@@ -852,6 +856,7 @@ $p-line-height: 1.2;
           text-align: right;
           @include transition-default;
 
+          &.hover,
           &:hover {
             color: #a30101;
           }
