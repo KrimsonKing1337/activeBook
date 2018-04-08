@@ -10,7 +10,7 @@ const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 const pagesConfig = require('./pages.config');
 
 const extractSass = new ExtractTextPlugin({
-    filename: '[name].css',
+    filename: '[name].[hash].css',
     disable: process.env.NODE_ENV === 'development'
 });
 
@@ -46,7 +46,7 @@ module.exports = {
     },
     output: {
         path: `${rootPath}/build/`,
-        filename: '[name].js',
+        filename: '[name].[hash].js',
     },
     plugins: [
         new CleanWebpackPlugin(`${rootPath}/build/*`, {
