@@ -31,11 +31,11 @@ export function childInit() {
         }
     });
 
-    $(DOMSelectors.text).swiperight(() => {
+    $(DOMSelectors.page).swiperight(() => {
         $('.js-page-prev').trigger('click');
     });
 
-    $(DOMSelectors.text).swipeleft(() => {
+    $(DOMSelectors.page).swipeleft(() => {
         $('.js-page-next').trigger('click');
     });
 
