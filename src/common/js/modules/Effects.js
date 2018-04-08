@@ -65,12 +65,14 @@ export class Effects {
         if (type === 'oneShot') {
             soundEffectsInst.playOneShot(id, {
                 fadeInSpeed: effectCur.fadeInSpeed,
-                stopBy: effectCur.stopBy
+                stopBy: effectCur.stopBy,
+                goTo: effectCur.goTo
             });
         } else if (type === 'loop') {
             soundEffectsInst.playLoop(id, {
                 fadeInSpeed: effectCur.fadeInSpeed,
-                stopBy: effectCur.stopBy
+                stopBy: effectCur.stopBy,
+                goTo: effectCur.goTo
             });
         } else if (type === 'image') {
             imageEffectsInst.play(id);
@@ -186,7 +188,7 @@ class SoundEffects {
      * @param id {string}
      * @param [fadeOutSpeed] {number}
      */
-    stopOneShot(id, {fadeOutSpeed = 1000} = {}) {
+    stopOneShot(id, {fadeOutSpeed = 0} = {}) {
         const oneShot = this.oneShots[id];
 
         SoundEffects.fadeOut(oneShot, this.VolumeInst.getOneShots(), fadeOutSpeed);
@@ -197,15 +199,30 @@ class SoundEffects {
      * @param id {string}
      * @param [fadeInSpeed] {number}
      * @param [stopBy] {number}
+     * @param [goTo] {object}
      */
-    playOneShot(id, {fadeInSpeed = 0, stopBy} = {}) {
+    playOneShot(id, {fadeInSpeed = 0, stopBy, goTo} = {}) {
         const oneShot = this.oneShots[id];
 
         if (oneShot.playing() === true) {
-            this.stopAll({target: 'oneShots'});
+            this.stopAll({target: 'oneShots', fadeOutSpeed: 0});
         }
 
         SoundEffects.fadeIn(oneShot, this.VolumeInst.getOneShots(), fadeInSpeed);
+
+        if (goTo) {
+            const sleep = goTo.sleep || 0;
+
+            if (goTo.page) {
+                setTimeout(() => {
+                    $('iframe').attr('src', `/page-${goTo.page}.html`);
+                }, sleep);
+            } else if (goTo.href) {
+                setTimeout(() => {
+                    window.open(`${window.location.origin}/${goTo.href}`, '_blank');
+                }, sleep);
+            }
+        }
     }
 
     /**
@@ -252,7 +269,7 @@ class SoundEffects {
 
         SoundEffects.fadeIn(loop, this.VolumeInst.getLoops(), fadeInSpeed);
 
-        //todo: start timer after loaded and start play
+        //todo: start timer after loaded and start play, вынести stopBy, goTo в отдельные методы
         if (stopBy) {
             setTimeout(() => {
                 this.stopLoop(id, {fadeOutSpeed: stopBy.fadeOutSpeed});

@@ -13,6 +13,9 @@ pageConfig = (page) => {
     };
 
     switch (page) {
+        case 'page-0':
+            pageConfig.context = 'page-0';
+            break;
         case 'page-1':
             pageConfig.context = 'page-1';
             break;
@@ -56,7 +59,7 @@ pageConfig = (page) => {
 
 const pagesConfig = [];
 
-for (let i = 1; i <= 12; i++) {
+for (let i = 0; i <= 12; i++) {
     pagesConfig.push({
         title: 'activeBook 2.0 demo',
         context: `page-${i}`,
