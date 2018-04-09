@@ -12,6 +12,71 @@
         <div class="text-wrapper">
 
         </div>
+
+        <div class="menu-full-screen">
+            <div class="menu-full-screen__title">
+                Настройки
+            </div>
+            <div class="menu-full-screen__volume">
+                <div class="menu-full-screen__volume__item">
+                    <div class="menu-full-screen__label">Общая громкость</div>
+                    <div class="menu-full-screen__volume__item__slider">
+                        <div class="range-slider__wrapper js-volume-global">
+                            <input class="js-range-slider" />
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-full-screen__volume__item loops">
+                    <div class="menu-full-screen__label">Фоновые звуки</div>
+                    <div class="menu-full-screen__volume__item__slider">
+                        <div class="range-slider__wrapper js-volume-bg">
+                            <input class="js-range-slider" />
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-full-screen__volume__item one-shots">
+                    <div class="menu-full-screen__label">Добавочные звуки</div>
+                    <div class="menu-full-screen__volume__item__slider">
+                        <div class="range-slider__wrapper js-volume-one-shots">
+                            <input class="js-range-slider" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="menu-full-screen__themes">
+                <div class="menu-full-screen__label">Оформление</div>
+                <div class="menu-full-screen__themes__items-wrapper">
+                    <div class="menu-full-screen__themes__item"></div>
+                    <div class="menu-full-screen__themes__item"></div>
+                    <div class="menu-full-screen__themes__item"></div>
+                    <div class="menu-full-screen__themes__item"></div>
+                </div>
+            </div>
+            <div class="menu-full-screen__vibration">
+                <div class="menu-full-screen__label">Вибрация</div>
+                <div class="menu-full-screen__vibration__items-wrapper">
+                    <div class="menu-full-screen__vibration__item">Вкл</div>
+                    <div class="menu-full-screen__vibration__item">Выкл</div>
+                </div>
+            </div>
+            <div class="menu-full-screen__line-height">
+                <div class="menu-full-screen__label">Межстрочный интервал</div>
+                <div class="menu-full-screen__line-height__items-wrapper">
+                    <div class="menu-full-screen__line-height__item minus">-</div>
+                    <div class="menu-full-screen__line-height__item value">1.0</div>
+                    <div class="menu-full-screen__line-height__item plus">+</div>
+                </div>
+            </div>
+            <div class="menu-full-screen__footer">
+                <div class="menu-full-screen__footer__btn table-of-contents-btn">
+                    Оглавление
+                </div>
+                <div class="menu-full-screen__footer__btn close">
+                    Закрыть
+                </div>
+            </div>
+        </div>
+
         <%= require('./table-of-contents.ejs')() %>
         <%= require('./menu.ejs')({pageNumber: pageNumber, pagesLength: pagesLength}) %>
     </div>
