@@ -57,6 +57,7 @@ export async function mainInit() {
 
         const textAJAX = await getAJAX(`/page-${pageNum}.html`);
         const dataJSON = await getAJAX(`/page-${pageNum}.json`);
+
         pageInfo(dataJSON.pageInfo);
 
         $('.text-wrapper').html(textAJAX);
