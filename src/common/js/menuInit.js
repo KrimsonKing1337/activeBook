@@ -4,14 +4,14 @@ import {svgInit} from './svgInit';
 import {ionRangeSliderInit} from './ionRangeSliderInit';
 import getDOMSelectors from './modules/GetDOMSelectors';
 import {saveStates} from './saveStates';
+import {pageInfo} from './pageInfo';
 
 /**
  *
  * @param VolumeInst {object}
  * @param VolumeControllerInst {object}
- * @param pageInfo {object}
  */
-export function menuInit({VolumeInst, VolumeControllerInst, pageInfo} = {}) {
+export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
     const DOMSelectors = getDOMSelectors();
 
     ionRangeSliderInit();
@@ -88,8 +88,8 @@ export function menuInit({VolumeInst, VolumeControllerInst, pageInfo} = {}) {
         const newVal = $.trim($(this).find('.table-of-contents__item__page').text());
 
         GoToPage.goWithDirection({
-            currentPage: pageInfo.current,
-            pagesLength: pageInfo.length,
+            currentPage: pageInfo().current,
+            pagesLength: pageInfo().length,
             direction: Math.abs(parseInt(newVal))
         });
     });
@@ -116,22 +116,22 @@ export function menuInit({VolumeInst, VolumeControllerInst, pageInfo} = {}) {
     });
 
     //устанавливаем плейсхолдеры для input-ов
-    $('.js-page-number').find('input').attr('placeholder', `${pageInfo.current} из ${pageInfo.length}`);
-    $('.js-page-input').attr('placeholder', pageInfo.current);
+    $('.js-page-number').find('input').attr('placeholder', `${pageInfo().current} из ${pageInfo().length}`);
+    $('.js-page-input').attr('placeholder', pageInfo().current);
 
     //меняем страницу
     $('.js-page-next').on('click', () => {
         GoToPage.goWithDirection({
-            currentPage: pageInfo.current,
-            pagesLength: pageInfo.length,
+            currentPage: pageInfo().current,
+            pagesLength: pageInfo().length,
             direction: 'next'
         });
     });
 
     $('.js-page-prev').on('click', () => {
         GoToPage.goWithDirection({
-            currentPage: pageInfo.current,
-            pagesLength: pageInfo.length,
+            currentPage: pageInfo().current,
+            pagesLength: pageInfo().length,
             direction: 'prev'
         });
     });
@@ -166,8 +166,8 @@ export function menuInit({VolumeInst, VolumeControllerInst, pageInfo} = {}) {
         }
 
         GoToPage.goWithDirection({
-            currentPage: pageInfo.current,
-            pagesLength: pageInfo.length,
+            currentPage: pageInfo().current,
+            pagesLength: pageInfo().length,
             direction: Math.abs(parseInt(newVal))
         });
     });
@@ -237,7 +237,7 @@ export function menuInit({VolumeInst, VolumeControllerInst, pageInfo} = {}) {
         if (monthNow < 10) monthNow = `0${ monthNow}`;
         const yearNow = dateNow.getFullYear().toString().substring(2);
         const parseDate = `${dayNow }/${ monthNow }/${ yearNow}`;
-        const pageNumber = pageInfo.current;
+        const pageNumber = pageInfo().current;
 
         $newBookmark.find('.js-bookmark-date').text(parseDate);
         $newBookmark.find('.js-bookmark-page').text(pageNumber);

@@ -29,9 +29,19 @@ export class Effects {
 
         this.effects = effects;
 
-        /**
-         * инициализируем эффекты на странице
-         */
+        this.initEffects();
+    }
+
+    setEffects(effects) {
+        this.effects = effects;
+
+        this.initEffects();
+    }
+
+    /**
+     * инициализируем эффекты на странице
+     */
+    initEffects() {
         this.effects.forEach((effectCur) => {
             const type = effectCur.type;
 
@@ -43,10 +53,6 @@ export class Effects {
                 this.imageEffectsInst.checkAndSet(effectCur);
             }
         });
-    }
-
-    setEffects(effects) {
-        this.effects = effects;
     }
 
     /**
@@ -127,23 +133,25 @@ class SoundEffects {
      */
     stopAll({target, fadeOutSpeed = 1000, unload = false} = {}) {
         if (target === 'oneShots') {
-            Object.keys(this.oneShots).forEach((key) => {
+            Object.keys(this.oneShots).forEach(async (key) => {
                 const oneShotCur = this.oneShots[key];
 
-                SoundEffects.fadeOut(oneShotCur, this.VolumeInst.getOneShots(), fadeOutSpeed);
+                await SoundEffects.fadeOut(oneShotCur, this.VolumeInst.getOneShots(), fadeOutSpeed);
 
                 if (unload === true) {
                     SoundEffects.unload(oneShotCur);
+                    delete this.oneShots[key];
                 }
             });
         } else if (target === 'loops') {
-            Object.keys(this.loops).forEach((key) => {
+            Object.keys(this.loops).forEach(async (key) => {
                 const loopCur = this.loops[key];
 
-                SoundEffects.fadeOut(loopCur, this.VolumeInst.getLoops(), fadeOutSpeed);
+                await SoundEffects.fadeOut(loopCur, this.VolumeInst.getLoops(), fadeOutSpeed);
 
                 if (unload === true) {
                     SoundEffects.unload(loopCur);
+                    delete this.loops[key];
                 }
             });
         } else if (target === 'all') {
@@ -168,12 +176,15 @@ class SoundEffects {
      * @param [fadeOutSpeed] {number};
      */
     static fadeOut(target, volume, fadeOutSpeed = 1000) {
-        target.once('fade', () => {
-            target.stop();
-        });
+        return new Promise(((resolve, reject) => {
+            target.once('fade', () => {
+                target.stop();
+                resolve();
+            });
 
-        //некорректное поведение, если задавать fadeOutSpeed = 0;
-        target.fade(volume, 0, fadeOutSpeed > 0 ? fadeOutSpeed : 1);
+            //некорректное поведение, если задавать fadeOutSpeed = 0;
+            target.fade(volume, 0, fadeOutSpeed > 0 ? fadeOutSpeed : 1);
+        }));
     }
 
     /**

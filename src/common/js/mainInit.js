@@ -3,17 +3,48 @@ import getDOMSelectors from './modules/GetDOMSelectors';
 import {loadStates} from './loadStates';
 import 'jquery-touch-events';
 import {hoverInit} from './hoverInit';
-import {effectsTextAndMenuInit} from './effectsTextAndMenuInit';
+import {menuInit} from './menuInit';
+import {getVolumeControllerInst} from './getVolumeControllerInst';
+import {getAJAX} from './getAJAX';
+import {textInit} from './textInit';
+import {Effects} from './modules/Effects';
+import {getVolumeInst} from './getVolumeInst';
+import {playOnLoad} from './playOnLoad';
+import {pageInfo} from './pageInfo';
 
 export async function mainInit() {
     if (browserCheck() === false) return;
 
     const DOMSelectors = getDOMSelectors();
     const $body = $('body');
-    const $menu = $(DOMSelectors.menu);
-    const $menuHTML = $menu.html();
 
-    let EffectsController = await effectsTextAndMenuInit(0);
+    const textAJAX = await getAJAX(`/page-0.html`);
+    const dataJSON = await getAJAX(`/page-0.json`);
+
+    pageInfo(dataJSON.pageInfo);
+
+    $('.text-wrapper').html(textAJAX);
+
+    //инитим громкость
+    const VolumeInst = getVolumeInst();
+
+    //инициализируем контроллер управления эффектами
+    const EffectsController = new Effects({
+        VolumeInst,
+        effects: dataJSON.effects
+    });
+
+    //инитим управление громкостью
+    const VolumeControllerInst = getVolumeControllerInst({
+        VolumeInst,
+        EffectsController
+    });
+
+
+    playOnLoad({effects: dataJSON.effects, EffectsController});
+
+    textInit(EffectsController);
+    menuInit({VolumeInst, VolumeControllerInst, pageInfo: dataJSON.pageInfo});
 
     //событие перехода на другую страницу
     $(window).on('changePage', async (e, pageNum) => {
@@ -24,9 +55,21 @@ export async function mainInit() {
             unload: true
         });
 
-        $menu.html($menuHTML); //иначе все события начинают задваиваться
+        const textAJAX = await getAJAX(`/page-${pageNum}.html`);
+        const dataJSON = await getAJAX(`/page-${pageNum}.json`);
+        pageInfo(dataJSON.pageInfo);
 
-        EffectsController = await effectsTextAndMenuInit(pageNum);
+        $('.text-wrapper').html(textAJAX);
+
+        EffectsController.setEffects(dataJSON.effects);
+
+        //устанавливаем плейсхолдеры для input-ов
+        $('.js-page-number').find('input').attr('placeholder', `${pageInfo().current} из ${pageInfo().length}`);
+        $('.js-page-input').attr('placeholder', pageInfo().current);
+
+        playOnLoad({effects: dataJSON.effects, EffectsController});
+
+        textInit(EffectsController);
 
         $body.removeClass('loading');
     });
