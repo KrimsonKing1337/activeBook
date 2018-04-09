@@ -21,7 +21,7 @@ export function loadStates() {
                 val: states.volumeSlidersPosition.oneShots
             },
             bg: {
-                inst: $(DOMSelectors.volumeBg).find('.js-range-slider').data('ionRangeSlider'),
+                inst: $(DOMSelectors.volumeLoops).find('.js-range-slider').data('ionRangeSlider'),
                 val: states.volumeSlidersPosition.bg
             }
         }
@@ -31,7 +31,7 @@ export function loadStates() {
 
     $(DOMSelectors.volumeGlobal).trigger('change');
     $(DOMSelectors.volumeOneShots).trigger('change');
-    $(DOMSelectors.volumeBg).trigger('change');
+    $(DOMSelectors.volumeLoops).trigger('change');
 
     //font-size
     FontSize.set({

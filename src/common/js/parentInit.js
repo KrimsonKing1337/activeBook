@@ -105,7 +105,7 @@ export async function parentInit() {
             VolumeControllerInst.setGlobal({volume: data});
         } else if (eventName === 'volumeOneShotsChange') {
             VolumeControllerInst.setOneShots({volume: data});
-        } else if (eventName === 'volumeBgChange') {
+        } else if (eventName === 'volumeLoopsChange') {
             VolumeControllerInst.setLoops({volume: data});
         } else if (eventName === 'actionTextClick') {
             EffectsController.play(data);

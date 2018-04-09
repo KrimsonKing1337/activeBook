@@ -48,7 +48,7 @@ export function childInit() {
         $(DOMSelectors.svgWrapper),
         $(DOMSelectors.volumeGlobal),
         $(DOMSelectors.volumeOneShots),
-        $(DOMSelectors.volumeBg),
+        $(DOMSelectors.volumeLoops),
         $('.js-bookmark-create'),
         $('.js-bookmark-item'),
         $('.js-bookmark-remove'),
@@ -250,10 +250,10 @@ export function childInit() {
     });
 
     //событие изменения положения ползунка громкости фоновых звуков
-    $(DOMSelectors.volumeBg).on('change', function () {
+    $(DOMSelectors.volumeLoops).on('change', function () {
         const volume = $(this).find('.js-range-slider').val() / 100;
 
-        window.parent.postMessage(['volumeBgChange', volume], '*');
+        window.parent.postMessage(['volumeLoopsChange', volume], '*');
         window.parent.postMessage(['saveStates', true], '*');
     });
 
