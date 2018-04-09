@@ -336,5 +336,5 @@ export function childInit() {
         window.open(`${window.location.origin}/${src}`, '_blank');
     });
 
-    $(DOMSelectors).focus();
+    $(DOMSelectors.text).focus();
 }

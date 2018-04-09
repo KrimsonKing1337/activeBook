@@ -82,7 +82,6 @@ export async function parentInit() {
         setTimeout(() => {
             $(iframe.contentDocument).find('.hidden-input-for-focus').focus();
             $(iframe.contentDocument).find('.hidden-input-for-focus').blur();
-            //$(iframe.contentWindow).find('.hidden-input-for-focus').focus();
         }, 100);
     });
 
@@ -92,7 +91,6 @@ export async function parentInit() {
     setTimeout(() => {
         $(iframe.contentDocument).find('.hidden-input-for-focus').focus();
         $(iframe.contentDocument).find('.hidden-input-for-focus').blur();
-        //$(iframe.contentWindow).find('.hidden-input-for-focus').focus();
     }, 100);
 
     /**
