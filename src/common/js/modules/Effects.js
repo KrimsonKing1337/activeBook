@@ -4,6 +4,7 @@
 
 import getDOMSelectors from './GetDOMSelectors';
 import find from 'lodash-es/find';
+import {GoToPage} from './Menu';
 
 const Howler = require('howler');
 
@@ -42,6 +43,10 @@ export class Effects {
                 this.imageEffectsInst.checkAndSet(effectCur);
             }
         });
+    }
+
+    setEffects(effects) {
+        this.effects = effects;
     }
 
     /**
@@ -215,7 +220,7 @@ class SoundEffects {
 
             if (goTo.page) {
                 setTimeout(() => {
-                    $('iframe').attr('src', `/page-${goTo.page}.html`);
+                    GoToPage.go({val: goTo.page});
                 }, sleep);
             } else if (goTo.href) {
                 setTimeout(() => {

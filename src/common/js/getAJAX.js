@@ -1,4 +1,4 @@
-export function getJSON(url) {
+export function getAJAX(url) {
     return new Promise(((resolve, reject) => {
         $.ajax({
             url,
@@ -10,5 +10,4 @@ export function getJSON(url) {
             }
         });
     }));
-
 }

@@ -26,9 +26,9 @@ const htmlWebpackPluginChunks = pagesConfig.map((obj) => {
         context,
         pageNumber,
         pagesLength,
-        template: `${rootPath}/src/htmlRoot.ejs`,
+        template: `${rootPath}/src/text.ejs`,
         filename: `${context}.html`,
-        inject: 'body',
+        inject: false,
         rootPath,
         svgoConfig: {
             cleanupIDs: true,
@@ -64,7 +64,13 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: `${rootPath}/src/index.ejs`,
             filename: 'index.html',
-            inject: 'body'
+            inject: 'body',
+            svgoConfig: {
+                cleanupIDs: true,
+                removeTitle: false,
+                removeAttrs: false,
+                removeViewBox: true
+            }
         }),
         new HtmlWebpackInlineSVGPlugin(),
         new CopyWebpackPlugin([

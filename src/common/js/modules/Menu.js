@@ -85,7 +85,7 @@ export class GoToPage {
     static go (params = {}) {
         const val = params.val;
 
-        location.href = `/page-${ val }.html`;
+        $(window).trigger('changePage', val);
     }
 
     /**
@@ -226,7 +226,7 @@ export class VolumeSliders {
 
             inst.update({
                 from: val
-            })
+            });
         }
     }
 }

@@ -1,12 +1,5 @@
-import {childInit} from './childInit';
-import {parentInit} from './parentInit';
+import {mainInit} from './mainInit';
 
 $(window).on('load', () => {
-    const $body = $('body');
-
-    if ($body.data('type') === 'parent') {
-        parentInit();
-    } else {
-        childInit();
-    }
+    mainInit();
 });

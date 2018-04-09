@@ -10,7 +10,9 @@
         <div class="add-content__inner js-add-content-inner"></div>
     </div>
     <div class="main-content">
-        <%= require('../components/' + context + '/' + context + '.ejs')() %>
+        <div class="text-wrapper">
+
+        </div>
         <%= require('./table-of-contents.ejs')() %>
         <%= require('./menu.ejs')({pageNumber: pageNumber, pagesLength: pagesLength}) %>
     </div>

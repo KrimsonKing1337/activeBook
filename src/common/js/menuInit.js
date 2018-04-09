@@ -1,63 +1,22 @@
-import getDOMSelectors from './modules/GetDOMSelectors';
-import Page from './modules/Page';
+import {FontSize, GoToPage, LineHeight, Theme, Vibration} from './modules/Menu';
 import Popover from './modules/Popover';
-import {LineHeight, FontSize, GoToPage, Theme, Vibration} from './modules/Menu';
-import {browserCheck} from './browserCheck';
-import {mCustomScrollbarInit} from './mCustomScrollbarInit';
-import {ionRangeSliderInit} from './ionRangeSliderInit';
 import {svgInit} from './svgInit';
+import {ionRangeSliderInit} from './ionRangeSliderInit';
+import getDOMSelectors from './modules/GetDOMSelectors';
 import {saveStates} from './saveStates';
-import {loadStates} from './loadStates';
-import 'jquery-touch-events';
-import {hoverInit} from './hoverInit';
 
-export function childInit() {
-    if (browserCheck() === false) return;
-
+/**
+ *
+ * @param VolumeInst {object}
+ * @param VolumeControllerInst {object}
+ * @param pageInfo {object}
+ */
+export function menuInit({VolumeInst, VolumeControllerInst, pageInfo} = {}) {
     const DOMSelectors = getDOMSelectors();
-    const page = Page.getParams();
-
-    //mCustomScrollbarInit();
-
-    //стрелка вперёд = след. страница,
-    //стрелка назад = пред. страница
-    $(document).on('keydown', (e) => {
-        if (e.which === 37) {
-            $('.js-page-prev').trigger('click');
-        } else if (e.which === 39) {
-            $('.js-page-next').trigger('click');
-        } else if (e.which === 38 || e.which === 40) {
-
-        }
-    });
-
-    $(DOMSelectors.page).swiperight(() => {
-        $('.js-page-prev').trigger('click');
-    });
-
-    $(DOMSelectors.page).swipeleft(() => {
-        $('.js-page-next').trigger('click');
-    });
 
     ionRangeSliderInit();
 
     svgInit();
-
-    hoverInit([
-        $(DOMSelectors.action),
-        $(DOMSelectors.svgWrapper),
-        $(DOMSelectors.volumeGlobal),
-        $(DOMSelectors.volumeOneShots),
-        $(DOMSelectors.volumeLoops),
-        $('.js-bookmark-create'),
-        $('.js-bookmark-item'),
-        $('.js-bookmark-remove'),
-        $('.js-table-of-contents-show'),
-        $('.js-theme-option'),
-        $('.js-vibration-option'),
-        $('.js-line-height-minus'),
-        $('.js-line-height-plus')
-    ]);
 
     //отображаем доп. меню для элементов с поповером
     /**
@@ -94,7 +53,7 @@ export function childInit() {
             $vibrationOption: $(DOMSelectors.vibrationOption)
         });
 
-        window.parent.postMessage(['saveStates', true], '*');
+        saveStates(VolumeInst);
     });
 
     //переключалка темы оформления
@@ -105,7 +64,7 @@ export function childInit() {
             $themeOption: $(DOMSelectors.themeOption)
         });
 
-        window.parent.postMessage(['saveStates', true], '*');
+        saveStates(VolumeInst);
     });
 
     //оглавление
@@ -129,8 +88,8 @@ export function childInit() {
         const newVal = $.trim($(this).find('.table-of-contents__item__page').text());
 
         GoToPage.goWithDirection({
-            currentPage: page.current,
-            pagesLength: page.length,
+            currentPage: pageInfo.current,
+            pagesLength: pageInfo.length,
             direction: Math.abs(parseInt(newVal))
         });
     });
@@ -143,7 +102,7 @@ export function childInit() {
             $text: $(DOMSelectors.text)
         });
 
-        window.parent.postMessage(['saveStates', true], '*');
+        saveStates(VolumeInst);
     });
 
     $('.js-line-height-plus').on('click', () => {
@@ -153,16 +112,28 @@ export function childInit() {
             $text: $(DOMSelectors.text)
         });
 
-        window.parent.postMessage(['saveStates', true], '*');
+        saveStates(VolumeInst);
     });
+
+    //устанавливаем плейсхолдеры для input-ов
+    $('.js-page-number').find('input').attr('placeholder', `${pageInfo.current} из ${pageInfo.length}`);
+    $('.js-page-input').attr('placeholder', pageInfo.current);
 
     //меняем страницу
     $('.js-page-next').on('click', () => {
-        GoToPage.goWithDirection({currentPage: page.current, pagesLength: page.length, direction: 'next'});
+        GoToPage.goWithDirection({
+            currentPage: pageInfo.current,
+            pagesLength: pageInfo.length,
+            direction: 'next'
+        });
     });
 
     $('.js-page-prev').on('click', () => {
-        GoToPage.goWithDirection({currentPage: page.current, pagesLength: page.length, direction: 'prev'});
+        GoToPage.goWithDirection({
+            currentPage: pageInfo.current,
+            pagesLength: pageInfo.length,
+            direction: 'prev'
+        });
     });
 
     $('.js-go-to-page-by-number').on('click', (e) => {
@@ -195,8 +166,8 @@ export function childInit() {
         }
 
         GoToPage.goWithDirection({
-            currentPage: page.current,
-            pagesLength: page.length,
+            currentPage: pageInfo.current,
+            pagesLength: pageInfo.length,
             direction: Math.abs(parseInt(newVal))
         });
     });
@@ -217,44 +188,37 @@ export function childInit() {
     $('.js-font-size-down').on('click', () => {
         FontSize.setByDirection({$text: $(DOMSelectors.text), direction: 'less'});
 
-        window.parent.postMessage(['saveStates', true], '*');
+        saveStates(VolumeInst);
     });
 
     $('.js-font-size-up').on('click', () => {
         FontSize.setByDirection({$text: $(DOMSelectors.text), direction: 'more'});
 
-        window.parent.postMessage(['saveStates', true], '*');
-    });
-
-    //action text click event
-    $('[data-effect-target]').on('click', function (e) {
-        e.preventDefault();
-
-        window.parent.postMessage(['actionTextClick', $(this).data('effect-target')], '*');
+        saveStates(VolumeInst);
     });
 
     //событие изменения положения ползунка глобальной громкости
     $(DOMSelectors.volumeGlobal).on('change', function () {
         const volume = $(this).find('.js-range-slider').val() / 100;
 
-        window.parent.postMessage(['volumeGlobalChange', volume], '*');
-        window.parent.postMessage(['saveStates', true], '*');
+        VolumeControllerInst.setGlobal({volume});
+        saveStates(VolumeInst);
     });
 
     //событие изменения положения ползунка громкости подсказок (звуков в тексте)
     $(DOMSelectors.volumeOneShots).on('change', function () {
         const volume = $(this).find('.js-range-slider').val() / 100;
 
-        window.parent.postMessage(['volumeOneShotsChange', volume], '*');
-        window.parent.postMessage(['saveStates', true], '*');
+        VolumeControllerInst.setOneShots({volume});
+        saveStates(VolumeInst);
     });
 
     //событие изменения положения ползунка громкости фоновых звуков
     $(DOMSelectors.volumeLoops).on('change', function () {
         const volume = $(this).find('.js-range-slider').val() / 100;
 
-        window.parent.postMessage(['volumeLoopsChange', volume], '*');
-        window.parent.postMessage(['saveStates', true], '*');
+        VolumeControllerInst.setLoops({volume});
+        saveStates(VolumeInst);
     });
 
     //переходим по закладке
@@ -273,7 +237,7 @@ export function childInit() {
         if (monthNow < 10) monthNow = `0${ monthNow}`;
         const yearNow = dateNow.getFullYear().toString().substring(2);
         const parseDate = `${dayNow }/${ monthNow }/${ yearNow}`;
-        const pageNumber = Page.getParams().current;
+        const pageNumber = pageInfo.current;
 
         $newBookmark.find('.js-bookmark-date').text(parseDate);
         $newBookmark.find('.js-bookmark-page').text(pageNumber);
@@ -282,7 +246,7 @@ export function childInit() {
 
         bookmarkPopover.positioning();
 
-        window.parent.postMessage(['saveStates', true], '*');
+        saveStates(VolumeInst);
     });
 
     //удаляем закладку
@@ -293,48 +257,6 @@ export function childInit() {
 
         bookmarkPopover.positioning();
 
-        window.parent.postMessage(['saveStates', true], '*');
+        saveStates(VolumeInst);
     });
-
-    window.addEventListener('message', (e) => {
-        const eventName = e.data[0];
-        const data = e.data[1];
-
-        if (eventName === 'saveStates') {
-            saveStates(data);
-        }
-    });
-
-    //сохраняем значения настроек
-    $(window).on('unload', () => {
-        window.parent.postMessage(['unload', true], '*');
-        window.parent.postMessage(['saveStates', true], '*');
-    });
-
-    //загружаем значения настроек
-    loadStates();
-
-    $(DOMSelectors.addContentClose).on('click', () => {
-        $(DOMSelectors.addContent).fadeOut();
-    });
-
-    $(DOMSelectors.addContentFullSize).on('click', () => {
-        const children = $(DOMSelectors.addContentInner).children();
-
-        let src;
-        const video = children.filter('video');
-        const img = children.filter('img');
-
-        if (img.length > 0) {
-            src = img.attr('src');
-        }
-
-        //todo: video
-
-        $(DOMSelectors.addContentClose).trigger('click');
-
-        window.open(`${window.location.origin}/${src}`, '_blank');
-    });
-
-    $(DOMSelectors.text).focus();
 }

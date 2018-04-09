@@ -15,5 +15,9 @@
         "sleep": 500
       }
     }
-  ]
+  ],
+  "pageInfo": {
+    "current": 0,
+    "length": 12
+  }
 }
