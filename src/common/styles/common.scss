@@ -148,13 +148,12 @@ input[type="number"] {
 }
 
 .menu-full-screen {
-  display: none;
-  position: absolute;
-  z-index: 10;
+  display: none; //change by script
+  position: fixed;
+  z-index: 15;
   top: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
+  left: 50%;
+  transform: translateX(-50%);
   width: 100%;
   max-width: 500px;
   min-height: 100%;
@@ -162,14 +161,26 @@ input[type="number"] {
   background: #fff;
   padding: 40px 20px;
 
+  &.active {
+    display: block;
+  }
+
+  &__close {
+    position: absolute;
+    top: 25px;
+    right: 20px;
+    cursor: pointer;
+    @include hover-default;
+  }
+
   &__title {
     font-family: RobotoBold, Arial, Helvetica, sans-serif;
-    font-size: 32px;
+    font-size: 42px;
   }
 
   &__label {
     font-family: RobotoLight, Arial, Helvetica, sans-serif;
-    font-size: 9px;
+    font-size: 14px;
     text-transform: uppercase;
   }
 
@@ -199,10 +210,45 @@ input[type="number"] {
     }
 
     &__item {
-      margin-left: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      margin-left: 10px;
+      cursor: pointer;
+      @include hover-default;
 
       &:nth-child(1) {
         margin-left: 0;
+      }
+
+      &[data-theme="default"] {
+        border: 1px #F2994A solid;
+        background: #fff;
+      }
+
+      &[data-theme="gray"] {
+        background: #828282;
+      }
+
+      &[data-theme="yellow"] {
+        background: #FDF5DE;
+      }
+
+      &[data-theme="dark-blue"] {
+        background: #728C9A;
+      }
+
+      i.fa {
+        display: none;
+      }
+
+      &.active {
+        i.fa {
+          display: block;
+        }
       }
     }
   }
@@ -210,14 +256,17 @@ input[type="number"] {
   &__vibration {
     margin-top: 20px;
     padding: 20px 0;
-    border-top: 1px #EAEAEA solid;
     border-bottom: 1px #EAEAEA solid;
+    $border-radius: 16px;
 
     &__items-wrapper {
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-top: 4px;
+      height: 31px;
+      margin-top: 11px;
+      border-radius: $border-radius;
+      border: 1px #F2994A solid;
     }
 
     &__item {
@@ -225,14 +274,36 @@ input[type="number"] {
       align-items: center;
       justify-content: center;
       width: 50%;
-      height: 16px;
+      height: inherit;
+      flex-shrink: 0;
+      font-family: RobotoLight, Arial, Helvetica, sans-serif;
+      font-size: 14px;
+      text-transform: capitalize;
+      color: #F2994A;
+      background: transparent;
+      cursor: pointer;
+      @include hover-default;
+
+      &:nth-child(1) {
+        border-top-left-radius: $border-radius;
+        border-bottom-left-radius: $border-radius;
+      }
+
+      &:nth-child(2) {
+        border-top-right-radius: $border-radius;
+        border-bottom-right-radius: $border-radius;
+      }
+
+      &.active {
+        background: #F2994A;
+        color: #fff;
+      }
     }
   }
 
   &__line-height {
     margin-top: 20px;
     padding: 20px 0;
-    border-top: 1px #EAEAEA solid;
     border-bottom: 1px #EAEAEA solid;
 
     &__items-wrapper {
@@ -252,12 +323,14 @@ input[type="number"] {
       &.minus,
       &.plus {
         font-family: RobotoBold, Arial, Helvetica, sans-serif;
-        font-size: 9px;
+        font-size: 22px;
+        cursor: pointer;
+        @include hover-default
       }
 
       &.value {
         font-family: RobotoLight, Arial, Helvetica, sans-serif;
-        font-size: 9px;
+        font-size: 14px;
         color: #F2994A;
       }
     }
@@ -275,12 +348,14 @@ input[type="number"] {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 182px;
-      height: 31px;
+      width: 240px;
+      height: 45px;
       font-family: RobotoLight, Arial, Helvetica, sans-serif;
-      font-size: 9px;
+      font-size: 14px;
       color: #fff;
-      border-radius: 16px;
+      border-radius: 25px;
+      cursor: pointer;
+      @include hover-default;
 
       &.table-of-contents-btn {
         background: #F2994A;
@@ -289,6 +364,26 @@ input[type="number"] {
       &.close {
         margin-top: 13px;
         background: #828282;
+      }
+    }
+  }
+
+  .range-slider__wrapper {
+    width: 150px;
+    height: 12px;
+
+    .irs {
+      .irs-line,
+      .irs-bar,
+      .irs-bar-edge {
+        top: 6px;
+        height: 6px;
+      }
+
+      .irs-slider {
+        top: -1px;
+        height: 18px;
+        width: 18px;
       }
     }
   }
@@ -703,58 +798,6 @@ $p-line-height: 1.2;
       }
     }
 
-    .range-slider__wrapper {
-      flex-shrink: 0;
-      width: 100px;
-      height: 6px;
-
-      .irs {
-        width: 100%;
-        height: 100%;
-
-        .irs-line,
-        .irs-bar,
-        .irs-bar-edge {
-          top: 2px;
-          height: 3px;
-          border: none;
-          background: #f2994a;
-        }
-
-        .irs-line {
-          background: #c4c4c4;
-        }
-
-        .irs-bar-edge {
-          width: 12px;
-        }
-
-        .irs-slider {
-          top: -3px;
-          height: 12px;
-          width: 12px;
-          border-radius: 50%;
-          box-shadow: none;
-          border: none;
-          background: transparent;
-        }
-      }
-
-      &:hover,
-      &.hover {
-        .irs-line,
-        .irs-bar,
-        .irs-bar-edge {
-          height: 6px;
-          top: 0;
-        }
-
-        .irs-slider {
-          background: #f2994a;
-        }
-      }
-    }
-
     &.bookmark {
       .add-settings {
         &__item {
@@ -762,6 +805,58 @@ $p-line-height: 1.2;
           max-height: 100px;
         }
       }
+    }
+  }
+}
+
+.range-slider__wrapper {
+  flex-shrink: 0;
+  width: 100px;
+  height: 6px;
+
+  .irs {
+    width: 100%;
+    height: 100%;
+
+    .irs-line,
+    .irs-bar,
+    .irs-bar-edge {
+      top: 2px;
+      height: 3px;
+      border: none;
+      background: #f2994a;
+    }
+
+    .irs-line {
+      background: #c4c4c4;
+    }
+
+    .irs-bar-edge {
+      width: 12px;
+    }
+
+    .irs-slider {
+      top: -3px;
+      height: 12px;
+      width: 12px;
+      border-radius: 50%;
+      box-shadow: none;
+      border: none;
+      background: transparent;
+    }
+  }
+
+  &:hover,
+  &.hover {
+    .irs-line,
+    .irs-bar,
+    .irs-bar-edge {
+      height: 6px;
+      top: 0;
+    }
+
+    .irs-slider {
+      background: #f2994a;
     }
   }
 }

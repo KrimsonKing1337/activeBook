@@ -29,7 +29,7 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
         $triggerButton: $(DOMSelectors.bookmark).find(DOMSelectors.svgWrapper)
     });
 
-    const volumePopover = new Popover({
+    /*const volumePopover = new Popover({
         $popover: $(DOMSelectors.volume).find(DOMSelectors.addSettings),
         $triggerButton: $(DOMSelectors.volume).find(DOMSelectors.svgWrapper)
     });
@@ -37,6 +37,15 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
     const etcPopover = new Popover({
         $popover: $(DOMSelectors.etc).find(DOMSelectors.addSettings),
         $triggerButton: $(DOMSelectors.etc).find(DOMSelectors.svgWrapper)
+    });*/
+
+
+    $(DOMSelectors.etc).on('click', () => {
+        $(DOMSelectors.menuFullScreen).addClass('active');
+    });
+
+    $('.js-menu-full-screen-close').on('click', () => {
+        $(DOMSelectors.menuFullScreen).removeClass('active');
     });
 
     //переключалка для вибрации
@@ -69,6 +78,7 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
 
     //оглавление
     $(DOMSelectors.tableOfContentsShow).on('click', function () {
+        $(DOMSelectors.menuFullScreen).removeClass('active');
         $(DOMSelectors.tableOfContents).removeClass('hide');
         $(DOMSelectors.text).addClass('hide');
 

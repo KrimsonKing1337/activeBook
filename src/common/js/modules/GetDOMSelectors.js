@@ -31,6 +31,7 @@ export default function getDOMSelectors() {
         svgWrapper: '.obj-img__wrapper',
         addSettings: '.add-settings',
         addSettingsBottom: '.add-settings__bottom',
+        menuFullScreen: '.menu-full-screen',
         tableOfContentsShow: '.js-table-of-contents-show',
         vibrationToggle: '.js-vibration-toggle',
         vibrationOption: '.js-vibration-option',
@@ -39,7 +40,7 @@ export default function getDOMSelectors() {
         lineHeightPlus: '.js-line-height-plus',
         lineHeightVal: '.js-line-height-val',
         volumeOneShots: '.js-volume-one-shots',
-        volumeLoops: '.js-volume-bg',
+        volumeLoops: '.js-volume-loops',
         addContentClose: '.js-add-content-close',
         addContentFullSize: '.js-add-content-full-size',
         addContentInner: '.js-add-content-inner'

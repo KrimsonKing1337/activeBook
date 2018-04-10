@@ -195,9 +195,86 @@
   }
 }
 
+@mixin theme-full-screen-menu ($theme) {
+  $fill: #000;
+  $hover: #f2c94c;
+  $active: #f2994a;
+
+  @if ($theme == 'gray') {
+    $fill: #000;
+    $hover: #9c9c9c;
+    $active: #828282;
+  } @else if ($theme == 'yellow') {
+    $fill: #000;
+    $hover: #9c9c9c;
+    $active: #fdf5de;
+  } @else if ($theme == 'dark-blue') {
+    $fill: #000;
+    $hover: #9bc4d9;
+    $active: #728c9a;
+  }
+
+  .menu-full-screen {
+    &__vibration {
+      &__items-wrapper {
+        border: 1px $active solid;
+      }
+
+      &__item {
+        color: $active;
+
+        &.active {
+          background: $active;
+          //color: $hover;
+          color: #fff;
+        }
+      }
+    }
+
+    &__line-height {
+      &__item {
+        &.value {
+          color: $active;
+        }
+      }
+    }
+
+    &__footer {
+      &__btn {
+        &.table-of-contents-btn {
+          background: $active;
+        }
+      }
+    }
+
+    .range-slider__wrapper {
+      .irs {
+        .irs-line,
+        .irs-bar,
+        .irs-bar-edge {
+          background: $active;
+        }
+
+        .irs-line {
+          background: $fill;
+          opacity: 0.2;
+        }
+      }
+
+      &:hover,
+      &.hover {
+        .irs-slider {
+          background: $active;
+        }
+      }
+    }
+  }
+}
+
 //theme
 @mixin theme ($theme) {
   @include theme-scroll($theme);
   @include theme-menu($theme);
   @include theme-add-settings($theme);
+  @include theme-full-screen-menu($theme);
 }

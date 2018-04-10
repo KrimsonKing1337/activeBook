@@ -10,6 +10,7 @@ import {textInit} from './textInit';
 import {loadStates} from './loadStates';
 import {playOnLoad} from './playOnLoad';
 import {hoverInit} from './hoverInit';
+import 'jquery-touch-events';
 
 $(window).on('load', async () => {
     if (browserCheck() === false) return;
