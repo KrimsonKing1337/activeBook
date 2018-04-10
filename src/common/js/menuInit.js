@@ -79,7 +79,7 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
     //оглавление
     $(DOMSelectors.tableOfContentsShow).on('click', function () {
         $(DOMSelectors.menuFullScreen).removeClass('active');
-        $(DOMSelectors.tableOfContents).removeClass('hide');
+        $(DOMSelectors.tableOfContents).addClass('active');
         $(DOMSelectors.text).addClass('hide');
 
         Popover.close({
@@ -89,13 +89,15 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
     });
 
     $('.js-table-of-contents-close').on('click', () => {
-        $(DOMSelectors.tableOfContents).addClass('hide');
+        $(DOMSelectors.tableOfContents).removeClass('active');
         $(DOMSelectors.text).removeClass('hide');
     });
 
     //клик по элементу оглавления (главе)
     $('.table-of-contents__item').on('click', function () {
         const newVal = $.trim($(this).find('.table-of-contents__item__page').text());
+
+        $('.js-table-of-contents-close').trigger('click');
 
         GoToPage.goWithDirection({
             currentPage: pageInfo().current,
@@ -180,6 +182,10 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
             pagesLength: pageInfo().length,
             direction: Math.abs(parseInt(newVal))
         });
+
+        setTimeout(() => {
+            $(document).trigger('click');
+        }, 0);
     });
 
     $('.js-page-number').find('input').on('focus', () => {
