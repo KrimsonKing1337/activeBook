@@ -34,8 +34,8 @@ export function saveStates(VolumeInst) {
             bg: volumeLoopsSlider.val()
         },
         currentPage: $(DOMSelectors.pageNumber).attr('data-page-number'),
-        fontSize: $(DOMSelectors.text).attr('data-font-size'),
-        lineHeight: $(DOMSelectors.text).attr('data-line-height'),
+        fontSize: $(DOMSelectors.page).attr('data-font-size'),
+        lineHeight: $(DOMSelectors.page).attr('data-line-height'),
         scrollTop: Math.abs(parseInt($('.mCustomScrollBox.mCS-activeBook').find('> .mCSB_container').css('top'))),
         theme: $(DOMSelectors.page).attr('data-theme'),
         vibration: $(DOMSelectors.page).attr('data-vibration'),
