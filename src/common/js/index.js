@@ -9,7 +9,7 @@ import {Effects} from './modules/Effects';
 import {textInit} from './textInit';
 import {loadStates} from './loadStates';
 import {playOnLoad} from './playOnLoad';
-import {hoverInit} from './hoverInit';
+import {hoverTouchUnstick} from './hoverTouchUnstick';
 import 'jquery-touch-events';
 
 $(window).on('load', async () => {
@@ -98,21 +98,7 @@ $(window).on('load', async () => {
         $('.js-page-next').trigger('click');
     });
 
-    hoverInit([
-        $(DOMSelectors.action),
-        $(DOMSelectors.svgWrapper),
-        $(DOMSelectors.volumeGlobal),
-        $(DOMSelectors.volumeOneShots),
-        $(DOMSelectors.volumeLoops),
-        $('.js-bookmark-create'),
-        $('.js-bookmark-item'),
-        $('.js-bookmark-remove'),
-        $('.js-table-of-contents-show'),
-        $('.js-theme-option'),
-        $('.js-vibration-option'),
-        $('.js-line-height-minus'),
-        $('.js-line-height-plus')
-    ]);
+    hoverTouchUnstick();
 
     //загружаем значения настроек
     loadStates();
