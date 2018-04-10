@@ -705,12 +705,12 @@ $p-line-height: 1.2;
     }
 
     .go-to-page-by-number {
-      font-family: RobotoRegular, Arial, Helvetica, sans-serif;
-      font-size: 12px;
       display: none; //change by script
       align-items: center;
       justify-content: flex-start;
-      width: 130px;
+      font-family: RobotoRegular, Arial, Helvetica, sans-serif;
+      font-size: 15px;
+      width: 140px;
       height: 23px;
       background: #F2994A;
       border-radius: 20px;
@@ -765,7 +765,7 @@ $p-line-height: 1.2;
         input {
           width: 60px;
           font-family: RobotoRegular, Arial, Helvetica, sans-serif;
-          font-size: 12px;
+          font-size: 15px;
           text-align: center;
           background: transparent;
 
