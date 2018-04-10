@@ -5,14 +5,12 @@
  */
 export function hoverInit(elems) {
     elems.forEach(($elemCur) => {
-        $elemCur.click(function (e) {
-            const $el = $(this);
+        $elemCur.tapstart(function (e) {
+            $(this).addClass('hover');
+        });
 
-            $el.addClass('hover');
-
-            setTimeout(() => {
-                $el.removeClass('hover');
-            }, 666);
+        $elemCur.tapend(function (e) {
+            $(this).removeClass('hover');
         });
     });
 }
