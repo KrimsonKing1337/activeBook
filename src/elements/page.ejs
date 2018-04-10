@@ -12,88 +12,8 @@
         <div class="text-wrapper">
 
         </div>
-
-        <div class="menu-full-screen">
-            <div class="menu-full-screen__close js-menu-full-screen-close">
-                <i class="fa fa-times" aria-hidden="true"></i>
-            </div>
-            <div class="menu-full-screen__title">
-                Настройки
-            </div>
-            <div class="menu-full-screen__volume">
-                <div class="menu-full-screen__volume__item">
-                    <div class="menu-full-screen__label">Общая громкость</div>
-                    <div class="menu-full-screen__volume__item__slider">
-                        <div class="range-slider__wrapper js-volume-global">
-                            <input class="js-range-slider" />
-                        </div>
-                    </div>
-                </div>
-                <div class="menu-full-screen__volume__item">
-                    <div class="menu-full-screen__label">Фоновые звуки</div>
-                    <div class="menu-full-screen__volume__item__slider">
-                        <div class="range-slider__wrapper js-volume-loops">
-                            <input class="js-range-slider" />
-                        </div>
-                    </div>
-                </div>
-                <div class="menu-full-screen__volume__item">
-                    <div class="menu-full-screen__label">Добавочные звуки</div>
-                    <div class="menu-full-screen__volume__item__slider">
-                        <div class="range-slider__wrapper js-volume-one-shots">
-                            <input class="js-range-slider" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="menu-full-screen__themes">
-                <div class="menu-full-screen__label">Оформление</div>
-                <div class="menu-full-screen__themes__items-wrapper">
-                    <div class="menu-full-screen__themes__item js-theme-option active" data-theme="default">
-                        <i class="fa fa-check" aria-hidden="true"></i>
-                    </div>
-                    <div class="menu-full-screen__themes__item js-theme-option" data-theme="gray">
-                        <i class="fa fa-check" aria-hidden="true"></i>
-                    </div>
-                    <div class="menu-full-screen__themes__item js-theme-option" data-theme="yellow">
-                        <i class="fa fa-check" aria-hidden="true"></i>
-                    </div>
-                    <div class="menu-full-screen__themes__item js-theme-option" data-theme="dark-blue">
-                        <i class="fa fa-check" aria-hidden="true"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="menu-full-screen__vibration">
-                <div class="menu-full-screen__label">Вибрация</div>
-                <div class="menu-full-screen__vibration__items-wrapper js-vibration-toggle">
-                    <div class="menu-full-screen__vibration__item js-vibration-option active"
-                         data-vibration="true">
-                        Вкл
-                    </div>
-                    <div class="menu-full-screen__vibration__item js-vibration-option" data-vibration="false">
-                        Выкл
-                    </div>
-                </div>
-            </div>
-            <div class="menu-full-screen__line-height">
-                <div class="menu-full-screen__label">Межстрочный интервал</div>
-                <div class="menu-full-screen__line-height__items-wrapper">
-                    <div class="menu-full-screen__line-height__item minus js-line-height-minus">-</div>
-                    <div class="menu-full-screen__line-height__item value js-line-height-val">1.0</div>
-                    <div class="menu-full-screen__line-height__item plus js-line-height-plus">+</div>
-                </div>
-            </div>
-            <div class="menu-full-screen__footer">
-                <div class="menu-full-screen__footer__btn table-of-contents-btn js-table-of-contents-show">
-                    Оглавление
-                </div>
-                <div class="menu-full-screen__footer__btn close js-menu-full-screen-close">
-                    Закрыть
-                </div>
-            </div>
-        </div>
-
         <%= require('./table-of-contents.ejs')() %>
+        <%= require('./menu-full-screen.ejs')() %>
         <%= require('./menu.ejs')({pageNumber: pageNumber, pagesLength: pagesLength}) %>
     </div>
 </div>
