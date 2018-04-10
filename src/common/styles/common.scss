@@ -9,6 +9,7 @@ body {
   width: 100%;
   height: 100%;
   overflow: auto;
+  user-select: none;
 }
 
 body.loading {
@@ -82,6 +83,11 @@ input[type="number"]::-webkit-inner-spin-button {
 
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+*:focus {
+  outline: none;
+  box-shadow: none;
 }
 
 .page {
