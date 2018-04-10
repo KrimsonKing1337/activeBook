@@ -27,35 +27,33 @@ export function loadStates() {
         }
     });
 
-    //todo: заменить на volume.global = ..., etc.
-
     $(DOMSelectors.volumeGlobal).trigger('change');
     $(DOMSelectors.volumeOneShots).trigger('change');
     $(DOMSelectors.volumeLoops).trigger('change');
 
     //font-size
     FontSize.set({
-        $text: $(DOMSelectors.text),
+        $target: $(DOMSelectors.page),
         newVal: states.fontSize
     });
 
     //line-height
     LineHeight.set({
-        $text: $(DOMSelectors.text),
+        $target: $(DOMSelectors.page),
         $val: $(DOMSelectors.lineHeightVal),
         newVal: states.lineHeight
     });
 
     //theme
     Theme.set({
-        $page: $(DOMSelectors.page),
+        $target: $(DOMSelectors.page),
         val: states.theme,
         $themeOption: $(DOMSelectors.themeOption)
     });
 
     //vibration
     Vibration.set({
-        $page: $(DOMSelectors.page),
+        $target: $(DOMSelectors.page),
         val: states.vibration,
         $vibrationOption: $(DOMSelectors.vibrationOption)
     });

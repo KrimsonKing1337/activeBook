@@ -57,7 +57,7 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
         }
 
         Vibration.set({
-            $page: $(DOMSelectors.page),
+            $target: $(DOMSelectors.page),
             val,
             $vibrationOption: $(DOMSelectors.vibrationOption)
         });
@@ -68,7 +68,7 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
     //переключалка темы оформления
     $(DOMSelectors.themeOption).on('click', function () {
         Theme.set({
-            $page: $(DOMSelectors.page),
+            $target: $(DOMSelectors.page),
             val: $(this).attr('data-theme'),
             $themeOption: $(DOMSelectors.themeOption)
         });
@@ -111,7 +111,7 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
         LineHeight.setByDirection({
             $val: $(DOMSelectors.lineHeightVal),
             direction: 'less',
-            $text: $(DOMSelectors.text)
+            $target: $(DOMSelectors.page)
         });
 
         saveStates(VolumeInst);
@@ -121,7 +121,7 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
         LineHeight.setByDirection({
             $val: $(DOMSelectors.lineHeightVal),
             direction: 'more',
-            $text: $(DOMSelectors.text)
+            $target: $(DOMSelectors.page)
         });
 
         saveStates(VolumeInst);
@@ -202,13 +202,19 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
 
     //меняем размер шрифта
     $('.js-font-size-down').on('click', () => {
-        FontSize.setByDirection({$text: $(DOMSelectors.text), direction: 'less'});
+        FontSize.setByDirection({
+            $target: $(DOMSelectors.page),
+            direction: 'less'
+        });
 
         saveStates(VolumeInst);
     });
 
     $('.js-font-size-up').on('click', () => {
-        FontSize.setByDirection({$text: $(DOMSelectors.text), direction: 'more'});
+        FontSize.setByDirection({
+            $target: $(DOMSelectors.page),
+            direction: 'more'
+        });
 
         saveStates(VolumeInst);
     });

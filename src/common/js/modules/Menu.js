@@ -9,31 +9,31 @@ export class LineHeight {
     /**
      *
      * @param params {object}
-     * @param params.$text {object} jquery
+     * @param params.$target {object} jquery
      * @param params.$val {object} jquery
      * @param params.newVal {number}
      */
     static set (params = {}) {
-        const $text = params.$text;
+        const $target = params.$target;
         const $val = params.$val;
         const newVal = params.newVal;
 
-        LineHeight.apply({$text, $val, newVal});
+        LineHeight.apply({$target, $val, newVal});
     }
 
     /**
      *
      * @param params {object};
-     * @param params.$text {object};
+     * @param params.$target {object};
      * @param params.$val {object} jquery;
      * @param params.direction {string} less || more;
      */
     static setByDirection (params = {}) {
-        const $text = params.$text;
+        const $target = params.$target;
         const $val = params.$val;
         const direction = params.direction;
 
-        const currentVal = parseInt($text.attr('data-line-height')) || 100;
+        const currentVal = parseInt($target.attr('data-line-height')) || 100;
 
         let newVal;
         let limit;
@@ -48,24 +48,24 @@ export class LineHeight {
 
         if (limit === true) return;
 
-        LineHeight.apply({$text, $val, newVal});
+        LineHeight.apply({$target, $val, newVal});
     }
 
     /**
      *
      * @param params {object};
-     * @param params.$text {object} jquery;
+     * @param params.$target {object} jquery;
      * @param params.$val {object} jquery;
      * @param params.newVal {number};
      * @private
      */
     static apply (params = {}) {
-        const $text = params.$text;
+        const $target = params.$target;
         const $val = params.$val;
         const newVal = params.newVal;
 
         $val.text(`${newVal }%`);
-        $text.attr('data-line-height', newVal);
+        $target.attr('data-line-height', newVal);
     }
 }
 
@@ -140,27 +140,27 @@ export class FontSize {
     /**
      *
      * @param params {object}
-     * @param params.$text {object} jquery
+     * @param params.$target {object} jquery
      * @param params.newVal {number}
      */
     static set (params = {}) {
-        const $text = params.$text;
+        const $target = params.$target;
         const newVal = params.newVal;
 
-        FontSize.apply({$text, newVal});
+        FontSize.apply({$target, newVal});
     }
 
     /**
      *
      * @param params {object};
-     * @param params.$text {object};
+     * @param params.$target {object};
      * @param params.direction {string} less || more;
      */
     static setByDirection (params = {}) {
-        const $text = params.$text;
+        const $target = params.$target;
         const direction = params.direction;
 
-        const currentVal = parseInt($text.attr('data-font-size')) || 100;
+        const currentVal = parseInt($target.attr('data-font-size')) || 100;
 
         let newVal;
         let limit;
@@ -175,22 +175,22 @@ export class FontSize {
 
         if (limit === true) return;
 
-        FontSize.apply({$text, newVal});
+        FontSize.apply({$target, newVal});
     }
 
     /**
      *
      * @param params {object};
-     * @param params.$text {object} jquery;
+     * @param params.$target {object} jquery;
      * @param params.$val {object} jquery;
      * @param params.newVal {number};
      * @private
      */
     static apply (params = {}) {
-        const $text = params.$text;
+        const $target = params.$target;
         const newVal = params.newVal;
 
-        $text.attr('data-font-size', newVal);
+        $target.attr('data-font-size', newVal);
     }
 }
 
@@ -239,16 +239,16 @@ export class Theme {
     /**
      *
      * @param params {object}
-     * @param params.$page {object}
+     * @param params.$target {object}
      * @param params.$themeOption {object}
      * @param params.val {object}
      */
     static set(params = {}) {
-        const $page = params.$page;
+        const $target = params.$target;
         const $themeOption = params.$themeOption;
         const val = params.val;
 
-        $page.attr('data-theme', val);
+        $target.attr('data-theme', val);
 
         $themeOption.filter('.active').removeClass('active');
         $themeOption.filter(`[data-theme="${ val }"]`).addClass('active');
@@ -263,18 +263,18 @@ export class Vibration {
     /**
      *
      * @param params {object}
-     * @param params.$page {object}
+     * @param params.$target {object}
      * @param params.$vibrationOption {object}
      * @param params.val {object}
      */
     static set(params = {}) {
-        const $page = params.$page;
+        const $target = params.$target;
         const $vibrationOption = params.$vibrationOption;
         const val = params.val;
 
         $vibrationOption.filter('.active').removeClass('active');
         $vibrationOption.filter(`[data-vibration="${ val }"]`).addClass('active');
-        $page.attr('data-vibration', val);
+        $target.attr('data-vibration', val);
     }
 }
 
