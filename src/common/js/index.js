@@ -98,6 +98,10 @@ $(window).on('load', async () => {
         $('.js-page-next').trigger('click');
     });
 
+    document.addEventListener('gesturestart', (e) => {
+        e.preventDefault();
+    });
+
     hoverTouchUnstick();
 
     //загружаем значения настроек
