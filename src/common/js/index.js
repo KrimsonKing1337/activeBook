@@ -11,6 +11,7 @@ import {loadStates} from './loadStates';
 import {playOnLoad} from './playOnLoad';
 import {hoverTouchUnstick} from './hoverTouchUnstick';
 import 'jquery-touch-events';
+import {visibilityChangeInit} from './visibilityChangeInit';
 
 $(window).on('load', async () => {
     if (browserCheck() === false) return;
@@ -40,16 +41,7 @@ $(window).on('load', async () => {
         EffectsController
     });
 
-    document.addEventListener('visibilitychange', () => {
-        //console.log(document.visibilityState);
-        /*const globalVolume = VolumeInst.getGlobal();
-
-        if (document.hidden) {
-            VolumeControllerInst.setGlobal({newVolume: 0});
-        } else {
-            VolumeControllerInst.setGlobal({newVolume: globalVolume});
-        }*/
-    }, false);
+    visibilityChangeInit(VolumeInst, VolumeControllerInst);
 
 
     playOnLoad({effects: dataJSON.effects, EffectsController});
