@@ -40,9 +40,19 @@ $(window).on('load', async () => {
         EffectsController
     });
 
+    document.addEventListener('visibilitychange', () => {
+        //console.log(document.visibilityState);
+        /*const globalVolume = VolumeInst.getGlobal();
+
+        if (document.hidden) {
+            VolumeControllerInst.setGlobal({newVolume: 0});
+        } else {
+            VolumeControllerInst.setGlobal({newVolume: globalVolume});
+        }*/
+    }, false);
+
 
     playOnLoad({effects: dataJSON.effects, EffectsController});
-
     textInit(EffectsController);
     menuInit({VolumeInst, VolumeControllerInst, pageInfo: dataJSON.pageInfo});
 
@@ -74,7 +84,6 @@ $(window).on('load', async () => {
 
         $body.removeClass('loading');
     });
-
 
     $body.removeClass('loading');
 
