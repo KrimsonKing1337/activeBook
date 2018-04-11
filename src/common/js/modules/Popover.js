@@ -2,6 +2,7 @@
  * управляем отображением поповеров
  */
 import GetDOMSelectors from './GetDOMSelectors';
+import '../animateCss';
 
 /**
  * инициализатор для поповера
@@ -56,13 +57,23 @@ export default class Popover {
                 $triggerButtonActual: $triggerButton
             });
 
-            $popover.toggleClass('active');
-            $triggerButton.toggleClass('active');
+            if ($popover.hasClass('active')) {
+                $popover.animateCss('fadeOut', () => {
+                    $popover.removeClass('active');
+                });
 
-            /**
-             * позиционируем поповер
-             */
-            this.positioning();
+                $triggerButton.removeClass('active');
+            } else {
+                $popover.addClass('active');
+                $triggerButton.addClass('active');
+
+                $popover.animateCss('fadeInLeft', () => {
+                    /**
+                     * позиционируем поповер
+                     */
+                    this.positioning();
+                });
+            }
 
             /**
              * навешиваем дополнительные события
@@ -82,8 +93,14 @@ export default class Popover {
         const $popovers = selectors.$popovers;
         const $popoverActual = selectors.$popoverActual;
 
-        $popovers.each(function () {
-            if ($(this)[0] !== $popoverActual[0]) $(this).removeClass('active');
+        $popovers.each((popoverCur) => {
+            const $popoverCur = $(popoverCur);
+
+            if ($popoverCur[0] !== $popoverActual[0]) {
+                $popoverCur.animateCss('fadeOut', () => {
+                    $popoverCur.removeClass('active');
+                });
+            }
         });
     }
 
@@ -98,8 +115,12 @@ export default class Popover {
         const $triggerButtons = selectors.$triggerButtons;
         const $triggerButtonActual = selectors.$triggerButtonActual;
 
-        $triggerButtons.each(function () {
-            if ($(this)[0] !== $triggerButtonActual[0]) $(this).removeClass('active');
+        $triggerButtons.each((triggerButtonCur) => {
+            const $triggerButtonCur = $(triggerButtonCur);
+
+            if ($triggerButtonCur[0] !== $triggerButtonActual[0]) {
+                $triggerButtonCur.removeClass('active');
+            }
         });
     }
 

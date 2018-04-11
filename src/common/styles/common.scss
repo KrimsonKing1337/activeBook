@@ -908,6 +908,7 @@ p {
   padding-bottom: 8px;
   z-index: 1;
   cursor: default;
+  transition: all 0.3s 0s ease;
 
   &.active {
     visibility: visible;
