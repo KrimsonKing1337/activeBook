@@ -83,6 +83,7 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
     $(DOMSelectors.tableOfContentsShow).on('click', function () {
         $(DOMSelectors.menuFullScreen).removeClass('active');
         $(DOMSelectors.tableOfContents).addClass('active');
+        $(DOMSelectors.tableOfContents).animateCss('fadeIn');
         $(DOMSelectors.text).addClass('hide');
 
         Popover.close({
@@ -92,7 +93,9 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
     });
 
     $('.js-table-of-contents-close').on('click', () => {
-        $(DOMSelectors.tableOfContents).removeClass('active');
+        $(DOMSelectors.tableOfContents).animateCss('fadeOutUp', () => {
+            $(DOMSelectors.tableOfContents).removeClass('active');
+        });
         $(DOMSelectors.text).removeClass('hide');
     });
 

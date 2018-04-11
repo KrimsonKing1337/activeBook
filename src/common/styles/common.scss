@@ -622,6 +622,10 @@ p {
     display: block;
   }
 
+  &__inner {
+    transform: translateZ(0);
+  }
+
   &__item {
     display: flex;
     align-items: center;
@@ -636,8 +640,8 @@ p {
 
   &__close {
     position: absolute;
-    top: 25px;
-    right: 20px;
+    top: 0;
+    right: 0;
     cursor: pointer;
     @include hover-default;
   }
