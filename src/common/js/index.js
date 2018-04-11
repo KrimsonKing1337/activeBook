@@ -11,6 +11,7 @@ import {loadStates} from './loadStates';
 import {playOnLoad} from './playOnLoad';
 import {hoverTouchUnstick} from './hoverTouchUnstick';
 import 'jquery-touch-events';
+import './animateCss';
 import {visibilityChangeInit} from './visibilityChangeInit';
 
 $(window).on('load', async () => {

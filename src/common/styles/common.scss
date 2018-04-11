@@ -91,6 +91,10 @@ input[type="number"] {
   box-shadow: none;
 }
 
+.animated {
+  animation-duration: 0.15s;
+}
+
 .page {
   position: relative;
   display: flex;
@@ -168,14 +172,18 @@ input[type="number"] {
   padding: 40px 20px;
   overflow-y: auto;
 
+  &__inner {
+    transform: translateZ(0);
+  }
+
   &.active {
     display: block;
   }
 
   &__close {
     position: absolute;
-    top: 25px;
-    right: 20px;
+    top: 0;
+    right: 0;
     cursor: pointer;
     @include hover-default;
   }

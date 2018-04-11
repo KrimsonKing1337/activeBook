@@ -32,6 +32,7 @@ export default function getDOMSelectors() {
         addSettings: '.add-settings',
         addSettingsBottom: '.add-settings__bottom',
         menuFullScreen: '.menu-full-screen',
+        menuFullScreenInner: '.menu-full-screen__inner',
         tableOfContentsShow: '.js-table-of-contents-show',
         vibrationToggle: '.js-vibration-toggle',
         vibrationOption: '.js-vibration-option',

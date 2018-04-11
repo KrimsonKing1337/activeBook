@@ -42,10 +42,13 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
 
     $(DOMSelectors.etc).on('click', () => {
         $(DOMSelectors.menuFullScreen).addClass('active');
+        $(DOMSelectors.menuFullScreenInner).animateCss('fadeInDown');
     });
 
     $('.js-menu-full-screen-close').on('click', () => {
-        $(DOMSelectors.menuFullScreen).removeClass('active');
+        $(DOMSelectors.menuFullScreenInner).animateCss('fadeOutUp', () => {
+            $(DOMSelectors.menuFullScreen).removeClass('active');
+        });
     });
 
     //переключалка для вибрации

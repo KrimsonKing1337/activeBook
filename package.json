@@ -22,6 +22,7 @@
     ]
   },
   "dependencies": {
+    "animate.css": "^3.6.1",
     "bowser": "^1.7.1",
     "howler": "^2.0.5",
     "ion-rangeslider": "^2.2.0",
