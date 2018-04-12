@@ -415,9 +415,13 @@ class ImageEffects {
 
 let vibroInterval;
 
-class VibrationEffects {
+export class VibrationEffects {
     constructor() {
         //todo: геттеры, сеттеры, записываем и меняем состояние вибрации здесь, отвязываемся от DOM-элемента
+    }
+
+    static vibrationSupport() {
+        return 'vibrate' in navigator;
     }
 
     /**
@@ -427,6 +431,8 @@ class VibrationEffects {
      * @param [sleep] {number}
      */
     static play({duration, repeat = 0, sleep = 100} = {}) {
+        if (!VibrationEffects.vibrationSupport()) return;
+
         navigator.vibrate(duration);
 
         if (repeat > 1) {
@@ -443,6 +449,8 @@ class VibrationEffects {
     }
 
     static stop() {
+        if (!VibrationEffects.vibrationSupport()) return;
+
         clearInterval(vibroInterval);
         navigator.vibrate(0);
     }

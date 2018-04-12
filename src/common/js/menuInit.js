@@ -5,6 +5,7 @@ import {ionRangeSliderInit} from './ionRangeSliderInit';
 import getDOMSelectors from './modules/GetDOMSelectors';
 import {saveStates} from './saveStates';
 import {pageInfo} from './pageInfo';
+import {VibrationEffects} from './modules/Effects';
 
 /**
  *
@@ -52,22 +53,26 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
         });
     });
 
-    //переключалка для вибрации
-    $(DOMSelectors.vibrationOption).on('click', function () {
-        const val = $(this).data('vibration');
+    if (!VibrationEffects.vibrationSupport()) {
+        $('.menu-full-screen__vibration').remove();
+    } else {
+        //переключалка для вибрации
+        $(DOMSelectors.vibrationOption).on('click', function () {
+            const val = $(this).data('vibration');
 
-        if (val === true) {
-            navigator.vibrate(150);
-        }
+            if (val === true) {
+                navigator.vibrate(150);
+            }
 
-        Vibration.set({
-            $target: $(DOMSelectors.page),
-            val,
-            $vibrationOption: $(DOMSelectors.vibrationOption)
+            Vibration.set({
+                $target: $(DOMSelectors.page),
+                val,
+                $vibrationOption: $(DOMSelectors.vibrationOption)
+            });
+
+            saveStates(VolumeInst);
         });
-
-        saveStates(VolumeInst);
-    });
+    }
 
     //переключалка темы оформления
     $(DOMSelectors.themeOption).on('click', function () {
