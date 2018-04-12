@@ -413,6 +413,8 @@ class ImageEffects {
     }
 }
 
+let vibroInterval;
+
 class VibrationEffects {
     constructor() {
         //todo: геттеры, сеттеры, записываем и меняем состояние вибрации здесь, отвязываемся от DOM-элемента
@@ -430,8 +432,8 @@ class VibrationEffects {
         if (repeat > 1) {
             let i = 1;
 
-            const interval = setInterval(() => {
-                if (i >= repeat) clearInterval(interval);
+            vibroInterval = setInterval(() => {
+                if (i >= repeat) clearInterval(vibroInterval);
 
                 navigator.vibrate(duration);
 
@@ -441,6 +443,7 @@ class VibrationEffects {
     }
 
     static stop() {
+        clearInterval(vibroInterval);
         navigator.vibrate(0);
     }
 
