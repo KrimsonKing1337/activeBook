@@ -87,6 +87,8 @@ $(window).on('load', async () => {
 
         textInit(EffectsController);
 
+        window.scrollTo(0, 0);
+
         if (dataJSON.pageInfo.current === 0) {
             $(DOMSelectors.menu).addClass('hide');
         } else {

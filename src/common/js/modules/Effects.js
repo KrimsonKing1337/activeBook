@@ -66,8 +66,8 @@ export class Effects {
         const type = effectCur.type;
 
         //todo: VibrationEffects.state() возвращает undefined если вибрация воспроизводится сразу после загрузки страницы
-        //if (effectCur.vibration && VibrationEffects.state() === true) {
-        if (effectCur.vibration) {
+        if (effectCur.vibration && VibrationEffects.state() === true) {
+        //if (effectCur.vibration) {
             setTimeout(() => {
                 VibrationEffects.play(effectCur.vibration);
             }, 300);
@@ -109,6 +109,7 @@ export class Effects {
     stopAll({target, fadeOutSpeed = 1000, unload = false} = {}) {
         const soundEffectsInst = this.soundEffectsInst;
 
+        VibrationEffects.stop();
         soundEffectsInst.stopAll({target, fadeOutSpeed, unload});
     }
 }

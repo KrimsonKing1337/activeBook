@@ -48,6 +48,7 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
     $('.js-menu-full-screen-close').on('click', () => {
         $(DOMSelectors.menuFullScreenInner).animateCss('fadeOutUp', () => {
             $(DOMSelectors.menuFullScreen).removeClass('active');
+            $(DOMSelectors.menuFullScreen)[0].scrollTop = 0;
         });
     });
 
@@ -95,6 +96,7 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
     $('.js-table-of-contents-close').on('click', () => {
         $(DOMSelectors.tableOfContents).animateCss('fadeOutUp', () => {
             $(DOMSelectors.tableOfContents).removeClass('active');
+            $(DOMSelectors.tableOfContents)[0].scrollTop = 0;
         });
         $(DOMSelectors.text).removeClass('hide');
     });
