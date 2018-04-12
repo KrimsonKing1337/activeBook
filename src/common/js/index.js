@@ -45,15 +45,15 @@ $(window).on('load', async () => {
         EffectsController
     });
 
+    visibilityChangeInit(VolumeInst, VolumeControllerInst);
+
+    textInit(EffectsController);
+    menuInit({VolumeInst, VolumeControllerInst, pageInfo: dataJSON.pageInfo});
+
     //загружаем значения настроек
     loadStates();
 
-    visibilityChangeInit(VolumeInst, VolumeControllerInst);
-
-
     playOnLoad({effects: dataJSON.effects, EffectsController});
-    textInit(EffectsController);
-    menuInit({VolumeInst, VolumeControllerInst, pageInfo: dataJSON.pageInfo});
 
     if (dataJSON.pageInfo.current === 0) {
         $(DOMSelectors.menu).addClass('hide');
