@@ -189,6 +189,8 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
             direction: Math.abs(parseInt(newVal))
         });
 
+        $input.val('');
+
         setTimeout(() => {
             $(document).trigger('click');
         }, 0);
@@ -254,6 +256,10 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
         const page = $(this).find('.js-bookmark-page').text().trim();
 
         GoToPage.go({val: page});
+
+        setTimeout(() => {
+            $(document).trigger('click');
+        }, 0);
     });
 
     //создаём закладку
