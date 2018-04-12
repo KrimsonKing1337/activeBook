@@ -45,6 +45,9 @@ $(window).on('load', async () => {
         EffectsController
     });
 
+    //загружаем значения настроек
+    loadStates();
+
     visibilityChangeInit(VolumeInst, VolumeControllerInst);
 
 
@@ -106,9 +109,6 @@ $(window).on('load', async () => {
     });
 
     hoverTouchUnstick();
-
-    //загружаем значения настроек
-    loadStates();
 
     //add content init
     $(DOMSelectors.addContentClose).on('click', () => {
