@@ -49,6 +49,12 @@ $(window).on('load', async () => {
     textInit(EffectsController);
     menuInit({VolumeInst, VolumeControllerInst, pageInfo: dataJSON.pageInfo});
 
+    if (dataJSON.pageInfo.current === 0) {
+        $(DOMSelectors.menu).addClass('hide');
+    } else {
+        $(DOMSelectors.menu).removeClass('hide');
+    }
+
     //событие перехода на другую страницу
     $(window).on('changePage', async (e, pageNum) => {
         $body.addClass('loading');
@@ -74,6 +80,12 @@ $(window).on('load', async () => {
         playOnLoad({effects: dataJSON.effects, EffectsController});
 
         textInit(EffectsController);
+
+        if (dataJSON.pageInfo.current === 0) {
+            $(DOMSelectors.menu).addClass('hide');
+        } else {
+            $(DOMSelectors.menu).removeClass('hide');
+        }
 
         $body.removeClass('loading');
     });
