@@ -9,10 +9,6 @@
       ],
       "vibration": {
         "duration": 500
-      },
-      "goTo": {
-        "page": 1,
-        "sleep": 500
       }
     }
   ],

@@ -13,6 +13,9 @@ import {hoverTouchUnstick} from './hoverTouchUnstick';
 import 'jquery-touch-events';
 import './animateCss';
 import {visibilityChangeInit} from './visibilityChangeInit';
+import LocalStorage from './modules/LocalStorage';
+import {startReadingBtnInit} from './startReadingBtnInit';
+import {changePageByKeyboardAndSwipesInit} from './changePageByKeyboardAndSwipesInit';
 
 $(window).on('load', async () => {
     if (browserCheck() === false) return;
@@ -69,6 +72,9 @@ $(window).on('load', async () => {
 
         pageInfo(dataJSON.pageInfo);
 
+        //запоминаем последнюю открытую страницу
+        LocalStorage.write({key: 'lastOpenedPage', val: pageInfo().current});
+
         $('.text-wrapper').html(textAJAX);
 
         EffectsController.setEffects(dataJSON.effects);
@@ -90,28 +96,9 @@ $(window).on('load', async () => {
         $body.removeClass('loading');
     });
 
-    $body.removeClass('loading');
+    changePageByKeyboardAndSwipesInit();
 
-    //стрелка вперёд = след. страница,
-    //стрелка назад = пред. страница
-    $(document).on('keydown', (e) => {
-        if (e.which === 37) {
-            $('.js-page-prev').trigger('click');
-        } else if (e.which === 39) {
-            $('.js-page-next').trigger('click');
-        } else if (e.which === 38 || e.which === 40) {
-
-        }
-    });
-
-    $(DOMSelectors.page).swiperight(() => {
-        $('.js-page-prev').trigger('click');
-    });
-
-    $(DOMSelectors.page).swipeleft(() => {
-        $('.js-page-next').trigger('click');
-    });
-
+    //убираем зум на apple устройствах
     document.addEventListener('gesturestart', (e) => {
         e.preventDefault();
     });
@@ -143,6 +130,10 @@ $(window).on('load', async () => {
 
         window.open(`${window.location.origin}/${src}`, '_blank');
     });
+
+    startReadingBtnInit();
+
+    $body.removeClass('loading');
 
     $(DOMSelectors.text).focus();
 });
