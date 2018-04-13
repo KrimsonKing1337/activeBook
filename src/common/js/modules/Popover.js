@@ -14,7 +14,7 @@ export default class Popover {
      * @param selectors.$popover {object} jquery;
      * @param selectors.$triggerButton {object} jquery;
      */
-    constructor (selectors) {
+    constructor(selectors) {
         const DOMSelectors = GetDOMSelectors();
 
         this.popoverSelectors = {
@@ -31,7 +31,7 @@ export default class Popover {
     /**
      *
      */
-    init () {
+    init() {
         const $triggerButton = this.$triggerButton;
         const $popover = this.$popover;
 
@@ -89,7 +89,7 @@ export default class Popover {
      * @param selectors.$popovers {object} jquery
      * @param selectors.$popoverActual {object} jquery
      */
-    static closeAllOtherPopovers (selectors) {
+    static closeAllOtherPopovers(selectors) {
         const $popovers = selectors.$popovers;
         const $popoverActual = selectors.$popoverActual;
 
@@ -111,7 +111,7 @@ export default class Popover {
      * @param selectors.$triggerButtonActual {object} jquery
      * @private
      */
-    static closeAllOtherTriggerButtons (selectors) {
+    static closeAllOtherTriggerButtons(selectors) {
         const $triggerButtons = selectors.$triggerButtons;
         const $triggerButtonActual = selectors.$triggerButtonActual;
 
@@ -127,7 +127,7 @@ export default class Popover {
     /**
      * @private
      */
-    additionalEvents () {
+    additionalEvents() {
         const $popover = this.$popover;
         const $triggerButton = this.$triggerButton;
 
@@ -147,7 +147,7 @@ export default class Popover {
          * скроет поповер
          */
         setTimeout(() => {
-            $(document).one('click', () => {
+            $(document).one('click, touchstart', () => {
                 Popover.close({
                     $popover,
                     $triggerButton
@@ -161,7 +161,7 @@ export default class Popover {
      * @param selectors.$triggerButton {object} jquery
      * @param selectors.$popover {object} jquery
      */
-    static close (selectors) {
+    static close(selectors) {
         const $popover = selectors.$popover;
         const $triggerButton = selectors.$triggerButton;
 
@@ -170,7 +170,7 @@ export default class Popover {
         $triggerButton.removeClass('active');
     }
 
-     positioning () {
+    positioning() {
         const $popover = this.$popover;
 
         /**
@@ -195,7 +195,7 @@ export default class Popover {
 
         const top = Math.abs(parseInt(coords.$popoverBottom.bottom - coords.$popover.top));
 
-        $popover.css({'transform' : `translateY(-${ top }px)`});
+        $popover.css({'transform': `translateY(-${ top }px)`});
 
         /**
          * если правая точка поповера заходит
@@ -205,11 +205,11 @@ export default class Popover {
         if (coords.$popover.right >= coords.$menu.right) {
             const right = Math.abs(parseInt(coords.$popover.right - coords.$menu.right + 10 /*padding-right*/));
 
-            $popover.css({'transform' : `translate(-${ right }px, ` + `-${ top }px)`});
+            $popover.css({'transform': `translate(-${ right }px, ` + `-${ top }px)`});
         } else if (coords.$popover.left <= coords.$menu.left) {
             const left = Math.abs(parseInt(coords.$popover.left - coords.$menu.left + 10 /*padding-left*/));
 
-            $popover.css({'transform' : `translate(${ left }px, ` + `-${ top }px)`});
+            $popover.css({'transform': `translate(${ left }px, ` + `-${ top }px)`});
         }
 
         /**
@@ -243,11 +243,11 @@ export default class Popover {
      *
      * @private
      */
-    positioningBefore () {
+    positioningBefore() {
         const $popover = this.$popover;
 
         $popover.css({
-            'transform' : 'translate(0, 0)'
+            'transform': 'translate(0, 0)'
         });
 
         const $popoverBottom = $popover.find(this.popoverSelectors.popoverBottom);
@@ -257,7 +257,7 @@ export default class Popover {
     /**
      * @private
      */
-    getCoords () {
+    getCoords() {
         const $popover = this.$popover;
         const $triggerButton = this.$triggerButton;
 
@@ -273,9 +273,9 @@ export default class Popover {
      *
      * @private
      */
-    positioningAfter () {
+    positioningAfter() {
         this.$popover.css({
-            'opacity' : ''
+            'opacity': ''
         });
     }
 }

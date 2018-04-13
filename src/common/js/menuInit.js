@@ -209,10 +209,18 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
 
         $('.js-page-input').focus();
 
-        $(document).one('click', () => {
-            $('.js-go-to-page-by-number').removeClass('active');
-            $('.js-go-to-page-by-arrows').addClass('active');
-        });
+        setTimeout(() => {
+            $('.js-page-input').on('blur', () => {
+                $('.js-go-to-page-by-number').removeClass('active');
+                $('.js-go-to-page-by-arrows').addClass('active');
+            });
+
+            /*$(document).one('click, touchstart', () => {
+                $('.js-go-to-page-by-number').removeClass('active');
+                $('.js-go-to-page-by-arrows').addClass('active');
+            });*/
+        }, 0);
+
     });
 
     //меняем размер шрифта
