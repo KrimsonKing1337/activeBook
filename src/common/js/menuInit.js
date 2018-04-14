@@ -48,8 +48,8 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
 
     $('.js-menu-full-screen-close').on('click', () => {
         $(DOMSelectors.menuFullScreenInner).animateCss('fadeOutUp', () => {
-            $(DOMSelectors.menuFullScreen).removeClass('active');
             $(DOMSelectors.menuFullScreen)[0].scrollTop = 0;
+            $(DOMSelectors.menuFullScreen).removeClass('active');
         });
     });
 
