@@ -147,7 +147,7 @@ export default class Popover {
          * скроет поповер
          */
         setTimeout(() => {
-            $(document).one('click, touchstart', () => {
+            $(document).one('click touchstart', () => {
                 Popover.close({
                     $popover,
                     $triggerButton

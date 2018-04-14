@@ -108,10 +108,6 @@ $(window).on('load', async () => {
         e.preventDefault();
     });
 
-    $(document).doubletap((e) => {
-        e.preventDefault();
-    });
-
     hoverTouchUnstick();
 
     //add content init
