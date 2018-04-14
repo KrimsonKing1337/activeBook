@@ -83,7 +83,7 @@ $(window).on('load', async () => {
         EffectsController.setEffects(dataJSON.effects);
 
         //устанавливаем плейсхолдеры для input-ов
-        $('.js-page-number').find('input').attr('placeholder', `${pageInfo().current} из ${pageInfo().length}`);
+        $('.js-page-number').text(`${pageInfo().current} из ${pageInfo().length}`);
         $('.js-page-input').attr('placeholder', pageInfo().current);
 
         playOnLoad({effects: dataJSON.effects, EffectsController});
@@ -105,6 +105,10 @@ $(window).on('load', async () => {
 
     //убираем зум на apple устройствах
     document.addEventListener('gesturestart', (e) => {
+        e.preventDefault();
+    });
+
+    $(document).doubletap((e) => {
         e.preventDefault();
     });
 

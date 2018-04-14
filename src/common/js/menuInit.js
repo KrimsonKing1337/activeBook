@@ -141,7 +141,7 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
     });
 
     //устанавливаем плейсхолдеры для input-ов
-    $('.js-page-number').find('input').attr('placeholder', `${pageInfo().current} из ${pageInfo().length}`);
+    $('.js-page-number').text(`${pageInfo().current} из ${pageInfo().length}`);
     $('.js-page-input').attr('placeholder', pageInfo().current);
 
     //меняем страницу
@@ -167,16 +167,25 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
 
     $('.js-page-input').on('keypress', (e) => {
         if (e.which === 13) {
-            $('.js-go-to-page-trigger').trigger('click');
+            $('.js-go-to-page-trigger').trigger('mousedown');
         }
     });
 
-    $('.js-go-to-page-trigger').on('click', () => {
+    $('.js-go-to-page-trigger').on('mousedown touchstart', (e) => {
+        e.stopPropagation();
+
         const $input = $('.js-page-input');
         const pattern = $input.attr('pattern');
-        const newVal = $input.val();
+        let newVal = $input.val();
 
         if (newVal.length === 0) return;
+        if (newVal === pageInfo().current) return;
+
+        if (newVal > pageInfo().length) {
+            newVal = pageInfo().length;
+        } else if (newVal <= 0) {
+            newVal = 1;
+        }
 
         //only numbers allows
         if (new RegExp(`^${ pattern }+$`).test(newVal) === false) {
@@ -190,31 +199,21 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
             return;
         }
 
-        GoToPage.goWithDirection({
-            currentPage: pageInfo().current,
-            pagesLength: pageInfo().length,
-            direction: Math.abs(parseInt(newVal))
-        });
+        GoToPage.go({val: newVal});
 
         $input.val('');
 
-        setTimeout(() => {
-            $(document).trigger('click');
-        }, 0);
+        $('.js-go-to-page-by-number').removeClass('active');
+        $('.js-go-to-page-by-arrows').addClass('active');
     });
 
-    $('.js-page-number').find('input').on('focus', () => {
+    $('.js-page-number').on('click', () => {
         $('.js-go-to-page-by-arrows').removeClass('active');
         $('.js-go-to-page-by-number').addClass('active');
 
-        $('.js-page-input').focus();
-
         setTimeout(() => {
-            $(document).one('click, touchstart', () => {
-                $('.js-go-to-page-by-number').removeClass('active');
-                $('.js-go-to-page-by-arrows').addClass('active');
-            });
-        }, 0);
+            $('.js-page-input').focus();
+        }, 10); //for firefox
     });
 
     $('.js-page-input').on('blur', () => {
