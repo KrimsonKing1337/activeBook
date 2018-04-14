@@ -68,26 +68,19 @@
     &__item {
       .obj-img__wrapper {
         svg {
-          path {
-            fill: $fill;
-            @include transition-default;
-          }
+          fill: $fill;
         }
 
         &:hover,
         &.hover {
           svg {
-            path {
-              fill: $hover;
-            }
+            fill: $hover;
           }
         }
 
         &.active {
           svg {
-            path {
-              fill: $active;
-            }
+            fill: $active;
           }
         }
       }

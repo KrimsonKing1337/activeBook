@@ -716,26 +716,19 @@ p {
       cursor: pointer;
 
       svg {
-        path {
-          fill: #000;
-          @include transition-default;
-        }
+        fill: #000;
       }
 
       &:hover,
       &.hover {
         svg {
-          path {
-            fill: #F2C94C;
-          }
+          fill: #F2C94C;
         }
       }
 
       &.active {
         svg {
-          path {
-            fill: #F2994A;
-          }
+          fill: #F2994A;
         }
       }
     }
