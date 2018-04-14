@@ -69,6 +69,7 @@
       .obj-img__wrapper {
         svg {
           fill: $fill;
+          @include transition-default;
         }
 
         &:hover,

@@ -717,6 +717,7 @@ p {
 
       svg {
         fill: #000;
+        @include transition-default;
       }
 
       &:hover,
