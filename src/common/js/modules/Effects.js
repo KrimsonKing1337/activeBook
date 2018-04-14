@@ -65,9 +65,7 @@ export class Effects {
         const effectCur = find(this.effects, {id});
         const type = effectCur.type;
 
-        //todo: VibrationEffects.state() возвращает undefined если вибрация воспроизводится сразу после загрузки страницы
         if (effectCur.vibration && VibrationEffects.state() === true) {
-        //if (effectCur.vibration) {
             setTimeout(() => {
                 VibrationEffects.play(effectCur.vibration);
             }, 300);

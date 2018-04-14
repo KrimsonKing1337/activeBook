@@ -275,6 +275,7 @@ export class Vibration {
         $vibrationOption.filter('.active').removeClass('active');
         $vibrationOption.filter(`[data-vibration="${ val }"]`).addClass('active');
         $target.attr('data-vibration', val);
+        $target.data('vibration', val);
     }
 }
 
