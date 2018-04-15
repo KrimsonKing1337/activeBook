@@ -58,9 +58,9 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
     } else {
         //переключалка для вибрации
         $(DOMSelectors.vibrationOption).on('click', function () {
-            const val = $(this).data('vibration');
+            const val = $(this).attr('data-vibration');
 
-            if (val === true) {
+            if (val === 'true') {
                 navigator.vibrate(150);
             }
 

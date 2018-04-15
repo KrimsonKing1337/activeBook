@@ -65,7 +65,7 @@ export class Effects {
         const effectCur = find(this.effects, {id});
         const type = effectCur.type;
 
-        if (effectCur.vibration && VibrationEffects.state() === true) {
+        if (effectCur.vibration && VibrationEffects.state() === 'true') {
             setTimeout(() => {
                 VibrationEffects.play(effectCur.vibration);
             }, 300);
@@ -454,6 +454,6 @@ export class VibrationEffects {
     }
 
     static state() {
-        return $(getDOMSelectors().page).data('vibration');
+        return $(getDOMSelectors().page).attr('data-vibration');
     }
 }
