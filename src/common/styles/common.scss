@@ -91,6 +91,33 @@ input[type="number"] {
   box-shadow: none;
 }
 
+//scrollbar webkit
+::-webkit-scrollbar {
+  width: 18px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #999;
+  border: 6px solid rgba(0, 0, 0, 0);
+  border-radius: 40px;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 40px;
+}
+
+::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
+
+
 .animated {
   animation-duration: 0.15s;
 }
