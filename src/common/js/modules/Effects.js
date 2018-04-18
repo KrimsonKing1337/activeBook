@@ -363,7 +363,7 @@ class SoundEffects {
             src,
             preload: true,
             autoplay: false,
-            html5: true,
+            //html5: true,
             loop: true,
             volume: 0
         });
@@ -379,7 +379,7 @@ class SoundEffects {
             src,
             preload: true,
             autoplay: false,
-            html5: true,
+            //html5: true,
             loop: false,
             volume
         });
