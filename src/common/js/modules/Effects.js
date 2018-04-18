@@ -131,7 +131,9 @@ class SoundEffects {
             Object.keys(this.oneShots).forEach(async (key) => {
                 const oneShotCur = this.oneShots[key];
 
-                await SoundEffects.fadeOut(oneShotCur, this.VolumeInst.getOneShots(), fadeOutSpeed);
+                if (oneShotCur.state() === 'loaded') {
+                    await SoundEffects.fadeOut(oneShotCur, this.VolumeInst.getOneShots(), fadeOutSpeed);
+                }
 
                 if (unload === true) {
                     SoundEffects.unload(oneShotCur);
@@ -142,7 +144,9 @@ class SoundEffects {
             Object.keys(this.loops).forEach(async (key) => {
                 const loopCur = this.loops[key];
 
-                await SoundEffects.fadeOut(loopCur, this.VolumeInst.getLoops(), fadeOutSpeed);
+                if (loopCur.state() === 'loaded') {
+                    await SoundEffects.fadeOut(loopCur, this.VolumeInst.getLoops(), fadeOutSpeed);
+                }
 
                 if (unload === true) {
                     SoundEffects.unload(loopCur);
@@ -172,6 +176,8 @@ class SoundEffects {
      */
     static fadeOut(target, volume, fadeOutSpeed = 1000) {
         return new Promise(((resolve, reject) => {
+            if (!target) resolve();
+
             target.once('fade', () => {
                 target.stop();
 
@@ -273,7 +279,7 @@ class SoundEffects {
      * @param target {object} Howler;
      */
     static unload(target) {
-        if (SoundEffects.tryCatchHowlUnload(target)) {
+        if (SoundEffects.tryCatchHowlUnload(target) === true) {
             target.unload();
         }
     }
@@ -355,6 +361,7 @@ class SoundEffects {
     static newHowlLoop({src} = {}) {
         return new Howl({
             src,
+            preload: true,
             autoplay: false,
             loop: true,
             volume: 0
@@ -369,6 +376,7 @@ class SoundEffects {
     static newHowlOneShot({src, volume} = {}) {
         return new Howl({
             src,
+            preload: true,
             autoplay: false,
             loop: false,
             volume
