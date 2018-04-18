@@ -241,26 +241,35 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
     });
 
     //событие изменения положения ползунка глобальной громкости
-    $(DOMSelectors.volumeGlobal).on('change', function () {
+    $(DOMSelectors.volumeGlobal).on('change', function (e, save = true) {
         const volume = $(this).find('.js-range-slider').val() / 100;
 
         VolumeControllerInst.setGlobal({volume});
+
+        if (save === false) return;
+
         saveStates(VolumeInst);
     });
 
     //событие изменения положения ползунка громкости подсказок (звуков в тексте)
-    $(DOMSelectors.volumeOneShots).on('change', function () {
+    $(DOMSelectors.volumeOneShots).on('change', function (e, save = true) {
         const volume = $(this).find('.js-range-slider').val() / 100;
 
         VolumeControllerInst.setOneShots({volume});
+
+        if (save === false) return;
+
         saveStates(VolumeInst);
     });
 
     //событие изменения положения ползунка громкости фоновых звуков
-    $(DOMSelectors.volumeLoops).on('change', function () {
+    $(DOMSelectors.volumeLoops).on('change', function (e, save = true) {
         const volume = $(this).find('.js-range-slider').val() / 100;
 
         VolumeControllerInst.setLoops({volume});
+
+        if (save === false) return;
+
         saveStates(VolumeInst);
     });
 

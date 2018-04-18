@@ -27,9 +27,9 @@ export function loadStates() {
         }
     });
 
-    $(DOMSelectors.volumeGlobal).trigger('change');
-    $(DOMSelectors.volumeOneShots).trigger('change');
-    $(DOMSelectors.volumeLoops).trigger('change');
+    $(DOMSelectors.volumeGlobal).trigger('change', false);
+    $(DOMSelectors.volumeOneShots).trigger('change', false);
+    $(DOMSelectors.volumeLoops).trigger('change', false);
 
     //font-size
     FontSize.set({
