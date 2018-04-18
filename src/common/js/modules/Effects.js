@@ -65,23 +65,19 @@ export class Effects {
         const effectCur = find(this.effects, {id});
         const type = effectCur.type;
 
-        if (effectCur.vibration && VibrationEffects.state() === 'true') {
-            setTimeout(() => {
-                VibrationEffects.play(effectCur.vibration);
-            }, 300);
-        }
-
         if (type === 'oneShot') {
             soundEffectsInst.playOneShot(id, {
                 fadeInSpeed: effectCur.fadeInSpeed,
                 stopBy: effectCur.stopBy,
-                goTo: effectCur.goTo
+                goTo: effectCur.goTo,
+                vibration: effectCur.vibration
             });
         } else if (type === 'loop') {
             soundEffectsInst.playLoop(id, {
                 fadeInSpeed: effectCur.fadeInSpeed,
                 stopBy: effectCur.stopBy,
-                goTo: effectCur.goTo
+                goTo: effectCur.goTo,
+                vibration: effectCur.vibration
             });
         } else if (type === 'image') {
             imageEffectsInst.play(id);
@@ -178,6 +174,7 @@ class SoundEffects {
         return new Promise(((resolve, reject) => {
             target.once('fade', () => {
                 target.stop();
+
                 resolve();
             });
 
@@ -193,9 +190,22 @@ class SoundEffects {
      * @param [fadeInSpeed] {number};
      */
     static fadeIn(target, volume, fadeInSpeed = 1000) {
-        target.play();
-        //некорректное поведение, если задавать fadeOutSpeed = 0;
-        target.fade(0, volume, fadeInSpeed > 0 ? fadeInSpeed : 1);
+        return new Promise((resolve, reject) => {
+            const state = target.state();
+
+            if (state === 'loaded') {
+                resolve();
+            } else if (state === 'loading') {
+                target.once('load', () => {
+                    resolve();
+                });
+            }
+
+            target.play();
+
+            //некорректное поведение, если задавать fadeOutSpeed = 0;
+            target.fade(0, volume, fadeInSpeed > 0 ? fadeInSpeed : 1);
+        });
     }
 
     /**
@@ -215,15 +225,22 @@ class SoundEffects {
      * @param [fadeInSpeed] {number}
      * @param [stopBy] {number}
      * @param [goTo] {object}
+     * @param [vibration] {object}
      */
-    playOneShot(id, {fadeInSpeed = 0, stopBy, goTo} = {}) {
+    async playOneShot(id, {fadeInSpeed = 0, stopBy, goTo, vibration} = {}) {
         const oneShot = this.oneShots[id];
 
         if (oneShot.playing() === true) {
             this.stopAll({target: 'oneShots', fadeOutSpeed: 0});
         }
 
-        SoundEffects.fadeIn(oneShot, this.VolumeInst.getOneShots(), fadeInSpeed);
+        await SoundEffects.fadeIn(oneShot, this.VolumeInst.getOneShots(), fadeInSpeed);
+
+        if (vibration) {
+            setTimeout(() => {
+                VibrationEffects.play(vibration);
+            }, 300);
+        }
 
         if (goTo) {
             const sleep = goTo.sleep || 0;
@@ -276,15 +293,21 @@ class SoundEffects {
     /**
      *
      * @param id {string}
-     * @param [fadeInSpeed {number}]
-     * @param [stopBy {object}]
+     * @param [fadeInSpeed] {number}
+     * @param [stopBy] {object}
+     * @param [vibration] {object}
      */
-    playLoop(id, {fadeInSpeed = 1000, stopBy} = {}) {
+    async playLoop(id, {fadeInSpeed = 1000, stopBy, vibration} = {}) {
         const loop = this.loops[id];
 
-        SoundEffects.fadeIn(loop, this.VolumeInst.getLoops(), fadeInSpeed);
+        await SoundEffects.fadeIn(loop, this.VolumeInst.getLoops(), fadeInSpeed);
 
-        //todo: start timer after loaded and start play, вынести stopBy, goTo в отдельные методы
+        if (vibration) {
+            setTimeout(() => {
+                VibrationEffects.play(vibration);
+            }, 300);
+        }
+
         if (stopBy) {
             setTimeout(() => {
                 this.stopLoop(id, {fadeOutSpeed: stopBy.fadeOutSpeed});
@@ -430,6 +453,7 @@ export class VibrationEffects {
      */
     static play({duration, repeat = 0, sleep = 100} = {}) {
         if (!VibrationEffects.vibrationSupport()) return;
+        if (VibrationEffects.state() !== 'true') return;
 
         navigator.vibrate(duration);
 
