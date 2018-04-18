@@ -23,12 +23,13 @@ body.loading {
   //todo: цвет лоадера в зависимости от выбраной темы
   &:before {
     content: '';
-    position: fixed;
+    position: absolute;
     z-index: 999;
-    top: 50%;
-    left: 50%;
-    margin-top: -60px;
-    margin-left: -60px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
     background: #fff;
     border: 16px solid #f3f3f3; /* Light grey */
     border-top: 16px solid #3498db; /* Blue */
