@@ -16,9 +16,12 @@ import {visibilityChangeInit} from './visibilityChangeInit';
 import LocalStorage from './modules/LocalStorage';
 import {startReadingBtnInit} from './startReadingBtnInit';
 import {changePageByKeyboardAndSwipesInit} from './changePageByKeyboardAndSwipesInit';
+import {firstOpenCheck} from './firstOpenCheck';
 
 $(window).on('load', async () => {
     if (browserCheck() === false) return;
+
+    firstOpenCheck();
 
     const DOMSelectors = getDOMSelectors();
     const $body = $('body');

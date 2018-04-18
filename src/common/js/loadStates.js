@@ -7,7 +7,7 @@ const DOMSelectors = getDOMSelectors();
 export function loadStates() {
     const states = LocalStorage.getState();
 
-    if (states === false) return;
+    if (states === null) return;
 
     //volume sliders position
     VolumeSliders.set({

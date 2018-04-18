@@ -45,47 +45,39 @@ export default class LocalStorage {
 
     /**
      *
-     * @param params {object}
-     * @param params.key {string}
-     * @param params.val {string}
+     * @param key {string}
+     * @param val {*}
      */
-    static write(params = {}) {
-        const key = params.key;
-        const val = params.val;
-
+    static write({key, val} = {}) {
         localStorage.setItem(key, JSON.stringify(val)); //сериализуем объект в строку
     }
 
     /**
      *
-     * @param params {object}
-     * @param params.key {string}
+     * @param key {string}
      */
-    static read(params = {}) {
-        const key = params.key;
-
-        if (!localStorage.getItem(key)) return false;
+    static read({key} = {}) {
+        if (!localStorage.getItem(key)) return null;
 
         return JSON.parse(localStorage.getItem(key)); //получаем значение и десериализируем его в объект
     }
 
     /**
      *
-     * @param params {object}
-     * получаем настройки из LocalStorage
+     * @param key {string}
      */
-    static getState(params = {}) {
-        //получаем настройки из LocalStorage
-        if (!localStorage.getItem('activeBook')) return false;
-
-        return JSON.parse(localStorage.getItem('activeBook')); //получаем значение и десериализируем его в объект
+    static remove({key} = {}) {
+        localStorage.removeItem(key);
     }
 
     /**
      *
-     * @param params
+     * получаем настройки из LocalStorage
      */
-    static beforeUnload(params = {}) {
+    static getState() {
+        //получаем настройки из LocalStorage
+        if (!localStorage.getItem('activeBook')) return null;
 
+        return JSON.parse(localStorage.getItem('activeBook')); //получаем значение и десериализируем его в объект
     }
 };
