@@ -4,8 +4,7 @@
       "id": "sword",
       "type": "oneShot",
       "src": [
-        "/book_data/audios/sound/Sword.ogg",
-        "/book_data/audios/sound/Sword.mp3"
+        "/book_data/audios/sound/sword.mp3"
       ],
       "vibration": {
         "duration": 500
