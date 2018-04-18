@@ -1,15 +1,9 @@
 {
   "effects": [
-    {
-      "id": "mask",
-      "type": "image",
-      "src": [
-        "/book_data/images/mask.png"
-      ]
-    }
+
   ],
   "pageInfo": {
     "current": 7,
-    "length": 12
+    "length": 9
   }
 }

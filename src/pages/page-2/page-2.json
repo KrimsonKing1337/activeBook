@@ -1,17 +1,26 @@
 {
   "effects": [
     {
-      "id": "the-opened-way",
-      "type": "loop",
+      "id": "car-door-close-engine-start",
+      "type": "oneShot",
       "src": [
-        "/book_data/audios/music/Koh_Ohtani_-_The_Opened_Way_Battle_With_the_Colossus.ogg",
-        "/book_data/audios/music/Koh_Ohtani_-_The_Opened_Way_Battle_With_the_Colossus.mp3"
+        "/book_data/audios/sound/car-door-close-engine-start.wav"
       ],
-      "playOnLoad": true
+      "playOnLoad": true,
+      "nextWillWait": true
+    },
+    {
+      "id": "radio-silver-rain",
+      "type": "oneShot",
+      "src": [
+        "http://213.59.4.27:8000/silver128.mp3"
+      ],
+      "playOnLoad": true,
+      "playAfterPageChanged": true
     }
   ],
   "pageInfo": {
     "current": 2,
-    "length": 12
+    "length": 9
   }
 }

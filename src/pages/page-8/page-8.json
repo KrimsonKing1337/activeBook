@@ -1,17 +1,19 @@
 {
   "effects": [
     {
-      "id": "angelic-process",
-      "type": "loop",
+      "id": "Gagarin-and-rocket-start",
+      "type": "oneShot",
       "src": [
-        "/book_data/audios/music/The_Angelic_Process_-_The_Resonance_Of_Goodbye.ogg",
-        "/book_data/audios/music/The_Angelic_Process_-_The_Resonance_Of_Goodbye.mp3"
+        "/book_data/audios/sound/Gagarin-and-rocket-start.mp3"
       ],
-      "playOnLoad": true
+      "playOnLoad": true,
+      "vibration": {
+        "duration": 53000
+      }
     }
   ],
   "pageInfo": {
     "current": 8,
-    "length": 12
+    "length": 9
   }
 }

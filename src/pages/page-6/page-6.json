@@ -1,17 +1,19 @@
 {
   "effects": [
     {
-      "id": "heavy-woman-breathing",
-      "type": "loop",
+      "id": "notification",
+      "type": "oneShot",
       "src": [
-        "/book_data/audios/sound/Heavy_Breathing_Woman_Sound.ogg",
-        "/book_data/audios/sound/Heavy_Breathing_Woman_Sound.mp3"
+        "/book_data/audios/sound/notification.mp3"
       ],
-      "playOnLoad": true
+      "playOnLoad": true,
+      "vibration": {
+        "duration": 500
+      }
     }
   ],
   "pageInfo": {
     "current": 6,
-    "length": 12
+    "length": 9
   }
 }

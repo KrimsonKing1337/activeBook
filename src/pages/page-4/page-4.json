@@ -1,19 +1,16 @@
 {
   "effects": [
     {
-      "id": "punch",
+      "id": "electric-gate-close",
       "type": "oneShot",
       "src": [
-        "/book_data/audios/sound/Punch.ogg",
-        "/book_data/audios/sound/Punch.mp3"
+        "/book_data/audios/sound/electric-gate-close.mp3"
       ],
-      "vibration": {
-        "duration": 200
-      }
+      "playOnLoad": true
     }
   ],
   "pageInfo": {
     "current": 4,
-    "length": 12
+    "length": 9
   }
 }

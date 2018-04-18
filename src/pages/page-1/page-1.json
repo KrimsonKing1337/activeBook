@@ -1,19 +1,25 @@
 {
   "effects": [
     {
-      "id": "water-flush",
-      "type": "oneShot",
+      "id": "clock-alarm",
+      "type": "loop",
       "src": [
-        "/book_data/audios/sound/Water_flush.ogg",
-        "/book_data/audios/sound/Water_flush.mp3"
+        "/book_data/audios/sound/alarm-clock.mp3"
       ],
+      "playOnLoad": true,
+      "stopBy": {
+        "duration": 7000,
+        "fadeOutSpeed": 0
+      },
       "vibration": {
-        "duration": 200
+        "duration": 200,
+        "repeat": 5,
+        "sleep": 1000
       }
     }
   ],
   "pageInfo": {
     "current": 1,
-    "length": 12
+    "length": 9
   }
 }

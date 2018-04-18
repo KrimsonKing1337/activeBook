@@ -1,17 +1,16 @@
 {
   "effects": [
     {
-      "id": "cicada-japan",
+      "id": "people-and-cameras-ambient",
       "type": "loop",
       "src": [
-        "/book_data/audios/sound/Cicada_Japan.ogg",
-        "/book_data/audios/sound/Cicada_Japan.mp3"
+        "/book_data/audios/sound/people-and-cameras-ambient.mp3"
       ],
       "playOnLoad": true
     }
   ],
   "pageInfo": {
     "current": 3,
-    "length": 12
+    "length": 9
   }
 }

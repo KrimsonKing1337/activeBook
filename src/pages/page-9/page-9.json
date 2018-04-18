@@ -1,17 +1,16 @@
 {
   "effects": [
     {
-      "id": "smoking",
+      "id": "alert",
       "type": "loop",
       "src": [
-        "/book_data/audios/sound/Smoking.ogg",
-        "/book_data/audios/sound/Smoking.mp3"
+        "/book_data/audios/sound/alert.wav"
       ],
       "playOnLoad": true
     }
   ],
   "pageInfo": {
     "current": 9,
-    "length": 12
+    "length": 9
   }
 }
