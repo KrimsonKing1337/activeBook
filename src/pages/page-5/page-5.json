@@ -2,9 +2,14 @@
   "effects": [
     {
       "id": "achievement-second-chapter",
-      "type": "notification",
-      "text": "Первая глава завершена",
-      "achievement": true,
+      "type": "oneShot",
+      "src": [
+        "/book_data/audios/sound/achievement-unlocked.mp3"
+      ],
+      "notification": {
+        "text": "Первая глава завершена",
+        "achievement": true
+      },
       "playOnLoad": true
     }
   ],

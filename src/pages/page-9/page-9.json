@@ -10,9 +10,14 @@
     },
     {
       "id": "notification-to-be-continued",
-      "type": "notification",
-      "text": "Продолжение следует..",
-      "className": "info",
+      "type": "oneShot",
+      "src": [
+        "/book_data/audios/sound/achievement-unlocked.mp3"
+      ],
+      "notification": {
+        "text": "Продолжение следует..",
+        "className": "info"
+      },
       "playOnLoad": true
     }
   ],

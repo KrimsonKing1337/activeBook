@@ -66,21 +66,18 @@ export class Effects {
         const imageEffectsInst = this.imageEffectsInst;
         const effectCur = find(this.effects, {id});
         const type = effectCur.type;
+        const params = {
+            fadeInSpeed: effectCur.fadeInSpeed,
+            stopBy: effectCur.stopBy,
+            goTo: effectCur.goTo,
+            vibration: effectCur.vibration,
+            notification: effectCur.notification
+        };
 
         if (type === 'oneShot') {
-            soundEffectsInst.playOneShot(id, {
-                fadeInSpeed: effectCur.fadeInSpeed,
-                stopBy: effectCur.stopBy,
-                goTo: effectCur.goTo,
-                vibration: effectCur.vibration
-            });
+            soundEffectsInst.playOneShot(id, params);
         } else if (type === 'loop') {
-            soundEffectsInst.playLoop(id, {
-                fadeInSpeed: effectCur.fadeInSpeed,
-                stopBy: effectCur.stopBy,
-                goTo: effectCur.goTo,
-                vibration: effectCur.vibration
-            });
+            soundEffectsInst.playLoop(id, params);
         } else if (type === 'image') {
             imageEffectsInst.play(id);
         } else if (type === 'notification') {
@@ -124,13 +121,13 @@ class NotificationsEffects {
     static play(notification) {
         if (notification.achievement !== true ||
             NotificationsEffects.checkAndSet(notification.id) === false) {
-            //const text = NotificationsEffects.getText(notification);
+            const text = NotificationsEffects.getText(notification);
 
-            $.notify(notification.text, {
+            $.notify(text, {
                 className: notification.className || 'success',
                 autoHide: notification.autoHide || true,
                 autoHideDelay: notification.autoHideDelay || 7500,
-                globalPosition: 'bottom right'
+                globalPosition: 'bottom left'
             });
         }
     }
@@ -150,7 +147,7 @@ class NotificationsEffects {
     }
 
     static getAchievementPrefix() {
-        return 'Achievement unlock: ';
+        return 'Achievement unlock';
     }
 
     static getText(notification) {
@@ -284,8 +281,9 @@ class SoundEffects {
      * @param [stopBy] {number}
      * @param [goTo] {object}
      * @param [vibration] {object}
+     * @param [notification] {object}
      */
-    async playOneShot(id, {fadeInSpeed = 0, stopBy, goTo, vibration} = {}) {
+    async playOneShot(id, {fadeInSpeed = 0, stopBy, goTo, vibration, notification} = {}) {
         const oneShot = this.oneShots[id];
 
         if (oneShot.playing() === true) {
@@ -298,6 +296,10 @@ class SoundEffects {
             setTimeout(() => {
                 VibrationEffects.play(vibration);
             }, 300);
+        }
+
+        if (notification) {
+            NotificationsEffects.play(notification);
         }
 
         if (goTo) {
@@ -354,8 +356,9 @@ class SoundEffects {
      * @param [fadeInSpeed] {number}
      * @param [stopBy] {object}
      * @param [vibration] {object}
+     * @param [notification] {object}
      */
-    async playLoop(id, {fadeInSpeed = 1000, stopBy, vibration} = {}) {
+    async playLoop(id, {fadeInSpeed = 1000, stopBy, vibration, notification} = {}) {
         const loop = this.loops[id];
 
         await SoundEffects.fadeIn(loop, this.VolumeInst.getLoops(), fadeInSpeed);
@@ -371,6 +374,10 @@ class SoundEffects {
                 this.stopLoop(id, {fadeOutSpeed: stopBy.fadeOutSpeed});
 
             }, stopBy.duration);
+        }
+
+        if (notification) {
+            NotificationsEffects.play(notification);
         }
     }
 

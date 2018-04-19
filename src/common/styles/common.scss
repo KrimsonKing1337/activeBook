@@ -121,6 +121,17 @@ input[type="number"] {
   background-color: transparent;
 }
 
+.notifyjs-corner {
+  bottom: 0 !important;
+  left: 50% !important;
+  transform: translate(-50%, -110%);
+  max-width: 500px;
+}
+
+.notifyjs-bootstrap-base {
+  white-space: normal !important;
+}
+
 
 .animated {
   animation-duration: 0.15s;
