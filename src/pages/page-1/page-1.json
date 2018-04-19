@@ -24,6 +24,7 @@
         "/book_data/audios/sound/achievement-unlocked.mp3"
       ],
       "notification": {
+        "id": "achievement-start-reading",
         "text": "Мой первый рассказ формата activeBook",
         "achievement": true
       },

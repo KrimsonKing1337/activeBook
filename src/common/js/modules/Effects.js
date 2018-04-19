@@ -119,31 +119,30 @@ class NotificationsEffects {
      * @param notification {object}
      */
     static play(notification) {
-        if (notification.achievement !== true ||
-            NotificationsEffects.checkAndSet(notification.id) === false) {
-            const text = NotificationsEffects.getText(notification);
+        if (NotificationsEffects.canPlay(notification) === false) return;
 
-            $.notify(text, {
-                className: notification.className || 'success',
-                autoHide: notification.autoHide || true,
-                autoHideDelay: notification.autoHideDelay || 7500,
-                globalPosition: 'bottom left'
-            });
+        const text = NotificationsEffects.getText(notification);
+
+        $.notify(text, {
+            className: notification.className || 'success',
+            autoHide: notification.autoHide || true,
+            autoHideDelay: notification.autoHideDelay || 7500,
+            globalPosition: 'bottom left'
+        });
+
+        if (notification.achievement) {
+            LocalStorage.write({key: notification.id, val: true});
         }
     }
 
     /**
      *
-     * @param notification {string}
+     * @param notification {object}
      */
-    static checkAndSet(notification) {
-        if (LocalStorage.read({key: notification}) === null) {
-            LocalStorage.write({key: notification, val: true});
+    static canPlay(notification) {
+        if (!notification.achievement) return true;
 
-            return false;
-        }
-
-        return true;
+        return (LocalStorage.read({key: notification.id}) === null);
     }
 
     static getAchievementPrefix() {
@@ -286,6 +285,14 @@ class SoundEffects {
     async playOneShot(id, {fadeInSpeed = 0, stopBy, goTo, vibration, notification} = {}) {
         const oneShot = this.oneShots[id];
 
+        if (notification) {
+            if (NotificationsEffects.canPlay(notification) === false) {
+                return;
+            }
+
+            NotificationsEffects.play(notification);
+        }
+
         if (oneShot.playing() === true) {
             this.stopAll({target: 'oneShots', fadeOutSpeed: 0});
         }
@@ -296,10 +303,6 @@ class SoundEffects {
             setTimeout(() => {
                 VibrationEffects.play(vibration);
             }, 300);
-        }
-
-        if (notification) {
-            NotificationsEffects.play(notification);
         }
 
         if (goTo) {
@@ -361,6 +364,14 @@ class SoundEffects {
     async playLoop(id, {fadeInSpeed = 1000, stopBy, vibration, notification} = {}) {
         const loop = this.loops[id];
 
+        if (notification) {
+            if (NotificationsEffects.canPlay(notification) === false) {
+                return;
+            }
+
+            NotificationsEffects.play(notification);
+        }
+
         await SoundEffects.fadeIn(loop, this.VolumeInst.getLoops(), fadeInSpeed);
 
         if (vibration) {
@@ -374,10 +385,6 @@ class SoundEffects {
                 this.stopLoop(id, {fadeOutSpeed: stopBy.fadeOutSpeed});
 
             }, stopBy.duration);
-        }
-
-        if (notification) {
-            NotificationsEffects.play(notification);
         }
     }
 
