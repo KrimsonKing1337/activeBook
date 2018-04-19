@@ -5,6 +5,8 @@
 import getDOMSelectors from './GetDOMSelectors';
 import find from 'lodash-es/find';
 import {GoToPage} from './Menu';
+import 'notifyjs-browser';
+import LocalStorage from './LocalStorage';
 
 const Howler = require('howler');
 
@@ -81,6 +83,8 @@ export class Effects {
             });
         } else if (type === 'image') {
             imageEffectsInst.play(id);
+        } else if (type === 'notification') {
+            NotificationsEffects.play(effectCur);
         }
     }
 
@@ -105,6 +109,54 @@ export class Effects {
 
         VibrationEffects.stop();
         soundEffectsInst.stopAll({target, fadeOutSpeed, unload});
+    }
+}
+
+class NotificationsEffects {
+    constructor() {
+
+    }
+
+    /**
+     *
+     * @param notification {object}
+     */
+    static play(notification) {
+        if (notification.achievement !== true ||
+            NotificationsEffects.checkAndSet(notification.id) === false) {
+            const text = NotificationsEffects.getText(notification);
+
+            $.notify(text, {
+                className: notification.className || 'success',
+                autoHide: notification.autoHide || true,
+                autoHideDelay: notification.autoHideDelay || 7500,
+                globalPosition: 'top right'
+            });
+        }
+    }
+
+    /**
+     *
+     * @param notification {string}
+     */
+    static checkAndSet(notification) {
+        if (LocalStorage.read({key: notification}) === null) {
+            LocalStorage.write({key: notification, val: true});
+
+            return false;
+        }
+
+        return true;
+    }
+
+    static getAchievementPrefix() {
+        return 'Achievement unlock: ';
+    }
+
+    static getText(notification) {
+        return notification.achievement === true ?
+            `${NotificationsEffects.getAchievementPrefix()}: ${notification.text}` :
+            notification.text;
     }
 }
 

@@ -16,6 +16,13 @@
         "repeat": 5,
         "sleep": 1000
       }
+    },
+    {
+      "id": "achievement-start-reading",
+      "type": "notification",
+      "text": "Мой первый рассказ формата activeBook",
+      "achievement": true,
+      "playOnLoad": true
     }
   ],
   "pageInfo": {
