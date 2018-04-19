@@ -3,7 +3,7 @@
     {
       "id": "achievement-second-chapter",
       "type": "notification",
-      "text": "Achievement unlock: Первая глава завершена",
+      "text": "Первая глава завершена",
       "achievement": true,
       "playOnLoad": true
     }

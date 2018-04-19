@@ -124,13 +124,13 @@ class NotificationsEffects {
     static play(notification) {
         if (notification.achievement !== true ||
             NotificationsEffects.checkAndSet(notification.id) === false) {
-            const text = NotificationsEffects.getText(notification);
+            //const text = NotificationsEffects.getText(notification);
 
-            $.notify(text, {
+            $.notify(notification.text, {
                 className: notification.className || 'success',
                 autoHide: notification.autoHide || true,
                 autoHideDelay: notification.autoHideDelay || 7500,
-                globalPosition: 'top right'
+                globalPosition: 'bottom right'
             });
         }
     }
