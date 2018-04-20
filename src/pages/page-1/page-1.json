@@ -16,19 +16,6 @@
         "repeat": 5,
         "sleep": 1000
       }
-    },
-    {
-      "id": "achievement-start-reading",
-      "type": "oneShot",
-      "src": [
-        "/book_data/audios/sound/achievement-unlocked.mp3"
-      ],
-      "notification": {
-        "id": "achievement-start-reading",
-        "text": "Мой первый рассказ формата activeBook",
-        "achievement": true
-      },
-      "playOnLoad": true
     }
   ],
   "pageInfo": {
