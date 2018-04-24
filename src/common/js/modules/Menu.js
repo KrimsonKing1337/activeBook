@@ -8,31 +8,21 @@ export class LineHeight {
 
     /**
      *
-     * @param params {object}
-     * @param params.$target {object} jquery
-     * @param params.$val {object} jquery
-     * @param params.newVal {number}
+     * @param $target {object} jquery
+     * @param $val {object} jquery
+     * @param newVal {number}
      */
-    static set (params = {}) {
-        const $target = params.$target;
-        const $val = params.$val;
-        const newVal = params.newVal;
-
+    static set ({$target, $val, newVal} = {}) {
         LineHeight.apply({$target, $val, newVal});
     }
 
     /**
      *
-     * @param params {object};
-     * @param params.$target {object};
-     * @param params.$val {object} jquery;
-     * @param params.direction {string} less || more;
+     * @param $target {object};
+     * @param $val {object} jquery;
+     * @param direction {string} less || more;
      */
-    static setByDirection (params = {}) {
-        const $target = params.$target;
-        const $val = params.$val;
-        const direction = params.direction;
-
+    static setByDirection ({$target, $val, direction} = {}) {
         const currentVal = parseInt($target.attr('data-line-height')) || 100;
 
         let newVal;
@@ -53,18 +43,13 @@ export class LineHeight {
 
     /**
      *
-     * @param params {object};
-     * @param params.$target {object} jquery;
-     * @param params.$val {object} jquery;
-     * @param params.newVal {number};
+     * @param $target {object} jquery;
+     * @param $val {object} jquery;
+     * @param newVal {number};
      * @private
      */
-    static apply (params = {}) {
-        const $target = params.$target;
-        const $val = params.$val;
-        const newVal = params.newVal;
-
-        $val.text(`${newVal }%`);
+    static apply ({$target, $val, newVal} = {}) {
+        $val.text(`${ newVal }%`);
         $target.attr('data-line-height', newVal);
     }
 }
@@ -79,27 +64,19 @@ export class GoToPage {
 
     /**
      *
-     * @param params {object};
-     * @param params.val {string};
+     * @param val {string};
      */
-    static go (params = {}) {
-        const val = params.val;
-
+    static go ({val} = {}) {
         $(window).trigger('changePage', val);
     }
 
     /**
      *
-     * @param params {object};
-     * @param params.currentPage {string};
-     * @param params.pagesLength {string};
-     * @param params.direction {number || string} next || prev;
+     * @param currentPage {string};
+     * @param pagesLength {string};
+     * @param direction {number || string} next || prev;
      */
-    static goWithDirection (params = {}) {
-        const direction = params.direction;
-        const currentPage = params.currentPage;
-        const pagesLength = params.pagesLength;
-
+    static goWithDirection ({direction, currentPage, pagesLength} = {}) {
         let newVal;
         let limit;
 
@@ -120,7 +97,7 @@ export class GoToPage {
 
             limit = newVal === currentPage;
         } else {
-            new Error(`Unrecognized param "where" (${ direction }). Only next, prev and number is allowed`);
+            new Error(`Unrecognized param "where" (${ direction }). Only next, prev and number are allowed`);
         }
 
         if (limit === true) return;
@@ -139,27 +116,19 @@ export class FontSize {
 
     /**
      *
-     * @param params {object}
-     * @param params.$target {object} jquery
-     * @param params.newVal {number}
+     * @param $target {object} jquery
+     * @param newVal {number}
      */
-    static set (params = {}) {
-        const $target = params.$target;
-        const newVal = params.newVal;
-
+    static set ({$target, newVal} = {}) {
         FontSize.apply({$target, newVal});
     }
 
     /**
      *
-     * @param params {object};
-     * @param params.$target {object};
-     * @param params.direction {string} less || more;
+     * @param $target {object};
+     * @param direction {string} less || more;
      */
-    static setByDirection (params = {}) {
-        const $target = params.$target;
-        const direction = params.direction;
-
+    static setByDirection ({$target, direction} = {}) {
         const currentVal = parseInt($target.attr('data-font-size')) || 100;
 
         let newVal;
@@ -180,16 +149,11 @@ export class FontSize {
 
     /**
      *
-     * @param params {object};
-     * @param params.$target {object} jquery;
-     * @param params.$val {object} jquery;
-     * @param params.newVal {number};
+     * @param $target {object} jquery;
+     * @param newVal {number};
      * @private
      */
-    static apply (params = {}) {
-        const $target = params.$target;
-        const newVal = params.newVal;
-
+    static apply ({$target, newVal} = {}) {
         $target.attr('data-font-size', newVal);
     }
 }
@@ -204,21 +168,18 @@ export class VolumeSliders {
 
     /**
      *
-     * @param params {object}
-     * @param params.sliders {object} instances of sliders
-     * @param params.sliders.global {object}
-     * @param params.sliders.global.inst {object}
-     * @param params.sliders.global.val {number}
-     * @param params.sliders.oneShots {object}
-     * @param params.sliders.oneShots.inst {object}
-     * @param params.sliders.oneShots.val {number}
-     * @param params.sliders.bg {object}
-     * @param params.sliders.bg.inst {object}
-     * @param params.sliders.bg.val {number}
+     * @param sliders {object} instances of sliders
+     * @param sliders.global {object}
+     * @param sliders.global.inst {object}
+     * @param sliders.global.val {number}
+     * @param sliders.oneShots {object}
+     * @param sliders.oneShots.inst {object}
+     * @param sliders.oneShots.val {number}
+     * @param sliders.bg {object}
+     * @param sliders.bg.inst {object}
+     * @param sliders.bg.val {number}
      */
-    static set(params = {}) {
-        const sliders = params.sliders;
-
+    static set({sliders} = {}) {
         for (const i in sliders) {
             const slider = sliders[i];
             const inst = slider.inst;
@@ -238,16 +199,11 @@ export class Theme {
 
     /**
      *
-     * @param params {object}
-     * @param params.$target {object}
-     * @param params.$themeOption {object}
-     * @param params.val {object}
+     * @param $target {object}
+     * @param $themeOption {object}
+     * @param val {object}
      */
-    static set(params = {}) {
-        const $target = params.$target;
-        const $themeOption = params.$themeOption;
-        const val = params.val;
-
+    static set({$target, $themeOption, val} = {}) {
         $target.attr('data-theme', val);
 
         $themeOption.filter('.active').removeClass('active');
@@ -262,16 +218,11 @@ export class Vibration {
 
     /**
      *
-     * @param params {object}
-     * @param params.$target {object}
-     * @param params.$vibrationOption {object}
-     * @param params.val {object}
+     * @param $target {object}
+     * @param $vibrationOption {object}
+     * @param val {object}
      */
-    static set(params = {}) {
-        const $target = params.$target;
-        const $vibrationOption = params.$vibrationOption;
-        const val = params.val;
-
+    static set({$target, $vibrationOption, val} = {}) {
         $vibrationOption.filter('.active').removeClass('active');
         $vibrationOption.filter(`[data-vibration="${ val }"]`).addClass('active');
         $target.attr('data-vibration', val);
@@ -285,16 +236,11 @@ export class Bookmarks {
 
     /**
      *
-     * @param params {object}
-     * @param params.$bookmarkContainer {object}
-     * @param params.$bookmarkTemplate {object}
-     * @param params.bookmarksArr[] {object}
+     * @param $bookmarkContainer {object}
+     * @param $bookmarkTemplate {object}
+     * @param bookmarksArr[] {object}
      */
-    static set(params = {}) {
-        const $bookmarkContainer = params.$bookmarkContainer;
-        const $bookmarkTemplate = params.$bookmarkTemplate;
-        const bookmarksArr = params.bookmarksArr;
-
+    static set({$bookmarkContainer, $bookmarkTemplate, bookmarksArr} = {}) {
         if (!bookmarksArr) return;
 
         bookmarksArr.forEach((bookmark) => {

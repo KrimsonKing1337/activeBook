@@ -36,7 +36,7 @@ export function saveStates(VolumeInst) {
         currentPage: $(DOMSelectors.pageNumber).attr('data-page-number'),
         fontSize: $(DOMSelectors.page).attr('data-font-size'),
         lineHeight: $(DOMSelectors.page).attr('data-line-height'),
-        scrollTop: Math.abs(parseInt($('.mCustomScrollBox.mCS-activeBook').find('> .mCSB_container').css('top'))),
+        scrollTop: window.scrollY,
         theme: $(DOMSelectors.page).attr('data-theme'),
         vibration: JSON.parse($(DOMSelectors.page).attr('data-vibration')),
         bookmarks
