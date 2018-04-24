@@ -54,9 +54,11 @@ export function menuInit() {
     } else {
         //переключалка для вибрации
         $(DOMSelectors.vibrationOption).on('click', function () {
-            const val = $(this).attr('data-vibration');
+            const val = JSON.parse($(this).attr('data-vibration'));
 
-            if (val === 'true') {
+            vibrationEffectsInst.set(val);
+
+            if (val === true) {
                 vibrationEffectsInst.play({duration: 150});
             }
 

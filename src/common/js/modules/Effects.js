@@ -501,6 +501,18 @@ class VibrationEffects {
 
     /**
      *
+     * @param state {boolean}
+     */
+    set(state) {
+        this.state = state;
+
+        if (state === false) {
+            this.stop();
+        }
+    }
+
+    /**
+     *
      * @param duration {number}
      * @param [repeat] {number}
      * @param [sleep] {number}
