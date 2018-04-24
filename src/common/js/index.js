@@ -2,10 +2,8 @@ import {pageInfo} from './pageInfo';
 import {menuInit} from './menuInit';
 import {browserCheck} from './browserCheck';
 import getDOMSelectors from './modules/GetDOMSelectors';
-import {getVolumeInst} from './getVolumeInst';
-import {getVolumeControllerInst} from './getVolumeControllerInst';
 import {getAJAX} from './getAJAX';
-import {Effects} from './modules/Effects';
+import {EffectsController} from './modules/Effects';
 import {textInit} from './textInit';
 import {loadStates} from './loadStates';
 import {playOnLoad} from './playOnLoad';
@@ -33,28 +31,16 @@ $(window).on('load', async () => {
 
     $('.text-wrapper').html(textAJAX);
 
-    //инитим громкость
-    const VolumeInst = getVolumeInst();
+    visibilityChangeInit();
 
-    //инициализируем контроллер управления эффектами
-    const EffectsController = new Effects({
-        VolumeInst,
-        effects: dataJSON.effects
-    });
-
-    //инитим управление громкостью
-    const VolumeControllerInst = getVolumeControllerInst({
-        VolumeInst,
-        EffectsController
-    });
-
-    visibilityChangeInit(VolumeInst, VolumeControllerInst);
-
-    textInit(EffectsController);
-    menuInit({VolumeInst, VolumeControllerInst, pageInfo: dataJSON.pageInfo});
+    menuInit();
 
     //загружаем значения настроек
     loadStates();
+
+    textInit(EffectsController);
+
+    EffectsController.setEffects(dataJSON.effects);
 
     playOnLoad({effects: dataJSON.effects, EffectsController});
 

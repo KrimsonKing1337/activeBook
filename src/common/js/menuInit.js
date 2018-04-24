@@ -5,14 +5,10 @@ import {ionRangeSliderInit} from './ionRangeSliderInit';
 import getDOMSelectors from './modules/GetDOMSelectors';
 import {saveStates} from './saveStates';
 import {pageInfo} from './pageInfo';
-import {VibrationEffects} from './modules/Effects';
+import {vibrationEffectsInst, volumeInst} from './modules/Effects';
+import {volumeControllerInst} from './modules/Effects';
 
-/**
- *
- * @param VolumeInst {object}
- * @param VolumeControllerInst {object}
- */
-export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
+export function menuInit() {
     const DOMSelectors = getDOMSelectors();
 
     ionRangeSliderInit();
@@ -53,7 +49,7 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
         });
     });
 
-    if (!VibrationEffects.vibrationSupport()) {
+    if (!vibrationEffectsInst.vibrationSupport) {
         $('.menu-full-screen__vibration').remove();
     } else {
         //переключалка для вибрации
@@ -61,7 +57,7 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
             const val = $(this).attr('data-vibration');
 
             if (val === 'true') {
-                navigator.vibrate(150);
+                vibrationEffectsInst.play({duration: 150});
             }
 
             Vibration.set({
@@ -70,7 +66,7 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
                 $vibrationOption: $(DOMSelectors.vibrationOption)
             });
 
-            saveStates(VolumeInst);
+            saveStates(volumeInst);
         });
     }
 
@@ -82,7 +78,7 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
             $themeOption: $(DOMSelectors.themeOption)
         });
 
-        saveStates(VolumeInst);
+        saveStates(volumeInst);
     });
 
     //оглавление
@@ -127,7 +123,7 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
             $target: $(DOMSelectors.page)
         });
 
-        saveStates(VolumeInst);
+        saveStates(volumeInst);
     });
 
     $('.js-line-height-plus').on('click', () => {
@@ -137,7 +133,7 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
             $target: $(DOMSelectors.page)
         });
 
-        saveStates(VolumeInst);
+        saveStates(volumeInst);
     });
 
     //устанавливаем плейсхолдеры для input-ов
@@ -228,7 +224,7 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
             direction: 'less'
         });
 
-        saveStates(VolumeInst);
+        saveStates(volumeInst);
     });
 
     $('.js-font-size-up').on('click', () => {
@@ -237,40 +233,40 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
             direction: 'more'
         });
 
-        saveStates(VolumeInst);
+        saveStates(volumeInst);
     });
 
     //событие изменения положения ползунка глобальной громкости
     $(DOMSelectors.volumeGlobal).on('change', function (e, save = true) {
         const volume = $(this).find('.js-range-slider').val() / 100;
 
-        VolumeControllerInst.setGlobal({volume});
+        volumeControllerInst.setGlobal({volume});
 
         if (save === false) return;
 
-        saveStates(VolumeInst);
+        saveStates(volumeInst);
     });
 
     //событие изменения положения ползунка громкости подсказок (звуков в тексте)
     $(DOMSelectors.volumeOneShots).on('change', function (e, save = true) {
         const volume = $(this).find('.js-range-slider').val() / 100;
 
-        VolumeControllerInst.setOneShots({volume});
+        volumeControllerInst.setOneShots({volume});
 
         if (save === false) return;
 
-        saveStates(VolumeInst);
+        saveStates(volumeInst);
     });
 
     //событие изменения положения ползунка громкости фоновых звуков
     $(DOMSelectors.volumeLoops).on('change', function (e, save = true) {
         const volume = $(this).find('.js-range-slider').val() / 100;
 
-        VolumeControllerInst.setLoops({volume});
+        volumeControllerInst.setLoops({volume});
 
         if (save === false) return;
 
-        saveStates(VolumeInst);
+        saveStates(volumeInst);
     });
 
     //переходим по закладке
@@ -302,7 +298,7 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
 
         bookmarkPopover.positioning();
 
-        saveStates(VolumeInst);
+        saveStates(volumeInst);
     });
 
     //удаляем закладку
@@ -313,6 +309,6 @@ export function menuInit({VolumeInst, VolumeControllerInst} = {}) {
 
         bookmarkPopover.positioning();
 
-        saveStates(VolumeInst);
+        saveStates(volumeInst);
     });
 }

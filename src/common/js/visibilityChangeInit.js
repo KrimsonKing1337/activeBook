@@ -1,13 +1,15 @@
-export function visibilityChangeInit(VolumeInst, VolumeControllerInst) {
+import {volumeInst, volumeControllerInst} from './modules/Effects';
+
+export function visibilityChangeInit() {
     let globalVolume = 0;
 
     document.addEventListener('visibilitychange', () => {
         if (document.hidden) {
-            globalVolume = VolumeInst.getGlobal();
+            globalVolume = volumeInst.getGlobal();
 
-            VolumeControllerInst.setGlobal({volume: 0});
+            volumeControllerInst.setGlobal({volume: 0});
         } else {
-            VolumeControllerInst.setGlobal({volume: globalVolume});
+            volumeControllerInst.setGlobal({volume: globalVolume});
         }
     }, false);
 }

@@ -38,7 +38,7 @@ export function saveStates(VolumeInst) {
         lineHeight: $(DOMSelectors.page).attr('data-line-height'),
         scrollTop: Math.abs(parseInt($('.mCustomScrollBox.mCS-activeBook').find('> .mCSB_container').css('top'))),
         theme: $(DOMSelectors.page).attr('data-theme'),
-        vibration: $(DOMSelectors.page).attr('data-vibration'),
+        vibration: JSON.parse($(DOMSelectors.page).attr('data-vibration')),
         bookmarks
     });
 }

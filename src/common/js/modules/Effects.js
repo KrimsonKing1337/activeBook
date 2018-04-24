@@ -1,34 +1,19 @@
-/**
- * Created by K on 11.06.2017.
- */
-
+import 'howler';
 import getDOMSelectors from './GetDOMSelectors';
 import find from 'lodash-es/find';
 import {GoToPage} from './Menu';
 import 'notifyjs-browser';
 import LocalStorage from './LocalStorage';
+import {VolumeController} from './Volume';
+import {getVolumeInst} from '../getVolumeInst';
+import {get} from 'lodash-es';
 
-const Howler = require('howler');
-
-export class Effects {
+class Effects {
     /**
      *
-     * @param VolumeInst {object}; inst volumeInst Class
-     * @param effects[] {object}; effects description from JSON
+     * @param [effects[]] {object}; effects description from JSON
      */
-    constructor({VolumeInst, effects} = {}) {
-        this.VolumeInst = VolumeInst;
-
-        this.soundEffectsInst = new SoundEffects({
-            VolumeInst: this.VolumeInst,
-            loops: {},
-            oneShots: {},
-        });
-
-        this.imageEffectsInst = new ImageEffects({
-            images: {}
-        });
-
+    constructor({effects = []} = {}) {
         this.effects = effects;
 
         this.initEffects();
@@ -48,11 +33,11 @@ export class Effects {
             const type = effectCur.type;
 
             if (type === 'oneShot') {
-                this.soundEffectsInst.checkAndSetNewOneShot(effectCur);
+                soundEffectsInst.checkAndSetNewOneShot(effectCur);
             } else if (type === 'loop') {
-                this.soundEffectsInst.checkAndSetNewLoop(effectCur);
+               soundEffectsInst.checkAndSetNewLoop(effectCur);
             } else if (type === 'image') {
-                this.imageEffectsInst.checkAndSet(effectCur);
+               imageEffectsInst.checkAndSet(effectCur);
             }
         });
     }
@@ -62,11 +47,9 @@ export class Effects {
      * @param id {string}
      */
     play(id) {
-        const soundEffectsInst = this.soundEffectsInst;
-        const imageEffectsInst = this.imageEffectsInst;
         const effectCur = find(this.effects, {id});
         const type = effectCur.type;
-        const params = {
+        const soundEffectsParams = {
             fadeInSpeed: effectCur.fadeInSpeed,
             stopBy: effectCur.stopBy,
             goTo: effectCur.goTo,
@@ -75,9 +58,9 @@ export class Effects {
         };
 
         if (type === 'oneShot') {
-            soundEffectsInst.playOneShot(id, params);
+            soundEffectsInst.playOneShot(id, soundEffectsParams);
         } else if (type === 'loop') {
-            soundEffectsInst.playLoop(id, params);
+            soundEffectsInst.playLoop(id, soundEffectsParams);
         } else if (type === 'image') {
             imageEffectsInst.play(id);
         } else if (type === 'notification') {
@@ -90,7 +73,6 @@ export class Effects {
      * @param id {string}
      */
     stop(id) {
-        const soundEffectsInst = this.soundEffectsInst;
         const effectCur = find(this.effects, {id});
         const type = effectCur.type;
 
@@ -102,9 +84,7 @@ export class Effects {
     }
 
     stopAll({target, fadeOutSpeed = 1000, unload = false} = {}) {
-        const soundEffectsInst = this.soundEffectsInst;
-
-        VibrationEffects.stop();
+        vibrationEffectsInst.stop();
         soundEffectsInst.stopAll({target, fadeOutSpeed, unload});
     }
 }
@@ -158,12 +138,10 @@ class NotificationsEffects {
 
 class SoundEffects {
     /**
-     * @param VolumeInst {object}
      * @param loops {object}
      * @param oneShots {object}
      */
-    constructor({VolumeInst, loops, oneShots} = {}) {
-        this.VolumeInst = VolumeInst;
+    constructor({loops, oneShots} = {}) {
         this.loops = loops;
         this.oneShots = oneShots;
     }
@@ -180,7 +158,7 @@ class SoundEffects {
                 const oneShotCur = this.oneShots[key];
 
                 if (oneShotCur.state() === 'loaded') {
-                    await SoundEffects.fadeOut(oneShotCur, this.VolumeInst.getOneShots(), fadeOutSpeed);
+                    await SoundEffects.fadeOut(oneShotCur, volumeInst.getOneShots(), fadeOutSpeed);
                 }
 
                 if (unload === true) {
@@ -193,7 +171,7 @@ class SoundEffects {
                 const loopCur = this.loops[key];
 
                 if (loopCur.state() === 'loaded') {
-                    await SoundEffects.fadeOut(loopCur, this.VolumeInst.getLoops(), fadeOutSpeed);
+                    await SoundEffects.fadeOut(loopCur, volumeInst.getLoops(), fadeOutSpeed);
                 }
 
                 if (unload === true) {
@@ -270,7 +248,7 @@ class SoundEffects {
     stopOneShot(id, {fadeOutSpeed = 0} = {}) {
         const oneShot = this.oneShots[id];
 
-        SoundEffects.fadeOut(oneShot, this.VolumeInst.getOneShots(), fadeOutSpeed);
+        SoundEffects.fadeOut(oneShot, volumeInst.getOneShots(), fadeOutSpeed);
     }
 
     /**
@@ -297,11 +275,11 @@ class SoundEffects {
             this.stopAll({target: 'oneShots', fadeOutSpeed: 0});
         }
 
-        await SoundEffects.fadeIn(oneShot, this.VolumeInst.getOneShots(), fadeInSpeed);
+        await SoundEffects.fadeIn(oneShot, volumeInst.getOneShots(), fadeInSpeed);
 
         if (vibration) {
             setTimeout(() => {
-                VibrationEffects.play(vibration);
+                vibrationEffectsInst.play(vibration);
             }, 300);
         }
 
@@ -328,7 +306,7 @@ class SoundEffects {
     stopLoop(id, {fadeOutSpeed = 1000} = {}) {
         const loop = this.loops[id];
 
-        SoundEffects.fadeOut(loop, this.VolumeInst.getLoops(), fadeOutSpeed);
+        SoundEffects.fadeOut(loop, volumeInst.getLoops(), fadeOutSpeed);
     }
 
     /**
@@ -353,15 +331,15 @@ class SoundEffects {
         return true;
     }
 
-    /**
-     *
-     * @param id {string}
-     * @param [fadeInSpeed] {number}
-     * @param [stopBy] {object}
-     * @param [vibration] {object}
-     * @param [notification] {object}
-     */
     async playLoop(id, {fadeInSpeed = 1000, stopBy, vibration, notification} = {}) {
+        /**
+         *
+         * @param id {string}
+         * @param [fadeInSpeed] {number}
+         * @param [stopBy] {object}
+         * @param [vibration] {object}
+         * @param [notification] {object}
+         */
         const loop = this.loops[id];
 
         if (notification) {
@@ -372,11 +350,11 @@ class SoundEffects {
             NotificationsEffects.play(notification);
         }
 
-        await SoundEffects.fadeIn(loop, this.VolumeInst.getLoops(), fadeInSpeed);
+        await SoundEffects.fadeIn(loop, volumeInst.getLoops(), fadeInSpeed);
 
         if (vibration) {
             setTimeout(() => {
-                VibrationEffects.play(vibration);
+                vibrationEffectsInst.play(vibration);
             }, 300);
         }
 
@@ -399,7 +377,7 @@ class SoundEffects {
         if (!oneShots[id]) {
             oneShots[id] = SoundEffects.newHowlOneShot({
                 src: oneShotCur.src,
-                volume: this.VolumeInst.getOneShots()
+                volume: volumeInst.getOneShots()
             });
         }
     }
@@ -415,7 +393,7 @@ class SoundEffects {
         if (!loops[id]) {
             loops[id] = SoundEffects.newHowlLoop({
                 src: loopCur.src,
-                volume: this.VolumeInst.getLoops()
+                volume: volumeInst.getLoops()
             });
         }
     }
@@ -510,15 +488,15 @@ class ImageEffects {
     }
 }
 
-let vibroInterval;
-
-export class VibrationEffects {
-    constructor() {
-        //todo: геттеры, сеттеры, записываем и меняем состояние вибрации здесь, отвязываемся от DOM-элемента
-    }
-
-    static vibrationSupport() {
-        return 'vibrate' in navigator;
+class VibrationEffects {
+    /**
+     *
+     * @param state {boolean}; первоначальное состояние вибрации
+     */
+    constructor({state = true} = {}) {
+        this.state = state;
+        this.vibrationSupport = 'vibrate' in navigator;
+        this.interval = null;
     }
 
     /**
@@ -527,17 +505,17 @@ export class VibrationEffects {
      * @param [repeat] {number}
      * @param [sleep] {number}
      */
-    static play({duration, repeat = 0, sleep = 100} = {}) {
-        if (!VibrationEffects.vibrationSupport()) return;
-        if (VibrationEffects.state() !== 'true') return;
+    play({duration, repeat = 0, sleep = 100} = {}) {
+        if (!this.vibrationSupport) return;
+        if (this.state !== true) return;
 
         navigator.vibrate(duration);
 
         if (repeat > 1) {
             let i = 1;
 
-            vibroInterval = setInterval(() => {
-                if (i >= repeat) clearInterval(vibroInterval);
+            this.interval = setInterval(() => {
+                if (i >= repeat) clearInterval(this.interval);
 
                 navigator.vibrate(duration);
 
@@ -546,14 +524,36 @@ export class VibrationEffects {
         }
     }
 
-    static stop() {
-        if (!VibrationEffects.vibrationSupport()) return;
+    stop() {
+        if (!this.vibrationSupport) return;
 
-        clearInterval(vibroInterval);
+        clearInterval(this.interval);
         navigator.vibrate(0);
     }
-
-    static state() {
-        return $(getDOMSelectors().page).attr('data-vibration');
-    }
 }
+
+const states = LocalStorage.getState();
+
+export const volumeInst = getVolumeInst();
+
+export const vibrationEffectsInst = new VibrationEffects({
+    state: get(states, 'vibration')
+});
+
+export const soundEffectsInst = new SoundEffects({
+    loops: {},
+    oneShots: {}
+});
+
+export const volumeControllerInst = new VolumeController({
+    $videos: $('video'),
+    oneShots: soundEffectsInst.oneShots,
+    loops: soundEffectsInst.loops,
+    volumeInst
+});
+
+export const imageEffectsInst = new ImageEffects({
+    images: {}
+});
+
+export const EffectsController = new Effects();

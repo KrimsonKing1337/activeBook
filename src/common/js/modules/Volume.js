@@ -55,17 +55,16 @@ export class Volume {
 export class VolumeController {
     /**
      *
-     * @param params {object}
-     * @param params.Volume {object} instance of class Volume;
-     * @param params.$videos {object} jquery
-     * @param params.oneShots[] {object} Howler
-     * @param params.loops[] {object} Howler
+     * @param volumeInst {object} instance of class Volume;
+     * @param $videos {object} jquery
+     * @param oneShots[] {object} Howler
+     * @param loops[] {object} Howler
      */
-    constructor(params = {}) {
-        this.Volume = params.Volume;
-        this.$videos = params.$videos;
-        this.oneShots = params.oneShots;
-        this.loops = params.loops;
+    constructor({volumeInst, $videos, oneShots, loops} = {}) {
+        this.volumeInst = volumeInst;
+        this.$videos = $videos;
+        this.oneShots = oneShots;
+        this.loops = loops;
     }
 
     /**
@@ -74,7 +73,7 @@ export class VolumeController {
      * @param params.volume {number}
      */
     setGlobal(params = {}) {
-        const Volume = this.Volume;
+        const Volume = this.volumeInst;
         const newVolume = params.volume;
 
         /**
@@ -93,10 +92,10 @@ export class VolumeController {
      * @param params.volume {number}
      */
     setOneShots(params = {}) {
-        const Volume = this.Volume;
+        const Volume = this.volumeInst;
         const $videos = this.$videos;
         const oneShots = this.oneShots;
-        const newVolume = params.volume * this.Volume.global;
+        const newVolume = params.volume * this.volumeInst.global;
 
         /**
          * обновляем значение громкости подсказок в экземпляре класса Volume
@@ -108,7 +107,7 @@ export class VolumeController {
         });
 
         $videos.each(function () {
-            this.volume = newVolume;
+            this.volumeInst = newVolume;
         });
     }
 
@@ -118,9 +117,9 @@ export class VolumeController {
      * @param params.volume {number}
      */
     setLoops(params = {}) {
-        const Volume = this.Volume;
+        const Volume = this.volumeInst;
         const loops = this.loops;
-        const newVolume = params.volume * this.Volume.global;
+        const newVolume = params.volume * this.volumeInst.global;
 
         /**
          * обновляем значение громкости фоновых звуков в экземпляре класса Volume
