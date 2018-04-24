@@ -1,4 +1,4 @@
-import {pageInfo} from './pageInfo';
+import {pageInfo} from './PageInfo';
 import {menuInit} from './menuInit';
 import {browserCheck} from './browserCheck';
 import getDOMSelectors from './modules/GetDOMSelectors';
@@ -27,7 +27,7 @@ $(window).on('load', async () => {
     const textAJAX = await getAJAX(`/page-0.html`);
     const dataJSON = await getAJAX(`/page-0.json`);
 
-    pageInfo(dataJSON.pageInfo);
+    pageInfo.set(dataJSON.pageInfo);
 
     $('.text-wrapper').html(textAJAX);
 
@@ -62,18 +62,18 @@ $(window).on('load', async () => {
         const textAJAX = await getAJAX(`/page-${pageNum}.html`);
         const dataJSON = await getAJAX(`/page-${pageNum}.json`);
 
-        pageInfo(dataJSON.pageInfo);
+        pageInfo.set(dataJSON.pageInfo);
 
         //запоминаем последнюю открытую страницу
-        LocalStorage.write({key: 'lastOpenedPage', val: pageInfo().current});
+        LocalStorage.write({key: 'lastOpenedPage', val: pageInfo.get().current});
 
         $('.text-wrapper').html(textAJAX);
 
         EffectsController.setEffects(dataJSON.effects);
 
         //устанавливаем плейсхолдеры для input-ов
-        $('.js-page-number').text(`${pageInfo().current} из ${pageInfo().length}`);
-        $('.js-page-input').attr('placeholder', pageInfo().current);
+        $('.js-page-number').text(`${pageInfo.get().current} из ${pageInfo.get().length}`);
+        $('.js-page-input').attr('placeholder', pageInfo.get().current);
 
         playOnLoad({effects: dataJSON.effects, EffectsController});
 

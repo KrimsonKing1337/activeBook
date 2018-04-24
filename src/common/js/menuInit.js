@@ -4,7 +4,7 @@ import {svgInit} from './svgInit';
 import {ionRangeSliderInit} from './ionRangeSliderInit';
 import getDOMSelectors from './modules/GetDOMSelectors';
 import {saveStates} from './saveStates';
-import {pageInfo} from './pageInfo';
+import {pageInfo} from './PageInfo';
 import {vibrationEffectsInst, volumeInst} from './modules/Effects';
 import {volumeControllerInst} from './modules/Effects';
 
@@ -111,8 +111,8 @@ export function menuInit() {
         $('.js-table-of-contents-close').trigger('click');
 
         GoToPage.goWithDirection({
-            currentPage: pageInfo().current,
-            pagesLength: pageInfo().length,
+            currentPage: pageInfo.get().current,
+            pagesLength: pageInfo.get().length,
             direction: Math.abs(parseInt(newVal))
         });
     });
@@ -139,22 +139,22 @@ export function menuInit() {
     });
 
     //устанавливаем плейсхолдеры для input-ов
-    $('.js-page-number').text(`${pageInfo().current} из ${pageInfo().length}`);
-    $('.js-page-input').attr('placeholder', pageInfo().current);
+    $('.js-page-number').text(`${pageInfo.get().current} из ${pageInfo.get().length}`);
+    $('.js-page-input').attr('placeholder', pageInfo.get().current);
 
     //меняем страницу
     $('.js-page-next').on('click', () => {
         GoToPage.goWithDirection({
-            currentPage: pageInfo().current,
-            pagesLength: pageInfo().length,
+            currentPage: pageInfo.get().current,
+            pagesLength: pageInfo.get().length,
             direction: 'next'
         });
     });
 
     $('.js-page-prev').on('click', () => {
         GoToPage.goWithDirection({
-            currentPage: pageInfo().current,
-            pagesLength: pageInfo().length,
+            currentPage: pageInfo.get().current,
+            pagesLength: pageInfo.get().length,
             direction: 'prev'
         });
     });
@@ -177,10 +177,10 @@ export function menuInit() {
         let newVal = $input.val();
 
         if (newVal.length === 0) return;
-        if (newVal === pageInfo().current) return;
+        if (newVal === pageInfo.get().current) return;
 
-        if (newVal > pageInfo().length) {
-            newVal = pageInfo().length;
+        if (newVal > pageInfo.get().length) {
+            newVal = pageInfo.get().length;
         } else if (newVal <= 0) {
             newVal = 1;
         }
@@ -291,7 +291,7 @@ export function menuInit() {
         if (monthNow < 10) monthNow = `0${ monthNow}`;
         const yearNow = dateNow.getFullYear().toString().substring(2);
         const parseDate = `${dayNow }/${ monthNow }/${ yearNow}`;
-        const pageNumber = pageInfo().current;
+        const pageNumber = pageInfo.get().current;
 
         $newBookmark.find('.js-bookmark-date').text(parseDate);
         $newBookmark.find('.js-bookmark-page').text(pageNumber);
