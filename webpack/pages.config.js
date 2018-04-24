@@ -1,14 +1,10 @@
 /**
- * для удобства, во время дебагга страниц в dev-окружении
- */
-
-/**
  * @param page {string};
  * @return {{}}
  */
 pageConfig = (page) => {
     const pageConfig = {
-        title: 'activeBook 2.0 demo',
+        title: 'activeBook 2.0',
         context: '',
     };
 
@@ -52,7 +48,7 @@ const pagesConfig = [];
 
 for (let i = 0; i <= 9; i++) {
     pagesConfig.push({
-        title: 'activeBook 2.0 demo',
+        title: 'activeBook 2.0',
         context: `page-${i}`,
         pageNumber: i,
         pagesLength: 9

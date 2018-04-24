@@ -6,30 +6,26 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
-
+const HtmlWebpackInlineSVGPlugin = require('html-webpack-inline-svg-plugin');
 const pagesConfig = require('./pages.config');
+
+const rootPath = resolve(__dirname, '../');
 
 const extractSass = new ExtractTextPlugin({
     filename: '[name].[hash].css',
     disable: process.env.NODE_ENV === 'development'
 });
 
-const rootPath = resolve(__dirname, '../');
-
-const HtmlWebpackInlineSVGPlugin = require('html-webpack-inline-svg-plugin');
-
-const htmlWebpackPluginChunks = pagesConfig.map((obj) => {
-    const {title, context, pageNumber, pagesLength} = obj;
+const htmlWebpackPluginChunksPages = pagesConfig.map((obj) => {
+    const {context, pageNumber, pagesLength} = obj;
 
     return new HtmlWebpackPlugin({
-        title,
         context,
         pageNumber,
         pagesLength,
-        template: `${rootPath}/src/text.ejs`,
+        template: `${rootPath}/src/elements/text.ejs`,
         filename: `${context}.html`,
         inject: false,
-        rootPath,
         svgoConfig: {
             cleanupIDs: true,
             removeTitle: false,
@@ -60,7 +56,7 @@ module.exports = {
             jQuery: 'jquery',
             'window.jQuery': 'jquery'
         }),
-        ...htmlWebpackPluginChunks,
+        ...htmlWebpackPluginChunksPages,
         new HtmlWebpackPlugin({
             template: `${rootPath}/src/index.ejs`,
             filename: 'index.html',

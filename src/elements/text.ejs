@@ -1,0 +1,6 @@
+<%
+var options = htmlWebpackPlugin.options;
+var context = options.context;
+%>
+
+<%= require('../pages/' + context + '/' + context + '.ejs')() %>
