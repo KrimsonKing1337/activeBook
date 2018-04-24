@@ -42,7 +42,7 @@ $(window).on('load', async () => {
 
     EffectsController.setEffects(dataJSON.effects);
 
-    playOnLoad({effects: dataJSON.effects, EffectsController});
+    playOnLoad(dataJSON.effects);
 
     if (dataJSON.pageInfo.current === 0) {
         $(DOMSelectors.menu).addClass('hide');
@@ -75,7 +75,7 @@ $(window).on('load', async () => {
         $('.js-page-number').text(`${pageInfo.get().current} из ${pageInfo.get().length}`);
         $('.js-page-input').attr('placeholder', pageInfo.get().current);
 
-        playOnLoad({effects: dataJSON.effects, EffectsController});
+        playOnLoad(dataJSON.effects);
 
         textInit(EffectsController);
 

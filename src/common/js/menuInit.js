@@ -5,7 +5,7 @@ import {ionRangeSliderInit} from './ionRangeSliderInit';
 import getDOMSelectors from './modules/GetDOMSelectors';
 import {saveStates} from './saveStates';
 import {pageInfo} from './PageInfo';
-import {vibrationEffectsInst, volumeInst} from './modules/Effects';
+import {vibrationEffectsInst} from './modules/Effects';
 import {volumeControllerInst} from './modules/Effects';
 
 export function menuInit() {
@@ -68,7 +68,7 @@ export function menuInit() {
                 $vibrationOption: $(DOMSelectors.vibrationOption)
             });
 
-            saveStates(volumeInst);
+            saveStates();
         });
     }
 
@@ -80,7 +80,7 @@ export function menuInit() {
             $themeOption: $(DOMSelectors.themeOption)
         });
 
-        saveStates(volumeInst);
+        saveStates();
     });
 
     //оглавление
@@ -101,6 +101,7 @@ export function menuInit() {
             $(DOMSelectors.tableOfContents).removeClass('active');
             $(DOMSelectors.tableOfContents)[0].scrollTop = 0;
         });
+
         $(DOMSelectors.text).removeClass('hide');
     });
 
@@ -125,7 +126,7 @@ export function menuInit() {
             $target: $(DOMSelectors.page)
         });
 
-        saveStates(volumeInst);
+        saveStates();
     });
 
     $('.js-line-height-plus').on('click', () => {
@@ -135,7 +136,7 @@ export function menuInit() {
             $target: $(DOMSelectors.page)
         });
 
-        saveStates(volumeInst);
+        saveStates();
     });
 
     //устанавливаем плейсхолдеры для input-ов
@@ -226,7 +227,7 @@ export function menuInit() {
             direction: 'less'
         });
 
-        saveStates(volumeInst);
+        saveStates();
     });
 
     $('.js-font-size-up').on('click', () => {
@@ -235,7 +236,7 @@ export function menuInit() {
             direction: 'more'
         });
 
-        saveStates(volumeInst);
+        saveStates();
     });
 
     //событие изменения положения ползунка глобальной громкости
@@ -246,7 +247,7 @@ export function menuInit() {
 
         if (save === false) return;
 
-        saveStates(volumeInst);
+        saveStates();
     });
 
     //событие изменения положения ползунка громкости подсказок (звуков в тексте)
@@ -257,7 +258,7 @@ export function menuInit() {
 
         if (save === false) return;
 
-        saveStates(volumeInst);
+        saveStates();
     });
 
     //событие изменения положения ползунка громкости фоновых звуков
@@ -268,7 +269,7 @@ export function menuInit() {
 
         if (save === false) return;
 
-        saveStates(volumeInst);
+        saveStates();
     });
 
     //переходим по закладке
@@ -288,9 +289,9 @@ export function menuInit() {
         const dateNow = new Date();
         const dayNow = dateNow.getDate();
         let monthNow = (dateNow.getMonth() + 1);
-        if (monthNow < 10) monthNow = `0${ monthNow}`;
+        if (monthNow < 10) monthNow = `0${ monthNow }`;
         const yearNow = dateNow.getFullYear().toString().substring(2);
-        const parseDate = `${dayNow }/${ monthNow }/${ yearNow}`;
+        const parseDate = `${ dayNow }/${ monthNow }/${ yearNow }`;
         const pageNumber = pageInfo.get().current;
 
         $newBookmark.find('.js-bookmark-date').text(parseDate);
@@ -300,7 +301,7 @@ export function menuInit() {
 
         bookmarkPopover.positioning();
 
-        saveStates(volumeInst);
+        saveStates();
     });
 
     //удаляем закладку
@@ -311,6 +312,6 @@ export function menuInit() {
 
         bookmarkPopover.positioning();
 
-        saveStates(volumeInst);
+        saveStates();
     });
 }
