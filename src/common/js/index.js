@@ -15,6 +15,7 @@ import LocalStorage from './modules/LocalStorage';
 import {startReadingBtnInit} from './startReadingBtnInit';
 import {changePageByKeyboardAndSwipesInit} from './changePageByKeyboardAndSwipesInit';
 import {firstOpenCheck} from './firstOpenCheck';
+import {addContentInit} from './addContentInit';
 
 $(window).on('load', async () => {
     if (browserCheck() === false) return;
@@ -100,27 +101,7 @@ $(window).on('load', async () => {
     hoverTouchUnstick();
 
     //add content init
-    $(DOMSelectors.addContentClose).on('click', () => {
-        $(DOMSelectors.addContent).fadeOut();
-    });
-
-    $(DOMSelectors.addContentFullSize).on('click', () => {
-        const children = $(DOMSelectors.addContentInner).children();
-
-        let src;
-        const video = children.filter('video');
-        const img = children.filter('img');
-
-        if (img.length > 0) {
-            src = img.attr('src');
-        }
-
-        //todo: video
-
-        $(DOMSelectors.addContentClose).trigger('click');
-
-        window.open(`${window.location.origin}/${src}`, '_blank');
-    });
+    addContentInit();
 
     startReadingBtnInit();
 
