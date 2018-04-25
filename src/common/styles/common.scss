@@ -13,14 +13,13 @@ body {
 }
 
 body.loading {
-  overflow: hidden;
   pointer-events: none;
 
   .page {
-    opacity: 0; //if display: none mCustomScrollbar going crazy
+    display: none;
   }
 
-  .text {
+  .text-wrapper {
     overflow: hidden;
   }
 
