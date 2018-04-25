@@ -144,7 +144,16 @@ input[type="number"] {
   justify-content: center;
   width: 100%;
   min-height: 100%;
+  height: 100%;
   background: #f0f0f0;
+  overflow: hidden;
+  padding-top: 5px;
+  padding-bottom: 10px;
+
+  @media screen and (max-width: 500px) {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
 }
 
 .add-content {
@@ -207,11 +216,18 @@ input[type="number"] {
   transform: translateX(-50%);
   width: 100%;
   max-width: 500px;
-  min-height: 100%;
-  height: 100%;
+  height: calc(100% - 15px); //15 = margin-top + margin-bottom
+  margin-top: 5px;
+  margin-bottom: 10px;
   background: #fff;
   padding: 40px 20px;
   overflow-y: auto;
+
+  @media screen and (max-width: 500px) {
+    height: 100%;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 
   &__inner {
     transform: translateZ(0);
@@ -445,32 +461,23 @@ input[type="number"] {
   }
 }
 
-.bg-wrapper {
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-  width: 100%;
-  max-width: 500px;
-  height: 100%;
-  background: #fff;
-  box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.75);
-}
-
 .main-content {
   position: relative;
   z-index: 2;
-  /*display: flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;*/
+  justify-content: flex-start;
   width: 100%;
   max-width: 500px;
   min-height: 100%;
-  margin-top: 5px;
-  margin-bottom: 10px;
+  height: 100%;
+  background: #fff;
+  box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.75);
+
+  @media screen and (max-width: 500px) {
+    box-shadow: none;
+  }
 }
 
 .effects {
@@ -515,14 +522,20 @@ p {
   }
 }
 
+.text-wrapper {
+  width: 100%;
+  height: 100%;
+  margin-bottom: 20px;
+  overflow: auto;
+}
+
 .text {
   position: relative;
   padding: 20px;
-  padding-bottom: 73px;
   min-height: 100%;
+  height: 100%;
   width: 100%;
   font-size: 100%;
-  overflow: auto;
 
   &.hide {
     display: none; //change by script;
@@ -658,11 +671,18 @@ p {
   transform: translateX(-50%);
   width: 100%;
   max-width: 500px;
-  min-height: 100%;
-  height: 100%;
+  height: calc(100% - 15px); //15 = margin-top + margin-bottom
+  margin-top: 5px;
+  margin-bottom: 10px;
   background: #fff;
   padding: 40px 20px;
   overflow-y: auto;
+
+  @media screen and (max-width: 500px) {
+    height: 100%;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
 
   &.active {
     display: block;
@@ -718,11 +738,6 @@ p {
 }
 
 .menu {
-  position: fixed;
-  bottom: 0; //margin-bottom of main-content
-  //bottom: 10px; //margin-bottom of main-content
-  left: 50%;
-  transform: translateX(-50%);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -733,6 +748,7 @@ p {
   padding: 0 20px;
   background: #fff;
   z-index: 10;
+  flex-shrink: 0;
 
   &.hide {
     display: none;
@@ -996,8 +1012,6 @@ p {
     &__label {
       font-family: RobotoLight, Arial, Helvetica, sans-serif;
       font-size: 14px;
-      //text-transform: uppercase;
-      //padding-bottom: 3px;
     }
 
     &__toggle {
