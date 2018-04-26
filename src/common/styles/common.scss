@@ -523,15 +523,15 @@ p {
 
 .text-wrapper {
   width: 100%;
-  height: 100%;
+  height: calc(100% - 68px); //height of menu + margin-bottom
   margin-bottom: 20px;
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .text {
   position: relative;
   padding: 20px;
-  min-height: 100%;
   height: 100%;
   width: 100%;
   font-size: 100%;
