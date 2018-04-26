@@ -221,6 +221,7 @@ input[type="number"] {
   background: #fff;
   padding: 40px 20px;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 
   @media screen and (max-width: 500px) {
     height: 100%;
@@ -525,7 +526,7 @@ p {
   width: 100%;
   height: calc(100% - 68px); //height of menu + margin-bottom
   margin-bottom: 20px;
-  overflow: auto;
+  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -676,6 +677,7 @@ p {
   background: #fff;
   padding: 40px 20px;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 
   @media screen and (max-width: 500px) {
     height: 100%;
@@ -1251,6 +1253,7 @@ p {
 
   &__item {
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
