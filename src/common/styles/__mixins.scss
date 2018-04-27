@@ -1,12 +1,12 @@
-@mixin transition-default () {
+@mixin transition-default() {
   transition: all ease 0.3s 0s;
 }
 
-@mixin transition-fade-default () {
+@mixin transition-fade-default() {
   transition: opacity ease 0.3s 0s;
 }
 
-@mixin hover-default () {
+@mixin hover-default() {
   @include transition-default;
 
   &.hover,
@@ -15,7 +15,7 @@
   }
 }
 
-@mixin theme-scroll ($theme) {
+@mixin theme-scroll($theme) {
   $bar: #f2994a;
   $rail: #fff;
 
@@ -38,14 +38,14 @@
         }
       }
 
-      .mCSB_draggerRail{
+      .mCSB_draggerRail {
         background-color: $rail;
       }
     }
   }
 }
 
-@mixin theme-menu ($theme) {
+@mixin theme-menu($theme) {
   $fill: #000;
   $hover: #f2c94c;
   $active: #f2994a;
@@ -123,7 +123,7 @@
   }
 }
 
-@mixin theme-add-settings ($theme) {
+@mixin theme-add-settings($theme) {
   $main: #f2994a;
   $second: #fff;
   $numeric: #000;
@@ -189,7 +189,7 @@
   }
 }
 
-@mixin theme-full-screen-menu ($theme) {
+@mixin theme-full-screen-menu($theme) {
   $fill: #000;
   $hover: #f2c94c;
   $active: #f2994a;
@@ -265,10 +265,37 @@
   }
 }
 
+@mixin theme-loader($theme) {
+  $bg: #fff;
+  $borderTop: #f2c94c;
+  $border: #f2994a;
+
+  @if ($theme == 'gray') {
+    $bg: #fff;
+    $borderTop: #9c9c9c;
+    $border: #828282;
+  } @else if ($theme == 'yellow') {
+    $bg: #fff;
+    $borderTop: #9c9c9c;
+    $border: #fdf5de;
+  } @else if ($theme == 'dark-blue') {
+    $bg: #fff;
+    $borderTop: #9bc4d9;
+    $border: #728c9a;
+  }
+
+  &.page:before {
+    background-color: $bg;
+    border-color: $border;
+    border-top-color: $borderTop;
+  }
+}
+
 //theme
-@mixin theme ($theme) {
+@mixin theme($theme) {
   @include theme-scroll($theme);
   @include theme-menu($theme);
   @include theme-add-settings($theme);
   @include theme-full-screen-menu($theme);
+  @include theme-loader($theme);
 }

@@ -5,3 +5,4 @@ build/
 *.ogg
 *.mp4
 *.webm
+package-lock.json
