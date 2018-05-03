@@ -89,6 +89,8 @@ $(window).on('load', async () => {
         }
 
         $body.removeClass('loading');
+
+        $(DOMSelectors.textWrapper).focus();
     });
 
     changePageByKeyboardAndSwipesInit();
@@ -107,5 +109,5 @@ $(window).on('load', async () => {
 
     $body.removeClass('loading');
 
-    $(DOMSelectors.text).focus();
+    $(DOMSelectors.textWrapper).focus();
 });

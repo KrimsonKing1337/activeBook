@@ -13,6 +13,7 @@ export default function getDOMSelectors() {
      */
     return {
         text: '.text',
+        textWrapper: '.text-wrapper',
         tableOfContents: '.table-of-contents',
         menu: '.menu',
         addContent: '.add-content',
