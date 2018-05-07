@@ -30,7 +30,7 @@ $(window).on('load', async () => {
 
     pageInfo.set(dataJSON.pageInfo);
 
-    $('.text-wrapper').html(textAJAX);
+    $(DOMSelectors.textWrapper).html(textAJAX);
 
     visibilityChangeInit();
 
