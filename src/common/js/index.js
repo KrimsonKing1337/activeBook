@@ -80,8 +80,6 @@ $(window).on('load', async () => {
 
         textInit(EffectsController);
 
-        $(DOMSelectors.textWrapper).scrollTop(0);
-
         if (dataJSON.pageInfo.current === 0) {
             $(DOMSelectors.menu).addClass('hide');
         } else {
@@ -90,7 +88,9 @@ $(window).on('load', async () => {
 
         $body.removeClass('loading');
 
-        $(DOMSelectors.textWrapper).focus();
+        $(DOMSelectors.textWrapper)
+            .scrollTop(0)
+            .focus();
     });
 
     changePageByKeyboardAndSwipesInit();
