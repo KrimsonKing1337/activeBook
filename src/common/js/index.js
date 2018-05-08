@@ -68,7 +68,7 @@ $(window).on('load', async () => {
         //запоминаем последнюю открытую страницу
         LocalStorage.write({key: 'lastOpenedPage', val: pageInfo.get().current});
 
-        $('.text-wrapper').html(textAJAX);
+        $(DOMSelectors.textWrapper).html(textAJAX);
 
         EffectsController.setEffects(dataJSON.effects);
 
@@ -80,7 +80,7 @@ $(window).on('load', async () => {
 
         textInit(EffectsController);
 
-        window.scrollTo(0, 0);
+        $(DOMSelectors.textWrapper).scrollTop(0);
 
         if (dataJSON.pageInfo.current === 0) {
             $(DOMSelectors.menu).addClass('hide');
