@@ -15,45 +15,17 @@
   }
 }
 
-@mixin theme-scroll($theme) {
-  $bar: #f2994a;
-  $rail: #fff;
-
-  @if ($theme == 'gray') {
-    $bar: #828282;
-    $rail: #fff;
-  } @else if ($theme == 'yellow') {
-    $bar: #fdf5de;
-    $rail: #fff;
-  } @else if ($theme == 'dark-blue') {
-    $bar: #728c9a;
-    $rail: #fff;
-  }
-
-  .mCS-activeBook {
-    &.mCSB_scrollTools {
-      .mCSB_dragger {
-        .mCSB_dragger_bar {
-          background: $bar;
-        }
-      }
-
-      .mCSB_draggerRail {
-        background-color: $rail;
-      }
-    }
-  }
-}
-
 @mixin theme-menu($theme) {
   $fill: #000;
   $hover: #f2c94c;
   $active: #f2994a;
+  $bg: #fff;
 
   @if ($theme == 'gray') {
-    $fill: #000;
+    $fill: #a3a3a3;
     $hover: #9c9c9c;
     $active: #828282;
+    $bg: #111;
   } @else if ($theme == 'yellow') {
     $fill: #000;
     $hover: #9c9c9c;
@@ -65,6 +37,9 @@
   }
 
   .menu {
+    color: $fill;
+    background-color: $bg;
+
     &__item {
       .obj-img__wrapper {
         svg {
@@ -82,18 +57,6 @@
         &.active {
           svg {
             fill: $active;
-          }
-        }
-      }
-
-      &.page-number {
-        input {
-          &::-webkit-input-placeholder {
-            color: $fill;
-          }
-
-          &::-moz-placeholder {
-            color: $fill;
           }
         }
       }
@@ -291,11 +254,24 @@
   }
 }
 
+@mixin theme-page($theme) {
+  @if ($theme == 'gray') {
+    .page,
+    .main-content {
+      background-color: #111;
+    }
+
+    .text {
+      color: #a3a3a3;
+    }
+  }
+}
+
 //theme
 @mixin theme($theme) {
-  @include theme-scroll($theme);
   @include theme-menu($theme);
   @include theme-add-settings($theme);
   @include theme-full-screen-menu($theme);
   @include theme-loader($theme);
+  @include theme-page($theme);
 }
