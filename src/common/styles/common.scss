@@ -22,12 +22,13 @@ body.loading {
 
     &:before {
       content: '';
-      position: fixed;
+      position: absolute;
       z-index: 999;
-      top: 50%;
-      left: 50%;
-      margin-top: -60px;
-      margin-left: -60px;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
       background: #f0f0f0;
       border: 16px solid #f2994a;
       border-top: 16px solid #f2c94c;
