@@ -249,13 +249,13 @@
   $border: #f2994a;
 
   @if ($theme == 'dark') {
-    $bg: #fff;
-    $borderTop: #9c9c9c;
+    $bg: #111;
+    $borderTop: #a3a3a3;
     $border: #828282;
   } @else if ($theme == 'black') {
     $bg: #fff;
     $borderTop: #9c9c9c;
-    $border: #fdf5de;
+    $border: #828282;
   } @else if ($theme == 'dark-blue') {
     $bg: #fff;
     $borderTop: #9bc4d9;
@@ -263,9 +263,18 @@
   }
 
   &.page:before {
-    //background-color: $bg;
     border-color: $border;
     border-top-color: $borderTop;
+  }
+
+  @if ($theme == 'dark') {
+    &.page {
+      background-color: #111 !important;
+
+      &:before {
+        background-color: #111 !important;
+      }
+    }
   }
 }
 
