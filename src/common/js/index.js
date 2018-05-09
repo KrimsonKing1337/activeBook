@@ -107,7 +107,8 @@ $(window).on('load', async () => {
 
     startReadingBtnInit();
 
-    $body.removeClass('loading');
+    $body.removeClass('initing');
+    $body.css('opacity', 1);
 
     $(DOMSelectors.textWrapper).focus();
 });
