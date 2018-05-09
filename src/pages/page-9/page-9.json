@@ -20,6 +20,12 @@
         "className": "info"
       },
       "playOnLoad": true
+    },
+    {
+      "id": "text-shadow-alert",
+      "type": "text-shadow",
+      "state": true,
+      "playOnLoad": true
     }
   ],
   "pageInfo": {

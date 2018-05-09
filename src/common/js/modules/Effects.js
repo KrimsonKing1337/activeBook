@@ -37,7 +37,7 @@ class Effects {
             } else if (type === 'loop') {
                soundEffectsInst.checkAndSetNewLoop(effectCur);
             } else if (type === 'image') {
-               imageEffectsInst.checkAndSet(effectCur);
+                imageEffectsInst.checkAndSet(effectCur);
             }
         });
     }
@@ -65,6 +65,8 @@ class Effects {
             imageEffectsInst.play(id);
         } else if (type === 'notification') {
             NotificationsEffects.play(effectCur);
+        } else if (type === 'text-shadow') {
+            textShadowEffectsInst.play(effectCur);
         }
     }
 
@@ -85,6 +87,7 @@ class Effects {
 
     stopAll({target, fadeOutSpeed = 1000, unload = false} = {}) {
         vibrationEffectsInst.stop();
+        textShadowEffectsInst.hide();
         soundEffectsInst.stopAll({target, fadeOutSpeed, unload});
     }
 }
@@ -544,6 +547,33 @@ class VibrationEffects {
     }
 }
 
+class TextShadowEffects {
+    constructor() {
+        this.$textShadowWrapper = $('.text-shadow-wrapper');
+        this.$textShadow = $('.text-shadow');
+    }
+
+    show() {
+        this.$textShadowWrapper.addClass('active');
+    }
+
+    hide() {
+        this.$textShadowWrapper.removeClass('active');
+    }
+
+    /**
+     *
+     * @param state {boolean}
+     */
+    play({state} = {}) {
+        if (state === true) {
+            this.show();
+        } else {
+            this.hide();
+        }
+    }
+}
+
 const states = LocalStorage.getState();
 
 export const volumeInst = getVolumeInst();
@@ -567,5 +597,7 @@ export const volumeControllerInst = new VolumeController({
 export const imageEffectsInst = new ImageEffects({
     images: {}
 });
+
+export const textShadowEffectsInst = new TextShadowEffects();
 
 export const EffectsController = new Effects();

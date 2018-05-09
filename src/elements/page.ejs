@@ -9,9 +9,10 @@
         <div class="add-content__inner js-add-content-inner"></div>
     </div>
     <div class="main-content">
-        <div class="text-wrapper" tabindex="-1">
-
+        <div class="text-shadow-wrapper">
+            <div class="text-shadow"></div>
         </div>
+        <div class="text-wrapper js-scrollable-item" tabindex="-1"></div>
         <%= require('./menu.ejs')() %>
         <%= require('./table-of-contents.ejs')() %>
         <%= require('./menu-full-screen.ejs')() %>
