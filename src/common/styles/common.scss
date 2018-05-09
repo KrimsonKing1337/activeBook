@@ -312,12 +312,13 @@ input[type="number"] {
         background: #fff;
       }
 
-      &[data-theme="gray"] {
+      &[data-theme="dark"] {
         background: #828282;
       }
 
-      &[data-theme="yellow"] {
-        background: #FDF5DE;
+      &[data-theme="black"] {
+        border: 1px #111 solid;
+        background: #fff;
       }
 
       &[data-theme="dark-blue"] {
@@ -878,6 +879,7 @@ p {
           width: 100%;
           background: none;
           outline: none;
+          color: inherit;
         }
       }
 
@@ -1171,11 +1173,11 @@ p {
           background: #fff;
         }
 
-        &[data-theme="gray"] {
+        &[data-theme="dark"] {
           background: #828282;
         }
 
-        &[data-theme="yellow"] {
+        &[data-theme="black"] {
           background: #FDF5DE;
         }
 
@@ -1327,12 +1329,12 @@ p {
     @include theme('default');
   }
 
-  &[data-theme="gray"] {
-    @include theme('gray');
+  &[data-theme="dark"] {
+    @include theme('dark');
   }
 
-  &[data-theme="yellow"] {
-    @include theme('yellow');
+  &[data-theme="black"] {
+    @include theme('black');
   }
 
   &[data-theme="dark-blue"] {

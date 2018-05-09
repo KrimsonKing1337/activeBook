@@ -21,15 +21,15 @@
   $active: #f2994a;
   $bg: #fff;
 
-  @if ($theme == 'gray') {
+  @if ($theme == 'dark') {
     $fill: #a3a3a3;
     $hover: #9c9c9c;
     $active: #828282;
     $bg: #111;
-  } @else if ($theme == 'yellow') {
+  } @else if ($theme == 'black') {
     $fill: #000;
-    $hover: #9c9c9c;
-    $active: #fdf5de;
+    $hover: #a3a3a3;
+    $active: #111;
   } @else if ($theme == 'dark-blue') {
     $fill: #000;
     $hover: #9bc4d9;
@@ -82,6 +82,18 @@
           }
         }
       }
+
+      .go-to-page-by-number {
+        background-color: $active;
+
+        &__input {
+          background-color: $bg;
+
+          @if($theme == 'dark') {
+            color: #fff;
+          }
+        }
+      }
     }
   }
 }
@@ -91,12 +103,12 @@
   $second: #fff;
   $numeric: #000;
 
-  @if ($theme == 'gray') {
+  @if ($theme == 'dark') {
     $main: #828282;
     $second: #fff;
     $numeric: #000;
-  } @else if ($theme == 'yellow') {
-    $main: #fdf5de;
+  } @else if ($theme == 'black') {
+    $main: #111;
     $second: #fff;
     $numeric: #000;
   } @else if ($theme == 'dark-blue') {
@@ -107,8 +119,6 @@
 
   .add-settings {
     &__item {
-      $item: &;
-
       &__toggle {
         border: 1px $main solid;
 
@@ -144,7 +154,7 @@
       &.header-button {
         background: $main;
 
-        #{$item}__label {
+        .add-settings__label {
           color: $second;
         }
       }
@@ -157,14 +167,14 @@
   $hover: #f2c94c;
   $active: #f2994a;
 
-  @if ($theme == 'gray') {
+  @if ($theme == 'dark') {
+    $fill: #111;
+    $hover: #828282;
+    $active: #a3a3a3;
+  } @else if ($theme == 'black') {
     $fill: #000;
     $hover: #9c9c9c;
-    $active: #828282;
-  } @else if ($theme == 'yellow') {
-    $fill: #000;
-    $hover: #9c9c9c;
-    $active: #fdf5de;
+    $active: #111;
   } @else if ($theme == 'dark-blue') {
     $fill: #000;
     $hover: #9bc4d9;
@@ -172,6 +182,11 @@
   }
 
   .menu-full-screen {
+    @if ($theme == 'dark') {
+      color: $active;
+      background-color: $fill;
+    }
+
     &__vibration {
       &__items-wrapper {
         border: 1px $active solid;
@@ -233,11 +248,11 @@
   $borderTop: #f2c94c;
   $border: #f2994a;
 
-  @if ($theme == 'gray') {
+  @if ($theme == 'dark') {
     $bg: #fff;
     $borderTop: #9c9c9c;
     $border: #828282;
-  } @else if ($theme == 'yellow') {
+  } @else if ($theme == 'black') {
     $bg: #fff;
     $borderTop: #9c9c9c;
     $border: #fdf5de;
@@ -255,13 +270,16 @@
 }
 
 @mixin theme-page($theme) {
-  @if ($theme == 'gray') {
+  @if ($theme == 'dark') {
     .page,
-    .main-content {
+    .main-content,
+    .table-of-contents {
       background-color: #111;
     }
 
-    .text {
+    .text,
+    .table-of-contents,
+    .table-of-contents__item {
       color: #a3a3a3;
     }
   }
