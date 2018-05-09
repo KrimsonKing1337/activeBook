@@ -1036,18 +1036,18 @@ p {
   }
 
   &__bottom {
-    $left: 14px;
+    $left: 13px;
 
     position: absolute;
     bottom: -16px;
     left: $left;
     width: auto;
-    border-bottom-right-radius: 22px; //todo: костыль, убрать когда будет нормальная svg-шка
+    transform: scaleX(-1);
 
     &.revert {
       left: auto;
       right: $left;
-      transform: scaleX(-1);
+      transform: scaleX(1);
     }
   }
 

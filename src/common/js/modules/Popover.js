@@ -35,7 +35,7 @@ export default class Popover {
         const $triggerButton = this.$triggerButton;
         const $popover = this.$popover;
 
-        $triggerButton.on('click', (e) => {
+        $triggerButton.on('click touchstart', (e) => {
             e.preventDefault();
             e.stopPropagation();
 
@@ -136,7 +136,7 @@ export default class Popover {
          * чтобы он не закрывался при нём
          */
         setTimeout(() => {
-            $popover.on('click', (e) => {
+            $popover.on('click touchstart', (e) => {
                 e.stopPropagation();
             });
         }, 0);
@@ -166,7 +166,7 @@ export default class Popover {
         const $triggerButton = selectors.$triggerButton;
 
         $popover.removeClass('active');
-        $popover.off('click');
+        $popover.off('click touchstart');
         $triggerButton.removeClass('active');
     }
 
