@@ -19,7 +19,6 @@
     }
   ],
   "pageInfo": {
-    "current": 1,
-    "length": 9
+    "num": 1
   }
 }

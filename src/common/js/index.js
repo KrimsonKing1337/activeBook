@@ -34,7 +34,7 @@ $(window).on('load', async () => {
     const pagesCurEffects = pageCurJSON.effects;
 
     pageInfo.set({
-        pageCurNum: pageCurInfo.current,
+        pageCurNum: pageCurInfo.num,
         pagesLength: pagesInfo.length
     });
 
@@ -75,7 +75,7 @@ $(window).on('load', async () => {
         const pagesCurEffects = pageCurJSON.effects;
 
         pageInfo.set({
-            pageCurNum: pageCurInfo.current
+            pageCurNum: pageCurInfo.num
         });
 
         //запоминаем последнюю открытую страницу
