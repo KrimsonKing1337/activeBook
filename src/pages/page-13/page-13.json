@@ -6,6 +6,9 @@
       "src": [
         "/book_data/audios/sound/shotgun-shot.mp3"
       ],
+      "vibration": {
+        "duration": 500
+      },
       "playOnLoad": true
     }
   ],
