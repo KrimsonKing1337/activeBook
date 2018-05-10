@@ -1,5 +1,14 @@
 {
-  "effects": [],
+  "effects": [
+    {
+      "id": "fly-ship-engine",
+      "type": "loop",
+      "src": [
+        "/book_data/audios/sound/fly-ship-engine.mp3"
+      ],
+      "playOnLoad": true
+    }
+  ],
   "pageInfo": {
     "num": 11
   }

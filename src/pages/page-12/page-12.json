@@ -1,5 +1,14 @@
 {
-  "effects": [],
+  "effects": [
+    {
+      "id": "rain-and-thunder",
+      "type": "loop",
+      "src": [
+        "/book_data/audios/sound/rain-and-thunder.mp3"
+      ],
+      "playOnLoad": true
+    }
+  ],
   "pageInfo": {
     "num": 12
   }

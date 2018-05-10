@@ -1,5 +1,14 @@
 {
-  "effects": [],
+  "effects": [
+    {
+      "id": "shotgun-shot",
+      "type": "oneShot",
+      "src": [
+        "/book_data/audios/sound/shotgun-shot.mp3"
+      ],
+      "playOnLoad": true
+    }
+  ],
   "pageInfo": {
     "num": 13
   }

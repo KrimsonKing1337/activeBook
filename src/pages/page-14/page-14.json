@@ -1,6 +1,14 @@
 {
   "effects": [
     {
+      "id": "male-heavy-breathing",
+      "type": "loop",
+      "src": [
+        "/book_data/audios/sound/male-heavy-breathing.mp3"
+      ],
+      "playOnLoad": true
+    },
+    {
       "id": "notification-to-be-continued",
       "type": "oneShot",
       "src": [
