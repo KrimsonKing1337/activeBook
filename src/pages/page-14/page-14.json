@@ -6,6 +6,9 @@
       "src": [
         "/book_data/audios/sound/male-heavy-breathing.mp3"
       ],
+      "vibration": {
+        "duration": 500
+      },
       "playOnLoad": true
     },
     {
