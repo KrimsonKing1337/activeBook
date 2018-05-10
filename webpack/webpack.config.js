@@ -83,6 +83,10 @@ module.exports = {
                 from: `${rootPath}/src/pages/**/*.json`,
                 to: `${rootPath}/build/`,
                 flatten: true
+            }, {
+                from: `${rootPath}/src/pages/pages.json`,
+                to: `${rootPath}/build/`,
+                flatten: true
             }
         ]),
         new OpenBrowserPlugin({

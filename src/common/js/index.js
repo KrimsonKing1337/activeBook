@@ -1,4 +1,4 @@
-import {pageInfo} from './PageInfo';
+import {pageInfo} from './pageInfo';
 import {menuInit} from './menuInit';
 import {browserCheck} from './browserCheck';
 import getDOMSelectors from './modules/GetDOMSelectors';
@@ -26,9 +26,17 @@ $(window).on('load', async () => {
     const $body = $('body');
 
     const textAJAX = await getAJAX(`/page-0.html`);
-    const dataJSON = await getAJAX(`/page-0.json`);
+    const pageCurJSON = await getAJAX(`/page-0.json`);
+    const pagesJSON = await getAJAX(`/pages.json`);
 
-    pageInfo.set(dataJSON.pageInfo);
+    const pagesInfo = pagesJSON.pagesInfo;
+    const pageCurInfo = pageCurJSON.pageInfo;
+    const pagesCurEffects = pageCurJSON.effects;
+
+    pageInfo.set({
+        pageCurNum: pageCurInfo.current,
+        pagesLength: pagesInfo.length
+    });
 
     $(DOMSelectors.textWrapper).html(textAJAX);
 
@@ -41,11 +49,11 @@ $(window).on('load', async () => {
 
     textInit(EffectsController);
 
-    EffectsController.setEffects(dataJSON.effects);
+    EffectsController.setEffects(pagesCurEffects);
 
-    playOnLoad(dataJSON.effects);
+    playOnLoad(pagesCurEffects);
 
-    if (dataJSON.pageInfo.current === 0) {
+    if (pageInfo.pageCurNum === 0) {
         $(DOMSelectors.menu).addClass('hide');
     } else {
         $(DOMSelectors.menu).removeClass('hide');
@@ -61,26 +69,31 @@ $(window).on('load', async () => {
         });
 
         const textAJAX = await getAJAX(`/page-${pageNum}.html`);
-        const dataJSON = await getAJAX(`/page-${pageNum}.json`);
+        const pageCurJSON = await getAJAX(`/page-${pageNum}.json`);
 
-        pageInfo.set(dataJSON.pageInfo);
+        const pageCurInfo = pageCurJSON.pageInfo;
+        const pagesCurEffects = pageCurJSON.effects;
+
+        pageInfo.set({
+            pageCurNum: pageCurInfo.current
+        });
 
         //запоминаем последнюю открытую страницу
-        LocalStorage.write({key: 'lastOpenedPage', val: pageInfo.get().current});
+        LocalStorage.write({key: 'lastOpenedPage', val: pageInfo.pageCurNum});
 
         $(DOMSelectors.textWrapper).html(textAJAX);
 
-        EffectsController.setEffects(dataJSON.effects);
+        EffectsController.setEffects(pagesCurEffects);
 
         //устанавливаем плейсхолдеры для input-ов
-        $('.js-page-number').text(`${pageInfo.get().current} из ${pageInfo.get().length}`);
-        $('.js-page-input').attr('placeholder', pageInfo.get().current);
+        $('.js-page-number').text(`${pageInfo.pageCurNum} из ${pageInfo.pagesLength}`);
+        $('.js-page-input').attr('placeholder', pageInfo.pageCurNum);
 
-        playOnLoad(dataJSON.effects);
+        playOnLoad(pagesCurEffects);
 
         textInit(EffectsController);
 
-        if (dataJSON.pageInfo.current === 0) {
+        if (pageInfo.pageCurNum === 0) {
             $(DOMSelectors.menu).addClass('hide');
         } else {
             $(DOMSelectors.menu).removeClass('hide');
