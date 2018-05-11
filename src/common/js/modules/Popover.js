@@ -58,21 +58,17 @@ export default class Popover {
             });
 
             if ($popover.hasClass('active')) {
-                $popover.animateCss('fadeOut', () => {
-                    $popover.removeClass('active');
-                });
+                $popover.removeClass('active');
 
                 $triggerButton.removeClass('active');
             } else {
                 $popover.addClass('active');
                 $triggerButton.addClass('active');
 
-                $popover.animateCss('fadeInLeft', () => {
-                    /**
-                     * позиционируем поповер
-                     */
-                    this.positioning();
-                });
+                /**
+                 * позиционируем поповер
+                 */
+                this.positioning();
             }
 
             /**
