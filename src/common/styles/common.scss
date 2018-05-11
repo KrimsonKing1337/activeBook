@@ -567,32 +567,31 @@ p {
   width: 100%;
   height: calc(100% + 60px); //100% + box-shadow width * 2
   margin-top: -30px; //box-shadow width
+  box-shadow: inset 0 0 30px var(--text-shadow-color);
   animation: var(--text-shadow-animation) var(--text-shadow-animation-speed) ease infinite;
-  will-change: box-shadow;
-
-  $boxShadow: inset 0 0 30px var(--text-shadow-color);
+  will-change: opacity;
 
   @keyframes blink {
     0% {
-      box-shadow: $boxShadow;
+      opacity: 1;
     }
 
     50% {
-      box-shadow: none;
+      opacity: 0;
     }
 
     100% {
-      box-shadow: $boxShadow;
+      opacity: 1;
     }
   }
 
   @keyframes static {
     0% {
-      box-shadow: $boxShadow;
+      opacity: 1;
     }
 
     100% {
-      box-shadow: $boxShadow;
+      opacity: 1;
     }
   }
 }
