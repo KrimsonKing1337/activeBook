@@ -7,6 +7,8 @@ import LocalStorage from './LocalStorage';
 import {VolumeController} from './Volume';
 import {getVolumeInst} from '../getVolumeInst';
 import {get} from 'lodash-es';
+import {CssVariables} from '../CssVariables';
+import {getRandomInt} from '../getRamdomInt';
 
 class Effects {
     /**
@@ -551,6 +553,8 @@ class TextShadowEffects {
     constructor() {
         this.$textShadowWrapper = $('.text-shadow-wrapper');
         this.$textShadow = $('.text-shadow');
+        this.interval = null;
+        this.prevColor = null;
     }
 
     show() {
@@ -563,14 +567,77 @@ class TextShadowEffects {
 
     /**
      *
-     * @param state {boolean}
+     * @param color {string}
      */
-    play({state} = {}) {
-        if (state === true) {
-            this.show();
+    static setColor(color) {
+        CssVariables.set('--text-shadow-color', color);
+    }
+
+    /**
+     *
+     * @param animation {string}
+     */
+    static setAnimation(animation) {
+        CssVariables.set('--text-shadow-animation', animation);
+    }
+
+    /**
+     *
+     * @param speed {number}
+     */
+    static setAnimationSpeed(speed) {
+        CssVariables.set('--text-shadow-animation-speed', `${speed}ms`);
+    }
+
+
+    setColorRandom() {
+        const r = getRandomInt(0, 255);
+        const g = getRandomInt(0, 255);
+        const b = getRandomInt(0, 255);
+        const color = `rgb(${r}, ${g}, ${b})`;
+
+        if (this.prevColor !== color) {
+            this.prevColor = color;
+
+            TextShadowEffects.setColor(color);
         } else {
-            this.hide();
+            this.setColorRandom();
         }
+    }
+
+    /**
+     *
+     * @param color {string}
+     * @param [animation] {string}
+     * @param [sleep] {number}
+     * @param [speed] {number}
+     */
+    play({animation = 'blink', color, sleep = 1000, speed = 1000} = {}) {
+        if (typeof color !== 'string') {
+            return new Error('Param "color" must be string!');
+        }
+
+        TextShadowEffects.setAnimation(animation);
+        TextShadowEffects.setAnimationSpeed(speed);
+
+        if (color === 'random') {
+            this.setColorRandom();
+        } else if (color === 'chameleon') {
+            this.setColorRandom();
+
+            this.interval = setInterval(() => {
+                this.setColorRandom();
+            }, sleep);
+        } else {
+            TextShadowEffects.setColor(color);
+        }
+
+        this.show();
+    }
+
+    stop() {
+        this.hide();
+        clearInterval(this.interval);
     }
 }
 

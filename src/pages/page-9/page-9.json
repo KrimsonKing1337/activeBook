@@ -11,7 +11,9 @@
     {
       "id": "text-shadow-alert",
       "type": "text-shadow",
-      "state": true,
+      "animation": "blink",
+      "color": "red",
+      "speed": 850,
       "playOnLoad": true
     }
   ],

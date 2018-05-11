@@ -1,6 +1,7 @@
 :root {
   --text-shadow-color: red;
   --text-shadow-animation: blink;
+  --text-shadow-animation-speed: 1000ms;
 }
 
 html {
@@ -550,10 +551,10 @@ p {
   display: none; //change by script
   position: absolute;
   z-index: -1;
-  top: 20px; //text padding-top
+  top: 0;
   left: 0;
   width: 100%;
-  height: calc(100% - 88px); //text-wrapper height + margin-bottom
+  height: 100%;
   overflow: hidden;
 
   &.active {
@@ -565,13 +566,13 @@ p {
   width: 100%;
   height: calc(100% + 60px); //100% + box-shadow width * 2
   margin-top: -30px; //box-shadow width
-  animation: var(--text-shadow-animation) 1s ease infinite;
+  animation: var(--text-shadow-animation) var(--text-shadow-animation-speed) ease infinite;
 
   $boxShadow: inset 0 0 30px var(--text-shadow-color);
 
   @keyframes blink {
     0% {
-      box-shadow: $boxShadow
+      box-shadow: $boxShadow;
     }
 
     50% {
@@ -579,7 +580,17 @@ p {
     }
 
     100% {
-      box-shadow: $boxShadow
+      box-shadow: $boxShadow;
+    }
+  }
+
+  @keyframes static {
+    0% {
+      box-shadow: $boxShadow;
+    }
+
+    100% {
+      box-shadow: $boxShadow;
     }
   }
 }
@@ -792,6 +803,11 @@ p {
   }
 }
 
+.menu-wrapper {
+  padding: 0 20px;
+  width: 100%;
+}
+
 .menu {
   display: flex;
   flex-wrap: wrap;
@@ -800,7 +816,6 @@ p {
   height: 48px;
   width: 100%;
   max-width: 500px;
-  padding: 0 20px;
   background: #fff;
   z-index: 10;
   flex-shrink: 0;

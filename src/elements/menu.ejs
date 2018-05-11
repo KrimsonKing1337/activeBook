@@ -1,57 +1,59 @@
-<nav class="menu">
-    <div class="menu__item bookmark js-bookmark">
-        <img inline src="public/img/menu/bookmark.svg" />
+<div class="menu-wrapper">
+    <nav class="menu">
+        <div class="menu__item bookmark js-bookmark">
+            <img inline src="public/img/menu/bookmark.svg" />
 
-        <div class="add-settings">
-            <div class="add-settings__item header-button js-bookmark-create">
-                <div class="add-settings__item__label">Создать закладку</div>
-            </div>
-            <div class="add-settings__item js-scrollable-item">
-                <div class="bookmarks-list js-bookmarks-list">
-                    <!-- template START -->
-                    <div class="bookmarks-list__item js-bookmark-item template">
-                        <div class="bookmarks-list__item__date js-bookmark-date">
+            <div class="add-settings">
+                <div class="add-settings__item header-button js-bookmark-create">
+                    <div class="add-settings__item__label">Создать закладку</div>
+                </div>
+                <div class="add-settings__item js-scrollable-item">
+                    <div class="bookmarks-list js-bookmarks-list">
+                        <!-- template START -->
+                        <div class="bookmarks-list__item js-bookmark-item template">
+                            <div class="bookmarks-list__item__date js-bookmark-date">
 
+                            </div>
+                            <div class="bookmarks-list__item__page js-bookmark-page">
+
+                            </div>
+                            <div class="bookmarks-list__item__remove js-bookmark-remove">x</div>
                         </div>
-                        <div class="bookmarks-list__item__page js-bookmark-page">
-
-                        </div>
-                        <div class="bookmarks-list__item__remove js-bookmark-remove">x</div>
+                        <!-- template END -->
                     </div>
-                    <!-- template END -->
+                </div>
+                <img class="add-settings__bottom" src="/img/add-settings-bottom.svg" />
+            </div>
+        </div>
+        <div class="menu__item navigator">
+            <div class="go-to-page-by-number js-go-to-page-by-number">
+                <div class="go-to-page-by-number__input">
+                    <input type="number" class="js-page-input" value="" pattern="[0-9]" />
+                </div>
+                <div class="go-to-page-by-number__button js-go-to-page-trigger">
+                    Перейти
                 </div>
             </div>
-            <img class="add-settings__bottom" src="/img/add-settings-bottom.svg" />
-        </div>
-    </div>
-    <div class="menu__item navigator">
-        <div class="go-to-page-by-number js-go-to-page-by-number">
-            <div class="go-to-page-by-number__input">
-                <input type="number" class="js-page-input" value="" pattern="[0-9]" />
-            </div>
-            <div class="go-to-page-by-number__button js-go-to-page-trigger">
-                Перейти
-            </div>
-        </div>
-        <div class="go-to-page-by-arrows js-go-to-page-by-arrows active">
-            <div class="go-to-page-by-arrows__arrow-left js-page-prev">
-                <img inline src="public/img/menu/arrow-left.svg" />
-            </div>
-            <div class="go-to-page-by-arrows__page-number js-page-number">
+            <div class="go-to-page-by-arrows js-go-to-page-by-arrows active">
+                <div class="go-to-page-by-arrows__arrow-left js-page-prev">
+                    <img inline src="public/img/menu/arrow-left.svg" />
+                </div>
+                <div class="go-to-page-by-arrows__page-number js-page-number">
 
-            </div>
-            <div class="go-to-page-by-arrows__arrow-right js-page-next">
-                <img inline src="public/img/menu/arrow-right.svg" />
+                </div>
+                <div class="go-to-page-by-arrows__arrow-right js-page-next">
+                    <img inline src="public/img/menu/arrow-right.svg" />
+                </div>
             </div>
         </div>
-    </div>
-    <div class="menu__item font-size-down js-font-size-down">
-        <img inline src="public/img/menu/font-small.svg" />
-    </div>
-    <div class="menu__item font-size-up js-font-size-up">
-        <img inline src="public/img/menu/font-big.svg" />
-    </div>
-    <div class="menu__item etc js-etc">
-        <img inline src="public/img/menu/menu-icon.svg" />
-    </div>
-</nav>
+        <div class="menu__item font-size-down js-font-size-down">
+            <img inline src="public/img/menu/font-small.svg" />
+        </div>
+        <div class="menu__item font-size-up js-font-size-up">
+            <img inline src="public/img/menu/font-big.svg" />
+        </div>
+        <div class="menu__item etc js-etc">
+            <img inline src="public/img/menu/menu-icon.svg" />
+        </div>
+    </nav>
+</div>
