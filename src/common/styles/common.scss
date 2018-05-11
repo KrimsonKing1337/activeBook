@@ -567,6 +567,7 @@ p {
   height: calc(100% + 60px); //100% + box-shadow width * 2
   margin-top: -30px; //box-shadow width
   animation: var(--text-shadow-animation) var(--text-shadow-animation-speed) ease infinite;
+  will-change: box-shadow;
 
   $boxShadow: inset 0 0 30px var(--text-shadow-color);
 
@@ -1045,6 +1046,7 @@ p {
   z-index: 1;
   cursor: default;
   transition: all 0.3s 0s ease;
+  will-change: opacity, top, left;
 
   &.active {
     visibility: visible;
