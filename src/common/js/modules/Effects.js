@@ -89,7 +89,7 @@ class Effects {
 
     stopAll({target, fadeOutSpeed = 1000, unload = false} = {}) {
         vibrationEffectsInst.stop();
-        textShadowEffectsInst.hide();
+        textShadowEffectsInst.stop();
         soundEffectsInst.stopAll({target, fadeOutSpeed, unload});
     }
 }
@@ -554,7 +554,8 @@ class TextShadowEffects {
         this.$textShadowWrapper = $('.text-shadow-wrapper');
         this.$textShadow = $('.text-shadow');
         this.interval = null;
-        this.prevColor = null;
+        this.prevColorRandom = null;
+        this.prevColorPolice = 'blue';
     }
 
     show() {
@@ -596,8 +597,8 @@ class TextShadowEffects {
         const b = getRandomInt(0, 255);
         const color = `rgb(${r}, ${g}, ${b})`;
 
-        if (this.prevColor !== color) {
-            this.prevColor = color;
+        if (this.prevColorRandom !== color) {
+            this.prevColorRandom = color;
 
             TextShadowEffects.setColor(color);
         } else {
@@ -605,18 +606,26 @@ class TextShadowEffects {
         }
     }
 
+    setColorPolice() {
+        if (this.prevColorPolice === 'blue') {
+            this.prevColorPolice = 'red';
+
+            TextShadowEffects.setColor('red');
+        } else if (this.prevColorPolice === 'red') {
+            this.prevColorPolice = 'blue';
+
+            TextShadowEffects.setColor('blue');
+        }
+    }
+
     /**
      *
-     * @param color {string}
+     * @param [color] {string}
      * @param [animation] {string}
      * @param [sleep] {number}
      * @param [speed] {number}
      */
-    play({animation = 'blink', color, sleep = 1000, speed = 1000} = {}) {
-        if (typeof color !== 'string') {
-            return new Error('Param "color" must be string!');
-        }
-
+    play({animation = 'blink', color = 'red', sleep = 1000, speed = 1000} = {}) {
         TextShadowEffects.setAnimation(animation);
         TextShadowEffects.setAnimationSpeed(speed);
 
@@ -628,6 +637,12 @@ class TextShadowEffects {
             this.interval = setInterval(() => {
                 this.setColorRandom();
             }, sleep);
+        } else if (color === 'police') {
+            this.setColorPolice();
+
+            this.$textShadow.on('animationiteration', () => {
+                this.setColorPolice();
+            });
         } else {
             TextShadowEffects.setColor(color);
         }
@@ -637,6 +652,7 @@ class TextShadowEffects {
 
     stop() {
         this.hide();
+        this.$textShadow.off();
         clearInterval(this.interval);
     }
 }
