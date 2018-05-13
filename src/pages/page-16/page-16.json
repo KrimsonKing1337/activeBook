@@ -1,0 +1,22 @@
+{
+  "effects": [
+    {
+      "id": "police-come",
+      "type": "oneShot",
+      "src": [
+        "/book_data/audios/sound/police-come.mp3"
+      ],
+      "playOnLoad": true
+    },
+    {
+      "id": "text-shadow-police",
+      "type": "text-shadow",
+      "animation": "blink",
+      "color": "police",
+      "playOnLoad": true
+    }
+  ],
+  "pageInfo": {
+    "num": 16
+  }
+}

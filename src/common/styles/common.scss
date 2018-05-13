@@ -620,16 +620,20 @@ p {
   }
 
   a {
+    opacity: 0.85;
+    @include transition-default;
+
+    &:hover {
+      opacity: 1;
+      text-shadow: 1px 1px 30px rgba(0, 0, 0, 0.75);
+    }
+
     &.action {
       color: #fd0006;
-      opacity: 0.85;
-      @include transition-default;
+    }
 
-      &:hover,
-      &.hover {
-        opacity: 1;
-        text-shadow: 2px 2px 2px #fd0006;
-      }
+    &.external-link {
+      color: #0099FF;
     }
   }
 }
