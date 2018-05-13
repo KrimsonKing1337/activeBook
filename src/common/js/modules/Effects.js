@@ -551,7 +551,6 @@ class VibrationEffects {
 
 class TextShadowEffects {
     constructor() {
-        this.$textShadowWrapper = $('.text-shadow-wrapper');
         this.$textShadow = $('.text-shadow');
         this.interval = null;
         this.prevColorRandom = null;
@@ -559,11 +558,11 @@ class TextShadowEffects {
     }
 
     show() {
-        this.$textShadowWrapper.addClass('active');
+        this.$textShadow.addClass('active');
     }
 
     hide() {
-        this.$textShadowWrapper.removeClass('active');
+        this.$textShadow.removeClass('active');
     }
 
     /**

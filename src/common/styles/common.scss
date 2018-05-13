@@ -548,8 +548,7 @@ p {
   -webkit-overflow-scrolling: touch;
 }
 
-.text-shadow-wrapper {
-  display: none; //change by script
+.side-effects-wrapper {
   position: absolute;
   z-index: -1;
   top: 0;
@@ -557,19 +556,21 @@ p {
   width: 100%;
   height: 100%;
   overflow: hidden;
-
-  &.active {
-    display: block;
-  }
 }
 
 .text-shadow {
+  display: none;
   width: 100%;
   height: calc(100% + 60px); //100% + box-shadow width * 2
   margin-top: -30px; //box-shadow width
   box-shadow: inset 0 0 30px var(--text-shadow-color);
   animation: var(--text-shadow-animation) var(--text-shadow-animation-speed) ease infinite;
   will-change: opacity;
+
+  &.active {
+    display: block;
+  }
+
 
   @keyframes blink {
     0% {
@@ -594,6 +595,45 @@ p {
       opacity: 1;
     }
   }
+}
+
+.side-text-wrapper {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  z-index: -1;
+}
+
+.side-text-left {
+  position: absolute;
+  left: 13px;
+  top: 0;
+  width: 100%;
+  white-space: nowrap;
+  transform: rotate(90deg) translateX(0);
+  transform-origin: left;
+  animation: scroll-text 10s linear infinite;
+
+  @keyframes scroll-text {
+    0% {
+      transform: rotate(90deg) translateX(0);
+    }
+
+    100% {
+      transform: rotate(90deg) translateX(100%);
+    }
+  }
+}
+
+.side-text-right {
+  display: none;
+  position: absolute;
+  right: 13px;
+  top: 0;
+  transform: rotate(-90deg);
+  transform-origin: right;
 }
 
 .text {
