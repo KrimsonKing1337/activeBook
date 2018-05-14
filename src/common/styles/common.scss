@@ -2,6 +2,7 @@
   --text-shadow-color: red;
   --text-shadow-animation: blink;
   --text-shadow-animation-speed: 1000ms;
+  --main-content-height: 0px;
 }
 
 html {
@@ -597,43 +598,70 @@ p {
   }
 }
 
-.side-text-wrapper {
+.scroll-text-wrapper {
+  display: none;
+
+  &.active {
+    display: block;
+  }
+}
+
+.scroll-text-left {
+  $marginLeft: 11px;
+  $rotate: rotate(-90deg);
+  $defaultState: $rotate translateX($marginLeft);
+
   position: absolute;
   left: 0;
   top: 0;
-  height: 100%;
-  width: 100%;
-  z-index: -1;
-}
-
-.side-text-left {
-  position: absolute;
-  left: 13px;
-  top: 0;
-  width: 100%;
-  white-space: nowrap;
-  transform: rotate(90deg) translateX(0);
+  margin-left: $marginLeft;
+  transform: $defaultState;
   transform-origin: left;
-  animation: scroll-text 10s linear infinite;
+  animation: scroll-text-left 60s linear infinite;
 
-  @keyframes scroll-text {
+  span {
+    display: block;
+    white-space: nowrap;
+  }
+
+  @keyframes scroll-text-left {
     0% {
-      transform: rotate(90deg) translateX(0);
+      transform: $defaultState;
     }
 
     100% {
-      transform: rotate(90deg) translateX(100%);
+      transform: $rotate translateX(calc(-100% - var(--main-content-height)));
     }
   }
 }
 
-.side-text-right {
-  display: none;
+.scroll-text-right {
+  $marginRight: 11px;
+  $rotate: rotate(90deg);
+  $defaultState: $rotate translateX(calc(100% + var(--main-content-height)));
+
   position: absolute;
-  right: 13px;
+  right: 0;
   top: 0;
-  transform: rotate(-90deg);
+  margin-right: $marginRight;
+  transform: $defaultState;
   transform-origin: right;
+  animation: scroll-text-right 60s linear infinite;
+
+  span {
+    display: block;
+    white-space: nowrap;
+  }
+
+  @keyframes scroll-text-right {
+    0% {
+      transform: $defaultState;
+    }
+
+    100% {
+      transform: $rotate translateX(-$marginRight);
+    }
+  }
 }
 
 .text {

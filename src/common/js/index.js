@@ -16,6 +16,7 @@ import {startReadingBtnInit} from './startReadingBtnInit';
 import {changePageByKeyboardAndSwipesInit} from './changePageByKeyboardAndSwipesInit';
 import {firstOpenCheck} from './firstOpenCheck';
 import {addContentInit} from './addContentInit';
+import {CssVariables} from './CssVariables';
 
 $(window).on('load', async () => {
     if (browserCheck() === false) return;
@@ -119,6 +120,8 @@ $(window).on('load', async () => {
     addContentInit();
 
     startReadingBtnInit();
+
+    CssVariables.set('--main-content-height', `${window.innerHeight}px`);
 
     $body.removeClass('initing');
     $body.css('opacity', 1);
