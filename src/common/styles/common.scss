@@ -607,17 +607,18 @@ p {
   }
 }
 
+.side-text-scroll-left-wrapper {
+  transform: rotate(-90deg) translateX(-2px);
+  transform-origin: left;
+}
+
 .side-text-scroll-left {
-  $marginLeft: 7px;
-  $rotate: rotate(-90deg);
-  $defaultState: $rotate translateX($marginLeft);
+  $defaultState: translateX(0);
 
   position: absolute;
   left: 0;
   top: 0;
-  margin-left: $marginLeft;
   transform: $defaultState;
-  transform-origin: left;
   animation: scroll-text-left var(--side-scroll-text-animation-speed) linear infinite;
   will-change: transform;
 
@@ -627,20 +628,22 @@ p {
     }
 
     100% {
-      transform: $rotate translateX(calc(-100% - var(--main-content-height)));
+      transform: translateX(calc(-100% - var(--main-content-height)));
     }
   }
 }
 
+.side-text-scroll-right-wrapper {
+  transform: rotate(90deg) translateY(-2px);
+  transform-origin: right;
+}
+
 .side-text-scroll-right {
-  $marginRight: 7px;
-  $rotate: rotate(90deg);
-  $defaultState: $rotate translateX(calc(100% + var(--main-content-height)));
+  $defaultState: translateX(calc(100% + var(--main-content-height)));
 
   position: absolute;
   right: 0;
   top: 0;
-  margin-right: $marginRight;
   transform: $defaultState;
   transform-origin: right;
   animation: scroll-text-right var(--side-scroll-text-animation-speed) linear infinite;
@@ -652,7 +655,7 @@ p {
     }
 
     100% {
-      transform: $rotate translateX(-$marginRight);
+      transform: translateX(0);
     }
   }
 }
