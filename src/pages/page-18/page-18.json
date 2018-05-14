@@ -1,5 +1,13 @@
 {
-  "effects": [],
+  "effects": [
+    {
+      "id": "side-text-scroll",
+      "type": "sideTextScroll",
+      "left": "#side-text-scroll-left-template",
+      "right": "#side-text-scroll-right-template",
+      "playOnLoad": true
+    }
+  ],
   "pageInfo": {
     "num": 18
   }

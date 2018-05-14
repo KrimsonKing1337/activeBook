@@ -598,7 +598,7 @@ p {
   }
 }
 
-.scroll-text-wrapper {
+.side-text-scroll-wrapper {
   display: none;
 
   &.active {
@@ -606,8 +606,8 @@ p {
   }
 }
 
-.scroll-text-left {
-  $marginLeft: 11px;
+.side-text-scroll-left {
+  $marginLeft: 7px;
   $rotate: rotate(-90deg);
   $defaultState: $rotate translateX($marginLeft);
 
@@ -618,11 +618,6 @@ p {
   transform: $defaultState;
   transform-origin: left;
   animation: scroll-text-left 60s linear infinite;
-
-  span {
-    display: block;
-    white-space: nowrap;
-  }
 
   @keyframes scroll-text-left {
     0% {
@@ -635,8 +630,8 @@ p {
   }
 }
 
-.scroll-text-right {
-  $marginRight: 11px;
+.side-text-scroll-right {
+  $marginRight: 7px;
   $rotate: rotate(90deg);
   $defaultState: $rotate translateX(calc(100% + var(--main-content-height)));
 
@@ -648,11 +643,6 @@ p {
   transform-origin: right;
   animation: scroll-text-right 60s linear infinite;
 
-  span {
-    display: block;
-    white-space: nowrap;
-  }
-
   @keyframes scroll-text-right {
     0% {
       transform: $defaultState;
@@ -662,6 +652,13 @@ p {
       transform: $rotate translateX(-$marginRight);
     }
   }
+}
+
+.side-text-scroll-content {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  white-space: nowrap;
 }
 
 .text {
@@ -1447,6 +1444,7 @@ p {
   font-size: 28px;
 }
 
-.template {
+.template,
+.templates {
   display: none !important;
 }

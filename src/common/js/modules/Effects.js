@@ -69,6 +69,8 @@ class Effects {
             NotificationsEffects.play(effectCur);
         } else if (type === 'textShadow') {
             textShadowEffectsInst.play(effectCur);
+        } else if (type === 'sideTextScroll') {
+            sideTextScrollEffectInst.play(effectCur);
         }
     }
 
@@ -90,6 +92,7 @@ class Effects {
     stopAll({target, fadeOutSpeed = 1000, unload = false} = {}) {
         vibrationEffectsInst.stop();
         textShadowEffectsInst.stop();
+        sideTextScrollEffectInst.stop();
         soundEffectsInst.stopAll({target, fadeOutSpeed, unload});
     }
 }
@@ -656,6 +659,45 @@ class TextShadowEffects {
     }
 }
 
+class SideTextScrollEffect {
+    constructor() {
+        this.sideTextScrollWrapper = $('.side-text-scroll-wrapper');
+        this.sideTextScrollLeftContent = $('.side-text-scroll-left').find('.side-text-scroll-content');
+        this.sideTextScrollRightContent = $('.side-text-scroll-right').find('.side-text-scroll-content');
+    }
+
+    /**
+     *
+     * @param left {string}
+     * @param right {string}
+     */
+    play({left, right} = {}) {
+        if (left) {
+            this.sideTextScrollLeftContent.html($(left).html());
+        }
+
+        if (right) {
+            this.sideTextScrollRightContent.html($(right).html());
+        }
+
+        this.show();
+    }
+
+    show() {
+        this.sideTextScrollWrapper.addClass('active');
+    }
+
+    hide() {
+        this.sideTextScrollWrapper.removeClass('active');
+    }
+
+    stop() {
+        this.sideTextScrollLeftContent.html('');
+        this.sideTextScrollRightContent.html('');
+        this.hide();
+    }
+}
+
 const states = LocalStorage.getState();
 
 export const volumeInst = getVolumeInst();
@@ -681,5 +723,7 @@ export const imageEffectsInst = new ImageEffects({
 });
 
 export const textShadowEffectsInst = new TextShadowEffects();
+
+export const sideTextScrollEffectInst = new SideTextScrollEffect();
 
 export const EffectsController = new Effects();
