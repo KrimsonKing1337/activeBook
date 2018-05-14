@@ -3,6 +3,7 @@
   --text-shadow-animation: blink;
   --text-shadow-animation-speed: 1000ms;
   --main-content-height: 0px;
+  --side-scroll-text-animation-speed: 60000ms;
 }
 
 html {
@@ -617,7 +618,7 @@ p {
   margin-left: $marginLeft;
   transform: $defaultState;
   transform-origin: left;
-  animation: scroll-text-left 60s linear infinite;
+  animation: scroll-text-left var(--side-scroll-text-animation-speed) linear infinite;
 
   @keyframes scroll-text-left {
     0% {
@@ -641,7 +642,7 @@ p {
   margin-right: $marginRight;
   transform: $defaultState;
   transform-origin: right;
-  animation: scroll-text-right 60s linear infinite;
+  animation: scroll-text-right var(--side-scroll-text-animation-speed) linear infinite;
 
   @keyframes scroll-text-right {
     0% {

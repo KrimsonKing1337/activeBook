@@ -668,12 +668,15 @@ class SideTextScrollEffect {
 
     /**
      *
-     * @param left {string}
-     * @param right {string}
+     * @param [left] {string}
+     * @param [right] {string}
+     * @param [speed] {number}
      */
-    play({left, right} = {}) {
+    play({left, right, speed = 60000} = {}) {
         const $left = $(left);
         const $right = $(right);
+
+        if ($right.length === 0 && $left.length === 0) return;
 
         if ($left.length > 0) {
             SideTextScrollEffect.addNbsp($left.contents());
@@ -686,6 +689,8 @@ class SideTextScrollEffect {
 
             this.sideTextScrollRightContent.html($right.html());
         }
+
+        SideTextScrollEffect.setAnimationSpeed(speed);
 
         this.show();
     }
@@ -702,6 +707,10 @@ class SideTextScrollEffect {
         this.sideTextScrollLeftContent.html('');
         this.sideTextScrollRightContent.html('');
         this.hide();
+    }
+
+    static setAnimationSpeed(speed) {
+        CssVariables.set('--side-scroll-text-animation-speed', `${speed}ms`);
     }
 
     /**
