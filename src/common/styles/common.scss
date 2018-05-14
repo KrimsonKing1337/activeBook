@@ -608,7 +608,7 @@ p {
 }
 
 .side-text-scroll-left {
-  $marginLeft: 4px;
+  $marginLeft: 7px;
   $rotate: rotate(-90deg);
   $defaultState: $rotate translateX($marginLeft);
 
@@ -632,7 +632,7 @@ p {
 }
 
 .side-text-scroll-right {
-  $marginRight: 4px;
+  $marginRight: 7px;
   $rotate: rotate(90deg);
   $defaultState: $rotate translateX(calc(100% + var(--main-content-height)));
 
