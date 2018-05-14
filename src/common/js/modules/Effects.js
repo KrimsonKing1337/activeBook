@@ -662,8 +662,8 @@ class TextShadowEffects {
 class SideTextScrollEffect {
     constructor() {
         this.sideTextScrollWrapper = $('.side-text-scroll-wrapper');
-        this.sideTextScrollLeftContent = $('.side-text-scroll-left').find('.side-text-scroll-content');
-        this.sideTextScrollRightContent = $('.side-text-scroll-right').find('.side-text-scroll-content');
+        this.sideTextScrollLeftContent = $('.js-side-text-scroll-left-content');
+        this.sideTextScrollRightContent = $('.js-side-text-scroll-right-content');
     }
 
     /**
