@@ -10,7 +10,7 @@
     },
     {
       "id": "text-shadow-police",
-      "type": "text-shadow",
+      "type": "textShadow",
       "animation": "blink",
       "color": "police",
       "playOnLoad": true

@@ -10,7 +10,7 @@
     },
     {
       "id": "text-shadow-alert",
-      "type": "text-shadow",
+      "type": "textShadow",
       "animation": "blink",
       "color": "red",
       "speed": 850,

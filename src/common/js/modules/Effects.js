@@ -67,7 +67,7 @@ class Effects {
             imageEffectsInst.play(id);
         } else if (type === 'notification') {
             NotificationsEffects.play(effectCur);
-        } else if (type === 'text-shadow') {
+        } else if (type === 'textShadow') {
             textShadowEffectsInst.play(effectCur);
         }
     }
