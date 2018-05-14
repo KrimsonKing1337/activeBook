@@ -619,6 +619,7 @@ p {
   transform: $defaultState;
   transform-origin: left;
   animation: scroll-text-left var(--side-scroll-text-animation-speed) linear infinite;
+  will-change: transform;
 
   @keyframes scroll-text-left {
     0% {
@@ -643,6 +644,7 @@ p {
   transform: $defaultState;
   transform-origin: right;
   animation: scroll-text-right var(--side-scroll-text-animation-speed) linear infinite;
+  will-change: transform;
 
   @keyframes scroll-text-right {
     0% {
