@@ -672,12 +672,19 @@ class SideTextScrollEffect {
      * @param right {string}
      */
     play({left, right} = {}) {
-        if (left) {
-            this.sideTextScrollLeftContent.html($(left).html());
+        const $left = $(left);
+        const $right = $(right);
+
+        if ($left.length > 0) {
+            SideTextScrollEffect.addNbsp($left.contents());
+
+            this.sideTextScrollLeftContent.html($left.html());
         }
 
-        if (right) {
-            this.sideTextScrollRightContent.html($(right).html());
+        if ($right.length > 0) {
+            SideTextScrollEffect.addNbsp($right.contents());
+
+            this.sideTextScrollRightContent.html($right.html());
         }
 
         this.show();
@@ -695,6 +702,18 @@ class SideTextScrollEffect {
         this.sideTextScrollLeftContent.html('');
         this.sideTextScrollRightContent.html('');
         this.hide();
+    }
+
+    /**
+     *
+     * @param $contents {object} jquery
+     */
+    static addNbsp($contents) {
+        $contents.each((i, item) => {
+            if (/^\s+$/.test(item.textContent)) return;
+
+            item.textContent += '\u00A0'; //&nbsp;
+        });
     }
 }
 

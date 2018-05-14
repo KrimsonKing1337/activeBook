@@ -7,7 +7,7 @@ export function browserCheck () {
     //if (bowser.msie || bowser.msedge || bowser.safari) {
     if (bowser.msie || bowser.msedge) {
         $body.empty();
-        $body.append('<div class="warning">Пожалуйста, используйте Google Chrome, Safari или Firefox последней актуальной версии</div>');
+        $body.append('<div class="browser-warning">Пожалуйста, используйте Google Chrome, Safari или Firefox последней актуальной версии</div>');
 
         return false;
     }

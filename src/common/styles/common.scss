@@ -660,6 +660,18 @@ p {
   justify-content: flex-start;
   white-space: nowrap;
   font-size: 20px;
+
+  .warning {
+    color: #f2c94c;
+  }
+
+  .error {
+    color: #fd0006;
+  }
+
+  .ok {
+    color: #00CC33;
+  }
 }
 
 .text {
@@ -1436,7 +1448,7 @@ p {
   }
 }
 
-.warning {
+.browser-warning {
   display: flex;
   height: 100vh;
   width: 100vw;
