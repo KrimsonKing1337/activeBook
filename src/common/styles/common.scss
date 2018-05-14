@@ -608,7 +608,7 @@ p {
 }
 
 .side-text-scroll-left {
-  $marginLeft: 7px;
+  $marginLeft: 4px;
   $rotate: rotate(-90deg);
   $defaultState: $rotate translateX($marginLeft);
 
@@ -632,7 +632,7 @@ p {
 }
 
 .side-text-scroll-right {
-  $marginRight: 7px;
+  $marginRight: 4px;
   $rotate: rotate(90deg);
   $defaultState: $rotate translateX(calc(100% + var(--main-content-height)));
 
@@ -661,6 +661,7 @@ p {
   justify-content: flex-start;
   white-space: nowrap;
   font-size: 20px;
+  text-transform: lowercase;
 
   .warning {
     color: #f2c94c;
