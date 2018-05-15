@@ -18,6 +18,7 @@ import {firstOpenCheck} from './firstOpenCheck';
 import {addContentInit} from './addContentInit';
 import {CssVariables} from './CssVariables';
 import {getScrollBarWidth} from './getScrollBarWidth';
+import {mCustomScrollbarInit} from './mCustomScrollbarInit';
 
 $(window).on('load', async () => {
     if (browserCheck() === false) return;
@@ -51,6 +52,8 @@ $(window).on('load', async () => {
 
     textInit(EffectsController);
 
+    mCustomScrollbarInit();
+
     EffectsController.setEffects(pagesCurEffects);
 
     playOnLoad(pagesCurEffects);
@@ -64,6 +67,8 @@ $(window).on('load', async () => {
     //событие перехода на другую страницу
     $(window).on('changePage', async (e, pageNum) => {
         $body.addClass('loading');
+
+        $(DOMSelectors.textWrapper).mCustomScrollbar('destroy');
 
         EffectsController.stopAll({
             target: 'all',
@@ -85,6 +90,8 @@ $(window).on('load', async () => {
 
         $(DOMSelectors.textWrapper).html(textAJAX);
 
+        mCustomScrollbarInit();
+
         EffectsController.setEffects(pagesCurEffects);
 
         //устанавливаем плейсхолдеры для input-ов
@@ -103,9 +110,7 @@ $(window).on('load', async () => {
 
         $body.removeClass('loading');
 
-        $(DOMSelectors.textWrapper)
-            .scrollTop(0)
-            .focus();
+        $(DOMSelectors.textWrapper).find('.mCSB_container').focus();
     });
 
     changePageByKeyboardAndSwipesInit();

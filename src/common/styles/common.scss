@@ -118,7 +118,7 @@ input[type="number"] {
 }
 
 //scrollbar webkit
-::-webkit-scrollbar {
+/*::-webkit-scrollbar {
   width: 18px;
 }
 
@@ -141,7 +141,7 @@ input[type="number"] {
 
 ::-webkit-scrollbar-corner {
   background-color: transparent;
-}
+}*/
 
 .notifyjs-corner {
   bottom: 0 !important;
@@ -553,7 +553,7 @@ p {
   margin-bottom: 20px;
   //padding-right: var(--scrollbar-width);
   //overflow-y: hidden;
-  overflow-y: auto;
+  //overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 
   &.scrollable {

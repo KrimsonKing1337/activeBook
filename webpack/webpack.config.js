@@ -99,7 +99,8 @@ module.exports = {
         modules: ['src', 'node_modules'],
         alias: {
             jQuery: 'jquery',
-            'bowser': 'bowser/bowser.min.js'
+            'bowser': 'bowser/bowser.min.js',
+            'malihu-custom-scrollbar-plugin': 'malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js'
         }
     },
     module: {
