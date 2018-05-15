@@ -1,5 +1,5 @@
 :root {
-  --scrollbar-width: 15px;
+  --scrollbar-width: 0px;
   --text-shadow-color: red;
   --text-shadow-animation: blink;
   --text-shadow-animation-speed: 1000ms;
@@ -551,8 +551,14 @@ p {
   width: 100%;
   height: calc(100% - 68px); //height of menu + margin-bottom
   margin-bottom: 20px;
-  overflow-y: auto;
+  padding-right: var(--scrollbar-width);
+  overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
+
+  &.scrollable {
+    overflow-y: auto;
+    padding-right: 0;
+  }
 }
 
 .side-effects-wrapper {
@@ -692,6 +698,7 @@ p {
 .text {
   position: relative;
   padding: 20px;
+  padding-right: calc(20px - var(--scrollbar-width));
   height: 100%;
   width: 100%;
   font-size: 100%;

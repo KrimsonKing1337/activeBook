@@ -1,3 +1,5 @@
+import {scrollAutoHideInit} from './scrollAutoHideInit';
+
 export function textInit(EffectsController) {
     //action text click event
     $('[data-effect-target]').on('click', function (e) {
@@ -5,4 +7,6 @@ export function textInit(EffectsController) {
 
         EffectsController.play($(this).data('effect-target'));
     });
+
+    scrollAutoHideInit();
 }
