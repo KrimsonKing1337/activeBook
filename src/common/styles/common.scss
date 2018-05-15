@@ -645,7 +645,6 @@ p {
   right: 0;
   top: 0;
   transform: $defaultState;
-  transform-origin: right;
   animation: scroll-text-right var(--side-scroll-text-animation-speed) linear infinite;
   will-change: transform;
 
@@ -662,11 +661,15 @@ p {
 
 .side-text-scroll-content {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: flex-start;
   white-space: nowrap;
-  font-size: 20px;
+  font-size: 12px;
   text-transform: lowercase;
+  background: rgba(#111, 0.1);
+  height: 16px;
+  line-height: 1;
+  padding-left: 5px; //width of &nbsp;
 
   .warning {
     color: #f2c94c;
