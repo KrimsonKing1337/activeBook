@@ -3,7 +3,7 @@ import LocalStorage from './modules/LocalStorage';
 import get from 'lodash-es/get';
 
 export function getVolumeInst() {
-    const states = LocalStorage.getState();
+    const states = LocalStorage.getStates();
 
     return new Volume({
         global: get(states, 'volume.global') || 0.5,

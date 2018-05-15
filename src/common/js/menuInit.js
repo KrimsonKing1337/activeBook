@@ -3,10 +3,12 @@ import Popover from './modules/Popover';
 import {svgInit} from './svgInit';
 import {ionRangeSliderInit} from './ionRangeSliderInit';
 import getDOMSelectors from './modules/GetDOMSelectors';
-import {saveStates} from './saveStates';
+import {volumeSaveStates} from './volumeSaveStates';
 import {vibrationEffectsInst} from './modules/Effects';
 import {volumeControllerInst} from './modules/Effects';
 import {pageInfo} from './pageInfo';
+import LocalStorage from './modules/LocalStorage';
+import {bookmarksSaveState} from './bookmarksSaveState';
 
 export function menuInit() {
     const DOMSelectors = getDOMSelectors();
@@ -68,19 +70,29 @@ export function menuInit() {
                 $vibrationOption: $(DOMSelectors.vibrationOption)
             });
 
-            saveStates();
+            //save state
+            LocalStorage.write({
+                key: 'vibration',
+                val
+            });
         });
     }
 
     //переключалка темы оформления
     $(DOMSelectors.themeOption).on('click', function () {
+        const val = $(this).attr('data-theme');
+
         Theme.set({
             $target: $(DOMSelectors.page),
-            val: $(this).attr('data-theme'),
+            val,
             $themeOption: $(DOMSelectors.themeOption)
         });
 
-        saveStates();
+        //save state
+        LocalStorage.write({
+            key: 'theme',
+            val
+        });
     });
 
     //оглавление
@@ -126,7 +138,11 @@ export function menuInit() {
             $target: $(DOMSelectors.page)
         });
 
-        saveStates();
+        //save state
+        LocalStorage.write({
+            key: 'lineHeight',
+            val: $(DOMSelectors.page).attr('data-line-height')
+        });
     });
 
     $('.js-line-height-plus').on('click', () => {
@@ -136,7 +152,11 @@ export function menuInit() {
             $target: $(DOMSelectors.page)
         });
 
-        saveStates();
+        //save state
+        LocalStorage.write({
+            key: 'lineHeight',
+            val: $(DOMSelectors.page).attr('data-line-height')
+        });
     });
 
     //устанавливаем плейсхолдеры для input-ов
@@ -227,7 +247,11 @@ export function menuInit() {
             direction: 'less'
         });
 
-        saveStates();
+        //save state
+        LocalStorage.write({
+            key: 'fontSize',
+            val: $(DOMSelectors.page).attr('data-font-size')
+        });
     });
 
     $('.js-font-size-up').on('click', () => {
@@ -236,7 +260,11 @@ export function menuInit() {
             direction: 'more'
         });
 
-        saveStates();
+        //save state
+        LocalStorage.write({
+            key: 'fontSize',
+            val: $(DOMSelectors.page).attr('data-font-size')
+        });
     });
 
     //событие изменения положения ползунка глобальной громкости
@@ -247,7 +275,7 @@ export function menuInit() {
 
         if (save === false) return;
 
-        saveStates();
+        volumeSaveStates();
     });
 
     //событие изменения положения ползунка громкости подсказок (звуков в тексте)
@@ -258,7 +286,7 @@ export function menuInit() {
 
         if (save === false) return;
 
-        saveStates();
+        volumeSaveStates();
     });
 
     //событие изменения положения ползунка громкости фоновых звуков
@@ -269,7 +297,7 @@ export function menuInit() {
 
         if (save === false) return;
 
-        saveStates();
+        volumeSaveStates();
     });
 
     //переходим по закладке
@@ -300,7 +328,7 @@ export function menuInit() {
 
         bookmarkPopover.positioning();
 
-        saveStates();
+        bookmarksSaveState();
     });
 
     //удаляем закладку
@@ -311,6 +339,6 @@ export function menuInit() {
 
         bookmarkPopover.positioning();
 
-        saveStates();
+        bookmarksSaveState();
     });
 }

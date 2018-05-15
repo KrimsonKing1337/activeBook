@@ -45,6 +45,24 @@ export default class LocalStorage {
 
     /**
      *
+     * получаем настройки из LocalStorage
+     */
+    static getStates() {
+        return {
+            volume: LocalStorage.read({key: 'volume'}),
+            volumeSlidersPosition: LocalStorage.read({key: 'volumeSlidersPosition'}),
+            currentPage: LocalStorage.read({key: 'currentPage'}),
+            fontSize: LocalStorage.read({key: 'fontSize'}),
+            lineHeight: LocalStorage.read({key: 'lineHeight'}),
+            scrollTop: LocalStorage.read({key: 'scrollTop'}),
+            theme: LocalStorage.read({key: 'theme'}),
+            vibration: LocalStorage.read({key: 'vibration'}),
+            bookmarks: LocalStorage.read({key: 'bookmarks'})
+        };
+    }
+
+    /**
+     *
      * @param key {string}
      * @param val {*}
      */
@@ -68,16 +86,5 @@ export default class LocalStorage {
      */
     static remove({key} = {}) {
         localStorage.removeItem(key);
-    }
-
-    /**
-     *
-     * получаем настройки из LocalStorage
-     */
-    static getState() {
-        //получаем настройки из LocalStorage
-        if (!localStorage.getItem('activeBook')) return null;
-
-        return JSON.parse(localStorage.getItem('activeBook')); //получаем значение и десериализируем его в объект
     }
 };

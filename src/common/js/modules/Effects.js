@@ -726,7 +726,7 @@ class SideTextScrollEffect {
     }
 }
 
-const states = LocalStorage.getState();
+const states = LocalStorage.getStates();
 
 export const volumeInst = getVolumeInst();
 
