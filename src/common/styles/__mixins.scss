@@ -302,6 +302,15 @@
         text-shadow: 1px 1px 30px rgba(255, 255, 255, 0.75);
       }
     }
+
+    .mCS-minimal-dark.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
+      background-color: rgba(#a3a3a3, 0.2);
+    }
+
+    .mCS-minimal-dark.mCSB_scrollTools .mCSB_dragger:active .mCSB_dragger_bar,
+    .mCS-minimal-dark.mCSB_scrollTools .mCSB_dragger.mCSB_dragger_onDrag .mCSB_dragger_bar {
+      background-color: rgba(#a3a3a3, 0.5);
+    }
   }
 }
 

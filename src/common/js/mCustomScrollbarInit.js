@@ -6,7 +6,7 @@ export function mCustomScrollbarInit () {
     const $textWrapper = $(GetDOMSelectors().textWrapper);
 
     $('.js-scrollable-item').mCustomScrollbar({
-        autoHideScrollbar: true,
+        autoHideScrollbar: false,
         theme: 'minimal-dark',
         keyboard:{
             enable: true

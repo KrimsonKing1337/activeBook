@@ -143,6 +143,12 @@ input[type="number"] {
   background-color: transparent;
 }*/
 
+.mCustomScrollbar.mCS_no_scrollbar:hover {
+  .mCSB_scrollTools {
+    opacity: 0 !important;
+  }
+}
+
 .notifyjs-corner {
   bottom: 0 !important;
   left: 50% !important;
