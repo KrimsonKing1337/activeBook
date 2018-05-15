@@ -17,6 +17,7 @@ import {changePageByKeyboardAndSwipesInit} from './changePageByKeyboardAndSwipes
 import {firstOpenCheck} from './firstOpenCheck';
 import {addContentInit} from './addContentInit';
 import {CssVariables} from './CssVariables';
+import {getScrollBarWidth} from './getScrollBarWidth';
 
 $(window).on('load', async () => {
     if (browserCheck() === false) return;
@@ -122,6 +123,7 @@ $(window).on('load', async () => {
     startReadingBtnInit();
 
     CssVariables.set('--main-content-height', `${window.innerHeight}px`);
+    CssVariables.set('--scrollbar-width', `${getScrollBarWidth()}px`);
 
     $body.removeClass('initing');
     $body.css('opacity', 1);
