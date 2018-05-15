@@ -8,5 +8,5 @@ export function textInit(EffectsController) {
         EffectsController.play($(this).data('effect-target'));
     });
 
-    scrollAutoHideInit();
+    //scrollAutoHideInit();
 }

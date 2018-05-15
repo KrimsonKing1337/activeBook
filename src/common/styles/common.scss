@@ -551,8 +551,9 @@ p {
   width: 100%;
   height: calc(100% - 68px); //height of menu + margin-bottom
   margin-bottom: 20px;
-  padding-right: var(--scrollbar-width);
-  overflow-y: hidden;
+  //padding-right: var(--scrollbar-width);
+  //overflow-y: hidden;
+  overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 
   &.scrollable {
@@ -698,7 +699,7 @@ p {
 .text {
   position: relative;
   padding: 20px;
-  padding-right: calc(20px - var(--scrollbar-width));
+  //padding-right: calc(20px - var(--scrollbar-width));
   height: 100%;
   width: 100%;
   font-size: 100%;
