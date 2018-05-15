@@ -1,11 +1,11 @@
 import GetDOMSelectors from './modules/GetDOMSelectors';
 import 'jquery-mousewheel';
-import 'malihu-custom-scrollbar-plugin';
+import 'malihu-custom-scrollbar-plugin-js';
 
 export function mCustomScrollbarInit () {
     const $textWrapper = $(GetDOMSelectors().textWrapper);
 
-    $textWrapper.mCustomScrollbar({
+    $('.js-scrollable-item').mCustomScrollbar({
         autoHideScrollbar: true,
         theme: 'minimal-dark',
         keyboard:{

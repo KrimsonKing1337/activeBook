@@ -68,7 +68,7 @@ $(window).on('load', async () => {
     $(window).on('changePage', async (e, pageNum) => {
         $body.addClass('loading');
 
-        $(DOMSelectors.textWrapper).mCustomScrollbar('destroy');
+        $('.js-scrollable-item').mCustomScrollbar('destroy');
 
         EffectsController.stopAll({
             target: 'all',
