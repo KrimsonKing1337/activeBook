@@ -13,7 +13,7 @@ import './animateCss';
 import {visibilityChangeInit} from './visibilityChangeInit';
 import LocalStorage from './modules/LocalStorage';
 import {startReadingBtnInit} from './startReadingBtnInit';
-import {changePageByKeyboardAndSwipesInit} from './changePageByKeyboardAndSwipesInit';
+import {changePageByKeyboardInit} from './changePageByKeyboardInit';
 import {firstOpenCheck} from './firstOpenCheck';
 import {addContentInit} from './addContentInit';
 import {CssVariables} from './CssVariables';
@@ -113,7 +113,7 @@ $(window).on('load', async () => {
         $(DOMSelectors.textWrapper).find('.mCSB_container').focus();
     });
 
-    changePageByKeyboardAndSwipesInit();
+    changePageByKeyboardInit();
 
     //убираем зум на apple устройствах
     document.addEventListener('gesturestart', (e) => {
@@ -132,6 +132,4 @@ $(window).on('load', async () => {
 
     $body.removeClass('initing');
     $body.css('opacity', 1);
-
-    $(DOMSelectors.textWrapper).focus();
 });

@@ -890,30 +890,6 @@ p {
   }
 }
 
-//mCustom scrollbar styles
-.mCS-activeBook {
-  &.mCSB_scrollTools {
-    opacity: 0.8;
-
-    .mCSB_dragger {
-      .mCSB_dragger_bar {
-        width: 6px;
-        border-radius: 100px;
-        background: #f2994a;
-      }
-    }
-
-    .mCSB_draggerRail {
-      background-color: #fff;
-    }
-  }
-
-  &.mCSB_scrollTools_vertical {
-    right: -5px !important;
-    margin: 10px 0;
-  }
-}
-
 .menu-wrapper {
   padding: 0 20px;
   width: 100%;

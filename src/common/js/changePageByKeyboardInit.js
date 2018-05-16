@@ -1,8 +1,4 @@
-import getDOMSelectors from './modules/GetDOMSelectors';
-
-const DOMSelectors = getDOMSelectors();
-
-export function changePageByKeyboardAndSwipesInit() {
+export function changePageByKeyboardInit() {
     /**
      * стрелка вперёд / свайп влево = след. страница,
      * стрелка назад / свайп вправо = пред. страница
@@ -15,13 +11,5 @@ export function changePageByKeyboardAndSwipesInit() {
         } else if (e.which === 38 || e.which === 40) {
 
         }
-    });
-
-    $(DOMSelectors.page).swiperight(() => {
-        $('.js-page-prev').trigger('click');
-    });
-
-    $(DOMSelectors.page).swipeleft(() => {
-        $('.js-page-next').trigger('click');
     });
 }
