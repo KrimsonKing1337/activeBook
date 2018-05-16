@@ -1,4 +1,5 @@
 import GetDOMSelectors from './modules/GetDOMSelectors';
+import {pageInfo} from './pageInfo';
 import 'jquery-mousewheel';
 import 'malihu-custom-scrollbar-plugin-js';
 
@@ -46,13 +47,17 @@ export function mCustomScrollbarInit() {
         }
     });
 
-    const $mCSBContainer = $textWrapper.find('.mCSB_container');
+    $(DOMSelectors.textWrapper).off('swiperight swipeleft'); //if no off mCustomScrollbar going crazy
 
-    $mCSBContainer.swiperight(() => {
+    $textWrapper.on('swiperight', () => {
+        if (pageInfo.pageCurNum === 0) return;
+
         $('.js-page-prev').trigger('click');
     });
 
-    $mCSBContainer.swipeleft(() => {
+    $textWrapper.on('swipeleft', () => {
+        if (pageInfo.pageCurNum === 0) return;
+
         $('.js-page-next').trigger('click');
     });
 
