@@ -112,8 +112,6 @@ $(window).on('load', async () => {
         }
 
         $body.removeClass('loading');
-
-        $(DOMSelectors.textWrapper).find('.mCSB_container').focus();
     });
 
     changePageByKeyboardInit();

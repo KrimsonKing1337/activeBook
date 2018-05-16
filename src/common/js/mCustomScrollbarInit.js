@@ -27,8 +27,6 @@ export function mCustomScrollbarInit() {
                 $mCSBContainer.attr('tabindex', '-1');
 
                 $mCSBContainer.focus();
-
-
             },
             onCreate() {
                 if (isTouchDevice === true) {
