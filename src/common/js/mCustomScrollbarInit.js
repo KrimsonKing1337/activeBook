@@ -7,9 +7,11 @@ export function mCustomScrollbarInit() {
 
     $('.js-scrollable-item').mCustomScrollbar({
         autoHideScrollbar: false,
+        alwaysShowScrollbar: 0,
         theme: 'minimal-dark',
         axis: 'y',
         scrollInertia: 0,
+        documentTouchScroll: false,
         keyboard: {
             enable: true
         },
@@ -23,19 +25,21 @@ export function mCustomScrollbarInit() {
                 $mCSBContainer.attr('tabindex', '-1');
 
                 $mCSBContainer.focus();
-
-                $mCSBContainer.swiperight(() => {
-                    $('.js-page-prev').trigger('click');
-                });
-
-                $mCSBContainer.swipeleft(() => {
-                    $('.js-page-next').trigger('click');
-                });
             },
             onScroll() {
                 //hide scrollbar on touch devices
             }
         }
+    });
+
+    const $mCSBContainer = $textWrapper.find('.mCSB_container');
+
+    $mCSBContainer.swiperight(() => {
+        $('.js-page-prev').trigger('click');
+    });
+
+    $mCSBContainer.swipeleft(() => {
+        $('.js-page-next').trigger('click');
     });
 
     //todo: reset totalInstances (malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.js:374)
