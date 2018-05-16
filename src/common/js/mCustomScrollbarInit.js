@@ -47,7 +47,7 @@ export function mCustomScrollbarInit() {
         }
     });
 
-    $(DOMSelectors.textWrapper).off('swiperight swipeleft'); //if no off mCustomScrollbar going crazy
+    $textWrapper.off('swiperight swipeleft'); //if no off mCustomScrollbar going crazy
 
     $textWrapper.on('swiperight', () => {
         if (pageInfo.pageCurNum === 0) return;

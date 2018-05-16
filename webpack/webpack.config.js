@@ -100,7 +100,8 @@ module.exports = {
         alias: {
             jQuery: 'jquery',
             'bowser': 'bowser/bowser.min.js',
-            'malihu-custom-scrollbar-plugin-js': 'malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js',
+            'malihu-custom-scrollbar-plugin-js':
+                `${rootPath}/src/common/js/modules/jquery.mCustomScrollbar-swipe-fix.js`,
         }
     },
     module: {
