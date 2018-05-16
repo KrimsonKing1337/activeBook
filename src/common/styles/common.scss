@@ -888,6 +888,34 @@ p {
     cursor: pointer;
     @include hover-default;
   }
+
+  &__footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 77px;
+    margin-bottom: 26px;
+
+    &__btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 240px;
+      height: 45px;
+      font-family: RobotoLight, Arial, Helvetica, sans-serif;
+      font-size: 14px;
+      color: #fff;
+      border-radius: 25px;
+      cursor: pointer;
+      @include hover-default;
+
+      &.close {
+        margin-top: 13px;
+        background: #828282;
+      }
+    }
+  }
 }
 
 .menu-wrapper {
