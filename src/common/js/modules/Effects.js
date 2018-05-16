@@ -726,12 +726,12 @@ class SideTextScrollEffect {
     }
 }
 
-const states = LocalStorage.getStates();
-
 export const volumeInst = getVolumeInst();
 
+const vibrationState = LocalStorage.read({key: 'vibration'});
+
 export const vibrationEffectsInst = new VibrationEffects({
-    state: get(states, 'vibration')
+    state: vibrationState !== null ? vibrationState : true
 });
 
 export const soundEffectsInst = new SoundEffects({
