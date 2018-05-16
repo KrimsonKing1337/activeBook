@@ -43,6 +43,9 @@ $(window).on('load', async () => {
 
     $(DOMSelectors.textWrapper).html(textAJAX);
 
+    //определяем поддерживает ли устройство тач
+    $(DOMSelectors.page).attr('data-touch-device', 'ontouchstart' in window);
+
     visibilityChangeInit();
 
     menuInit();

@@ -3,7 +3,9 @@ import 'jquery-mousewheel';
 import 'malihu-custom-scrollbar-plugin-js';
 
 export function mCustomScrollbarInit() {
-    const $textWrapper = $(GetDOMSelectors().textWrapper);
+    const DOMSelectors = GetDOMSelectors();
+    const $textWrapper = $(DOMSelectors.textWrapper);
+    const isTouchDevice = JSON.parse($(DOMSelectors.page).attr('data-touch-device'));
 
     $('.js-scrollable-item').mCustomScrollbar({
         autoHideScrollbar: false,
@@ -25,9 +27,23 @@ export function mCustomScrollbarInit() {
                 $mCSBContainer.attr('tabindex', '-1');
 
                 $mCSBContainer.focus();
+
+
+            },
+            onCreate() {
+                if (isTouchDevice === true) {
+                    $(this).find('.mCSB_scrollTools').css('opacity', '0');
+                }
+            },
+            onScrollStart() {
+                if (isTouchDevice === true) {
+                    $(this).find('.mCSB_scrollTools').css('opacity', '1');
+                }
             },
             onScroll() {
-                //hide scrollbar on touch devices
+                if (isTouchDevice === true) {
+                    $(this).find('.mCSB_scrollTools').css('opacity', '0');
+                }
             }
         }
     });
