@@ -7,13 +7,14 @@ export function mCustomScrollbarInit() {
     const DOMSelectors = GetDOMSelectors();
     const $textWrapper = $(DOMSelectors.textWrapper);
     const isTouchDevice = JSON.parse($(DOMSelectors.page).attr('data-touch-device'));
+    const scrollInertia = isTouchDevice === true ? 500 : 100;
 
     $('.js-scrollable-item').mCustomScrollbar({
         autoHideScrollbar: false,
         alwaysShowScrollbar: 0,
         theme: 'minimal-dark',
         axis: 'y',
-        scrollInertia: 0,
+        scrollInertia,
         documentTouchScroll: false,
         keyboard: {
             enable: true
