@@ -12,17 +12,15 @@ class PageInfo {
 
     /**
      *
-     * @param pageCurNum {number}
+     * @param pageCurNum {number || string}
      * @param pagesLength {number}
      */
     set({pageCurNum, pagesLength} = {}) {
-        //обновляем значение, только если это число (если ничего не было передано - не обновляем)
-        if (typeof pageCurNum === "number") {
+        if (typeof pageCurNum !== 'undefined') {
             this.pageCurNum = pageCurNum;
         }
 
-        //обновляем значение, только если это число (если ничего не было передано - не обновляем)
-        if (typeof pagesLength === "number") {
+        if (typeof pagesLength !== 'undefined') {
             this.pagesLength = pagesLength;
         }
     }

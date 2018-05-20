@@ -12,7 +12,7 @@ import 'jquery-touch-events';
 import './animateCss';
 import {visibilityChangeInit} from './visibilityChangeInit';
 import LocalStorage from './modules/LocalStorage';
-import {startReadingBtnInit} from './startReadingBtnInit';
+import {goToPageBtnInit} from './goToPageBtnInit';
 import {changePageByKeyboardInit} from './changePageByKeyboardInit';
 import {firstOpenCheck} from './firstOpenCheck';
 import {addContentInit} from './addContentInit';
@@ -61,6 +61,8 @@ $(window).on('load', async () => {
 
     playOnLoad(pagesCurEffects);
 
+    goToPageBtnInit();
+
     if (pageInfo.pageCurNum === 0) {
         $(DOMSelectors.menu).addClass('hide');
     } else {
@@ -97,19 +99,21 @@ $(window).on('load', async () => {
 
         EffectsController.setEffects(pagesCurEffects);
 
-        //устанавливаем плейсхолдеры для input-ов
-        $('.js-page-number').text(`${pageInfo.pageCurNum} из ${pageInfo.pagesLength}`);
-        $('.js-page-input').attr('placeholder', pageInfo.pageCurNum);
+        if (pageInfo.pageCurNum === 'credits' || pageInfo.pageCurNum === 0) {
+            $(DOMSelectors.menu).addClass('hide');
+        } else {
+            $(DOMSelectors.menu).removeClass('hide');
+
+            //устанавливаем плейсхолдеры для input-ов
+            $('.js-page-number').text(`${pageInfo.pageCurNum} из ${pageInfo.pagesLength}`);
+            $('.js-page-input').attr('placeholder', pageInfo.pageCurNum);
+        }
 
         playOnLoad(pagesCurEffects);
 
         textInit(EffectsController);
 
-        if (pageInfo.pageCurNum === 0) {
-            $(DOMSelectors.menu).addClass('hide');
-        } else {
-            $(DOMSelectors.menu).removeClass('hide');
-        }
+        goToPageBtnInit();
 
         $body.removeClass('loading');
     });
@@ -125,8 +129,6 @@ $(window).on('load', async () => {
 
     //add content init
     addContentInit();
-
-    startReadingBtnInit();
 
     CssVariables.set('--main-content-height', `${window.innerHeight}px`);
     CssVariables.set('--scrollbar-width', `${getScrollBarWidth()}px`);

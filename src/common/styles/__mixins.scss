@@ -9,9 +9,14 @@
 @mixin hover-default() {
   @include transition-default;
 
-  &.hover,
   &:hover {
     opacity: 0.65;
+  }
+}
+
+@mixin hover-disable() {
+  &:hover {
+    opacity: 1;
   }
 }
 
@@ -208,7 +213,8 @@
 
     &__footer {
       &__btn {
-        &.table-of-contents-btn {
+        &.table-of-contents-btn,
+        &.credits-btn {
           background: $active;
         }
       }
@@ -278,13 +284,16 @@
     .page,
     .main-content,
     .menu-full-screen,
-    .table-of-contents {
+    .table-of-contents,
+    .credits {
       background-color: #111;
     }
 
     .text,
     .table-of-contents,
     .table-of-contents__item,
+    .credits,
+    .credits__item,
     .menu-full-screen,
     .side-text-scroll-content {
       color: #a3a3a3;

@@ -64,7 +64,7 @@ export class GoToPage {
 
     /**
      *
-     * @param val {string};
+     * @param val {string || number};
      */
     static go ({val} = {}) {
         $(window).trigger('changePage', val);

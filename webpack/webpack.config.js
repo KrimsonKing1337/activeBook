@@ -7,11 +7,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 const HtmlWebpackInlineSVGPlugin = require('html-webpack-inline-svg-plugin');
-
-/**
- * @type {Object.<any>}
- */
-const pagesConfig = require('./pagesConfig');
+const htmlWebpackPluginChunksPages = require('./htmlWebpackPluginChunksPages');
 
 const rootPath = require('./rootPath');
 
@@ -20,26 +16,7 @@ const extractSass = new ExtractTextPlugin({
     disable: process.env.NODE_ENV === 'development'
 });
 
-const htmlWebpackPluginChunksPages = [];
 
-for (let i = 0; i <= pagesConfig.length; i++) {
-    const context = `page-${i}`;
-
-    const newWebpackPlugin = new HtmlWebpackPlugin({
-        context,
-        template: `${rootPath}/src/elements/text.ejs`,
-        filename: `${context}.html`,
-        inject: false,
-        svgoConfig: {
-            cleanupIDs: true,
-            removeTitle: false,
-            removeAttrs: false,
-            removeViewBox: true
-        }
-    });
-
-    htmlWebpackPluginChunksPages.push(newWebpackPlugin);
-}
 
 module.exports = {
     devtool: 'source-map',

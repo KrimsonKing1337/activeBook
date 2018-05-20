@@ -41,11 +41,14 @@ export function menuInit() {
 
     $(DOMSelectors.etc).on('click', () => {
         $(DOMSelectors.menuFullScreen).addClass('active');
-        $(DOMSelectors.menuFullScreenInner).animateCss('fadeInDown');
+        $(DOMSelectors.menuFullScreen).animateCss('fadeIn');
+        $(DOMSelectors.menuFullScreenInner).animateCss('slideInDown');
     });
 
     $('.js-menu-full-screen-close').on('click', () => {
-        $(DOMSelectors.menuFullScreenInner).animateCss('fadeOutUp', () => {
+        $(DOMSelectors.menuFullScreen).animateCss('fadeOut');
+
+        $(DOMSelectors.menuFullScreenInner).animateCss('slideOutUp', () => {
             $(DOMSelectors.menuFullScreen)[0].scrollTop = 0;
             $(DOMSelectors.menuFullScreen).removeClass('active');
         });
@@ -96,30 +99,28 @@ export function menuInit() {
     });
 
     //оглавление
-    $(DOMSelectors.tableOfContentsShow).on('click', function () {
-        $(DOMSelectors.menuFullScreen).removeClass('active');
-        $(DOMSelectors.tableOfContents).addClass('active');
-        $(DOMSelectors.tableOfContents).animateCss('fadeIn');
+    $(DOMSelectors.tableOfContentsShow).on('click', () => {
         $(DOMSelectors.text).addClass('hide');
 
-        Popover.close({
-            $triggerButton: $(this).closest('.menu__item'),
-            $popover: $(this).closest(DOMSelectors.addSettings)
-        });
+        $(DOMSelectors.menuFullScreen).removeClass('active');
+        $(DOMSelectors.tableOfContents).addClass('active');
+        $(DOMSelectors.tableOfContentsInner).animateCss('fadeIn');
     });
 
     $('.js-table-of-contents-close').on('click', () => {
-        $(DOMSelectors.tableOfContents).animateCss('fadeOutUp', () => {
-            $(DOMSelectors.tableOfContents).removeClass('active');
-            $(DOMSelectors.tableOfContents)[0].scrollTop = 0;
-        });
-
         $(DOMSelectors.text).removeClass('hide');
+
+        $(DOMSelectors.tableOfContents).animateCss('fadeOut');
+
+        $(DOMSelectors.tableOfContentsInner).animateCss('slideOutUp', () => {
+            $(DOMSelectors.tableOfContents)[0].scrollTop = 0;
+            $(DOMSelectors.tableOfContents).removeClass('active');
+        });
     });
 
     //клик по элементу оглавления (главе)
     $('.table-of-contents__item').on('click', function () {
-        const newVal = $.trim($(this).find('.table-of-contents__item__page').text());
+        const newVal = $.trim($(this).find('.table-of-contents__item__value').text());
 
         $('.js-table-of-contents-close').trigger('click');
 
@@ -182,6 +183,26 @@ export function menuInit() {
 
     $('.js-go-to-page-by-number').on('click', (e) => {
         e.stopPropagation();
+    });
+
+    //титры
+    $('.js-credits-show').on('click', () => {
+        $(DOMSelectors.text).addClass('hide');
+
+        $(DOMSelectors.menuFullScreen).removeClass('active');
+        $(DOMSelectors.credits).addClass('active');
+        $(DOMSelectors.creditsInner).animateCss('fadeIn');
+    });
+
+    $('.js-credits-close').on('click', () => {
+        $(DOMSelectors.text).removeClass('hide');
+
+        $(DOMSelectors.credits).animateCss('fadeOut');
+
+        $(DOMSelectors.creditsInner).animateCss('slideOutUp', () => {
+            $(DOMSelectors.credits)[0].scrollTop = 0;
+            $(DOMSelectors.credits).removeClass('active');
+        });
     });
 
     $('.js-page-input').on('keypress', (e) => {

@@ -5,6 +5,7 @@
   --text-shadow-animation-speed: 1000ms;
   --main-content-height: 0px;
   --side-scroll-text-animation-speed: 60000ms;
+  --animate-css-duration: 150ms;
 }
 
 html {
@@ -161,7 +162,7 @@ input[type="number"] {
 }
 
 .animated {
-  animation-duration: 0.15s;
+  animation-duration: var(--animate-css-duration);
 }
 
 .page {
@@ -455,15 +456,20 @@ input[type="number"] {
       font-size: 14px;
       color: #fff;
       border-radius: 25px;
+      margin-top: 13px;
       cursor: pointer;
       @include hover-default;
 
-      &.table-of-contents-btn {
+      &:nth-child(1) {
+        margin-top: 0;
+      }
+
+      &.table-of-contents-btn,
+      &.credits-btn {
         background: #F2994A;
       }
 
       &.close {
-        margin-top: 13px;
         background: #828282;
       }
     }
@@ -701,6 +707,24 @@ p {
   }
 }
 
+a {
+  opacity: 0.85;
+  @include transition-default;
+
+  &:hover {
+    opacity: 1;
+    text-shadow: 1px 1px 30px rgba(0, 0, 0, 0.75);
+  }
+
+  &.action {
+    color: #fd0006;
+  }
+
+  &.external-link {
+    color: #0099FF;
+  }
+}
+
 .text {
   position: relative;
   padding: 20px;
@@ -713,34 +737,11 @@ p {
     display: none; //change by script;
   }
 
-  .start-reading {
-    display: none; //change by script
+  .go-to-page {
     width: 100%;
     font-family: RobotoBold, Arial, Helvetica, sans-serif;
     font-size: 20px;
     text-align: center;
-
-    &.active {
-      display: block;
-    }
-  }
-
-  a {
-    opacity: 0.85;
-    @include transition-default;
-
-    &:hover {
-      opacity: 1;
-      text-shadow: 1px 1px 30px rgba(0, 0, 0, 0.75);
-    }
-
-    &.action {
-      color: #fd0006;
-    }
-
-    &.external-link {
-      color: #0099FF;
-    }
   }
 }
 
@@ -838,7 +839,8 @@ p {
   }
 }
 
-.table-of-contents {
+.table-of-contents,
+.credits {
   display: none; //change by script
   position: fixed;
   z-index: 15;
@@ -914,6 +916,20 @@ p {
         margin-top: 13px;
         background: #828282;
       }
+    }
+  }
+}
+
+.credits {
+  &__item {
+    align-items: flex-start;
+    line-height: 1.2;
+    cursor: default;
+    @include hover-disable;
+
+    &__label,
+    &__value {
+      width: 45%;
     }
   }
 }
