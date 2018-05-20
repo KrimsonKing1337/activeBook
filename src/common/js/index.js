@@ -19,8 +19,9 @@ import {addContentInit} from './addContentInit';
 import {CssVariables} from './CssVariables';
 import {getScrollBarWidth} from './getScrollBarWidth';
 import {mCustomScrollbarInit} from './mCustomScrollbarInit';
+import {isMobileInit} from './isMobileInit';
 
-$(window).on('load', async () => {
+async function onReady(rootApp) {
     if (browserCheck() === false) return;
 
     firstOpenCheck();
@@ -28,9 +29,9 @@ $(window).on('load', async () => {
     const DOMSelectors = getDOMSelectors();
     const $body = $('body');
 
-    const textAJAX = await getAJAX(`/page-0.html`);
-    const pageCurJSON = await getAJAX(`/page-0.json`);
-    const pagesJSON = await getAJAX(`/pages.json`);
+    const textAJAX = await getAJAX(`${rootApp}/page-0.html`);
+    const pageCurJSON = await getAJAX(`${rootApp}/page-0.json`);
+    const pagesJSON = await getAJAX(`${rootApp}/pages.json`);
 
     const pagesInfo = pagesJSON.pagesInfo;
     const pageCurInfo = pageCurJSON.pageInfo;
@@ -80,8 +81,8 @@ $(window).on('load', async () => {
             unload: true
         });
 
-        const textAJAX = await getAJAX(`/page-${pageNum}.html`);
-        const pageCurJSON = await getAJAX(`/page-${pageNum}.json`);
+        const textAJAX = await getAJAX(`${rootApp}/page-${pageNum}.html`);
+        const pageCurJSON = await getAJAX(`${rootApp}/page-${pageNum}.json`);
 
         const pageCurInfo = pageCurJSON.pageInfo;
         const pagesCurEffects = pageCurJSON.effects;
@@ -135,4 +136,16 @@ $(window).on('load', async () => {
 
     $body.removeClass('initing');
     $body.css('opacity', 1);
+}
+
+$(window).on('load', () => {
+    //onReady('');
 });
+
+document.addEventListener('deviceready', () => {
+    const rootApp = isMobileInit().rootApp;
+
+    console.log(cordova.file.applicationDirectory);
+
+    onReady(rootApp);
+}, false);

@@ -16,8 +16,6 @@ const extractSass = new ExtractTextPlugin({
     disable: process.env.NODE_ENV === 'development'
 });
 
-
-
 module.exports = {
     devtool: 'source-map',
     entry: {
