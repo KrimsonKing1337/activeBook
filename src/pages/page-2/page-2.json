@@ -6,8 +6,7 @@
       "src": [
         "/book_data/audios/sound/car-door-close-engine-start.mp3"
       ],
-      "playOnLoad": true,
-      "nextWillWait": true
+      "playOnLoad": true
     }
   ],
   "pageInfo": {
