@@ -15,7 +15,7 @@ const rootApp = isMobile ? 'file:///android_asset/www' : '';
 const extractSass = new ExtractTextPlugin({
     filename: '[name].[hash].css',
     disable: process.env.NODE_ENV === 'development',
-    publicPath: '../build'
+    //publicPath: '../build'
 });
 
 module.exports = {
