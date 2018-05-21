@@ -14,7 +14,7 @@ const rootPath = require('./rootPath');
 const extractSass = new ExtractTextPlugin({
     filename: '[name].[hash].css',
     disable: process.env.NODE_ENV === 'development',
-    //publicPath: '../'
+    publicPath: '../build'
 });
 
 module.exports = {
@@ -125,7 +125,7 @@ module.exports = {
                 options: {
                     name: '[name].[ext]',
                     outputPath: 'assets/',
-                    //publicPath: '../'
+                    //context: '../build/'
                 }
             }
         }, {
