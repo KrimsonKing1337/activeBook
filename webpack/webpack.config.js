@@ -13,7 +13,8 @@ const rootPath = require('./rootPath');
 
 const extractSass = new ExtractTextPlugin({
     filename: '[name].[hash].css',
-    disable: process.env.NODE_ENV === 'development'
+    disable: process.env.NODE_ENV === 'development',
+    //publicPath: '../'
 });
 
 module.exports = {
@@ -119,7 +120,14 @@ module.exports = {
             use: 'css-loader?sourceMap=true',
         }, {
             test: /\.(png|jpe?g|gif|svg|woff|woff2|eot|ttf)$/,
-            use: 'file-loader?name=[name].[ext]&outputPath=./assets/'
+            use: {
+                loader: 'file-loader',
+                options: {
+                    name: '[name].[ext]',
+                    outputPath: 'assets/',
+                    //publicPath: '../'
+                }
+            }
         }, {
             test: /\.ejs$/,
             use: ['ejs-loader']

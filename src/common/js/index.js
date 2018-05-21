@@ -21,6 +21,7 @@ import {getScrollBarWidth} from './getScrollBarWidth';
 import {mCustomScrollbarInit} from './mCustomScrollbarInit';
 import {getIsMobile} from './getIsMobile';
 import {getRootApp} from './getRootApp';
+import {modifyPathForPagesCurEffects} from './modifyPathForPagesCurEffects';
 
 async function onReady(rootApp) {
     if (browserCheck() === false) return;
@@ -36,7 +37,7 @@ async function onReady(rootApp) {
 
     const pagesInfo = pagesJSON.pagesInfo;
     const pageCurInfo = pageCurJSON.pageInfo;
-    const pagesCurEffects = pageCurJSON.effects;
+    const pagesCurEffects = modifyPathForPagesCurEffects(pageCurJSON.effects, rootApp);
 
     pageInfo.set({
         pageCurNum: pageCurInfo.num,
@@ -86,7 +87,7 @@ async function onReady(rootApp) {
         const pageCurJSON = await getAJAX(`${rootApp}/page-${pageNum}.json`, 'json');
 
         const pageCurInfo = pageCurJSON.pageInfo;
-        const pagesCurEffects = pageCurJSON.effects;
+        const pagesCurEffects = modifyPathForPagesCurEffects(pageCurJSON.effects, rootApp);
 
         pageInfo.set({
             pageCurNum: pageCurInfo.num
