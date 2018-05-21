@@ -10,6 +10,7 @@ const HtmlWebpackInlineSVGPlugin = require('html-webpack-inline-svg-plugin');
 const htmlWebpackPluginChunksPages = require('./htmlWebpackPluginChunksPages');
 const isMobile = require('./isMobile')();
 const rootPath = require('./rootPath');
+const rootApp = isMobile ? 'file:///android_asset/www' : '';
 
 const extractSass = new ExtractTextPlugin({
     filename: '[name].[hash].css',
@@ -44,7 +45,7 @@ module.exports = {
             filename: 'index.html',
             inject: 'body',
             isMobile,
-            rootApp: isMobile ? 'file:///android_asset/www' : '',
+            rootApp,
             svgoConfig: {
                 cleanupIDs: true,
                 removeTitle: false,
@@ -92,6 +93,12 @@ module.exports = {
             exclude: /node_modules/,
             use: extractSass.extract({
                 use: [{
+                    loader: 'replace-string-loader',
+                    options: {
+                        search: /\/fonts\//g,
+                        replace: `${rootApp}/fonts/`
+                    }
+                }, {
                     loader: 'css-loader',
                     options: {
                         sourceMap: true,
@@ -114,7 +121,6 @@ module.exports = {
                 }],
                 fallback: 'style-loader'
             })
-
         }, {
             test: /\.css$/,
             use: 'css-loader?sourceMap=true',
