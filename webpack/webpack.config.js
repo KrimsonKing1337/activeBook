@@ -8,7 +8,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 const HtmlWebpackInlineSVGPlugin = require('html-webpack-inline-svg-plugin');
 const htmlWebpackPluginChunksPages = require('./htmlWebpackPluginChunksPages');
-
+const isMobile = require('./isMobile')();
 const rootPath = require('./rootPath');
 
 const extractSass = new ExtractTextPlugin({
@@ -42,6 +42,8 @@ module.exports = {
             template: `${rootPath}/src/index.ejs`,
             filename: 'index.html',
             inject: 'body',
+            isMobile,
+            rootApp: isMobile ? 'file:///android_asset/www' : '',
             svgoConfig: {
                 cleanupIDs: true,
                 removeTitle: false,

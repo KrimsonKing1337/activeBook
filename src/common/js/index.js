@@ -19,7 +19,8 @@ import {addContentInit} from './addContentInit';
 import {CssVariables} from './CssVariables';
 import {getScrollBarWidth} from './getScrollBarWidth';
 import {mCustomScrollbarInit} from './mCustomScrollbarInit';
-import {isMobileInit} from './isMobileInit';
+import {getIsMobile} from './getIsMobile';
+import {getRootApp} from './getRootApp';
 
 async function onReady(rootApp) {
     if (browserCheck() === false) return;
@@ -30,8 +31,8 @@ async function onReady(rootApp) {
     const $body = $('body');
 
     const textAJAX = await getAJAX(`${rootApp}/page-0.html`);
-    const pageCurJSON = await getAJAX(`${rootApp}/page-0.json`);
-    const pagesJSON = await getAJAX(`${rootApp}/pages.json`);
+    const pageCurJSON = await getAJAX(`${rootApp}/page-0.json`, 'json');
+    const pagesJSON = await getAJAX(`${rootApp}/pages.json`, 'json');
 
     const pagesInfo = pagesJSON.pagesInfo;
     const pageCurInfo = pageCurJSON.pageInfo;
@@ -82,7 +83,7 @@ async function onReady(rootApp) {
         });
 
         const textAJAX = await getAJAX(`${rootApp}/page-${pageNum}.html`);
-        const pageCurJSON = await getAJAX(`${rootApp}/page-${pageNum}.json`);
+        const pageCurJSON = await getAJAX(`${rootApp}/page-${pageNum}.json`, 'json');
 
         const pageCurInfo = pageCurJSON.pageInfo;
         const pagesCurEffects = pageCurJSON.effects;
@@ -138,14 +139,20 @@ async function onReady(rootApp) {
     $body.css('opacity', 1);
 }
 
-$(window).on('load', () => {
-    //onReady('');
+$(document).ready(() => {
+    const isMobile = getIsMobile();
+
+    if (!isMobile) {
+        $(window).on('load', () => {
+            const rootApp = getRootApp();
+
+            onReady(rootApp);
+        });
+    } else {
+        document.addEventListener('deviceready', () => {
+            const rootApp = getRootApp();
+
+            onReady(rootApp);
+        }, false);
+    }
 });
-
-document.addEventListener('deviceready', () => {
-    const rootApp = isMobileInit().rootApp;
-
-    console.log(cordova.file.applicationDirectory);
-
-    onReady(rootApp);
-}, false);
