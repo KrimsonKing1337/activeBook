@@ -93,9 +93,12 @@ export default class Popover {
             const $popoverCur = $(popoverCur);
 
             if ($popoverCur[0] !== $popoverActual[0]) {
-                $popoverCur.animateCss('fadeOut', () => {
+                $popoverCur.one('transitionend', () => {
                     $popoverCur.removeClass('active');
+                    $popoverCur.css('opacity', '');
                 });
+
+                $popoverCur.css('opacity', 0);
             }
         });
     }
@@ -161,7 +164,13 @@ export default class Popover {
         const $popover = selectors.$popover;
         const $triggerButton = selectors.$triggerButton;
 
-        $popover.removeClass('active');
+        $popover.one('transitionend', () => {
+            $popover.removeClass('active');
+            $popover.css('opacity', '');
+        });
+
+        $popover.css('opacity', 0);
+
         $popover.off('click touchstart');
         $triggerButton.removeClass('active');
     }

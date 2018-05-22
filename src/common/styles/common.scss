@@ -1183,7 +1183,7 @@ a {
   z-index: 1;
   cursor: default;
   transition: opacity 0.3s 0s ease;
-  will-change: opacity, transform;
+  will-change: opacity;
 
   &.active {
     visibility: visible;
