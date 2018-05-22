@@ -8,10 +8,10 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 const HtmlWebpackInlineSVGPlugin = require('html-webpack-inline-svg-plugin');
 const htmlWebpackPluginChunksPages = require('./htmlWebpackPluginChunksPages');
-const isMobile = require('./isMobile')();
+const isMobileApp = require('./isMobileApp');
 const rootPath = require('./rootPath');
-const rootApp = isMobile ? 'file:///android_asset/www' : '';
-const buildDir = isMobile ? `${rootPath}/cordova/www` : `${rootPath}/build`;
+const rootMobileApp = require('./getRootMobileApp');
+const buildDir = isMobileApp ? `${rootPath}/cordova/www` : `${rootPath}/build`;
 
 const extractSass = new ExtractTextPlugin({
     filename: '[name].[hash].css',
@@ -45,8 +45,8 @@ module.exports = {
             template: `${rootPath}/src/index.ejs`,
             filename: 'index.html',
             inject: 'body',
-            isMobile,
-            rootApp,
+            isMobileApp,
+            rootMobileApp,
             svgoConfig: {
                 cleanupIDs: true,
                 removeTitle: false,
@@ -90,12 +90,13 @@ module.exports = {
         }, {
             test: /\.scss$/,
             exclude: /node_modules/,
+            //todo: попробовать сформировать путь через ../../ для ios (где там рут приложения - неясно)
             use: extractSass.extract({
                 use: [{
                     loader: 'replace-string-loader',
                     options: {
                         search: /\/fonts\//g,
-                        replace: `${rootApp}/fonts/`
+                        replace: `${rootMobileApp}/fonts/`
                     }
                 }, {
                     loader: 'css-loader',

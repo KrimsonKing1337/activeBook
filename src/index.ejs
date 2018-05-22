@@ -1,13 +1,13 @@
 <%
 var options = htmlWebpackPlugin.options;
 var context = options.context;
-var isMobile = options.isMobile;
-var rootApp = options.rootApp;
+var isMobileApp = options.isMobileApp;
+var rootMobileApp = options.rootMobileApp;
 
 var params = {
     context: context,
-    isMobile: isMobile,
-    rootApp: rootApp
+    isMobileApp: isMobileApp,
+    rootMobileApp: rootMobileApp
 }
 %>
 
@@ -19,11 +19,11 @@ var params = {
     <!-- <link rel="shortcut icon" href="/common/favicon.ico" type="image/x-icon" /> -->
     <title>activeBook 2.0</title>
 </head>
-<body class="initing" style="opacity: 0;" data-is-mobile="<%= isMobile %>">
+<body class="initing" style="opacity: 0;" data-is-mobile="<%= isMobileApp %>">
     <%= require('elements/page.ejs')({params: params}) %>
 </body>
 
-<% if (isMobile) { %>
+<% if (isMobileApp) { %>
     <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
 <% } %>
 </html>
