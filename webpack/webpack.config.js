@@ -90,7 +90,6 @@ module.exports = {
         }, {
             test: /\.scss$/,
             exclude: /node_modules/,
-            //todo: попробовать сформировать путь через ../../ для ios (где там рут приложения - неясно)
             use: extractSass.extract({
                 use: [{
                     loader: 'replace-string-loader',
