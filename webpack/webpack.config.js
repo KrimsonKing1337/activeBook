@@ -11,6 +11,7 @@ const htmlWebpackPluginChunksPages = require('./htmlWebpackPluginChunksPages');
 const isMobile = require('./isMobile')();
 const rootPath = require('./rootPath');
 const rootApp = isMobile ? 'file:///android_asset/www' : '';
+const buildDir = isMobile ? `${rootPath}/cordova/www` : `${rootPath}/build`;
 
 const extractSass = new ExtractTextPlugin({
     filename: '[name].[hash].css',
@@ -24,12 +25,12 @@ module.exports = {
         bundle: `${rootPath}/src/index.js`
     },
     output: {
-        path: `${rootPath}/build/`,
+        path: `${buildDir}/`,
         filename: '[name].[hash].js',
     },
     plugins: [
-        new CleanWebpackPlugin(`${rootPath}/build/*`, {
-            root: `${rootPath}/build/`,
+        new CleanWebpackPlugin(`${buildDir}/*`, {
+            root: `${buildDir}/`,
             exclude: ['.gitkeep'],
         }),
         extractSass,
@@ -57,14 +58,14 @@ module.exports = {
         new CopyWebpackPlugin([
             {
                 from: `${rootPath}/public/`,
-                to: `${rootPath}/build/`
+                to: `${buildDir}/`
             }, {
                 from: `${rootPath}/src/pages/**/*.json`,
-                to: `${rootPath}/build/`,
+                to: `${buildDir}/`,
                 flatten: true
             }, {
                 from: `${rootPath}/src/pages/pages.json`,
-                to: `${rootPath}/build/`,
+                to: `${buildDir}/`,
                 flatten: true
             }
         ]),
@@ -78,9 +79,7 @@ module.exports = {
         modules: ['src', 'node_modules'],
         alias: {
             jQuery: 'jquery',
-            'bowser': 'bowser/bowser.min.js',
-            'malihu-custom-scrollbar-plugin-js':
-                `${rootPath}/src/common/js/modules/jquery.mCustomScrollbar-swipe-fix.js`,
+            'bowser': 'bowser/bowser.min.js'
         }
     },
     module: {

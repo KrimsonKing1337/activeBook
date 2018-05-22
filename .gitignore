@@ -1,5 +1,8 @@
 .idea/
 node_modules/
 build/
-book_data/
+*.mp3
+*.ogg
+*.mp4
+*.webm
 package-lock.json
