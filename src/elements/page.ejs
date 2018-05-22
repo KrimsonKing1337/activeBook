@@ -23,7 +23,9 @@
                 </div>
             </div>
         </div>
-        <div class="text-wrapper js-scrollable-item" tabindex="-1" data-xthreshold="100"></div>
+        <div class="text-scroll js-scrollable-item">
+            <div class="text-wrapper" tabindex="0" data-xthreshold="100"></div>
+        </div>
         <%= require('./menu.ejs')({params: params}) %>
         <%= require('./table-of-contents.ejs')() %>
         <%= require('./credits.ejs')() %>

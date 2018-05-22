@@ -248,9 +248,6 @@ input[type="number"] {
   margin-top: 5px;
   margin-bottom: 10px;
   background: #fff;
-  padding: 40px 20px;
-  overflow-y: auto;
-  //-webkit-overflow-scrolling: touch;
 
   @media screen and (max-width: 500px) {
     height: 100%;
@@ -258,8 +255,14 @@ input[type="number"] {
     margin-bottom: 0;
   }
 
+  &__scroll {
+    height: inherit;
+    //-webkit-overflow-scrolling: touch;
+  }
+
   &__inner {
     transform: translateZ(0);
+    padding: 40px 20px;
   }
 
   &.active {
@@ -558,19 +561,16 @@ p {
   }
 }
 
-.text-wrapper {
+.text-scroll {
   width: 100%;
   height: calc(100% - 68px); //height of menu + margin-bottom
   margin-bottom: 20px;
-  //padding-right: var(--scrollbar-width);
-  //overflow-y: hidden;
-  //overflow-y: auto;
   //-webkit-overflow-scrolling: touch;
+}
 
-  &.scrollable {
-    overflow-y: auto;
-    padding-right: 0;
-  }
+.text-wrapper {
+  width: 100%;
+  height: inherit;
 }
 
 .side-effects-wrapper {
@@ -853,9 +853,6 @@ a {
   margin-top: 5px;
   margin-bottom: 10px;
   background: #fff;
-  padding: 40px 20px;
-  overflow-y: auto;
-  //-webkit-overflow-scrolling: touch;
 
   @media screen and (max-width: 500px) {
     height: 100%;
@@ -867,8 +864,14 @@ a {
     display: block;
   }
 
+  &__scroll {
+    height: inherit;
+    //-webkit-overflow-scrolling: touch;
+  }
+
   &__inner {
     transform: translateZ(0);
+    padding: 40px 20px;
   }
 
   &__item {
@@ -1454,8 +1457,9 @@ a {
 .menu__item.bookmark .add-settings {
   max-height: 147px;
 
-  &__item {
-    overflow-y: auto;
+  .add-settings__item__scroll {
+    max-height: inherit;
+    width: 100%;
     //-webkit-overflow-scrolling: touch;
   }
 }

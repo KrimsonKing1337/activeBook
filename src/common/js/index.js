@@ -18,10 +18,11 @@ import {firstOpenCheck} from './firstOpenCheck';
 import {addContentInit} from './addContentInit';
 import {CssVariables} from './CssVariables';
 import {getScrollBarWidth} from './getScrollBarWidth';
-import {mCustomScrollbarInit} from './mCustomScrollbarInit';
+import {scrollbarDestroy, scrollbarInit} from './scrollbarInit';
 import {getIsMobile} from './getIsMobile';
 import {getRootApp} from './getRootApp';
 import {modifyPathForPagesCurEffects} from './modifyPathForPagesCurEffects';
+import {swipesInit} from './swipesInit';
 
 async function onReady(rootApp) {
     if (browserCheck() === false) return;
@@ -58,7 +59,9 @@ async function onReady(rootApp) {
 
     textInit(EffectsController);
 
-    mCustomScrollbarInit();
+    swipesInit();
+
+    await scrollbarInit();
 
     EffectsController.setEffects(pagesCurEffects);
 
@@ -76,7 +79,7 @@ async function onReady(rootApp) {
     $(window).on('changePage', async (e, pageNum) => {
         $body.addClass('loading');
 
-        $('.js-scrollable-item').mCustomScrollbar('destroy');
+        scrollbarDestroy();
 
         EffectsController.stopAll({
             target: 'all',
@@ -98,7 +101,7 @@ async function onReady(rootApp) {
 
         $(DOMSelectors.textWrapper).html(textAJAX);
 
-        mCustomScrollbarInit();
+        await scrollbarInit();
 
         EffectsController.setEffects(pagesCurEffects);
 
