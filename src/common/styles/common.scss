@@ -144,10 +144,14 @@ input[type="number"] {
   background-color: transparent;
 }*/
 
-.mCustomScrollbar.mCS_no_scrollbar:hover {
-  .mCSB_scrollTools {
-    opacity: 0 !important;
-  }
+.scroll-wrapper.touching .scroll-element .scroll-bar,
+.scroll-content.touching ~ .scroll-element .scroll-bar {
+  opacity: 0.7 !important;
+}
+
+.scroll-wrapper.touched .scroll-element .scroll-bar,
+.scroll-content.touched ~ .scroll-element .scroll-bar {
+  opacity: 0 !important;
 }
 
 .notifyjs-corner {
@@ -257,7 +261,7 @@ input[type="number"] {
 
   &__scroll {
     height: inherit;
-    //-webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch;
   }
 
   &__inner {
@@ -565,7 +569,7 @@ p {
   width: 100%;
   height: calc(100% - 68px); //height of menu + margin-bottom
   margin-bottom: 20px;
-  //-webkit-overflow-scrolling: touch;
+  -webkit-overflow-scrolling: touch;
 }
 
 .text-wrapper {
@@ -866,7 +870,7 @@ a {
 
   &__scroll {
     height: inherit;
-    //-webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch;
   }
 
   &__inner {
@@ -1460,7 +1464,7 @@ a {
   .add-settings__item__scroll {
     max-height: inherit;
     width: 100%;
-    //-webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling: touch;
   }
 }
 

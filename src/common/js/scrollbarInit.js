@@ -9,9 +9,6 @@ function scrollbarOneInit($item) {
         $item.scrollbar({
             onInit() {
                 resolve();
-            },
-            onScroll() {
-                //console.log('scroll');
             }
         });
     }));
@@ -33,4 +30,24 @@ export async function scrollbarInit() {
 
 export function scrollbarDestroy() {
     $scrollableItem.removeClass('scrollbar-macosx').scrollbar('destroy');
+}
+
+export function showHideScrollbarTouchEventsFix() {
+    let timer;
+
+    $scrollableItem.on('touchstart touchmove', function () {
+        if (timer) clearTimeout(timer);
+
+        $('.touchend').removeClass('touchend');
+        $(this).addClass('touching');
+    });
+
+    $scrollableItem.on('touchend', function () {
+        if (timer) clearTimeout(timer);
+
+        timer = setTimeout(() => {
+            $('.touching').removeClass('touching');
+            $(this).addClass('touchend');
+        }, 300);
+    });
 }

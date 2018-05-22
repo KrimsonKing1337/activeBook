@@ -18,7 +18,7 @@ import {firstOpenCheck} from './firstOpenCheck';
 import {addContentInit} from './addContentInit';
 import {CssVariables} from './CssVariables';
 import {getScrollBarWidth} from './getScrollBarWidth';
-import {scrollbarDestroy, scrollbarInit} from './scrollbarInit';
+import {scrollbarDestroy, scrollbarInit, showHideScrollbarTouchEventsFix} from './scrollbarInit';
 import {getIsMobile} from './getIsMobile';
 import {getRootApp} from './getRootApp';
 import {modifyPathForPagesCurEffects} from './modifyPathForPagesCurEffects';
@@ -62,6 +62,8 @@ async function onReady(rootApp) {
     swipesInit();
 
     await scrollbarInit();
+
+    showHideScrollbarTouchEventsFix();
 
     EffectsController.setEffects(pagesCurEffects);
 
@@ -147,11 +149,9 @@ $(document).ready(() => {
     const isMobile = getIsMobile();
 
     if (!isMobile) {
-        $(window).on('load', () => {
-            const rootApp = getRootApp();
+        const rootApp = getRootApp();
 
-            onReady(rootApp);
-        });
+        onReady(rootApp);
     } else {
         document.addEventListener('deviceready', () => {
             const rootApp = getRootApp();
