@@ -286,9 +286,7 @@ class SoundEffects {
         await SoundEffects.fadeIn(oneShot, volumeInst.getOneShots(), fadeInSpeed);
 
         if (vibration) {
-            setTimeout(() => {
-                vibrationEffectsInst.play(vibration);
-            }, 300);
+            vibrationEffectsInst.play(vibration);
         }
 
         if (goTo) {
@@ -524,24 +522,27 @@ class VibrationEffects {
      * @param duration {number}
      * @param [repeat] {number}
      * @param [sleep] {number}
+     * @param [sleepBeforeStart] {number}
      */
-    play({duration, repeat = 0, sleep = 100} = {}) {
+    play({duration, repeat = 0, sleep = 100, sleepBeforeStart = 300} = {}) {
         if (!this.vibrationSupport) return;
         if (this.state !== true) return;
 
-        navigator.vibrate(duration);
+        setTimeout(() => {
+            navigator.vibrate(duration);
 
-        if (repeat > 1) {
-            let i = 1;
+            if (repeat > 1) {
+                let i = 1;
 
-            this.interval = setInterval(() => {
-                if (i >= repeat) clearInterval(this.interval);
+                this.interval = setInterval(() => {
+                    if (i >= repeat) clearInterval(this.interval);
 
-                navigator.vibrate(duration);
+                    navigator.vibrate(duration);
 
-                i++;
-            }, sleep);
-        }
+                    i++;
+                }, sleep);
+            }
+        }, sleepBeforeStart);
     }
 
     stop() {
