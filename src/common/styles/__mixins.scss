@@ -20,6 +20,14 @@
   }
 }
 
+@mixin text-shadow-default() {
+  text-shadow: 1px 1px 30px rgba(0, 0, 0, 0.75);
+}
+
+@mixin text-shadow-dark() {
+  text-shadow: 1px 1px 30px rgba(255, 255, 255, 0.75);
+}
+
 @mixin theme-menu($theme) {
   $fill: #000;
   $hover: #f2c94c;
@@ -305,7 +313,15 @@
 
     a {
       &:hover {
-        text-shadow: 1px 1px 30px rgba(255, 255, 255, 0.75);
+        @include text-shadow-dark;
+      }
+    }
+
+    .modal-content {
+      &__close,
+      &__full-size {
+        color: #a3a3a3;
+        @include text-shadow-dark;
       }
     }
 

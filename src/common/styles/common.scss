@@ -188,7 +188,7 @@ input[type="number"] {
   }
 }
 
-.add-content {
+.modal-content {
   display: none;
   position: fixed;
   top: 50%;
@@ -203,39 +203,57 @@ input[type="number"] {
   background-size: cover;
   box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.75);
 
+  &.active {
+    display: block;
+  }
+
   &__inner {
     width: inherit;
     max-width: inherit;
     height: inherit;
     max-height: inherit;
+    overflow-x: hidden;
 
-    * {
+    img,
+    video,
+    iframe,
+    section {
+      display: none;
       width: inherit;
       max-width: inherit;
       height: inherit;
       max-height: inherit;
       object-fit: cover;
+
+      &.active {
+        display: block;
+      }
     }
   }
 
-  &__close {
+  &__close,
+  &__full-size {
     position: absolute;
-    top: 20px;
-    right: 20px;
     font-size: 42px;
     color: #fff;
     cursor: pointer;
     @include hover-default;
+    @include text-shadow-default;
+  }
+
+  &__close {
+    top: 20px;
+    right: 20px;
   }
 
   &__full-size {
-    position: absolute;
+    display: none;
     bottom: 20px;
     right: 20px;
-    font-size: 42px;
-    color: #fff;
-    cursor: pointer;
-    @include hover-default;
+
+    &.active {
+      display: block;
+    }
   }
 }
 
@@ -713,11 +731,10 @@ p {
 
 a {
   opacity: 0.85;
-  @include transition-default;
+  transition: text-shadow ease 0.3s 0s;
 
   &:hover {
-    opacity: 1;
-    text-shadow: 1px 1px 30px rgba(0, 0, 0, 0.75);
+    @include text-shadow-default;
   }
 
   &.action {

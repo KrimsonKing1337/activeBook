@@ -19,7 +19,7 @@ export default function getDOMSelectors() {
         credits: '.credits',
         creditsInner: '.credits__inner',
         menu: '.menu',
-        addContent: '.add-content',
+        modalContent: '.modal-content',
         mainContent: '.main-content',
         action: '.action',
         page: '.page',
@@ -46,8 +46,8 @@ export default function getDOMSelectors() {
         lineHeightVal: '.js-line-height-val',
         volumeOneShots: '.js-volume-one-shots',
         volumeLoops: '.js-volume-loops',
-        addContentClose: '.js-add-content-close',
-        addContentFullSize: '.js-add-content-full-size',
-        addContentInner: '.js-add-content-inner'
+        modalContentClose: '.js-modal-content-close',
+        modalContentFullSize: '.js-modal-content-full-size',
+        modalContentInner: '.js-modal-content-inner'
     }
 }

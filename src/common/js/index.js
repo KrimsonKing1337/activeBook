@@ -15,7 +15,6 @@ import LocalStorage from './modules/LocalStorage';
 import {goToPageBtnInit} from './goToPageBtnInit';
 import {changePageByKeyboardInit} from './changePageByKeyboardInit';
 import {firstOpenCheck} from './firstOpenCheck';
-import {addContentInit} from './addContentInit';
 import {CssVariables} from './CssVariables';
 import {getScrollBarWidth} from './getScrollBarWidth';
 import {scrollbarDestroy, scrollbarInit, showHideScrollbarTouchEventsFix} from './scrollbarInit';
@@ -134,9 +133,6 @@ async function onReady(rootApp) {
     });
 
     hoverTouchUnstick();
-
-    //add content init
-    addContentInit();
 
     CssVariables.set('--main-content-height', `${window.innerHeight}px`);
     CssVariables.set('--scrollbar-width', `${getScrollBarWidth()}px`);

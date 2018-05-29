@@ -6,9 +6,10 @@ import 'notifyjs-browser';
 import LocalStorage from './LocalStorage';
 import {VolumeController} from './Volume';
 import {getVolumeInst} from '../getVolumeInst';
-import {get} from 'lodash-es';
 import {CssVariables} from '../CssVariables';
 import {getRandomInt} from '../getRamdomInt';
+
+const DOMSelectors = getDOMSelectors();
 
 class Effects {
     /**
@@ -38,8 +39,8 @@ class Effects {
                 soundEffectsInst.checkAndSetNewOneShot(effectCur);
             } else if (type === 'loop') {
                soundEffectsInst.checkAndSetNewLoop(effectCur);
-            } else if (type === 'image') {
-                imageEffectsInst.checkAndSet(effectCur);
+            } else if (type === 'modalContent') {
+                modalContentEffectsInst.init(effectCur);
             }
         });
     }
@@ -63,8 +64,8 @@ class Effects {
             soundEffectsInst.playOneShot(id, soundEffectsParams);
         } else if (type === 'loop') {
             soundEffectsInst.playLoop(id, soundEffectsParams);
-        } else if (type === 'image') {
-            imageEffectsInst.play(id);
+        } else if (type === 'modalContent') {
+            modalContentEffectsInst.play();
         } else if (type === 'notification') {
             NotificationsEffects.play(effectCur);
         } else if (type === 'textShadow') {
@@ -436,61 +437,115 @@ class SoundEffects {
     }
 }
 
-class VideoEffects {
+class ModalContentEffects {
     constructor() {
-
-    }
-}
-
-class TextEffects {
-    constructor() {
-
-    }
-}
-
-class ImageEffects {
-    constructor(images) {
-        this.images = images;
+        this.$modalContent = $(DOMSelectors.modalContent);
+        this.$modalContentInner = $(DOMSelectors.modalContentInner);
+        this.$modalContentClose = $(DOMSelectors.modalContentClose);
+        this.$modalContentFullSize = $(DOMSelectors.modalContentFullSize);
+        this.$img = this.$modalContent.find('img');
+        this.$video = this.$modalContent.find('video');
+        this.$iframe = this.$modalContent.find('iframe');
+        this.$section = this.$modalContent.find('section');
     }
 
     /**
      *
-     * @param imageCur {object};
+     * @param effect {object}
      */
-    checkAndSet(imageCur) {
-        const images = this.images;
-        const id = imageCur.id;
+    init(effect) {
+        this.set(effect);
+        this.initCloseBtn();
+        this.initFullSizeBtn();
+    }
 
-        if (!images[id]) {
-            //кэшируем
-            ImageEffects.set(imageCur.src);
-
-            images[id] = imageCur;
+    /**
+     *
+     * @param [src[]] {string};
+     * @param [text] {string};
+     * @param modalContentType {string};
+     */
+    set({src, text, modalContentType} = {}) {
+        if (modalContentType === 'image') {
+            ModalContentEffects.setSrc(this.$img, src);
+            ModalContentEffects.showElem(this.$img);
+        } else if (modalContentType === 'video') {
+            ModalContentEffects.setSrc(this.$video, src);
+            ModalContentEffects.showElem(this.$video);
+        } else if (modalContentType === 'iframe') {
+            ModalContentEffects.setSrc(this.$iframe, src);
+            ModalContentEffects.showElem(this.$iframe);
+        } else if (modalContentType === 'text') {
+            ModalContentEffects.setText(this.$section, text);
+            ModalContentEffects.showElem(this.$section);
         }
-        //todo: слайдер, если несколько
     }
 
     /**
      *
-     * @param src {string};
+     * @param $el {object} jquery
      */
-    static set(src) {
-        const $img = `<img src="${src}" />`;
-        const $addContentInner = $(getDOMSelectors().addContentInner);
-
-        $addContentInner.html($img);
+    static showElem($el) {
+        $el.addClass('active');
     }
 
     /**
      *
-     * @param id {string};
+     * @param $el {object} jquery
+     * @param src[] {string}
      */
-    play(id) {
-        const images = this.images;
-        const $addContent = $(getDOMSelectors().addContent);
+    static setSrc($el, src) {
+        $el.attr('src', src[0]);
+    }
 
-        ImageEffects.set(images[id].src);
-        $addContent.fadeIn();
+    /**
+     *
+     * @param $el {object} jquery
+     * @param text {string}
+     */
+    static setText($el, text) {
+        $el.text(text);
+    }
+
+    play() {
+        this.$modalContent.addClass('active');
+        this.$modalContent.animateCss('fadeIn');
+    }
+
+    close() {
+        this.$modalContent.animateCss('fadeOut', () => {
+            this.$modalContent.removeClass('active');
+        });
+    }
+
+    initCloseBtn() {
+        this.$modalContentClose.on('click', () => {
+            this.close();
+        });
+    }
+
+    initFullSizeBtn() {
+        const children = this.$modalContentInner.children();
+
+        let src = null;
+        const video = children.filter('video.active');
+        const img = children.filter('img.active');
+
+        if (img.length > 0) {
+            src = img.attr('src');
+        } else if (video.length > 0) {
+            src = video.attr('src');
+        }
+
+        if (src === null) return;
+
+        this.$modalContentFullSize.on('click', () => {
+            modalContentEffectsInst.close();
+
+            window.open(`${window.location.origin}/${src}`, '_blank');
+        });
+
+        this.$modalContentFullSize.addClass('active');
     }
 }
 
@@ -747,9 +802,7 @@ export const volumeControllerInst = new VolumeController({
     volumeInst
 });
 
-export const imageEffectsInst = new ImageEffects({
-    images: {}
-});
+export const modalContentEffectsInst = new ModalContentEffects();
 
 export const textShadowEffectsInst = new TextShadowEffects();
 
