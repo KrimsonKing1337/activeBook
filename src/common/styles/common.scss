@@ -196,12 +196,13 @@ input[type="number"] {
   transform: translate(-50%, -50%);
   width: 100%;
   max-width: 500px;
-  height: 100vh;
+  height: 100%;
   max-height: 500px;
   z-index: 999;
   background: center no-repeat;
   background-size: cover;
-  box-shadow: 1px 1px 5px 0 rgba(0, 0, 0, 0.75);
+  border-radius: 4px;
+  box-shadow: 0 1px 15px 0 rgba(0, 0, 0, 0.1);
 
   &.active {
     display: block;
@@ -234,6 +235,7 @@ input[type="number"] {
   &__close,
   &__full-size {
     position: absolute;
+    z-index: 1;
     font-size: 42px;
     color: #fff;
     cursor: pointer;

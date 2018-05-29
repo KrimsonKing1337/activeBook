@@ -534,7 +534,7 @@ class ModalContentEffects {
         if (img.length > 0) {
             src = img.attr('src');
         } else if (video.length > 0) {
-            src = video.attr('src');
+            //src = video.attr('src');
         }
 
         if (src === null) return;
