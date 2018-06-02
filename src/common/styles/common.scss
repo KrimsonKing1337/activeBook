@@ -199,8 +199,7 @@ input[type="number"] {
   height: 100%;
   max-height: 500px;
   z-index: 999;
-  background: center no-repeat;
-  background-size: cover;
+  background: #fff;
   border-radius: 4px;
   box-shadow: 0 1px 15px 0 rgba(0, 0, 0, 0.1);
 
@@ -213,7 +212,7 @@ input[type="number"] {
     max-width: inherit;
     height: inherit;
     max-height: inherit;
-    overflow-x: hidden;
+    overflow: hidden;
 
     img,
     video,
@@ -230,6 +229,18 @@ input[type="number"] {
         display: block;
       }
     }
+
+    .section-scroll {
+      width: inherit;
+      max-width: inherit;
+      height: inherit;
+      max-height: inherit;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .section-wrapper {
+      padding: 20px 30px;
+    }
   }
 
   &__close,
@@ -244,14 +255,14 @@ input[type="number"] {
   }
 
   &__close {
-    top: 20px;
-    right: 20px;
+    top: 5px;
+    right: 8px;
   }
 
   &__full-size {
     display: none;
-    bottom: 20px;
-    right: 20px;
+    bottom: 5px;
+    right: 8px;
 
     &.active {
       display: block;
@@ -769,7 +780,8 @@ a {
 }
 
 //modificators for text; font-size
-.text {
+.text,
+.modal-content section {
   [data-font-size="75"] & {
     font-size: 75%;
   }
@@ -788,7 +800,8 @@ a {
 }
 
 //modificators for text; line-height
-.text {
+.text,
+.modal-content section {
   [data-line-height="75"] & {
     header {
       line-height: $header-line-height * 0.75;
@@ -1533,6 +1546,7 @@ a {
 }
 
 .template,
-.templates {
+.templates,
+.for-modal-content {
   display: none !important;
 }

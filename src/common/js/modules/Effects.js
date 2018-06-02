@@ -461,11 +461,10 @@ class ModalContentEffects {
 
     /**
      *
-     * @param [src[]] {string};
-     * @param [text] {string};
+     * @param src[] {string};
      * @param modalContentType {string};
      */
-    set({src, text, modalContentType} = {}) {
+    set({src, modalContentType} = {}) {
         if (modalContentType === 'image') {
             ModalContentEffects.setSrc(this.$img, src);
             ModalContentEffects.showElem(this.$img);
@@ -475,8 +474,8 @@ class ModalContentEffects {
         } else if (modalContentType === 'iframe') {
             ModalContentEffects.setSrc(this.$iframe, src);
             ModalContentEffects.showElem(this.$iframe);
-        } else if (modalContentType === 'text') {
-            ModalContentEffects.setText(this.$section, text);
+        } else if (modalContentType === 'html') {
+            ModalContentEffects.setHtml(this.$section, src);
             ModalContentEffects.showElem(this.$section);
         }
     }
@@ -501,10 +500,12 @@ class ModalContentEffects {
     /**
      *
      * @param $el {object} jquery
-     * @param text {string}
+     * @param src {string}
      */
-    static setText($el, text) {
-        $el.text(text);
+    static setHtml($el, src) {
+        const html = $('.for-modal-content').find(`[data-html-id=${src}]`).html();
+
+        $el.html(html);
     }
 
     play() {

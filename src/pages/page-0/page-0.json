@@ -9,6 +9,15 @@
       "vibration": {
         "duration": 500
       }
+    },
+    {
+      "id": "modal-scroll-test",
+      "type": "modalContent",
+      "modalContentType": "html",
+      "src": [
+        "modal-scroll-test"
+      ],
+      "playOnLoad": false
     }
   ],
   "pageInfo": {
