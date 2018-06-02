@@ -13,11 +13,11 @@
     {
       "id": "modal-scroll-test",
       "type": "modalContent",
-      "modalContentType": "html",
+      "modalContentType": "video",
       "src": [
-        "modal-scroll-test"
+        "/book_data/videos/Tony.mp4"
       ],
-      "playOnLoad": false
+      "playOnLoad": true
     }
   ],
   "pageInfo": {

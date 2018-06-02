@@ -9,7 +9,28 @@
         </div>
         <div class="modal-content__inner js-modal-content-inner">
             <img src="" />
-            <video src="" controls></video>
+            <div class="video-wrapper">
+                <div class="video-player" data-playing="false">
+                    <div class="video-player__controls">
+                        <div class="video-player__controls__top">
+                            <div class="video-player-position"></div>
+                        </div>
+                        <div class="video-player__controls__bottom">
+                            <div class="video-player-play-pause js-video-player-play-pause">
+                                <i class="fa fa-play"></i>
+                            </div>
+                            <div class="video-player-volume">
+                                <i class="fa fa-volume-up"></i>
+                            </div>
+                            <div class="video-player-length"></div>
+                            <div class="video-player-full-screen js-video-player-full-screen">
+                                <i class="fa fa-expand"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <video src=""></video>
+            </div>
             <iframe src=""></iframe>
             <div class="section-scroll js-scrollable-item">
                 <div class="section-wrapper">

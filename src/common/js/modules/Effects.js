@@ -444,6 +444,8 @@ class ModalContentEffects {
         this.$modalContentClose = $(DOMSelectors.modalContentClose);
         this.$modalContentFullSize = $(DOMSelectors.modalContentFullSize);
         this.$img = this.$modalContent.find('img');
+        this.$videoWrapper = this.$modalContent.find('.video-wrapper');
+        this.$videoPlayer = this.$modalContent.find('.video-player');
         this.$video = this.$modalContent.find('video');
         this.$iframe = this.$modalContent.find('iframe');
         this.$section = this.$modalContent.find('section');
@@ -457,6 +459,7 @@ class ModalContentEffects {
         this.set(effect);
         this.initCloseBtn();
         this.initFullSizeBtn();
+        this.initVideoPlayer();
     }
 
     /**
@@ -470,7 +473,7 @@ class ModalContentEffects {
             ModalContentEffects.showElem(this.$img);
         } else if (modalContentType === 'video') {
             ModalContentEffects.setSrc(this.$video, src);
-            ModalContentEffects.showElem(this.$video);
+            ModalContentEffects.showElem(this.$videoWrapper);
         } else if (modalContentType === 'iframe') {
             ModalContentEffects.setSrc(this.$iframe, src);
             ModalContentEffects.showElem(this.$iframe);
@@ -547,6 +550,26 @@ class ModalContentEffects {
         });
 
         this.$modalContentFullSize.addClass('active');
+    }
+
+    initVideoPlayer() {
+        const $wrapper = this.$videoWrapper;
+        const $videoPlayer = this.$videoPlayer;
+        const $video = this.$video;
+        const $playPause = $videoPlayer.find('.js-video-player-play-pause');
+        const $fullScreen = $videoPlayer.find('.js-video-player-full-screen');
+
+        $wrapper.on('click', () => {
+            if (JSON.parse($videoPlayer.attr('data-playing')) === false) {
+                $video[0].play();
+
+                $videoPlayer.attr('data-playing', true);
+            } else {
+                $video[0].pause();
+
+                $videoPlayer.attr('data-playing', false);
+            }
+        });
     }
 }
 
