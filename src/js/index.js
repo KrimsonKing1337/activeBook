@@ -22,7 +22,7 @@ import {getIsMobile} from './getIsMobile';
 import {getRootApp} from './getRootApp';
 import {modifyPathForPagesCurEffects} from './modifyPathForPagesCurEffects';
 import {swipesInit} from './swipesInit';
-import {modalContentEffectsInst} from './Effects';
+import {modalContentInst} from './ModalContent';
 
 async function onReady(rootApp) {
     if (browserCheck() === false) return;
@@ -81,7 +81,7 @@ async function onReady(rootApp) {
     $(window).on('changePage', async (e, pageNum) => {
         $body.addClass('loading');
 
-        modalContentEffectsInst.close();
+        modalContentInst.close();
 
         scrollbarDestroy();
 
