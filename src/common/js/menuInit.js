@@ -119,15 +119,11 @@ export function menuInit() {
     });
 
     //клик по элементу оглавления (главе)
-    $('.table-of-contents__item').on('click', function () {
-        const newVal = $.trim($(this).find('.table-of-contents__item__value').text());
-
+    $('.js-table-of-contents-item').on('click', function () {
         $('.js-table-of-contents-close').trigger('click');
 
-        GoToPage.goWithDirection({
-            currentPage: pageInfo.pageCurNum,
-            pagesLength: pageInfo.pagesLength,
-            direction: Math.abs(parseInt(newVal))
+        GoToPage.go({
+            val: $(this).attr('data-go-to')
         });
     });
 
