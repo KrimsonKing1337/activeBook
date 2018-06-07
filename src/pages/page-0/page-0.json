@@ -11,13 +11,13 @@
       }
     },
     {
-      "id": "modal-scroll-test",
+      "id": "modal-test",
       "type": "modalContent",
-      "modalContentType": "video",
+      "modalContentType": "image",
       "src": [
-        "/book_data/videos/Tony.mp4"
+        "/book_data/images/big-gif.gif"
       ],
-      "playOnLoad": true
+      "playOnLoad": false
     }
   ],
   "pageInfo": {

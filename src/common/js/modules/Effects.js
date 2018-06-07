@@ -437,18 +437,67 @@ class SoundEffects {
     }
 }
 
+class VideoPlayer {
+    constructor() {
+        this.$modalContent = $(DOMSelectors.modalContent);
+        this.$videoWrapper = this.$modalContent.find('.video-wrapper');
+        this.$videoPlayer = this.$modalContent.find('.video-player');
+        this.$video = this.$modalContent.find('video');
+        this.$controls = this.$videoPlayer.find('.js-video-player-controls');
+        this.$playIcon = this.$videoPlayer.find('.js-video-player-icon-play');
+        this.$pauseIcon = this.$videoPlayer.find('.js-video-player-icon-pause');
+    }
+
+    init() {
+        this.$videoWrapper.on('click', () => {
+            this.playPauseToggle();
+        });
+
+        $('.js-video-player-play-pause').on('click', (e) => {
+            e.stopPropagation();
+
+            this.playPauseToggle();
+        });
+    }
+
+    playPauseToggle() {
+        if (JSON.parse(this.$videoPlayer.attr('data-playing')) === false) {
+            this.play();
+        } else {
+            this.pause();
+        }
+    }
+
+    play() {
+        this.$video[0].play();
+        this.$playIcon.removeClass('active');
+        this.$pauseIcon.addClass('active');
+        this.$videoPlayer.attr('data-playing', true);
+    }
+
+    pause() {
+        this.$video[0].pause();
+        this.$pauseIcon.removeClass('active');
+        this.$playIcon.addClass('active');
+        this.$videoPlayer.attr('data-playing', false);
+    }
+}
+
+const videoPlayerInst = new VideoPlayer();
+
 class ModalContentEffects {
     constructor() {
         this.$modalContent = $(DOMSelectors.modalContent);
         this.$modalContentInner = $(DOMSelectors.modalContentInner);
         this.$modalContentClose = $(DOMSelectors.modalContentClose);
-        this.$modalContentFullSize = $(DOMSelectors.modalContentFullSize);
+        this.$modalContentFullScreenIcon = this.$modalContent.find('.js-modal-content-full-screen');
         this.$img = this.$modalContent.find('img');
         this.$videoWrapper = this.$modalContent.find('.video-wrapper');
-        this.$videoPlayer = this.$modalContent.find('.video-player');
         this.$video = this.$modalContent.find('video');
         this.$iframe = this.$modalContent.find('iframe');
         this.$section = this.$modalContent.find('section');
+        this.$expandIcon = this.$modalContent.find('.js-modal-content-icon-expand');
+        this.$compressIcon = this.$modalContent.find('.js-modal-content-icon-compress');
     }
 
     /**
@@ -458,8 +507,8 @@ class ModalContentEffects {
     init(effect) {
         this.set(effect);
         this.initCloseBtn();
-        this.initFullSizeBtn();
-        this.initVideoPlayer();
+        this.initFullScreenBtn();
+        videoPlayerInst.init();
     }
 
     /**
@@ -519,6 +568,8 @@ class ModalContentEffects {
     close() {
         this.$modalContent.animateCss('fadeOut', () => {
             this.$modalContent.removeClass('active');
+            this.fullScreenOff();
+            videoPlayerInst.pause();
         });
     }
 
@@ -528,48 +579,34 @@ class ModalContentEffects {
         });
     }
 
-    initFullSizeBtn() {
-        const children = this.$modalContentInner.children();
+    initFullScreenBtn() {
+        if (this.$modalContent.find('img').length === 0 && this.$videoWrapper.length === 0) return;
 
-        let src = null;
-        const video = children.filter('video.active');
-        const img = children.filter('img.active');
-
-        if (img.length > 0) {
-            src = img.attr('src');
-        } else if (video.length > 0) {
-            //src = video.attr('src');
-        }
-
-        if (src === null) return;
-
-        this.$modalContentFullSize.on('click', () => {
-            modalContentEffectsInst.close();
-
-            window.open(`${window.location.origin}/${src}`, '_blank');
+        this.$modalContentFullScreenIcon.on('click', () => {
+            this.fullScreenToggle();
         });
 
-        this.$modalContentFullSize.addClass('active');
+        this.$modalContentFullScreenIcon.addClass('active');
     }
 
-    initVideoPlayer() {
-        const $wrapper = this.$videoWrapper;
-        const $videoPlayer = this.$videoPlayer;
-        const $video = this.$video;
-        const $playPause = $videoPlayer.find('.js-video-player-play-pause');
-        const $fullScreen = $videoPlayer.find('.js-video-player-full-screen');
+    fullScreenToggle() {
+        if (this.$modalContent.hasClass('full-screen') === false) {
+            this.fullScreenOn();
+        } else {
+            this.fullScreenOff();
+        }
+    }
 
-        $wrapper.on('click', () => {
-            if (JSON.parse($videoPlayer.attr('data-playing')) === false) {
-                $video[0].play();
+    fullScreenOn() {
+        this.$expandIcon.removeClass('active');
+        this.$compressIcon.addClass('active');
+        this.$modalContent.addClass('full-screen');
+    }
 
-                $videoPlayer.attr('data-playing', true);
-            } else {
-                $video[0].pause();
-
-                $videoPlayer.attr('data-playing', false);
-            }
-        });
+    fullScreenOff() {
+        this.$compressIcon.removeClass('active');
+        this.$expandIcon.addClass('active');
+        this.$modalContent.removeClass('full-screen');
     }
 }
 

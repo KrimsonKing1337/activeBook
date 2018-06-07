@@ -22,6 +22,7 @@ import {getIsMobile} from './getIsMobile';
 import {getRootApp} from './getRootApp';
 import {modifyPathForPagesCurEffects} from './modifyPathForPagesCurEffects';
 import {swipesInit} from './swipesInit';
+import {modalContentEffectsInst} from './modules/Effects';
 
 async function onReady(rootApp) {
     if (browserCheck() === false) return;
@@ -79,6 +80,8 @@ async function onReady(rootApp) {
     //событие перехода на другую страницу
     $(window).on('changePage', async (e, pageNum) => {
         $body.addClass('loading');
+
+        modalContentEffectsInst.close();
 
         scrollbarDestroy();
 
