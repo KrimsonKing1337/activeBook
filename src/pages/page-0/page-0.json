@@ -13,9 +13,9 @@
     {
       "id": "modal-test",
       "type": "modalContent",
-      "modalContentType": "image",
+      "modalContentType": "video",
       "src": [
-        "/book_data/images/big-gif.gif"
+        "/book_data/videos/test.mp4"
       ],
       "playOnLoad": false
     }

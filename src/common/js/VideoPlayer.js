@@ -1,3 +1,7 @@
+import getDOMSelectors from './GetDOMSelectors';
+
+const DOMSelectors = getDOMSelectors();
+
 class VideoPlayer {
     constructor() {
         this.$modalContent = $(DOMSelectors.modalContent);
@@ -5,8 +9,8 @@ class VideoPlayer {
         this.$videoPlayer = this.$modalContent.find('.video-player');
         this.$video = this.$modalContent.find('video');
         this.$controls = this.$videoPlayer.find('.js-video-player-controls');
-        this.$playIcon = this.$videoPlayer.find('.js-video-player-icon-play');
-        this.$pauseIcon = this.$videoPlayer.find('.js-video-player-icon-pause');
+        this.$iconPlay = this.$videoPlayer.find('.js-video-player-icon-play');
+        this.$iconPause = this.$videoPlayer.find('.js-video-player-icon-pause');
     }
 
     init() {
@@ -31,15 +35,15 @@ class VideoPlayer {
 
     play() {
         this.$video[0].play();
-        this.$playIcon.removeClass('active');
-        this.$pauseIcon.addClass('active');
+        this.$iconPlay.removeClass('active');
+        this.$iconPause.addClass('active');
         this.$videoPlayer.attr('data-playing', true);
     }
 
     pause() {
         this.$video[0].pause();
-        this.$pauseIcon.removeClass('active');
-        this.$playIcon.addClass('active');
+        this.$iconPause.removeClass('active');
+        this.$iconPlay.addClass('active');
         this.$videoPlayer.attr('data-playing', false);
     }
 }

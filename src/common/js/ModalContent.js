@@ -14,8 +14,8 @@ class ModalContentEffects {
         this.$video = this.$modalContent.find('video');
         this.$iframe = this.$modalContent.find('iframe');
         this.$section = this.$modalContent.find('section');
-        this.$expandIcon = this.$modalContent.find('.js-modal-content-icon-expand');
-        this.$compressIcon = this.$modalContent.find('.js-modal-content-icon-compress');
+        this.$iconExpand = this.$modalContent.find('.js-modal-content-icon-expand');
+        this.$iconCompress = this.$modalContent.find('.js-modal-content-icon-compress');
     }
 
     /**
@@ -116,14 +116,14 @@ class ModalContentEffects {
     }
 
     fullScreenOn() {
-        this.$expandIcon.removeClass('active');
-        this.$compressIcon.addClass('active');
+        this.$iconExpand.removeClass('active');
+        this.$iconCompress.addClass('active');
         this.$modalContent.addClass('full-screen');
     }
 
     fullScreenOff() {
-        this.$compressIcon.removeClass('active');
-        this.$expandIcon.addClass('active');
+        this.$iconCompress.removeClass('active');
+        this.$iconExpand.addClass('active');
         this.$modalContent.removeClass('full-screen');
     }
 }
