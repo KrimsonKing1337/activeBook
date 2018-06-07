@@ -1,4 +1,4 @@
-import GetDOMSelectors from './modules/GetDOMSelectors';
+import GetDOMSelectors from './GetDOMSelectors';
 import {pageInfo} from './pageInfo';
 
 export function swipesInit() {

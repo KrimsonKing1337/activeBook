@@ -1,7 +1,7 @@
 //сохраняем значения настроек
-import LocalStorage from './modules/LocalStorage';
-import getDOMSelectors from './modules/GetDOMSelectors';
-import {volumeInst} from './modules/Effects';
+import LocalStorage from './LocalStorage';
+import getDOMSelectors from './GetDOMSelectors';
+import {volumeInst} from './Effects';
 
 const DOMSelectors = getDOMSelectors();
 

@@ -1,4 +1,4 @@
-import LocalStorage from './modules/LocalStorage';
+import LocalStorage from './LocalStorage';
 
 export function bookmarksSaveState() {
     const bookmarks = [];

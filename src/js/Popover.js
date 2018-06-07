@@ -2,7 +2,7 @@
  * управляем отображением поповеров
  */
 import GetDOMSelectors from './GetDOMSelectors';
-import '../animateCss';
+import './animateCss';
 
 /**
  * инициализатор для поповера

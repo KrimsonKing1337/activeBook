@@ -1,4 +1,4 @@
-import getDOMSelectors from './modules/GetDOMSelectors';
+import getDOMSelectors from './GetDOMSelectors';
 
 export function scrollAutoHideInit() {
     const $textWrapper = $(getDOMSelectors().textWrapper);

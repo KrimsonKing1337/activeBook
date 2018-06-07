@@ -1,5 +1,5 @@
 import filter from 'lodash-es/filter';
-import {EffectsController} from './modules/Effects';
+import {EffectsController} from './Effects';
 
 /**
  *

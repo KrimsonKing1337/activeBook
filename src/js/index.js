@@ -1,9 +1,9 @@
 import {pageInfo} from './pageInfo';
 import {menuInit} from './menuInit';
 import {browserCheck} from './browserCheck';
-import getDOMSelectors from './modules/GetDOMSelectors';
+import getDOMSelectors from './GetDOMSelectors';
 import {getAJAX} from './getAJAX';
-import {EffectsController} from './modules/Effects';
+import {EffectsController} from './Effects';
 import {textInit} from './textInit';
 import {loadStates} from './loadStates';
 import {playOnLoad} from './playOnLoad';
@@ -11,7 +11,7 @@ import {hoverTouchUnstick} from './hoverTouchUnstick';
 import 'jquery-touch-events';
 import './animateCss';
 import {visibilityChangeInit} from './visibilityChangeInit';
-import LocalStorage from './modules/LocalStorage';
+import LocalStorage from './LocalStorage';
 import {goToPageBtnInit} from './goToPageBtnInit';
 import {changePageByKeyboardInit} from './changePageByKeyboardInit';
 import {firstOpenCheck} from './firstOpenCheck';
@@ -22,7 +22,7 @@ import {getIsMobile} from './getIsMobile';
 import {getRootApp} from './getRootApp';
 import {modifyPathForPagesCurEffects} from './modifyPathForPagesCurEffects';
 import {swipesInit} from './swipesInit';
-import {modalContentEffectsInst} from './modules/Effects';
+import {modalContentEffectsInst} from './Effects';
 
 async function onReady(rootApp) {
     if (browserCheck() === false) return;

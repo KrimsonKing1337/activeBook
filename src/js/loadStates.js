@@ -1,6 +1,6 @@
-import {Bookmarks, FontSize, LineHeight, Theme, Vibration, VolumeSliders} from './modules/Menu';
-import LocalStorage from './modules/LocalStorage';
-import getDOMSelectors from './modules/GetDOMSelectors';
+import {Bookmarks, FontSize, LineHeight, Theme, Vibration, VolumeSliders} from './Menu';
+import LocalStorage from './LocalStorage';
+import getDOMSelectors from './GetDOMSelectors';
 
 const DOMSelectors = getDOMSelectors();
 

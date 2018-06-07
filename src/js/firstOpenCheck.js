@@ -1,4 +1,4 @@
-import LocalStorage from './modules/LocalStorage';
+import LocalStorage from './LocalStorage';
 
 export function firstOpenCheck() {
     if (LocalStorage.read({key: 'wasOpened'}) === null) {

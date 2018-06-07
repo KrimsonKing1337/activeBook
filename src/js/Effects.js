@@ -5,9 +5,9 @@ import {GoToPage} from './Menu';
 import 'notifyjs-browser';
 import LocalStorage from './LocalStorage';
 import {VolumeController} from './Volume';
-import {getVolumeInst} from '../getVolumeInst';
-import {CssVariables} from '../CssVariables';
-import {getRandomInt} from '../getRamdomInt';
+import {getVolumeInst} from './getVolumeInst';
+import {CssVariables} from './CssVariables';
+import {getRandomInt} from './getRamdomInt';
 
 const DOMSelectors = getDOMSelectors();
 

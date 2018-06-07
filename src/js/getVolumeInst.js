@@ -1,5 +1,5 @@
-import {Volume} from './modules/Volume';
-import LocalStorage from './modules/LocalStorage';
+import {Volume} from './Volume';
+import LocalStorage from './LocalStorage';
 import get from 'lodash-es/get';
 
 export function getVolumeInst() {

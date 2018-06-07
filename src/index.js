@@ -1,2 +1,2 @@
-import './common/js/index.js';
-import './common/styles/styles.scss';
+import './js/index.js';
+import './styles/styles.scss';

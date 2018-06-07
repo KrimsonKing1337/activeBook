@@ -1,4 +1,4 @@
-import {volumeInst, volumeControllerInst} from './modules/Effects';
+import {volumeInst, volumeControllerInst} from './Effects';
 
 export function visibilityChangeInit() {
     let globalVolume = 0;

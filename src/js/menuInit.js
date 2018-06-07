@@ -1,13 +1,13 @@
-import {FontSize, GoToPage, LineHeight, Theme, Vibration} from './modules/Menu';
-import Popover from './modules/Popover';
+import {FontSize, GoToPage, LineHeight, Theme, Vibration} from './Menu';
+import Popover from './Popover';
 import {svgInit} from './svgInit';
 import {ionRangeSliderInit} from './ionRangeSliderInit';
-import getDOMSelectors from './modules/GetDOMSelectors';
+import getDOMSelectors from './GetDOMSelectors';
 import {volumeSaveStates} from './volumeSaveStates';
-import {vibrationEffectsInst} from './modules/Effects';
-import {volumeControllerInst} from './modules/Effects';
+import {vibrationEffectsInst} from './Effects';
+import {volumeControllerInst} from './Effects';
 import {pageInfo} from './pageInfo';
-import LocalStorage from './modules/LocalStorage';
+import LocalStorage from './LocalStorage';
 import {bookmarksSaveState} from './bookmarksSaveState';
 
 export function menuInit() {

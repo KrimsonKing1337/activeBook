@@ -1,5 +1,5 @@
-import LocalStorage from './modules/LocalStorage';
-import {GoToPage} from './modules/Menu';
+import LocalStorage from './LocalStorage';
+import {GoToPage} from './Menu';
 import {pageInfo} from './pageInfo';
 
 /**
