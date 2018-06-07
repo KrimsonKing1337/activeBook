@@ -13,9 +13,9 @@
     {
       "id": "modal-test",
       "type": "modalContent",
-      "modalContentType": "image",
+      "modalContentType": "iframe",
       "src": [
-        "/book_data/images/1.gif"
+        "https://ru.m.wikipedia.org/wiki/%D0%A3%D0%BB%D0%B8%D1%81%D1%81_(%D1%80%D0%BE%D0%BC%D0%B0%D0%BD)"
       ],
       "playOnLoad": false
     }

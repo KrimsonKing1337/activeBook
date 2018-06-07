@@ -6,13 +6,11 @@ const DOMSelectors = getDOMSelectors();
 class ModalContent {
     constructor() {
         this.$modalContent = $(DOMSelectors.modalContent);
-        this.$modalContentInner = $(DOMSelectors.modalContentInner);
         this.$modalContentClose = $(DOMSelectors.modalContentClose);
         this.$modalContentFullScreenIcon = this.$modalContent.find('.js-modal-content-full-screen');
         this.$img = this.$modalContent.find('img');
         this.$videoWrapper = this.$modalContent.find('.video-wrapper');
         this.$video = this.$modalContent.find('video');
-        this.$iframe = this.$modalContent.find('iframe');
         this.$section = this.$modalContent.find('section');
         this.$iconExpand = this.$modalContent.find('.js-modal-content-icon-expand');
         this.$iconCompress = this.$modalContent.find('.js-modal-content-icon-compress');
@@ -35,19 +33,20 @@ class ModalContent {
      * @param modalContentType {string};
      */
     set({src, modalContentType} = {}) {
+        this.$modalContent.attr('data-content-type', modalContentType);
+
         if (modalContentType === 'image') {
             ModalContent.setSrc(this.$img, src);
             ModalContent.showElem(this.$img);
         } else if (modalContentType === 'video') {
             ModalContent.setSrc(this.$video, src);
             ModalContent.showElem(this.$videoWrapper);
-        } else if (modalContentType === 'iframe') {
-            ModalContent.setSrc(this.$iframe, src);
-            ModalContent.showElem(this.$iframe);
         } else if (modalContentType === 'html') {
             ModalContent.setHtml(this.$section, src);
             ModalContent.showElem(this.$section);
         } else {
+            this.$modalContent.attr('data-content-type', '');
+
             console.error('Unknown modal content type:', modalContentType);
         }
     }
@@ -84,7 +83,7 @@ class ModalContent {
         this.$modalContent.addClass('active');
         this.$modalContent.animateCss('fadeIn');
 
-        if (this.$videoWrapper.hasClass('active')) {
+        if (this.$modalContent.attr('data-content-type') === 'video') {
             videoPlayerInst.play();
         }
     }
@@ -104,8 +103,8 @@ class ModalContent {
     }
 
     initFullScreenBtn() {
-        if (this.$modalContent.find('img').hasClass('active') === false &&
-            this.$videoWrapper.hasClass('active') === false) {
+        if (this.$modalContent.attr('data-content-type') !== 'image' &&
+            this.$modalContent.attr('data-content-type') !== 'video') {
             return;
         }
 

@@ -8,7 +8,12 @@ export function modifyPathForPagesCurEffects(pagesCurEffects, rootApp) {
         if (typeof effectCur.src === 'undefined') return;
 
         effectCur.src.forEach((scrCur, scrCurIndex) => {
-            pagesCurEffects[effectCurIndex].src[scrCurIndex] = `${rootApp}${scrCur}`
+            const keyCur = pagesCurEffects[effectCurIndex].src[scrCurIndex];
+            const pattern = /^((http|https|ftp):\/\/)/;
+
+            if (pattern.test(keyCur) === false) {
+                pagesCurEffects[effectCurIndex].src[scrCurIndex] = `${rootApp}${scrCur}`
+            }
         });
     });
 
