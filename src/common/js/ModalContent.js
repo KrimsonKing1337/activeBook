@@ -3,7 +3,7 @@ import {videoPlayerInst} from './VideoPlayer';
 
 const DOMSelectors = getDOMSelectors();
 
-class ModalContentEffects {
+class ModalContent {
     constructor() {
         this.$modalContent = $(DOMSelectors.modalContent);
         this.$modalContentInner = $(DOMSelectors.modalContentInner);
@@ -36,17 +36,19 @@ class ModalContentEffects {
      */
     set({src, modalContentType} = {}) {
         if (modalContentType === 'image') {
-            ModalContentEffects.setSrc(this.$img, src);
-            ModalContentEffects.showElem(this.$img);
+            ModalContent.setSrc(this.$img, src);
+            ModalContent.showElem(this.$img);
         } else if (modalContentType === 'video') {
-            ModalContentEffects.setSrc(this.$video, src);
-            ModalContentEffects.showElem(this.$videoWrapper);
+            ModalContent.setSrc(this.$video, src);
+            ModalContent.showElem(this.$videoWrapper);
         } else if (modalContentType === 'iframe') {
-            ModalContentEffects.setSrc(this.$iframe, src);
-            ModalContentEffects.showElem(this.$iframe);
+            ModalContent.setSrc(this.$iframe, src);
+            ModalContent.showElem(this.$iframe);
         } else if (modalContentType === 'html') {
-            ModalContentEffects.setHtml(this.$section, src);
-            ModalContentEffects.showElem(this.$section);
+            ModalContent.setHtml(this.$section, src);
+            ModalContent.showElem(this.$section);
+        } else {
+            console.error('Unknown modal content type:', modalContentType);
         }
     }
 
@@ -81,6 +83,10 @@ class ModalContentEffects {
     play() {
         this.$modalContent.addClass('active');
         this.$modalContent.animateCss('fadeIn');
+
+        if (this.$videoWrapper.hasClass('active')) {
+            videoPlayerInst.play();
+        }
     }
 
     close() {
@@ -98,7 +104,10 @@ class ModalContentEffects {
     }
 
     initFullScreenBtn() {
-        if (this.$modalContent.find('img').length === 0 && this.$videoWrapper.length === 0) return;
+        if (this.$modalContent.find('img').hasClass('active') === false &&
+            this.$videoWrapper.hasClass('active') === false) {
+            return;
+        }
 
         this.$modalContentFullScreenIcon.on('click', () => {
             this.fullScreenToggle();
@@ -128,4 +137,4 @@ class ModalContentEffects {
     }
 }
 
-export const modalContentInst = new ModalContentEffects();
+export const modalContentInst = new ModalContent();
