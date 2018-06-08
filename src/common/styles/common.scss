@@ -247,9 +247,7 @@ input[type="number"] {
   }
 
   .video-player-icon {
-    opacity: 0.5;
-
-    @include hover-modal-content-icon;
+    @include modal-content-icon;
   }
 }
 
@@ -335,8 +333,7 @@ input[type="number"] {
         margin: auto;
         height: 100px;
         font-size: 92px;
-        opacity: 0.5;
-        @include hover-modal-content-icon;
+        @include modal-content-icon;
         @include text-shadow-default;
       }
 
@@ -372,8 +369,7 @@ input[type="number"] {
     position: absolute;
     z-index: 10;
     font-size: 42px;
-    opacity: 0.5;
-    @include hover-modal-content-icon;
+    @include modal-content-icon;
     @include text-shadow-default;
   }
 

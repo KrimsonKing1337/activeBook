@@ -15,7 +15,8 @@
   }
 }
 
-@mixin hover-modal-content-icon() {
+@mixin modal-content-icon() {
+  opacity: 0.5;
   @include transition-default;
 
   &:hover {
