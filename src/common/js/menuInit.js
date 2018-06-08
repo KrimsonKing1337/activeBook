@@ -28,16 +28,6 @@ export function menuInit() {
         $triggerButton: $(DOMSelectors.bookmark).find(DOMSelectors.svgWrapper)
     });
 
-    /*const volumePopover = new Popover({
-        $popover: $(DOMSelectors.volume).find(DOMSelectors.addSettings),
-        $triggerButton: $(DOMSelectors.volume).find(DOMSelectors.svgWrapper)
-    });
-
-    const etcPopover = new Popover({
-        $popover: $(DOMSelectors.etc).find(DOMSelectors.addSettings),
-        $triggerButton: $(DOMSelectors.etc).find(DOMSelectors.svgWrapper)
-    });*/
-
 
     $(DOMSelectors.etc).on('click', () => {
         $(DOMSelectors.menuFullScreen).addClass('active');
