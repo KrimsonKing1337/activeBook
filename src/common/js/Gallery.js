@@ -37,7 +37,7 @@ class Gallery {
 
         this.$iconForward.off('click');
 
-        this.$iconBackward.of('click');
+        this.$iconBackward.off('click');
     }
 }
 
