@@ -295,12 +295,59 @@ input[type="number"] {
       height: inherit;
       max-height: inherit;
       object-fit: cover;
+      object-position: 50% 50%;
 
       &.active {
         display: block;
       }
     }
 
+    .gallery-wrapper,
+    .gallery,
+    .slick-list,
+    .slick-track,
+    .slick-slide,
+    .slick-slide > div {
+      height: inherit;
+      max-height: inherit;
+    }
+
+    .gallery-wrapper {
+      position: relative;
+      display: none;
+
+      &.active {
+        display: block;
+      }
+
+      img {
+        display: block;
+      }
+
+      .gallery-forward,
+      .gallery-backward {
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        height: 100px;
+        font-size: 92px;
+        cursor: pointer;
+        @include hover-default;
+        @include text-shadow-default;
+      }
+
+      .gallery-forward {
+        right: 15px;
+      }
+
+      .gallery-backward {
+        left: 15px;
+      }
+    }
+
+    .slick-list,
     video {
       display: block;
     }

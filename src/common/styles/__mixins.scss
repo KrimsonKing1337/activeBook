@@ -321,7 +321,9 @@
 
     .modal-content {
       &__close,
-      &__full-size {
+      &__full-size,
+      .gallery-icon,
+      .video-player-icon {
         color: #a3a3a3;
         @include text-shadow-dark;
       }

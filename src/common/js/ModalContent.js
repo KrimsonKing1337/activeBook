@@ -1,5 +1,7 @@
 import getDOMSelectors from './GetDOMSelectors';
 import {videoPlayerInst} from './VideoPlayer';
+import {galleryInst} from './Gallery';
+import 'slick-carousel';
 
 const DOMSelectors = getDOMSelectors();
 
@@ -9,6 +11,8 @@ class ModalContent {
         this.$modalContentClose = $(DOMSelectors.modalContentClose);
         this.$modalContentFullScreenIcon = this.$modalContent.find('.js-modal-content-full-screen');
         this.$img = this.$modalContent.find('img');
+        this.$galleryWrapper = this.$modalContent.find('.gallery-wrapper');
+        this.$gallery = this.$modalContent.find('.gallery');
         this.$videoWrapper = this.$modalContent.find('.video-wrapper');
         this.$video = this.$modalContent.find('video');
         this.$section = this.$modalContent.find('section');
@@ -44,6 +48,11 @@ class ModalContent {
         } else if (modalContentType === 'html') {
             ModalContent.setHtml(this.$section, src);
             ModalContent.showElem(this.$section);
+        } else if (modalContentType === 'gallery') {
+            //this.$modalContent.addClass('full-screen');
+
+            ModalContent.setGallery(this.$gallery, src);
+            ModalContent.showElem(this.$galleryWrapper);
         } else {
             this.$modalContent.attr('data-content-type', '');
 
@@ -66,6 +75,19 @@ class ModalContent {
      */
     static setSrc($el, src) {
         $el.attr('src', src[0]);
+    }
+
+    /**
+     *
+     * @param $el {object} jquery
+     * @param src[] {string}
+     */
+    static setGallery($el, src) {
+        src.forEach((srcCur) => {
+            $el.append(`<img src="${ srcCur }" />`);
+        });
+
+        galleryInst.init();
     }
 
     /**

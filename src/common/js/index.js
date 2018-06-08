@@ -23,6 +23,7 @@ import {getRootApp} from './getRootApp';
 import {modifyPathForPagesCurEffects} from './modifyPathForPagesCurEffects';
 import {swipesInit} from './swipesInit';
 import {modalContentInst} from './ModalContent';
+import {galleryInst} from './Gallery';
 
 async function onReady(rootApp) {
     if (browserCheck() === false) return;
@@ -82,6 +83,7 @@ async function onReady(rootApp) {
         $body.addClass('loading');
 
         modalContentInst.close();
+        galleryInst.destroy();
 
         scrollbarDestroy();
 

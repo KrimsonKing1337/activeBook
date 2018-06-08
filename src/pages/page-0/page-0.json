@@ -9,6 +9,18 @@
       "vibration": {
         "duration": 500
       }
+    },
+    {
+      "id": "modal-gallery-test",
+      "type": "modalContent",
+      "modalContentType": "gallery",
+      "src": [
+        "/book_data/images/1.gif",
+        "/book_data/images/big-gif.gif",
+        "/book_data/images/mask.png",
+        "/book_data/images/img.jpg"
+      ],
+      "playOnLoad": true
     }
   ],
   "pageInfo": {
