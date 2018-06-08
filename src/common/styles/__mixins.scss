@@ -15,6 +15,15 @@
   }
 }
 
+@mixin hover-modal-content-icon() {
+  @include transition-default;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
+}
+
 @mixin hover-disable() {
   &:hover {
     opacity: 1;
@@ -319,15 +328,15 @@
       }
     }
 
-    .modal-content {
+    /*.modal-content {
       &__close,
-      &__full-size,
+      &__full-screen,
       .gallery-icon,
       .video-player-icon {
         color: #a3a3a3;
         @include text-shadow-dark;
       }
-    }
+    }*/
 
     .mCS-minimal-dark.mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
       background-color: rgba(#a3a3a3, 0.2);
