@@ -1,50 +1,5 @@
 <div class="page" data-theme="default" data-vibration="true" data-font-size="100" data-line-height="100">
-    <div class="modal-content" data-content-type="">
-        <div class="modal-content__close js-modal-content-close">
-            <i class="fa fa-times"></i>
-        </div>
-        <div class="modal-content__full-screen js-modal-content-full-screen">
-            <i class="fa fa-expand active js-modal-content-icon-expand"></i>
-            <i class="fa fa-compress js-modal-content-icon-compress"></i>
-        </div>
-        <div class="modal-content__inner js-modal-content-inner">
-            <img src="" />
-            <div class="gallery-wrapper">
-                <div class="gallery-forward gallery-icon js-gallery-forward-icon">
-                    <i class="fa fa-angle-right" aria-hidden="true"></i>
-                </div>
-                <div class="gallery"></div>
-                <div class="gallery-backward gallery-icon js-gallery-backward-icon">
-                    <i class="fa fa-angle-left" aria-hidden="true"></i>
-                </div>
-            </div>
-            <div class="video-wrapper">
-                <div class="video-player" data-playing="false" data-full-screen="false">
-                    <div class="video-player__controls active js-video-player-controls">
-                        <div class="video-player__controls__top">
-                            <div class="video-player__position js-video-player-position"></div>
-                        </div>
-                        <div class="video-player__controls__bottom">
-                            <div class="video-player__play-pause video-player-icon js-video-player-play-pause">
-                                <i class="fa fa-play active js-video-player-icon-play"></i>
-                                <i class="fa fa-pause js-video-player-icon-pause"></i>
-                            </div>
-                            <div class="video-player__volume video-player-icon js-video-player-volume">
-                                <i class="fa fa-volume-up"></i>
-                            </div>
-                            <div class="video-player__length js-video-player-length"></div>
-                        </div>
-                    </div>
-                </div>
-                <video src=""></video>
-            </div>
-            <div class="section-scroll js-scrollable-item">
-                <div class="section-wrapper">
-                    <section></section>
-                </div>
-            </div>
-        </div>
-    </div>
+    <%= require('./modal-content.ejs')() %>
     <div class="main-content">
         <div class="side-effects-wrapper">
             <div class="text-shadow"></div>
