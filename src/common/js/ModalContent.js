@@ -126,6 +126,7 @@ class ModalContent {
 
     initFullScreenBtn() {
         if (this.$modalContent.attr('data-content-type') !== 'image' &&
+            this.$modalContent.attr('data-content-type') !== 'gallery' &&
             this.$modalContent.attr('data-content-type') !== 'video') {
             return;
         }
@@ -142,6 +143,10 @@ class ModalContent {
             this.fullScreenOn();
         } else {
             this.fullScreenOff();
+        }
+
+        if (this.$modalContent.attr('data-content-type') === 'gallery') {
+            galleryInst.refresh();
         }
     }
 

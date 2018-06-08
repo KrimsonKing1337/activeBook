@@ -15,7 +15,8 @@ class Gallery {
         this.$gallery.slick({
             arrows: false,
             slidesToShow: 1,
-            //mobileFirst: true
+            mobileFirst: true,
+            //infinite: false
         });
 
         this.$iconForward.on('click', () => {
@@ -27,8 +28,16 @@ class Gallery {
         });
     }
 
+    refresh() {
+        this.$gallery.slick('refresh');
+    }
+
     destroy() {
         this.$gallery.slick('unslick');
+
+        this.$iconForward.off('click');
+
+        this.$iconBackward.of('click');
     }
 }
 
