@@ -87,4 +87,10 @@ export default class LocalStorage {
     static remove({key} = {}) {
         localStorage.removeItem(key);
     }
+
+    static removeAll() {
+        Object.keys(localStorage).forEach((key) => {
+            LocalStorage.remove({key});
+        });
+    }
 };

@@ -4,7 +4,7 @@ import 'jquery.scrollbar';
  *
  * @param $item {object} jquery
  */
-function scrollbarOneInit($item) {
+function scrollbarInit($item) {
     return new Promise(((resolve, reject) => {
         $item.scrollbar({
             onInit() {
@@ -16,13 +16,13 @@ function scrollbarOneInit($item) {
 
 const $scrollableItem = $('.js-scrollable-item');
 
-export async function scrollbarInit() {
+export async function scrollbarInitAll() {
     const promisesArr = [];
 
     $scrollableItem.addClass('scrollbar-macosx');
 
     $scrollableItem.each((i, item) => {
-        promisesArr.push(scrollbarOneInit($(item)));
+        promisesArr.push(scrollbarInit($(item)));
     });
 
     await Promise.all(promisesArr);

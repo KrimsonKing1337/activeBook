@@ -17,7 +17,7 @@ import {changePageByKeyboardInit} from './changePageByKeyboardInit';
 import {firstOpenCheck} from './firstOpenCheck';
 import {CssVariables} from './CssVariables';
 import {getScrollBarWidth} from './getScrollBarWidth';
-import {scrollbarDestroy, scrollbarInit, showHideScrollbarTouchEventsFix} from './scrollbarInit';
+import {scrollbarDestroy, scrollbarInitAll, showHideScrollbarTouchEventsFix} from './scrollbarInit';
 import {getIsMobile} from './getIsMobile';
 import {getRootApp} from './getRootApp';
 import {modifyPathForPagesCurEffects} from './modifyPathForPagesCurEffects';
@@ -61,7 +61,7 @@ async function onReady(rootApp) {
 
     swipesInit();
 
-    await scrollbarInit();
+    await scrollbarInitAll();
 
     showHideScrollbarTouchEventsFix();
 
@@ -105,7 +105,7 @@ async function onReady(rootApp) {
 
         $(DOMSelectors.textWrapper).html(textAJAX);
 
-        await scrollbarInit();
+        await scrollbarInitAll();
 
         EffectsController.setEffects(pagesCurEffects);
 

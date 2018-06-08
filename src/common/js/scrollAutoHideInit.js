@@ -1,5 +1,10 @@
 import getDOMSelectors from './GetDOMSelectors';
 
+/**
+ * это были попытки самому накостылять
+ * скроллбар, который "скрывается" после завершения скролла,
+ * пока не удаляю, т.к. нужно где-то сохранить на будущее
+ */
 export function scrollAutoHideInit() {
     const $textWrapper = $(getDOMSelectors().textWrapper);
 
