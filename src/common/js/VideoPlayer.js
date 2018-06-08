@@ -1,16 +1,11 @@
-import getDOMSelectors from './GetDOMSelectors';
-
-const DOMSelectors = getDOMSelectors();
-
 class VideoPlayer {
     constructor() {
-        this.$modalContent = $(DOMSelectors.modalContent);
-        this.$videoWrapper = this.$modalContent.find('.video-wrapper');
-        this.$videoPlayer = this.$modalContent.find('.video-player');
-        this.$video = this.$modalContent.find('video');
-        this.$controls = this.$videoPlayer.find('.js-video-player-controls');
-        this.$iconPlay = this.$videoPlayer.find('.js-video-player-icon-play');
-        this.$iconPause = this.$videoPlayer.find('.js-video-player-icon-pause');
+        this.$videoWrapper = $('.video-wrapper');
+        this.$videoPlayer = this.$videoWrapper.find('.video-player');
+        this.$video = this.$videoWrapper.find('video');
+        this.$controls = this.$videoWrapper.find('.js-video-player-controls');
+        this.$iconPlay = this.$videoWrapper.find('.js-video-player-icon-play');
+        this.$iconPause = this.$videoWrapper.find('.js-video-player-icon-pause');
     }
 
     init() {

@@ -1,14 +1,9 @@
-import getDOMSelectors from './GetDOMSelectors';
-
-const DOMSelectors = getDOMSelectors();
-
 class Gallery {
     constructor() {
-        this.$modalContent = $(DOMSelectors.modalContent);
-        this.$galleryWrapper = this.$modalContent.find('.gallery-wrapper');
-        this.$gallery = this.$modalContent.find('.gallery');
-        this.$iconForward = this.$modalContent.find('.gallery-forward');
-        this.$iconBackward = this.$modalContent.find('.gallery-backward');
+        this.$galleryWrapper = $('.gallery-wrapper');
+        this.$gallery = this.$galleryWrapper.find('.gallery');
+        this.$iconForward = this.$galleryWrapper.find('.js-gallery-forward-icon');
+        this.$iconBackward = this.$galleryWrapper.find('.js-gallery-backward-icon');
     }
 
     init() {
@@ -16,7 +11,8 @@ class Gallery {
             arrows: false,
             slidesToShow: 1,
             mobileFirst: true,
-            accessibility: false
+            accessibility: false,
+            speed: 200
         });
 
         this.$iconForward.on('click', () => {
