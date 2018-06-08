@@ -17,6 +17,9 @@ function getPageToGo(goTo) {
     }
 }
 
+/**
+ * go to another page by fake link
+ */
 export function goToPageBtnInit() {
     const $goToPage = $('.go-to-page');
 

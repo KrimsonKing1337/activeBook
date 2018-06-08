@@ -1,6 +1,5 @@
 import 'howler';
 import find from 'lodash-es/find';
-import {GoToPage} from './Menu';
 import 'notifyjs-browser';
 import LocalStorage from './LocalStorage';
 import {VolumeController} from './Volume';
@@ -53,7 +52,6 @@ class Effects {
         const soundEffectsParams = {
             fadeInSpeed: effectCur.fadeInSpeed,
             stopBy: effectCur.stopBy,
-            goTo: effectCur.goTo,
             vibration: effectCur.vibration,
             notification: effectCur.notification
         };
@@ -263,11 +261,10 @@ class SoundEffects {
      * @param id {string}
      * @param [fadeInSpeed] {number}
      * @param [stopBy] {number}
-     * @param [goTo] {object}
      * @param [vibration] {object}
      * @param [notification] {object}
      */
-    async playOneShot(id, {fadeInSpeed = 0, stopBy, goTo, vibration, notification} = {}) {
+    async playOneShot(id, {fadeInSpeed = 0, stopBy, vibration, notification} = {}) {
         const oneShot = this.oneShots[id];
 
         if (notification) {
@@ -286,20 +283,6 @@ class SoundEffects {
 
         if (vibration) {
             vibrationEffectsInst.play(vibration);
-        }
-
-        if (goTo) {
-            const sleep = goTo.sleep || 0;
-
-            if (goTo.page) {
-                setTimeout(() => {
-                    GoToPage.go({val: goTo.page});
-                }, sleep);
-            } else if (goTo.href) {
-                setTimeout(() => {
-                    window.open(`${window.location.origin}/${goTo.href}`, '_blank');
-                }, sleep);
-            }
         }
     }
 
@@ -414,7 +397,7 @@ class SoundEffects {
             autoplay: false,
             //html5: true,
             loop: true,
-            volume: 0
+            volume: 0 //volume is 0 for fadeIn effect
         });
     }
 
