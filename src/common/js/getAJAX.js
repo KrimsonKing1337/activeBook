@@ -7,7 +7,7 @@
  * только там проблемы, если не указать тип данных
  */
 export function getAJAX(url, dataType = 'text') {
-    return new Promise(((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         $.ajax({
             dataType,
             url,
@@ -18,5 +18,5 @@ export function getAJAX(url, dataType = 'text') {
                 reject(err);
             }
         });
-    }));
+    });
 }

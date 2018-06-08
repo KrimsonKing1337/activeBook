@@ -6,6 +6,7 @@ class VideoPlayer {
         this.$controls = this.$videoWrapper.find('.js-video-player-controls');
         this.$iconPlay = this.$videoWrapper.find('.js-video-player-icon-play');
         this.$iconPause = this.$videoWrapper.find('.js-video-player-icon-pause');
+        this.$iconPlayPause = this.$videoWrapper.find('.js-video-player-play-pause');
     }
 
     init() {
@@ -13,12 +14,19 @@ class VideoPlayer {
             this.playPauseToggle();
         });
 
-        $('.js-video-player-play-pause').on('click', (e) => {
+        this.$iconPlayPause.on('click', (e) => {
             e.stopPropagation();
 
             this.playPauseToggle();
         });
     }
+
+    destroy() {
+        this.$videoWrapper.off('click');
+        this.$iconPlayPause.off('click');
+        this.pause();
+    }
+
 
     playPauseToggle() {
         if (JSON.parse(this.$videoPlayer.attr('data-playing')) === false) {

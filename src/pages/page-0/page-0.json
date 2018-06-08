@@ -20,7 +20,7 @@
         "/book_data/images/mask.png",
         "/book_data/images/img.jpg"
       ],
-      "playOnLoad": false
+      "playOnLoad": true
     }
   ],
   "pageInfo": {

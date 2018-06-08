@@ -33,7 +33,9 @@ class Gallery {
     }
 
     destroy() {
-        this.$gallery.slick('unslick');
+        if (this.$gallery.hasClass('slick-slider')) {
+            this.$gallery.slick('unslick');
+        }
 
         this.$iconForward.off('click');
 

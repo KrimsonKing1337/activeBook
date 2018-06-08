@@ -9,9 +9,9 @@ export function modifyPathForPagesCurEffects(pagesCurEffects, rootApp) {
 
         effectCur.src.forEach((scrCur, scrCurIndex) => {
             const keyCur = pagesCurEffects[effectCurIndex].src[scrCurIndex];
-            const pattern = /^((http|https|ftp):\/\/)/;
+            const pattern = /^\/book_data\//;
 
-            if (pattern.test(keyCur) === false) {
+            if (pattern.test(keyCur) === true) {
                 pagesCurEffects[effectCurIndex].src[scrCurIndex] = `${rootApp}${scrCur}`
             }
         });

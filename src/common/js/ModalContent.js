@@ -10,7 +10,7 @@ class ModalContent {
         this.$modalContent = $(DOMSelectors.modalContent);
         this.$modalContentClose = $(DOMSelectors.modalContentClose);
         this.$modalContentFullScreenIcon = this.$modalContent.find('.js-modal-content-full-screen');
-        this.$img = this.$modalContent.find('img');
+        this.$img = this.$modalContent.find('.js-modal-img');
         this.$galleryWrapper = this.$modalContent.find('.gallery-wrapper');
         this.$gallery = this.$modalContent.find('.gallery');
         this.$videoWrapper = this.$modalContent.find('.video-wrapper');
@@ -26,11 +26,45 @@ class ModalContent {
      *
      * @param effect {object}
      */
+    //todo: вместо init использовать set, чтобы менять содержимое модалки. в destroy добавить параметр totalDestroy
+    //todo: прокрутка содержимого модалки стрелками вверх-вниз (tabindex + focus() на $section)
+    //todo: проверка нескольких модалкок на одной странице
     init(effect) {
         this.set(effect);
         this.initCloseBtn();
         this.initFullScreenBtn();
         videoPlayerInst.init();
+    }
+
+    async destroy() {
+        await this.close();
+
+        this.$img.attr('src', '');
+        this.$img.removeClass('active');
+
+
+        galleryInst.destroy();
+        this.$gallery.empty();
+        this.$galleryWrapper.removeClass('active');
+
+        videoPlayerInst.destroy();
+        this.$videoWrapper.removeClass('active');
+        this.$video.attr('src', '');
+
+        this.$section.removeClass('active');
+        this.$section.html('');
+
+        this.$modalContentFullScreenIcon.removeClass('active');
+        this.$modalContentClose.off('click');
+        this.$modalContentFullScreenIcon.off('click');
+
+        $(document).off('keydown.forModalContent');
+
+        this.isOpen = false;
+        this.isFullScreen = false;
+        this.$modalContent.attr('data-content-type', '');
+
+        return Promise.resolve();
     }
 
     /**
@@ -113,13 +147,19 @@ class ModalContent {
     }
 
     close() {
-        this.$modalContent.animateCss('fadeOut', () => {
-            this.$modalContent.removeClass('active');
-            this.fullScreenOff();
-            videoPlayerInst.pause();
-            $(DOMSelectors.textWrapper).focus();
+        if (this.isOpen === false) return Promise.resolve();
 
-            this.isOpen = false;
+        return new Promise((resolve, reject) => {
+            this.$modalContent.animateCss('fadeOut', () => {
+                this.$modalContent.removeClass('active');
+                this.fullScreenOff();
+                videoPlayerInst.pause();
+                $(DOMSelectors.textWrapper).focus();
+
+                this.isOpen = false;
+
+                resolve();
+            });
         });
     }
 

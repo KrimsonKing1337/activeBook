@@ -351,6 +351,10 @@ input[type="number"] {
       display: block;
     }
 
+    section {
+      color: #000;
+    }
+
     .section-scroll {
       width: inherit;
       max-width: inherit;
@@ -894,6 +898,7 @@ a {
   height: 100%;
   width: 100%;
   font-size: 100%;
+  color: #000;
 
   &.hide {
     display: none; //change by script;

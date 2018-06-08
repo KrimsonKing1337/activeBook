@@ -80,10 +80,14 @@ async function onReady(rootApp) {
 
     //событие перехода на другую страницу
     $(window).on('changePage', async (e, pageNum) => {
-        $body.addClass('loading');
+        /**
+         * деструктор модалки должен идти перед навешиванием на body класса loading,
+         * иначе не выполняется animateCss('fadeOut'),
+         * а значит и промис тоже не резолвится
+         */
+        await modalContentInst.destroy();
 
-        modalContentInst.close();
-        galleryInst.destroy();
+        $body.addClass('loading');
 
         scrollbarDestroy();
 
