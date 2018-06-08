@@ -16,7 +16,7 @@ class Gallery {
             arrows: false,
             slidesToShow: 1,
             mobileFirst: true,
-            //infinite: false
+            accessibility: false
         });
 
         this.$iconForward.on('click', () => {
