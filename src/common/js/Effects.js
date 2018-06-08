@@ -61,7 +61,7 @@ class Effects {
         } else if (type === 'loop') {
             soundEffectsInst.playLoop(id, soundEffectsParams);
         } else if (type === 'modalContent') {
-            modalContentInst.play();
+            modalContentInst.open();
         } else if (type === 'notification') {
             NotificationsEffects.play(effectCur);
         } else if (type === 'textShadow') {

@@ -18,6 +18,8 @@ class ModalContent {
         this.$section = this.$modalContent.find('section');
         this.$iconExpand = this.$modalContent.find('.js-modal-content-icon-expand');
         this.$iconCompress = this.$modalContent.find('.js-modal-content-icon-compress');
+        this.isOpen = false;
+        this.isFullScreen = false;
     }
 
     /**
@@ -49,8 +51,6 @@ class ModalContent {
             ModalContent.setHtml(this.$section, src);
             ModalContent.showElem(this.$section);
         } else if (modalContentType === 'gallery') {
-            //this.$modalContent.addClass('full-screen');
-
             ModalContent.setGallery(this.$gallery, src);
             ModalContent.showElem(this.$galleryWrapper);
         } else {
@@ -101,13 +101,15 @@ class ModalContent {
         $el.html(html);
     }
 
-    play() {
+    open() {
         this.$modalContent.addClass('active');
         this.$modalContent.animateCss('fadeIn');
 
         if (this.$modalContent.attr('data-content-type') === 'video') {
             videoPlayerInst.play();
         }
+
+        this.isOpen = true;
     }
 
     close() {
@@ -115,12 +117,26 @@ class ModalContent {
             this.$modalContent.removeClass('active');
             this.fullScreenOff();
             videoPlayerInst.pause();
+            $(DOMSelectors.textWrapper).focus();
+
+            this.isOpen = false;
         });
     }
 
     initCloseBtn() {
         this.$modalContentClose.on('click', () => {
             this.close();
+        });
+
+        //esc = close
+        $(document).on('keydown.forModalContent', (e) => {
+            if (e.which === 27 && this.isOpen === true) {
+                if (this.isFullScreen === true) {
+                    this.fullScreenOff();
+                } else {
+                    this.close();
+                }
+            }
         });
     }
 
@@ -133,6 +149,13 @@ class ModalContent {
 
         this.$modalContentFullScreenIcon.on('click', () => {
             this.fullScreenToggle();
+        });
+
+        //F = full screen
+        $(document).on('keydown.forModalContent', (e) => {
+            if (this.isOpen === true && e.which === 70) {
+                this.fullScreenToggle();
+            }
         });
 
         this.$modalContentFullScreenIcon.addClass('active');
@@ -154,12 +177,14 @@ class ModalContent {
         this.$iconExpand.removeClass('active');
         this.$iconCompress.addClass('active');
         this.$modalContent.addClass('full-screen');
+        this.isFullScreen = true;
     }
 
     fullScreenOff() {
         this.$iconCompress.removeClass('active');
         this.$iconExpand.addClass('active');
         this.$modalContent.removeClass('full-screen');
+        this.isFullScreen = false;
     }
 }
 

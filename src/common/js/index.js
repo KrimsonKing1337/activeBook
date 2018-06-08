@@ -13,7 +13,7 @@ import './animateCss';
 import {visibilityChangeInit} from './visibilityChangeInit';
 import LocalStorage from './LocalStorage';
 import {goToPageBtnInit} from './goToPageBtnInit';
-import {changePageByKeyboardInit} from './changePageByKeyboardInit';
+import {keyboardArrowsInit} from './keyboardArrowsInit';
 import {firstOpenCheck} from './firstOpenCheck';
 import {CssVariables} from './CssVariables';
 import {getScrollBarWidth} from './getScrollBarWidth';
@@ -130,7 +130,7 @@ async function onReady(rootApp) {
         $body.removeClass('loading');
     });
 
-    changePageByKeyboardInit();
+    keyboardArrowsInit();
 
     //убираем зум на apple устройствах
     document.addEventListener('gesturestart', (e) => {

@@ -22,6 +22,10 @@ class Gallery {
         this.$iconBackward.on('click', () => {
             this.$gallery.slick('slickPrev');
         });
+
+        $(window).on('orientationchange.forGallery', () => {
+            this.refresh();
+        });
     }
 
     refresh() {
@@ -34,6 +38,8 @@ class Gallery {
         this.$iconForward.off('click');
 
         this.$iconBackward.off('click');
+
+        $(window).off('orientationchange.forGallery');
     }
 }
 
