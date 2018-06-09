@@ -89,14 +89,15 @@ export class ModalContent {
     /**
      *
      * @param method {string}
+     * @param [options[]] {any}
      */
-    static async doForAll(method) {
+    static async doForAll(method, options = []) {
         const promisesArr = [];
 
         $(DOMSelectors.modalContent).filter(':not(.template)').each((i, modalContentCur) => {
             const inst = ModalContent.getInstById($(modalContentCur).attr('data-modal-content-id'));
 
-            promisesArr.push(inst[method]());
+            promisesArr.push(inst[method](...options));
         });
 
         return Promise.all(promisesArr);
@@ -115,7 +116,7 @@ export class ModalContent {
      * @param [withoutAnimation] {boolean}
      */
     static async closeAll(withoutAnimation) {
-        return ModalContent.doForAll('close');
+        return ModalContent.doForAll('close', withoutAnimation);
     }
 
     /**
@@ -280,17 +281,6 @@ export class ModalContent {
         this.$modalContentClose.on('click', () => {
             this.close();
         });
-
-        //esc = close
-        $(document).on('keydown.forModalContent', (e) => {
-            if (e.which === 27 && this.isOpen === true) {
-                if (this.isFullScreen === true) {
-                    this.fullScreenOff();
-                } else {
-                    this.close();
-                }
-            }
-        });
     }
 
     initFullScreenBtn() {
@@ -302,13 +292,6 @@ export class ModalContent {
 
         this.$modalContentFullScreenIcon.on('click', () => {
             this.fullScreenToggle();
-        });
-
-        //F = full screen
-        $(document).on('keydown.forModalContent', (e) => {
-            if (this.isOpen === true && e.which === 70) {
-                this.fullScreenToggle();
-            }
         });
 
         this.$modalContentFullScreenIcon.addClass('active');

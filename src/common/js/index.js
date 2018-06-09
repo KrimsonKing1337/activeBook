@@ -13,7 +13,7 @@ import './animateCss';
 import {visibilityChangeInit} from './visibilityChangeInit';
 import LocalStorage from './LocalStorage';
 import {goToPageBtnInit} from './goToPageBtnInit';
-import {keyboardArrowsInit} from './commonEvents';
+import {keyboardArrowsInit, accessoriesForModalContentInit, orientationChangeForGalleryInit} from './commonEvents';
 import {firstOpenCheck} from './firstOpenCheck';
 import {CssVariables} from './CssVariables';
 import {getScrollBarWidth} from './getScrollBarWidth';
@@ -134,6 +134,8 @@ async function onReady(rootApp) {
     });
 
     keyboardArrowsInit();
+    accessoriesForModalContentInit();
+    orientationChangeForGalleryInit();
 
     //убираем зум на apple устройствах
     document.addEventListener('gesturestart', (e) => {

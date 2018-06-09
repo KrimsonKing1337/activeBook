@@ -1,4 +1,6 @@
 import getDOMSelectors from './GetDOMSelectors';
+import {ModalContent} from './ModalContent';
+import {Gallery} from './Gallery';
 
 const DOMSelectors = getDOMSelectors();
 
@@ -33,5 +35,59 @@ export function keyboardArrowsInit() {
                 $('.js-page-next').trigger('click');
             }
         }
+    });
+}
+
+export function accessoriesForModalContentInit() {
+    //esc = close
+    $(document).on('keydown.forModalContent', (e) => {
+        const $activeModal = getActiveModal();
+
+        if ($activeModal.length === 0) return;
+
+        const modalContentInst = ModalContent.getInstById($activeModal.attr('data-modal-content-id'));
+
+        if (e.which === 27 && this.isOpen === true) {
+            if (modalContentInst.isFullScreen === true) {
+                modalContentInst.fullScreenOff();
+            } else {
+                modalContentInst.close();
+            }
+        }
+    });
+
+    //miss click
+    $(document).on('click.forModalContent touchstart.forModalContent', (e) => {
+        const $target = $(e.target);
+
+        const $activeModal = getActiveModal();
+
+        if ($activeModal.length === 0) return;
+
+        const modalContentInst = ModalContent.getInstById($activeModal.attr('data-modal-content-id'));
+
+        if ($target.hasClass('modal-content') === false &&
+            $target.closest('.modal-content').length === 0) {
+            modalContentInst.close();
+        }
+    });
+
+    //F = full screen
+    $(document).on('keydown.forModalContent', (e) => {
+        const $activeModal = getActiveModal();
+
+        if ($activeModal.length === 0) return;
+
+        const modalContentInst = ModalContent.getInstById($activeModal.attr('data-modal-content-id'));
+
+        if (modalContentInst.isOpen === true && e.which === 70) {
+            modalContentInst.fullScreenToggle();
+        }
+    });
+}
+
+export function orientationChangeForGalleryInit() {
+    $(window).on('orientationchange.forGallery', () => {
+        Gallery.refreshAll();
     });
 }

@@ -79,14 +79,15 @@ export class VideoPlayer {
     /**
      *
      * @param method {string}
+     * @param [options[]] {any}
      */
-    static async doForAll(method) {
+    static async doForAll(method, options = []) {
         const promisesArr = [];
 
         $('.gallery').each((i, videoPlayerCur) => {
             const inst = VideoPlayer.getInstById($(videoPlayerCur).attr('data-video-player-id'));
 
-            promisesArr.push(inst[method]());
+            promisesArr.push(inst[method](...options));
         });
 
         return Promise.all(promisesArr);

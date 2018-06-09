@@ -35,14 +35,12 @@ export class Gallery {
 
         this.$gallery.data('galleryInst', this);
         this.$gallery.attr('data-gallery-id', this.id);
-
-        $(window).on(`orientationchange.forGallery-${this.id}`, () => {
-            this.refresh();
-        });
     }
 
     refresh() {
-        this.$gallery.slick('refresh');
+        if (this.$gallery.hasClass('slick-slider')) {
+            this.$gallery.slick('refresh');
+        }
     }
 
     destroy() {
@@ -55,8 +53,6 @@ export class Gallery {
         this.$iconForward.off('click');
 
         this.$iconBackward.off('click');
-
-        $(window).off(`orientationchange.forGallery-${this.id}`);
     }
 
     /**
@@ -70,14 +66,15 @@ export class Gallery {
     /**
      *
      * @param method {string}
+     * @param [options[]] {any}
      */
-    static async doForAll(method) {
+    static async doForAll(method, options = []) {
         const promisesArr = [];
 
         $('.gallery').each((i, galleryCur) => {
             const inst = Gallery.getInstById($(galleryCur).attr('data-gallery-id'));
 
-            promisesArr.push(inst[method]());
+            promisesArr.push(inst[method](...options));
         });
 
         return Promise.all(promisesArr);
