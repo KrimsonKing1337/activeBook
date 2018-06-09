@@ -13,7 +13,7 @@ import './animateCss';
 import {visibilityChangeInit} from './visibilityChangeInit';
 import LocalStorage from './LocalStorage';
 import {goToPageBtnInit} from './goToPageBtnInit';
-import {keyboardArrowsInit} from './keyboardArrowsInit';
+import {keyboardArrowsInit} from './commonEvents';
 import {firstOpenCheck} from './firstOpenCheck';
 import {CssVariables} from './CssVariables';
 import {getScrollBarWidth} from './getScrollBarWidth';
@@ -22,8 +22,7 @@ import {getIsMobile} from './getIsMobile';
 import {getRootApp} from './getRootApp';
 import {modifyPathForPagesCurEffects} from './modifyPathForPagesCurEffects';
 import {swipesInit} from './swipesInit';
-import {modalContentInst} from './ModalContent';
-import {galleryInst} from './Gallery';
+import {ModalContent} from './ModalContent';
 
 async function onReady(rootApp) {
     if (browserCheck() === false) return;
@@ -62,11 +61,11 @@ async function onReady(rootApp) {
 
     swipesInit();
 
+    EffectsController.setEffects(pagesCurEffects);
+
     await scrollbarInitAll();
 
     showHideScrollbarTouchEventsFix();
-
-    EffectsController.setEffects(pagesCurEffects);
 
     playOnLoad(pagesCurEffects);
 
@@ -85,7 +84,7 @@ async function onReady(rootApp) {
          * иначе не выполняется animateCss('fadeOut'),
          * а значит и промис тоже не резолвится
          */
-        await modalContentInst.destroy();
+        await ModalContent.destroyAll();
 
         $body.addClass('loading');
 
@@ -111,9 +110,9 @@ async function onReady(rootApp) {
 
         $(DOMSelectors.textWrapper).html(textAJAX);
 
-        await scrollbarInitAll();
-
         EffectsController.setEffects(pagesCurEffects);
+
+        await scrollbarInitAll();
 
         if (pageInfo.pageCurNum === 'credits' || pageInfo.pageCurNum === 0) {
             $(DOMSelectors.menu).addClass('hide');

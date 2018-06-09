@@ -9,7 +9,7 @@ import {volumeControllerInst} from './Effects';
 import {pageInfo} from './pageInfo';
 import LocalStorage from './LocalStorage';
 import {bookmarksSaveState} from './bookmarksSaveState';
-import {modalContentInst} from './ModalContent';
+import {ModalContent} from './ModalContent';
 
 export function menuInit() {
     const DOMSelectors = getDOMSelectors();
@@ -31,7 +31,7 @@ export function menuInit() {
 
 
     $(DOMSelectors.etc).on('click', () => {
-        modalContentInst.close();
+        ModalContent.closeAll(true);
         $(DOMSelectors.menuFullScreen).addClass('active');
         $(DOMSelectors.menuFullScreen).animateCss('fadeIn');
         $(DOMSelectors.menuFullScreenInner).animateCss('slideInDown');

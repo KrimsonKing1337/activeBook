@@ -2,10 +2,16 @@ import getDOMSelectors from './GetDOMSelectors';
 
 const DOMSelectors = getDOMSelectors();
 
-const $modalContent = $(DOMSelectors.modalContent);
+function getActiveModal() {
+    const $modalContent = $(DOMSelectors.modalContent).filter(':not(.template)');
+
+    return $modalContent.filter('.active');
+}
 
 function isGalleryActive() {
-    return $modalContent.hasClass('active') && $modalContent.attr('data-content-type') === 'gallery';
+    const $activeModal = getActiveModal();
+
+    return $activeModal.length > 0 && $activeModal.attr('data-content-type') === 'gallery';
 }
 
 export function keyboardArrowsInit() {
@@ -16,13 +22,13 @@ export function keyboardArrowsInit() {
     $(document).on('keydown', (e) => {
         if (e.which === 37) {
             if (isGalleryActive() === true) {
-                $('.js-gallery-backward-icon').trigger('click');
+                getActiveModal().find('.js-gallery-backward-icon').trigger('click');
             } else {
                 $('.js-page-prev').trigger('click');
             }
         } else if (e.which === 39) {
             if (isGalleryActive() === true) {
-                $('.js-gallery-forward-icon').trigger('click');
+                getActiveModal().find('.js-gallery-forward-icon').trigger('click');
             } else {
                 $('.js-page-next').trigger('click');
             }

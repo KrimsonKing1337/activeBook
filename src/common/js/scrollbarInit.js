@@ -14,35 +14,42 @@ function scrollbarInit($item) {
     }));
 }
 
-const $scrollableItem = $('.js-scrollable-item');
+function getScrollableItems() {
+    return $('.js-scrollable-item')
+        .filter(function () {
+            return $(this).hasClass('template') === false && $(this).closest('.template').length === 0;
+        });
+}
 
 export async function scrollbarInitAll() {
     const promisesArr = [];
 
-    $scrollableItem.addClass('scrollbar-macosx');
+    getScrollableItems().each((i, item) => {
+        const $scrollableItemCur = $(item);
 
-    $scrollableItem.each((i, item) => {
-        promisesArr.push(scrollbarInit($(item)));
+        $scrollableItemCur.addClass('scrollbar-macosx');
+
+        promisesArr.push(scrollbarInit($scrollableItemCur));
     });
 
     await Promise.all(promisesArr);
 }
 
 export function scrollbarDestroy() {
-    $scrollableItem.removeClass('scrollbar-macosx').scrollbar('destroy');
+    getScrollableItems().removeClass('scrollbar-macosx').scrollbar('destroy');
 }
 
 export function showHideScrollbarTouchEventsFix() {
     let timer;
 
-    $scrollableItem.on('touchstart touchmove', function () {
+    getScrollableItems().on('touchstart touchmove', function () {
         if (timer) clearTimeout(timer);
 
         $('.touchend').removeClass('touchend');
         $(this).addClass('touching');
     });
 
-    $scrollableItem.on('touchend', function () {
+    getScrollableItems().on('touchend', function () {
         if (timer) clearTimeout(timer);
 
         timer = setTimeout(() => {

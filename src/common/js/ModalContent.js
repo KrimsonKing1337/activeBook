@@ -1,53 +1,61 @@
 import getDOMSelectors from './GetDOMSelectors';
-import {videoPlayerInst} from './VideoPlayer';
-import {galleryInst} from './Gallery';
+import {VideoPlayer} from './VideoPlayer';
+import {Gallery} from './Gallery';
 import 'slick-carousel';
+import {CssVariables} from './CssVariables';
 
 const DOMSelectors = getDOMSelectors();
 
-class ModalContent {
+export class ModalContent {
     constructor() {
-        this.$modalContent = $(DOMSelectors.modalContent);
-        this.$modalContentClose = $(DOMSelectors.modalContentClose);
+        this.$modalContentWrapper = $('.modal-content-wrapper');
+        this.$modalContent = $(DOMSelectors.modalContent).filter('.template').clone().removeClass('template');
+        this.$modalContentClose = this.$modalContent.find(DOMSelectors.modalContentClose);
         this.$modalContentFullScreenIcon = this.$modalContent.find('.js-modal-content-full-screen');
         this.$img = this.$modalContent.find('.js-modal-img');
         this.$galleryWrapper = this.$modalContent.find('.gallery-wrapper');
         this.$gallery = this.$modalContent.find('.gallery');
         this.$videoWrapper = this.$modalContent.find('.video-wrapper');
+        this.$videoPlayer = this.$modalContent.find('.video-player');
         this.$video = this.$modalContent.find('video');
+        this.$sectionWrapper = this.$modalContent.find('.section-wrapper');
         this.$section = this.$modalContent.find('section');
         this.$iconExpand = this.$modalContent.find('.js-modal-content-icon-expand');
         this.$iconCompress = this.$modalContent.find('.js-modal-content-icon-compress');
         this.isOpen = false;
         this.isFullScreen = false;
+        this.id = '';
+        this.contentType = '';
     }
 
     /**
      *
      * @param effect {object}
      */
-    //todo: вместо init использовать set, чтобы менять содержимое модалки. в destroy добавить параметр totalDestroy
-    //todo: прокрутка содержимого модалки стрелками вверх-вниз (tabindex + focus() на $section)
-    //todo: проверка нескольких модалкок на одной странице
     init(effect) {
-        this.set(effect);
+        this.id = effect.id;
+        this.append(effect.id);
+        this.contentType = effect.modalContentType;
+        this.$modalContent.attr('data-content-type', this.contentType);
+        ModalContent.videoPlayerInit(this.id);
         this.initCloseBtn();
         this.initFullScreenBtn();
-        videoPlayerInst.init();
+        this.set(effect);
     }
 
-    async destroy() {
-        await this.close();
+    async reset() {
+        await this.close(true);
 
         this.$img.attr('src', '');
         this.$img.removeClass('active');
 
+        if (this.$gallery.data('galleryInst')) {
+            this.$gallery.data('galleryInst').destroy();
+        }
 
-        galleryInst.destroy();
         this.$gallery.empty();
         this.$galleryWrapper.removeClass('active');
 
-        videoPlayerInst.destroy();
         this.$videoWrapper.removeClass('active');
         this.$video.attr('src', '');
 
@@ -55,16 +63,69 @@ class ModalContent {
         this.$section.html('');
 
         this.$modalContentFullScreenIcon.removeClass('active');
+
+        this.$modalContent.attr('data-content-type', '');
+
+        return Promise.resolve();
+    }
+
+    async destroy() {
+        await this.reset();
+
+        this.$videoPlayer.data('videoPlayerInst').destroy();
+
+        this.$modalContent.data('modalContentInst', '');
+
         this.$modalContentClose.off('click');
         this.$modalContentFullScreenIcon.off('click');
 
         $(document).off('keydown.forModalContent');
 
-        this.isOpen = false;
-        this.isFullScreen = false;
-        this.$modalContent.attr('data-content-type', '');
+        this.$modalContent.remove();
 
         return Promise.resolve();
+    }
+
+    /**
+     *
+     * @param method {string}
+     */
+    static async doForAll(method) {
+        const promisesArr = [];
+
+        $(DOMSelectors.modalContent).filter(':not(.template)').each((i, modalContentCur) => {
+            const inst = ModalContent.getInstById($(modalContentCur).attr('data-modal-content-id'));
+
+            promisesArr.push(inst[method]());
+        });
+
+        return Promise.all(promisesArr);
+    }
+
+    static async resetAll() {
+        return ModalContent.doForAll('reset');
+    }
+
+    static async destroyAll() {
+        return ModalContent.doForAll('destroy');
+    }
+
+    /**
+     *
+     * @param [withoutAnimation] {boolean}
+     */
+    static async closeAll(withoutAnimation) {
+        return ModalContent.doForAll('close');
+    }
+
+    /**
+     *
+     * @param id {string}
+     */
+    append(id) {
+        this.$modalContentWrapper.append(this.$modalContent);
+        this.$modalContent.data('modalContentInst', this);
+        this.$modalContent.attr('data-modal-content-id', id);
     }
 
     /**
@@ -73,8 +134,6 @@ class ModalContent {
      * @param modalContentType {string};
      */
     set({src, modalContentType} = {}) {
-        this.$modalContent.attr('data-content-type', modalContentType);
-
         if (modalContentType === 'image') {
             ModalContent.setSrc(this.$img, src);
             ModalContent.showElem(this.$img);
@@ -83,15 +142,23 @@ class ModalContent {
             ModalContent.showElem(this.$videoWrapper);
         } else if (modalContentType === 'html') {
             ModalContent.setHtml(this.$section, src);
-            ModalContent.showElem(this.$section);
+            ModalContent.showElem(this.$sectionWrapper);
         } else if (modalContentType === 'gallery') {
-            ModalContent.setGallery(this.$gallery, src);
+            ModalContent.setGallery(this.$gallery, src, this.id);
             ModalContent.showElem(this.$galleryWrapper);
         } else {
             this.$modalContent.attr('data-content-type', '');
 
             console.error('Unknown modal content type:', modalContentType);
         }
+    }
+
+    /**
+     *
+     * @param id {string}
+     */
+    static getInstById(id) {
+        return $(DOMSelectors.modalContent).filter(`[data-modal-content-id=${id}]`).data('modalContentInst');
     }
 
     /**
@@ -115,13 +182,14 @@ class ModalContent {
      *
      * @param $el {object} jquery
      * @param src[] {string}
+     * @param modalId {string}
      */
-    static setGallery($el, src) {
+    static setGallery($el, src, modalId) {
         src.forEach((srcCur) => {
             $el.append(`<img src="${ srcCur }" />`);
         });
 
-        galleryInst.init();
+        ModalContent.galleryInit(modalId);
     }
 
     /**
@@ -135,28 +203,70 @@ class ModalContent {
         $el.html(html);
     }
 
-    open() {
-        this.$modalContent.addClass('active');
-        this.$modalContent.animateCss('fadeIn');
+    /**
+     *
+     * @param modalId {string}
+     */
+    static galleryInit(modalId) {
+        const gallery = new Gallery(modalId);
 
-        if (this.$modalContent.attr('data-content-type') === 'video') {
-            videoPlayerInst.play();
-        }
-
-        this.isOpen = true;
+        gallery.init();
     }
 
-    close() {
+    /**
+     *
+     * @param modalId {string}
+     */
+    static videoPlayerInit(modalId) {
+        const videoPlayer = new VideoPlayer(modalId);
+
+        videoPlayer.init();
+    }
+
+    open() {
+        this.$modalContent.addClass('active');
+        this.$modalContent.animateCss('fadeIn', () => {
+            if (this.contentType === 'video') {
+                this.$videoPlayer.data('videoPlayerInst').play();
+            } else if (this.contentType === 'html') {
+                setTimeout(() => {
+                    this.$sectionWrapper.focus();
+                }, 0);
+            }
+
+            this.isOpen = true;
+        });
+    }
+
+    /**
+     *
+     * @param [withoutAnimation] {boolean}
+     */
+    close(withoutAnimation = false) {
         if (this.isOpen === false) return Promise.resolve();
+
+        const animateCssDurationOld = CssVariables.get('--animate-css-duration');
+
+        if (withoutAnimation === true) {
+            CssVariables.set('--animate-css-duration', '0');
+        }
 
         return new Promise((resolve, reject) => {
             this.$modalContent.animateCss('fadeOut', () => {
                 this.$modalContent.removeClass('active');
                 this.fullScreenOff();
-                videoPlayerInst.pause();
-                $(DOMSelectors.textWrapper).focus();
+
+                if (this.$videoPlayer.data('videoPlayerInst').enable === true) {
+                    this.$videoPlayer.data('videoPlayerInst').pause();
+                }
+
+                setTimeout(() => {
+                    $(DOMSelectors.textWrapper).focus();
+                }, 0);
 
                 this.isOpen = false;
+
+                CssVariables.set('--animate-css-duration', animateCssDurationOld);
 
                 resolve();
             });
@@ -181,9 +291,9 @@ class ModalContent {
     }
 
     initFullScreenBtn() {
-        if (this.$modalContent.attr('data-content-type') !== 'image' &&
-            this.$modalContent.attr('data-content-type') !== 'gallery' &&
-            this.$modalContent.attr('data-content-type') !== 'video') {
+        if (this.contentType !== 'image' &&
+            this.contentType !== 'gallery' &&
+            this.contentType !== 'video') {
             return;
         }
 
@@ -208,8 +318,8 @@ class ModalContent {
             this.fullScreenOff();
         }
 
-        if (this.$modalContent.attr('data-content-type') === 'gallery') {
-            galleryInst.refresh();
+        if (this.contentType === 'gallery') {
+            this.$gallery.data('galleryInst').refresh();
         }
     }
 
@@ -227,5 +337,3 @@ class ModalContent {
         this.isFullScreen = false;
     }
 }
-
-export const modalContentInst = new ModalContent();

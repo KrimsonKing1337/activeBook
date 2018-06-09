@@ -6,7 +6,7 @@ import {VolumeController} from './Volume';
 import {getVolumeInst} from './getVolumeInst';
 import {CssVariables} from './CssVariables';
 import {getRandomInt} from './getRamdomInt';
-import {modalContentInst} from './ModalContent';
+import {ModalContent} from './ModalContent';
 
 class Effects {
     /**
@@ -37,7 +37,7 @@ class Effects {
             } else if (type === 'loop') {
                soundEffectsInst.checkAndSetNewLoop(effectCur);
             } else if (type === 'modalContent') {
-                modalContentInst.init(effectCur);
+                new ModalContent().init(effectCur);
             }
         });
     }
@@ -61,7 +61,7 @@ class Effects {
         } else if (type === 'loop') {
             soundEffectsInst.playLoop(id, soundEffectsParams);
         } else if (type === 'modalContent') {
-            modalContentInst.open();
+            ModalContent.getInstById(id).open();
         } else if (type === 'notification') {
             NotificationsEffects.play(effectCur);
         } else if (type === 'textShadow') {

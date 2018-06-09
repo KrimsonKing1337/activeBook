@@ -287,8 +287,7 @@ input[type="number"] {
 
     img,
     .video-wrapper,
-    video,
-    section {
+    video {
       display: none;
       width: inherit;
       max-width: inherit;
@@ -296,6 +295,18 @@ input[type="number"] {
       max-height: inherit;
       object-fit: cover;
       object-position: 50% 50%;
+
+      &.active {
+        display: block;
+      }
+    }
+
+    .section-wrapper {
+      display: none;
+      width: inherit;
+      max-width: inherit;
+      height: inherit;
+      max-height: inherit;
 
       &.active {
         display: block;
