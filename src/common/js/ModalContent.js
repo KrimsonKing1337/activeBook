@@ -8,6 +8,7 @@ const DOMSelectors = getDOMSelectors();
 
 //todo: стилизовать для мобилок модалку по-лучше, когда внутри текст
 //todo: ко все видео добавлять постер, чтобы пока подгружался видеофайл - висела красивая картинка
+//todo: gif = loop video without sound
 
 export class ModalContent {
     constructor() {
