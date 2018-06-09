@@ -7,15 +7,6 @@
         "/book_data/audios/sound/car-door-close-engine-start.mp3"
       ],
       "playOnLoad": true
-    },
-    {
-      "id": "modal-gallery-test",
-      "type": "modalContent",
-      "modalContentType": "image",
-      "src": [
-        "/book_data/images/img-gallery_1.jpg"
-      ],
-      "playOnLoad": true
     }
   ],
   "pageInfo": {

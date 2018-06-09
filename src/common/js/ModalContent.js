@@ -37,10 +37,10 @@ export class ModalContent {
         this.append(effect.id);
         this.contentType = effect.modalContentType;
         this.$modalContent.attr('data-content-type', this.contentType);
-        ModalContent.videoPlayerInit(this.id);
         this.initCloseBtn();
         this.initFullScreenBtn();
         this.set(effect);
+        ModalContent.videoPlayerInit(this.id);
     }
 
     async reset() {
@@ -232,6 +232,9 @@ export class ModalContent {
                 setTimeout(() => {
                     this.$sectionWrapper.focus();
                 }, 0);
+            } else if (this.contentType === 'gallery' &&
+                this.$gallery.find('.slick-track').css('width') === '0px') {
+                this.$gallery.data('galleryInst').refresh();
             }
 
             this.isOpen = true;

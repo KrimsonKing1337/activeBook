@@ -11,7 +11,7 @@
       }
     },
     {
-      "id": "modal-gallery-test",
+      "id": "modal-gallery-test-gallery",
       "type": "modalContent",
       "modalContentType": "gallery",
       "src": [
@@ -19,8 +19,31 @@
         "/book_data/images/big-gif.gif",
         "/book_data/images/mask.png",
         "/book_data/images/img.jpg"
-      ],
-      "playOnLoad": true
+      ]
+    },
+    {
+      "id": "modal-gallery-test-video",
+      "type": "modalContent",
+      "modalContentType": "video",
+      "src": [
+        "/book_data/videos/test.mp4"
+      ]
+    },
+    {
+      "id": "modal-gallery-test-image",
+      "type": "modalContent",
+      "modalContentType": "image",
+      "src": [
+        "/book_data/images/img-gallery_1.jpg"
+      ]
+    },
+    {
+      "id": "modal-gallery-test-html",
+      "type": "modalContent",
+      "modalContentType": "html",
+      "src": [
+        "modal-scroll-test"
+      ]
     }
   ],
   "pageInfo": {

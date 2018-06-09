@@ -7,15 +7,6 @@
         "/book_data/audios/sound/people-and-cameras-ambient.mp3"
       ],
       "playOnLoad": true
-    },
-    {
-      "id": "modal-gallery-test",
-      "type": "modalContent",
-      "modalContentType": "html",
-      "src": [
-        "modal-scroll-test"
-      ],
-      "playOnLoad": true
     }
   ],
   "pageInfo": {

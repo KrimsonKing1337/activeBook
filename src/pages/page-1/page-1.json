@@ -16,15 +16,6 @@
         "repeat": 5,
         "sleep": 1000
       }
-    },
-    {
-      "id": "modal-gallery-test",
-      "type": "modalContent",
-      "modalContentType": "video",
-      "src": [
-        "/book_data/videos/test.mp4"
-      ],
-      "playOnLoad": true
     }
   ],
   "pageInfo": {
