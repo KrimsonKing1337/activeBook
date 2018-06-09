@@ -6,6 +6,9 @@ import {CssVariables} from './CssVariables';
 
 const DOMSelectors = getDOMSelectors();
 
+//todo: стилизовать для мобилок модалку по-лучше, когда внутри текст
+//todo: ко все видео добавлять постер, чтобы пока подгружался видеофайл - висела красивая картинка
+
 export class ModalContent {
     constructor() {
         this.$modalContentWrapper = $('.modal-content-wrapper');
