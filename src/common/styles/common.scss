@@ -367,6 +367,18 @@ input[type="number"] {
       color: #111;
     }
 
+    .slick-slide {
+      video {
+        display: none !important;
+      }
+
+      &.slick-active {
+        video {
+          display: inline-block !important;
+        }
+      }
+    }
+
     .slick-list {
       display: block;
     }

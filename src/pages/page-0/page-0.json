@@ -15,8 +15,8 @@
       "type": "modalContent",
       "modalContentType": "gallery",
       "src": [
-        "/book_data/images/1.gif",
-        "/book_data/images/big-gif.gif",
+        "/book_data/gifs/1.mp4",
+        "/book_data/gifs/big-gif.mp4",
         "/book_data/images/mask.png",
         "/book_data/images/img.jpg"
       ]

@@ -11,7 +11,7 @@ export class VideoPlayer {
         this.$modalContent = $(DOMSelectors.modalContent).filter(`[data-modal-content-id=${modalId}]`);
         this.$videoWrapper = this.$modalContent.find('.video-wrapper');
         this.$videoPlayer = this.$videoWrapper.find('.video-player');
-        this.$video = this.$videoWrapper.find('video');
+        this.$video = this.$videoWrapper.find('.js-modal-video');
         this.$controls = this.$videoWrapper.find('.js-video-player-controls');
         this.$iconPlay = this.$videoWrapper.find('.js-video-player-icon-play');
         this.$iconPause = this.$videoWrapper.find('.js-video-player-icon-pause');

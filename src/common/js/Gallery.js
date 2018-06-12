@@ -40,6 +40,12 @@ export class Gallery {
     refresh() {
         if (this.$gallery.hasClass('slick-slider')) {
             this.$gallery.slick('refresh');
+
+            if (this.$gallery.find('video.gif').length > 0) {
+                this.$gallery.find('video.gif').each((i, gifCur) => {
+                    if (gifCur.paused === true) gifCur.play();
+                });
+            }
         }
     }
 
@@ -71,7 +77,7 @@ export class Gallery {
     static async doForAll(method, options = []) {
         const promisesArr = [];
 
-        $('.gallery').each((i, galleryCur) => {
+        $('.gallery.slick-initialized').each((i, galleryCur) => {
             const inst = Gallery.getInstById($(galleryCur).attr('data-gallery-id'));
 
             promisesArr.push(inst[method](...options));

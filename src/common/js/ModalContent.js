@@ -7,8 +7,6 @@ import LocalStorage from './LocalStorage';
 
 const DOMSelectors = getDOMSelectors();
 
-//todo: gif = loop video without sound
-
 export class ModalContent {
     constructor() {
         this.$modalContentWrapper = $('.modal-content-wrapper');
@@ -207,7 +205,13 @@ export class ModalContent {
      */
     static setGallery($el, src, modalId) {
         src.forEach((srcCur) => {
-            $el.append(`<img src="${ srcCur }" />`);
+            const ext = srcCur.split('.').pop();
+
+            if (ext === 'mp4' || ext === 'webm') {
+                $el.append(`<video class="gif" loop muted src="${ srcCur }" />`);
+            } else {
+                $el.append(`<img src="${ srcCur }" />`);
+            }
         });
 
         ModalContent.galleryInit(modalId);
@@ -253,9 +257,10 @@ export class ModalContent {
                 setTimeout(() => {
                     this.$sectionWrapper.focus();
                 }, 0);
-            } else if (this.contentType === 'gallery' &&
-                this.$gallery.find('.slick-track').css('width') === '0px') {
-                this.$gallery.data('galleryInst').refresh();
+            } else if (this.contentType === 'gallery') {
+                if (this.$gallery.find('.slick-track').css('width') === '0px') {
+                    this.$gallery.data('galleryInst').refresh();
+                }
             }
 
             this.isOpen = true;
@@ -307,17 +312,21 @@ export class ModalContent {
         if (this.contentType === 'html') return;
 
         this.$modalContentObjectFitIcon.on('click', () => {
-            ModalContent.objectFitToggle();
+            this.objectFitToggle();
         });
 
         this.$modalContentObjectFitIcon.addClass('active');
     }
 
-    static objectFitToggle() {
+    objectFitToggle() {
         if (CssVariables.get('--modal-content-object-fit') === 'cover') {
             ModalContent.objectFitContain();
         } else {
             ModalContent.objectFitCover();
+        }
+
+        if (this.contentType === 'gallery') {
+            this.$gallery.data('galleryInst').refresh();
         }
     }
 
