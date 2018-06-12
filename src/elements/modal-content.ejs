@@ -1,3 +1,6 @@
+<!-- for gif go video use: ffmpeg -f gif -i infile.gif outfile.mp4 -->
+<!-- for get image from video use: ffmpeg -i video.webm -ss 00:00:07.000 -vframes 1 thumb.jpg -->
+
 <div class="modal-content template" data-content-type="">
     <div class="modal-content__close js-modal-content-close">
         <i class="fa fa-times"></i>
@@ -6,8 +9,13 @@
         <i class="fa fa-expand active js-modal-content-icon-expand"></i>
         <i class="fa fa-compress js-modal-content-icon-compress"></i>
     </div>
+    <div class="modal-content__object-fit js-modal-content-object-fit">
+        <i class="fa fa-crop"></i>
+    </div>
     <div class="modal-content__inner js-modal-content-inner">
-        <img class="js-modal-img" src="" />
+        <div class="img-wrapper">
+            <img class="js-modal-img" src="" />
+        </div>
         <div class="gallery-wrapper">
             <div class="gallery-forward gallery-icon js-gallery-forward-icon">
                 <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -35,7 +43,7 @@
                     </div>
                 </div>
             </div>
-            <video src=""></video>
+            <video src="" poster=""></video>
         </div>
         <div class="section-scroll js-scrollable-item">
             <div class="section-wrapper" tabindex="0">

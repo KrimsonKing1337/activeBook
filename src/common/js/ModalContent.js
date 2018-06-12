@@ -3,13 +3,11 @@ import {VideoPlayer} from './VideoPlayer';
 import {Gallery} from './Gallery';
 import 'slick-carousel';
 import {CssVariables} from './CssVariables';
+import LocalStorage from './LocalStorage';
 
 const DOMSelectors = getDOMSelectors();
 
-//todo: стилизовать для мобилок модалку по-лучше, когда внутри текст
-//todo: ко все видео добавлять постер, чтобы пока подгружался видеофайл - висела красивая картинка
 //todo: gif = loop video without sound
-//todo: object-fit: contain;
 
 export class ModalContent {
     constructor() {
@@ -17,6 +15,8 @@ export class ModalContent {
         this.$modalContent = $(DOMSelectors.modalContent).filter('.template').clone().removeClass('template');
         this.$modalContentClose = this.$modalContent.find(DOMSelectors.modalContentClose);
         this.$modalContentFullScreenIcon = this.$modalContent.find('.js-modal-content-full-screen');
+        this.$modalContentObjectFitIcon = this.$modalContent.find('.js-modal-content-object-fit');
+        this.$imgWrapper = this.$modalContent.find('.img-wrapper');
         this.$img = this.$modalContent.find('.js-modal-img');
         this.$galleryWrapper = this.$modalContent.find('.gallery-wrapper');
         this.$gallery = this.$modalContent.find('.gallery');
@@ -44,6 +44,7 @@ export class ModalContent {
         this.$modalContent.attr('data-content-type', this.contentType);
         this.initCloseBtn();
         this.initFullScreenBtn();
+        this.initObjectFitBtn();
         this.set(effect);
         ModalContent.videoPlayerInit(this.id);
     }
@@ -82,7 +83,10 @@ export class ModalContent {
         this.$modalContent.data('modalContentInst', '');
 
         this.$modalContentClose.off('click');
+        this.$modalContentFullScreenIcon.removeClass('active');
         this.$modalContentFullScreenIcon.off('click');
+        this.$modalContentObjectFitIcon.removeClass('active');
+        this.$modalContentObjectFitIcon.off('click');
 
         $(document).off('keydown.forModalContent');
 
@@ -137,14 +141,16 @@ export class ModalContent {
     /**
      *
      * @param src[] {string};
+     * @param poster[] {string};
      * @param modalContentType {string};
      */
-    set({src, modalContentType} = {}) {
+    set({src, poster, modalContentType} = {}) {
         if (modalContentType === 'image') {
             ModalContent.setSrc(this.$img, src);
-            ModalContent.showElem(this.$img);
+            ModalContent.showElem(this.$imgWrapper);
         } else if (modalContentType === 'video') {
             ModalContent.setSrc(this.$video, src);
+            ModalContent.setPoster(this.$video, poster);
             ModalContent.showElem(this.$videoWrapper);
         } else if (modalContentType === 'html') {
             ModalContent.setHtml(this.$section, src);
@@ -182,6 +188,15 @@ export class ModalContent {
      */
     static setSrc($el, src) {
         $el.attr('src', src[0]);
+    }
+
+    /**
+     *
+     * @param $el {object} jquery
+     * @param posterSrc {string}
+     */
+    static setPoster($el, posterSrc) {
+        $el.attr('poster', posterSrc[0]);
     }
 
     /**
@@ -288,12 +303,38 @@ export class ModalContent {
         });
     }
 
-    initFullScreenBtn() {
-        if (this.contentType !== 'image' &&
-            this.contentType !== 'gallery' &&
-            this.contentType !== 'video') {
-            return;
+    initObjectFitBtn() {
+        if (this.contentType === 'html') return;
+
+        this.$modalContentObjectFitIcon.on('click', () => {
+            ModalContent.objectFitToggle();
+        });
+
+        this.$modalContentObjectFitIcon.addClass('active');
+    }
+
+    static objectFitToggle() {
+        if (CssVariables.get('--modal-content-object-fit') === 'cover') {
+            ModalContent.objectFitContain();
+        } else {
+            ModalContent.objectFitCover();
         }
+    }
+
+    static objectFitCover() {
+        CssVariables.set('--modal-content-object-fit', 'cover');
+
+        LocalStorage.write({key: 'modalObjectFit', val: 'cover'});
+    }
+
+    static objectFitContain() {
+        CssVariables.set('--modal-content-object-fit', 'contain');
+
+        LocalStorage.write({key: 'modalObjectFit', val: 'contain'});
+    }
+
+    initFullScreenBtn() {
+        if (this.contentType === 'html') return;
 
         this.$modalContentFullScreenIcon.on('click', () => {
             this.fullScreenToggle();

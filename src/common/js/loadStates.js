@@ -1,6 +1,7 @@
 import {Bookmarks, FontSize, LineHeight, Theme, Vibration, VolumeSliders} from './Menu';
 import LocalStorage from './LocalStorage';
 import getDOMSelectors from './GetDOMSelectors';
+import {CssVariables} from './CssVariables';
 
 const DOMSelectors = getDOMSelectors();
 
@@ -73,5 +74,9 @@ export function loadStates() {
             $bookmarkTemplate: $('.js-bookmark-item.template'),
             bookmarksArr: states.bookmarks
         });
+    }
+
+    if (states.modalObjectFit) {
+        CssVariables.set('--modal-content-object-fit', states.modalObjectFit);
     }
 }

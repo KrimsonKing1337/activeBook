@@ -57,7 +57,8 @@ export default class LocalStorage {
             scrollTop: LocalStorage.read({key: 'scrollTop'}),
             theme: LocalStorage.read({key: 'theme'}),
             vibration: LocalStorage.read({key: 'vibration'}),
-            bookmarks: LocalStorage.read({key: 'bookmarks'})
+            bookmarks: LocalStorage.read({key: 'bookmarks'}),
+            modalObjectFit: LocalStorage.read({key: 'modalObjectFit'})
         };
     }
 
@@ -67,6 +68,8 @@ export default class LocalStorage {
      * @param val {*}
      */
     static write({key, val} = {}) {
+        if (typeof val === 'undefined') return new Error('value for write is undefined!');
+
         localStorage.setItem(key, JSON.stringify(val)); //сериализуем объект в строку
     }
 

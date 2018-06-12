@@ -304,9 +304,18 @@
     .main-content,
     .menu-full-screen,
     .table-of-contents,
-    .credits,
-    .modal-content {
+    .credits {
       background-color: #111;
+    }
+
+    .modal-content {
+      box-shadow: 0 1px 15px 0 rgba(255, 255, 255, 0.1);
+
+      .section-wrapper,
+      .section-scroll {
+        background: #111;
+        color: #a3a3a3;
+      }
     }
 
     .text,
@@ -315,8 +324,7 @@
     .credits,
     .credits__item,
     .menu-full-screen,
-    .side-text-scroll-content,
-    .modal-content section {
+    .side-text-scroll-content {
       color: #a3a3a3;
     }
 

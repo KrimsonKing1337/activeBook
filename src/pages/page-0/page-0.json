@@ -27,6 +27,9 @@
       "modalContentType": "video",
       "src": [
         "/book_data/videos/test.mp4"
+      ],
+      "poster": [
+        "/book_data/videos/test-poster.jpg"
       ]
     },
     {
