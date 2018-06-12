@@ -763,7 +763,6 @@ p {
 .text-scroll {
   width: 100%;
   height: calc(100% - 68px); //height of menu + margin-bottom
-  margin-bottom: 20px;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -1154,6 +1153,7 @@ a {
   background: #fff;
   z-index: 10;
   flex-shrink: 0;
+  margin-top: 20px;
 
   &.hide {
     display: none;
