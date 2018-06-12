@@ -1,4 +1,5 @@
 import getDOMSelectors from './GetDOMSelectors';
+import {ModalContent} from './ModalContent';
 
 const DOMSelectors = getDOMSelectors();
 
@@ -41,11 +42,7 @@ export class Gallery {
         if (this.$gallery.hasClass('slick-slider')) {
             this.$gallery.slick('refresh');
 
-            if (this.$gallery.find('video.gif').length > 0) {
-                this.$gallery.find('video.gif').each((i, gifCur) => {
-                    if (gifCur.paused === true) gifCur.play();
-                });
-            }
+            ModalContent.playAllGifs();
         }
     }
 

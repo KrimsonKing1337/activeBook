@@ -4,6 +4,7 @@ import {Gallery} from './Gallery';
 import 'slick-carousel';
 import {CssVariables} from './CssVariables';
 import LocalStorage from './LocalStorage';
+import {getRootApp} from './getRootApp';
 
 const DOMSelectors = getDOMSelectors();
 
@@ -14,8 +15,7 @@ export class ModalContent {
         this.$modalContentClose = this.$modalContent.find(DOMSelectors.modalContentClose);
         this.$modalContentFullScreenIcon = this.$modalContent.find('.js-modal-content-full-screen');
         this.$modalContentObjectFitIcon = this.$modalContent.find('.js-modal-content-object-fit');
-        this.$imgWrapper = this.$modalContent.find('.img-wrapper');
-        this.$img = this.$modalContent.find('.js-modal-img');
+        this.$imgWrapper = this.$modalContent.find('.js-modal-img-wrapper');
         this.$galleryWrapper = this.$modalContent.find('.gallery-wrapper');
         this.$gallery = this.$modalContent.find('.gallery');
         this.$videoWrapper = this.$modalContent.find('.video-wrapper');
@@ -50,8 +50,7 @@ export class ModalContent {
     async reset() {
         await this.close(true);
 
-        this.$img.attr('src', '');
-        this.$img.removeClass('active');
+        this.$imgWrapper.removeClass('active');
 
         if (this.$gallery.data('galleryInst')) {
             this.$gallery.data('galleryInst').destroy();
@@ -144,11 +143,10 @@ export class ModalContent {
      */
     set({src, poster, modalContentType} = {}) {
         if (modalContentType === 'image') {
-            ModalContent.setSrc(this.$img, src);
+            ModalContent.setImg(this.$imgWrapper, src);
             ModalContent.showElem(this.$imgWrapper);
         } else if (modalContentType === 'video') {
-            ModalContent.setSrc(this.$video, src);
-            ModalContent.setPoster(this.$video, poster);
+            ModalContent.setVideo(this.$video, src, poster);
             ModalContent.showElem(this.$videoWrapper);
         } else if (modalContentType === 'html') {
             ModalContent.setHtml(this.$section, src);
@@ -183,18 +181,52 @@ export class ModalContent {
      *
      * @param $el {object} jquery
      * @param src[] {string}
+     * @param posterSrc[] {string}
      */
-    static setSrc($el, src) {
+    static setVideo($el, src, posterSrc = ['']) {
         $el.attr('src', src[0]);
+        $el.attr('poster', posterSrc[0]);
     }
 
     /**
      *
      * @param $el {object} jquery
-     * @param posterSrc {string}
+     * @param src[] {string}
      */
-    static setPoster($el, posterSrc) {
-        $el.attr('poster', posterSrc[0]);
+    static setImg($el, src) {
+        const newImage = ModalContent.getNewGifOrImgByExt(src[0]);
+
+        $el.append(newImage);
+    }
+
+    /**
+     *
+     * @param src {string}
+     */
+    static getNewGif(src) {
+        return `<video class="gif" loop muted src="${src}" poster="${getRootApp()}/img/poster-for-gifs.jpg" />`
+    }
+
+    /**
+     *
+     * @param src {string}
+     */
+    static getNewImg(src) {
+        return `<img src="${src}" />`
+    }
+
+    /**
+     *
+     * @param src {string}
+     */
+    static getNewGifOrImgByExt(src) {
+        const ext = src.split('.').pop();
+
+        if (ext === 'mp4' || ext === 'webm') {
+            return ModalContent.getNewGif(src);
+        } else {
+            return ModalContent.getNewImg(src);
+        }
     }
 
     /**
@@ -205,13 +237,9 @@ export class ModalContent {
      */
     static setGallery($el, src, modalId) {
         src.forEach((srcCur) => {
-            const ext = srcCur.split('.').pop();
+            const newGalleryItem = ModalContent.getNewGifOrImgByExt(srcCur);
 
-            if (ext === 'mp4' || ext === 'webm') {
-                $el.append(`<video class="gif" loop muted src="${ srcCur }" />`);
-            } else {
-                $el.append(`<img src="${ srcCur }" />`);
-            }
+            $el.append(newGalleryItem);
         });
 
         ModalContent.galleryInit(modalId);
@@ -248,6 +276,18 @@ export class ModalContent {
         videoPlayer.init();
     }
 
+    static playAllGifs() {
+        const $gifs = $(DOMSelectors.modalContent).filter(':not(.template)').find('video.gif');
+
+        if ($gifs.length > 0) {
+            $gifs.each((i, gifCur) => {
+                if (gifCur.paused === true) {
+                    gifCur.play();
+                }
+            });
+        }
+    }
+
     open() {
         this.$modalContent.addClass('active');
         this.$modalContent.animateCss('fadeIn', () => {
@@ -261,6 +301,8 @@ export class ModalContent {
                 if (this.$gallery.find('.slick-track').css('width') === '0px') {
                     this.$gallery.data('galleryInst').refresh();
                 }
+            } else if (this.contentType === 'image') {
+                ModalContent.playAllGifs();
             }
 
             this.isOpen = true;
