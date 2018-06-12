@@ -1,4 +1,8 @@
-<!-- for gif go video use: ffmpeg -f gif -i infile.gif outfile.mp4 -->
+<!-- for gif go video use: ffmpeg -f gif -i infile.gif outfile.mp4
+and then
+ffmpeg -y -i "INPUT-FILE" -c:v libx264 -preset slow -crf 22 -pix_fmt yuv420p -c:a libvo_aacenc -b:a 128k "OUTPUT-FILE"
+-->
+
 <!-- for get image from video use: ffmpeg -i video.webm -ss 00:00:07.000 -vframes 1 thumb.jpg -->
 
 <div class="modal-content template" data-content-type="">
