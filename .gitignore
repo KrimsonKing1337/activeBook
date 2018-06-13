@@ -1,6 +1,7 @@
 .idea/
 node_modules/
 build/
+sources/
 *.mp3
 *.ogg
 *.mp4
