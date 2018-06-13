@@ -83,6 +83,6 @@ export function loadStates() {
     }
 
     if (states.filterInvert) {
-        FilterEffects.invert(states.filterInvert, false);
+        //FilterEffects.invert(states.filterInvert, false);
     }
 }

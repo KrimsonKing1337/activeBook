@@ -50,7 +50,7 @@
     },
     {
       "id": "invert-test",
-      "type": "filter",
+      "type": "filter___777",
       "filter": {
         "name": "invert",
         "value": true
