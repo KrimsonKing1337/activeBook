@@ -183,7 +183,7 @@ export class ModalContent {
      * @param src[] {string}
      * @param posterSrc[] {string}
      */
-    static setVideo($el, src, posterSrc = ['']) {
+    static setVideo($el, src, posterSrc = [`${getRootApp()}/img/poster-default.jpg`]) {
         $el.attr('src', src[0]);
         $el.attr('poster', posterSrc[0]);
     }
@@ -204,7 +204,7 @@ export class ModalContent {
      * @param src {string}
      */
     static getNewGif(src) {
-        return `<video class="gif" loop muted src="${src}" poster="${getRootApp()}/img/poster-for-gifs.jpg" />`
+        return `<video class="gif" loop muted src="${src}" poster="${getRootApp()}/img/poster-default.jpg" />`
     }
 
     /**

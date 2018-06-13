@@ -32,6 +32,10 @@ export class VideoPlayer {
             this.playPauseToggle();
         });
 
+        this.$video.on('ended', () => {
+            this.pause();
+        });
+
         this.$videoPlayer.data('videoPlayerInst', this);
         this.$videoPlayer.attr('data-video-player-id', this.id);
     }
@@ -84,7 +88,7 @@ export class VideoPlayer {
     static async doForAll(method, options = []) {
         const promisesArr = [];
 
-        $('.gallery').each((i, videoPlayerCur) => {
+        $('.video-player').each((i, videoPlayerCur) => {
             const inst = VideoPlayer.getInstById($(videoPlayerCur).attr('data-video-player-id'));
 
             promisesArr.push(inst[method](...options));

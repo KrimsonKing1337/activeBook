@@ -12,6 +12,14 @@
         "className": "info"
       },
       "playOnLoad": true
+    },
+    {
+      "id": "wow-turn",
+      "type": "modalContent",
+      "modalContentType": "video",
+      "src": [
+        "/book_data/videos/wow_turn.mp4"
+      ]
     }
   ],
   "pageInfo": {
