@@ -47,6 +47,15 @@
       "src": [
         "modal-scroll-test"
       ]
+    },
+    {
+      "id": "invert-test",
+      "type": "filter",
+      "filter": {
+        "name": "invert",
+        "value": true
+      },
+      "playOnLoad": true
     }
   ],
   "pageInfo": {

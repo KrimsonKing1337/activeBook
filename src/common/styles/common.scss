@@ -1713,6 +1713,16 @@ a {
   }
 }
 
+.page {
+  &[data-invert="false"] {
+    filter: invert(0);
+  }
+
+  &[data-invert="true"] {
+    filter: invert(100%);
+  }
+}
+
 .browser-warning {
   display: flex;
   height: 100vh;
