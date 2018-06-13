@@ -35,7 +35,7 @@ class Effects {
             if (type === 'oneShot') {
                 soundEffectsInst.checkAndSetNewOneShot(effectCur);
             } else if (type === 'loop') {
-               soundEffectsInst.checkAndSetNewLoop(effectCur);
+                soundEffectsInst.checkAndSetNewLoop(effectCur);
             } else if (type === 'modalContent') {
                 new ModalContent().init(effectCur);
             }
@@ -68,6 +68,8 @@ class Effects {
             textShadowEffectsInst.play(effectCur);
         } else if (type === 'sideTextScroll') {
             sideTextScrollEffectInst.play(effectCur);
+        } else if (type === 'filter') {
+            FilterEffects.apply(effectCur);
         }
     }
 
@@ -648,6 +650,36 @@ class SideTextScrollEffect {
 
             item.textContent += '\u00A0'; //&nbsp;
         });
+    }
+}
+
+export class FilterEffects {
+    constructor() {
+
+    }
+
+    /**
+     *
+     * @param value {boolean}
+     * @param writeToLocalStorage {boolean}
+     */
+    static invert(value, writeToLocalStorage = true) {
+        $('.page').attr('data-invert', value);
+
+        if (writeToLocalStorage) {
+            LocalStorage.write({key: 'filterInvert', val: value});
+        }
+    }
+
+    /**
+     * @param filterEffect {object}
+     */
+    static apply(filterEffect) {
+        const filter = filterEffect.filter;
+        const name = filter.name;
+        const value = filter.value;
+
+        FilterEffects[name](value);
     }
 }
 

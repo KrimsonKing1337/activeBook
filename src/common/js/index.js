@@ -23,6 +23,7 @@ import {getRootApp} from './getRootApp';
 import {modifyPathForPagesCurEffects} from './modifyPathForPagesCurEffects';
 import {swipesInit} from './swipesInit';
 import {ModalContent} from './ModalContent';
+import {invertColorsByPageNumber} from './invertColorsByPageNumber';
 
 async function onReady(rootApp) {
     if (browserCheck() === false) return;
@@ -104,6 +105,8 @@ async function onReady(rootApp) {
         pageInfo.set({
             pageCurNum: pageCurInfo.num
         });
+
+        invertColorsByPageNumber(pageCurInfo.num, 5);
 
         //запоминаем последнюю открытую страницу
         LocalStorage.write({key: 'lastOpenedPage', val: pageInfo.pageCurNum});

@@ -58,7 +58,8 @@ export default class LocalStorage {
             theme: LocalStorage.read({key: 'theme'}),
             vibration: LocalStorage.read({key: 'vibration'}),
             bookmarks: LocalStorage.read({key: 'bookmarks'}),
-            modalObjectFit: LocalStorage.read({key: 'modalObjectFit'})
+            modalObjectFit: LocalStorage.read({key: 'modalObjectFit'}),
+            filterInvert: LocalStorage.read({key: 'filterInvert'})
         };
     }
 

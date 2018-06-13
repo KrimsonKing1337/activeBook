@@ -2,6 +2,8 @@ import {Bookmarks, FontSize, LineHeight, Theme, Vibration, VolumeSliders} from '
 import LocalStorage from './LocalStorage';
 import getDOMSelectors from './GetDOMSelectors';
 import {CssVariables} from './CssVariables';
+import {FilterEffects} from './Effects';
+
 
 const DOMSelectors = getDOMSelectors();
 
@@ -78,5 +80,9 @@ export function loadStates() {
 
     if (states.modalObjectFit) {
         CssVariables.set('--modal-content-object-fit', states.modalObjectFit);
+    }
+
+    if (states.filterInvert) {
+        //FilterEffects.invert(states.filterInvert, false);
     }
 }
