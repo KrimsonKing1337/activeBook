@@ -106,7 +106,7 @@ async function onReady(rootApp) {
             pageCurNum: pageCurInfo.num
         });
 
-        invertColorsByPageNumber(pageCurInfo.num, 5);
+        invertColorsByPageNumber(pageCurInfo.num, 30);
 
         //запоминаем последнюю открытую страницу
         LocalStorage.write({key: 'lastOpenedPage', val: pageInfo.pageCurNum});

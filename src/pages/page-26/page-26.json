@@ -1,0 +1,15 @@
+{
+  "effects": [
+    {
+      "id": "over-the-garden-wall",
+      "type": "modalContent",
+      "modalContentType": "html",
+      "src": [
+        "over-the-garden-wall"
+      ]
+    }
+  ],
+  "pageInfo": {
+    "num": 26
+  }
+}
