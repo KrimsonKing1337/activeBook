@@ -1,6 +1,13 @@
 {
   "effects": [
-
+    {
+      "id": "spacedoor-close",
+      "type": "oneShot",
+      "src": [
+        "/book_data/audios/sound/spacedoor-close.mp3"
+      ],
+      "playOnLoad": true
+    }
   ],
   "pageInfo": {
     "num": 28

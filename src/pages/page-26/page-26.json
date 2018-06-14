@@ -1,6 +1,14 @@
 {
   "effects": [
     {
+      "id": "cosmos-impacts",
+      "type": "loop",
+      "src": [
+        "/book_data/audios/sound/cosmos-impacts.mp3"
+      ],
+      "playOnLoad": true
+    },
+    {
       "id": "over-the-garden-wall",
       "type": "modalContent",
       "modalContentType": "html",

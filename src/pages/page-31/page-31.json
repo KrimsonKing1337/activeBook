@@ -1,6 +1,13 @@
 {
   "effects": [
-
+    {
+      "id": "heartbeats-fast",
+      "type": "loop",
+      "src": [
+        "/book_data/audios/sound/heartbeats-fast.mp3"
+      ],
+      "playOnLoad": true
+    }
   ],
   "pageInfo": {
     "num": 31

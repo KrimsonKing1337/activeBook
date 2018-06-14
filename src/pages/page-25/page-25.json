@@ -1,6 +1,13 @@
 {
   "effects": [
-
+    {
+      "id": "coin-dropping",
+      "type": "oneShot",
+      "src": [
+        "/book_data/audios/sound/coin-dropping.mp3"
+      ],
+      "playOnLoad": true
+    }
   ],
   "pageInfo": {
     "num": 25

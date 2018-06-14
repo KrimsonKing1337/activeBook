@@ -1,6 +1,13 @@
 {
   "effects": [
-
+    {
+      "id": "spacedoor-open",
+      "type": "oneShot",
+      "src": [
+        "/book_data/audios/sound/spacedoor-open.mp3"
+      ],
+      "playOnLoad": true
+    }
   ],
   "pageInfo": {
     "num": 29
