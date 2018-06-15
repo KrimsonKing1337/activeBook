@@ -1,5 +1,12 @@
 {
-  "pagesInfo": {
+  "effects": [
+    {
+      "id": "invert-colors",
+      "type": "invert",
+      "value": 30
+    }
+  ],
+  "info": {
     "length": 35
   }
 }

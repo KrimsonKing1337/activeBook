@@ -8,5 +8,5 @@ const rootPath = require('./rootPath');
  */
 const pagesConfig = fs.readFileSync(`${rootPath}/src/pages/pages.json`, 'utf-8');
 
-module.exports = JSON.parse(pagesConfig).pagesInfo;
+module.exports = JSON.parse(pagesConfig).info;
 

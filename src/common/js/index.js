@@ -27,7 +27,7 @@ import {getIsMobile} from './helpers/getIsMobile';
 import {getRootApp} from './helpers/getRootApp';
 import {modifyPathForPagesCurEffects} from './effects/modifyPathForPagesCurEffects';
 import {ModalContent} from './modalContent/ModalContent';
-import {invertColorsByPageNumber} from './effects/invertColorsByPageNumber';
+import {getInvertColorsPageNumber, invertColorsByPageNumber} from './effects/invertColors';
 
 async function onReady(rootApp) {
     if (browserCheck() === false) return;
@@ -41,9 +41,11 @@ async function onReady(rootApp) {
     const pageCurJSON = await getAJAX(`${rootApp}/page-0.json`, 'json');
     const pagesJSON = await getAJAX(`${rootApp}/pages.json`, 'json');
 
-    const pagesInfo = pagesJSON.pagesInfo;
+    const pagesInfo = pagesJSON.info;
+    const pagesEffects = pagesJSON.effects;
     const pageCurInfo = pageCurJSON.pageInfo;
-    const pagesCurEffects = modifyPathForPagesCurEffects(pageCurJSON.effects, rootApp);
+    const pageCurEffects = modifyPathForPagesCurEffects(pageCurJSON.effects, rootApp);
+    const invertColorPageNumber = getInvertColorsPageNumber(pagesEffects);
 
     pageInfo.set({
         pageCurNum: pageCurInfo.num,
@@ -66,13 +68,13 @@ async function onReady(rootApp) {
 
     swipesInit();
 
-    EffectsController.setEffects(pagesCurEffects);
+    EffectsController.setEffects(pageCurEffects);
 
     await scrollbarInitAll();
 
     showHideScrollbarTouchEventsFix();
 
-    playOnLoad(pagesCurEffects);
+    playOnLoad(pageCurEffects);
 
     goToPageBtnInit();
 
@@ -104,20 +106,22 @@ async function onReady(rootApp) {
         const pageCurJSON = await getAJAX(`${rootApp}/page-${pageNum}.json`, 'json');
 
         const pageCurInfo = pageCurJSON.pageInfo;
-        const pagesCurEffects = modifyPathForPagesCurEffects(pageCurJSON.effects, rootApp);
+        const pageCurEffects = modifyPathForPagesCurEffects(pageCurJSON.effects, rootApp);
 
         pageInfo.set({
             pageCurNum: pageCurInfo.num
         });
 
-        invertColorsByPageNumber(pageCurInfo.num, 30);
+        if (invertColorPageNumber !== false) {
+            invertColorsByPageNumber(pageCurInfo.num, invertColorPageNumber);
+        }
 
         //запоминаем последнюю открытую страницу
         LocalStorage.write({key: 'lastOpenedPage', val: pageInfo.pageCurNum});
 
         $(DOMSelectors.textWrapper).html(textAJAX);
 
-        EffectsController.setEffects(pagesCurEffects);
+        EffectsController.setEffects(pageCurEffects);
 
         await scrollbarInitAll();
 
@@ -131,7 +135,7 @@ async function onReady(rootApp) {
             $('.js-page-input').attr('placeholder', pageInfo.pageCurNum);
         }
 
-        playOnLoad(pagesCurEffects);
+        playOnLoad(pageCurEffects);
 
         actionTextInit();
 
