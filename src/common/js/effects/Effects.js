@@ -1,12 +1,12 @@
 import 'howler';
 import find from 'lodash-es/find';
 import 'notifyjs-browser';
-import LocalStorage from './LocalStorage';
-import {VolumeController} from './Volume';
-import {getVolumeInst} from './getVolumeInst';
-import {CssVariables} from './CssVariables';
-import {getRandomInt} from './getRamdomInt';
-import {ModalContent} from './ModalContent';
+import LocalStorage from '../states/LocalStorage';
+import {VolumeController} from '../volume/Volume';
+import {getVolumeInst} from '../volume/getVolumeInst';
+import {CssVariables} from '../helpers/CssVariables';
+import {getRandomInt} from '../helpers/getRamdomInt';
+import {ModalContent} from '../modalContent/ModalContent';
 
 class Effects {
     /**

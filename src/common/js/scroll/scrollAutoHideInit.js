@@ -1,4 +1,4 @@
-import getDOMSelectors from './GetDOMSelectors';
+import getDOMSelectors from '../helpers/GetDOMSelectors';
 
 /**
  * это были попытки самому накостылять

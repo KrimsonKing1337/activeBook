@@ -1,6 +1,8 @@
-import getDOMSelectors from './GetDOMSelectors';
-import {ModalContent} from './ModalContent';
-import {Gallery} from './Gallery';
+import getDOMSelectors from '../helpers/GetDOMSelectors';
+import {ModalContent} from '../modalContent/ModalContent';
+import {Gallery} from '../modalContent/Gallery';
+import {pageInfo} from '../forAppInit/pageInfo';
+import {EffectsController} from '../effects/Effects';
 
 const DOMSelectors = getDOMSelectors();
 
@@ -35,6 +37,22 @@ export function keyboardArrowsInit() {
                 $('.js-page-next').trigger('click');
             }
         }
+    });
+}
+
+export function swipesInit() {
+    const $textWrapper = $(DOMSelectors.textWrapper);
+
+    $textWrapper.on('swiperight', () => {
+        if (pageInfo.pageCurNum === 0) return;
+
+        $('.js-page-prev').trigger('click');
+    });
+
+    $textWrapper.on('swipeleft', () => {
+        if (pageInfo.pageCurNum === 0) return;
+
+        $('.js-page-next').trigger('click');
     });
 }
 
@@ -90,4 +108,17 @@ export function orientationChangeForGalleryInit() {
     $(window).on('orientationchange.forGallery', () => {
         Gallery.refreshAll();
     });
+}
+
+export function actionTextInit() {
+    //action text click event
+    $('[data-effect-target]').on('click', function (e) {
+        e.preventDefault();
+
+        EffectsController.play($(this).data('effect-target'));
+    });
+
+    setTimeout(() => {
+        $('.text-wrapper').focus();
+    }, 0);
 }

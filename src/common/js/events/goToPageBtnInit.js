@@ -1,6 +1,6 @@
-import LocalStorage from './LocalStorage';
-import {GoToPage} from './Menu';
-import {pageInfo} from './pageInfo';
+import LocalStorage from '../states/LocalStorage';
+import {GoToPage} from '../menu/Menu';
+import {pageInfo} from '../forAppInit/pageInfo';
 
 /**
  *

@@ -1,29 +1,33 @@
-import {pageInfo} from './pageInfo';
-import {menuInit} from './menuInit';
-import {browserCheck} from './browserCheck';
-import getDOMSelectors from './GetDOMSelectors';
-import {getAJAX} from './getAJAX';
-import {EffectsController} from './Effects';
-import {textInit} from './textInit';
-import {loadStates} from './loadStates';
-import {playOnLoad} from './playOnLoad';
-import {hoverTouchUnstick} from './hoverTouchUnstick';
+import {pageInfo} from './forAppInit/pageInfo';
+import {menuInit} from './menu/menuInit';
+import {browserCheck} from './forAppInit/browserCheck';
+import getDOMSelectors from './helpers/GetDOMSelectors';
+import {getAJAX} from './helpers/getAJAX';
+import {EffectsController} from './effects/Effects';
+import {loadStates} from './states/loadStates';
+import {playOnLoad} from './effects/playOnLoad';
+import {hoverTouchUnstick} from './events/hoverTouchUnstick';
 import 'jquery-touch-events';
-import './animateCss';
-import {visibilityChangeInit} from './visibilityChangeInit';
-import LocalStorage from './LocalStorage';
-import {goToPageBtnInit} from './goToPageBtnInit';
-import {keyboardArrowsInit, accessoriesForModalContentInit, orientationChangeForGalleryInit} from './commonEvents';
-import {firstOpenCheck} from './firstOpenCheck';
-import {CssVariables} from './CssVariables';
-import {getScrollBarWidth} from './getScrollBarWidth';
-import {scrollbarDestroy, scrollbarInitAll, showHideScrollbarTouchEventsFix} from './scrollbarInit';
-import {getIsMobile} from './getIsMobile';
-import {getRootApp} from './getRootApp';
-import {modifyPathForPagesCurEffects} from './modifyPathForPagesCurEffects';
-import {swipesInit} from './swipesInit';
-import {ModalContent} from './ModalContent';
-import {invertColorsByPageNumber} from './invertColorsByPageNumber';
+import './forAppInit/animateCss';
+import {visibilityChangeInit} from './events/visibilityChangeInit';
+import LocalStorage from './states/LocalStorage';
+import {goToPageBtnInit} from './events/goToPageBtnInit';
+import {
+    keyboardArrowsInit,
+    swipesInit,
+    accessoriesForModalContentInit,
+    orientationChangeForGalleryInit,
+    actionTextInit
+} from './events/commonEvents';
+import {firstOpenCheck} from './forAppInit/firstOpenCheck';
+import {CssVariables} from './helpers/CssVariables';
+import {getScrollBarWidth} from './scroll/getScrollBarWidth';
+import {scrollbarDestroy, scrollbarInitAll, showHideScrollbarTouchEventsFix} from './scroll/scrollbarInit';
+import {getIsMobile} from './helpers/getIsMobile';
+import {getRootApp} from './helpers/getRootApp';
+import {modifyPathForPagesCurEffects} from './effects/modifyPathForPagesCurEffects';
+import {ModalContent} from './modalContent/ModalContent';
+import {invertColorsByPageNumber} from './effects/invertColorsByPageNumber';
 
 async function onReady(rootApp) {
     if (browserCheck() === false) return;
@@ -58,7 +62,7 @@ async function onReady(rootApp) {
     //загружаем значения настроек
     loadStates();
 
-    textInit(EffectsController);
+    actionTextInit();
 
     swipesInit();
 
@@ -129,7 +133,7 @@ async function onReady(rootApp) {
 
         playOnLoad(pagesCurEffects);
 
-        textInit(EffectsController);
+        actionTextInit();
 
         goToPageBtnInit();
 

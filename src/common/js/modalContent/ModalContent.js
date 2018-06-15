@@ -1,10 +1,10 @@
-import getDOMSelectors from './GetDOMSelectors';
+import getDOMSelectors from '../helpers/GetDOMSelectors';
 import {VideoPlayer} from './VideoPlayer';
 import {Gallery} from './Gallery';
 import 'slick-carousel';
-import {CssVariables} from './CssVariables';
-import LocalStorage from './LocalStorage';
-import {getRootApp} from './getRootApp';
+import {CssVariables} from '../helpers/CssVariables';
+import LocalStorage from '../states/LocalStorage';
+import {getRootApp} from '../helpers/getRootApp';
 
 const DOMSelectors = getDOMSelectors();
 

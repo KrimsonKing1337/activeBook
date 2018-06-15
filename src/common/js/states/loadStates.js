@@ -1,8 +1,8 @@
-import {Bookmarks, FontSize, LineHeight, Theme, Vibration, VolumeSliders} from './Menu';
+import {Bookmarks, FontSize, LineHeight, Theme, Vibration, VolumeSliders} from '../menu/Menu';
 import LocalStorage from './LocalStorage';
-import getDOMSelectors from './GetDOMSelectors';
-import {CssVariables} from './CssVariables';
-import {FilterEffects} from './Effects';
+import getDOMSelectors from '../helpers/GetDOMSelectors';
+import {CssVariables} from '../helpers/CssVariables';
+import {FilterEffects} from '../effects/Effects';
 
 
 const DOMSelectors = getDOMSelectors();

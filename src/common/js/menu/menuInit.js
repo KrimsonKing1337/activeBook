@@ -1,15 +1,15 @@
 import {FontSize, GoToPage, LineHeight, Theme, Vibration} from './Menu';
 import Popover from './Popover';
-import {svgInit} from './svgInit';
-import {ionRangeSliderInit} from './ionRangeSliderInit';
-import getDOMSelectors from './GetDOMSelectors';
-import {volumeSaveStates} from './volumeSaveStates';
-import {vibrationEffectsInst} from './Effects';
-import {volumeControllerInst} from './Effects';
-import {pageInfo} from './pageInfo';
-import LocalStorage from './LocalStorage';
-import {bookmarksSaveState} from './bookmarksSaveState';
-import {ModalContent} from './ModalContent';
+import {svgInit} from '../forAppInit/svgInit';
+import {ionRangeSliderInit} from '../forAppInit/ionRangeSliderInit';
+import getDOMSelectors from '../helpers/GetDOMSelectors';
+import {volumeSaveStates} from '../volume/volumeSaveStates';
+import {vibrationEffectsInst} from '../effects/Effects';
+import {volumeControllerInst} from '../effects/Effects';
+import {pageInfo} from '../forAppInit/pageInfo';
+import LocalStorage from '../states/LocalStorage';
+import {bookmarksSaveState} from '../states/bookmarksSaveState';
+import {ModalContent} from '../modalContent/ModalContent';
 
 export function menuInit() {
     const DOMSelectors = getDOMSelectors();
