@@ -17,7 +17,7 @@ import {
     swipesInit,
     accessoriesForModalContentInit,
     orientationChangeForGalleryInit,
-    actionTextInit
+    actionTextInit, disableZoomApple
 } from './events/commonEvents';
 import {firstOpenCheck} from './forAppInit/firstOpenCheck';
 import {CssVariables} from './helpers/CssVariables';
@@ -147,12 +147,7 @@ async function onReady(rootApp) {
     keyboardArrowsInit();
     accessoriesForModalContentInit();
     orientationChangeForGalleryInit();
-
-    //убираем зум на apple устройствах
-    document.addEventListener('gesturestart', (e) => {
-        e.preventDefault();
-    });
-
+    disableZoomApple();
     hoverTouchUnstick();
 
     CssVariables.set('--main-content-height', `${window.innerHeight}px`);

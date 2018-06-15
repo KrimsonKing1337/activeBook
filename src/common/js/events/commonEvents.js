@@ -122,3 +122,10 @@ export function actionTextInit() {
         $('.text-wrapper').focus();
     }, 0);
 }
+
+
+export function disableZoomApple() {
+    document.addEventListener('gesturestart', (e) => {
+        e.preventDefault();
+    });
+}
