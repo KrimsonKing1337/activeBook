@@ -332,6 +332,10 @@
       background-color: rgba(#fff, 0.1);
     }
 
+    .main-content-bg-shadow {
+      background: rgba(#111, 0.7);
+    }
+
     a {
       &:hover {
         @include text-shadow-dark;
