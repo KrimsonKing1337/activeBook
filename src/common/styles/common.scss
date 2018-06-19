@@ -278,6 +278,10 @@ input[type="number"] {
     max-height: 100%;
   }
 
+  &[data-content-type="html"] {
+    height: auto;
+  }
+
   &__inner {
     width: 100%;
     max-width: inherit;
@@ -366,6 +370,22 @@ input[type="number"] {
       color: #111;
     }
 
+    .section-scroll {
+      width: inherit;
+      max-width: inherit;
+      max-height: inherit;
+      height: inherit;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .section-wrapper {
+      padding: 0 30px;
+
+      section {
+        padding: 20px 0;
+      }
+    }
+
     .slick-slide {
       video {
         display: none !important;
@@ -380,22 +400,6 @@ input[type="number"] {
 
     .slick-list {
       display: block;
-    }
-
-    .section-scroll {
-      width: inherit;
-      max-width: inherit;
-      height: inherit;
-      max-height: inherit;
-      -webkit-overflow-scrolling: touch;
-    }
-
-    .section-wrapper {
-      padding: 0 30px;
-
-      section {
-        padding: 20px 0;
-      }
     }
   }
 
