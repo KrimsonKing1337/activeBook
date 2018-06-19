@@ -16,6 +16,7 @@
 }
 
 @mixin modal-content-icon() {
+  color: #fff;
   opacity: 0.5;
   @include transition-default;
 
@@ -311,9 +312,8 @@
     .modal-content {
       box-shadow: 0 1px 15px 0 rgba(255, 255, 255, 0.1);
 
-      .section-wrapper,
-      .section-scroll {
-        background: #111;
+      &[data-content-type="html"] {
+        background-color: #111;
         color: #a3a3a3;
       }
     }

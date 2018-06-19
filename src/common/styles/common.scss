@@ -265,6 +265,7 @@ input[type="number"] {
   z-index: 999;
   border-radius: 4px;
   color: #fff;
+  background: #111;
   box-shadow: 0 1px 15px 0 rgba(0, 0, 0, 0.1);
 
   &.active {
@@ -280,6 +281,8 @@ input[type="number"] {
 
   &[data-content-type="html"] {
     height: auto;
+    background: #fff;
+    color: #000;
   }
 
   &__inner {
@@ -355,19 +358,6 @@ input[type="number"] {
       .gallery-backward {
         left: 15px;
       }
-    }
-
-    .img-wrapper,
-    .video-wrapper,
-    .gallery-wrapper {
-      background: #111;
-      color: #fff;
-    }
-
-    .section-wrapper,
-    .section-scroll {
-      background: #fff;
-      color: #111;
     }
 
     .section-scroll {
