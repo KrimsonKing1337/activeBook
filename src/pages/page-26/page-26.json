@@ -6,6 +6,11 @@
       "src": [
         "/book_data/audios/sound/cosmos-impacts.mp3"
       ],
+      "vibration": {
+        "duration": 300,
+        "sleep": 1096,
+        "repeat": "infinity"
+      },
       "playOnLoad": true
     },
     {

@@ -22,24 +22,30 @@ class Effects {
     setEffects(effects) {
         this.effects = effects;
 
-        this.initEffects();
+        return this.initEffects();
     }
 
     /**
      * инициализируем эффекты на странице
      */
     initEffects() {
+        const promises = [];
+
         this.effects.forEach((effectCur) => {
             const type = effectCur.type;
 
             if (type === 'oneShot') {
-                soundEffectsInst.checkAndSetNewOneShot(effectCur);
+                promises.push(soundEffectsInst.checkAndSetNewOneShot(effectCur));
             } else if (type === 'loop') {
-                soundEffectsInst.checkAndSetNewLoop(effectCur);
+                promises.push(soundEffectsInst.checkAndSetNewLoop(effectCur));
             } else if (type === 'modalContent') {
                 new ModalContent().init(effectCur);
+
+                promises.push(Promise.resolve());
             }
         });
+
+        return Promise.all(promises);
     }
 
     /**
@@ -365,10 +371,18 @@ class SoundEffects {
         const id = oneShotCur.id;
 
         if (!oneShots[id]) {
-            oneShots[id] = SoundEffects.newHowlOneShot({
-                src: oneShotCur.src,
-                volume: volumeInst.getOneShots()
+            return new Promise((resolve, reject) => {
+                oneShots[id] = SoundEffects.newHowlOneShot({
+                    src: oneShotCur.src,
+                    volume: volumeInst.getOneShots()
+                });
+
+                oneShots[id].once('load', () => {
+                    resolve();
+                });
             });
+        } else {
+            return Promise.resolve();
         }
     }
 
@@ -381,10 +395,18 @@ class SoundEffects {
         const id = loopCur.id;
 
         if (!loops[id]) {
-            loops[id] = SoundEffects.newHowlLoop({
-                src: loopCur.src,
-                volume: volumeInst.getLoops()
+            return new Promise((resolve, reject) => {
+                loops[id] = SoundEffects.newHowlLoop({
+                    src: loopCur.src,
+                    volume: volumeInst.getLoops()
+                });
+
+                loops[id].once('load', () => {
+                    resolve();
+                });
             });
+        } else {
+            return Promise.resolve();
         }
     }
 
@@ -397,7 +419,6 @@ class SoundEffects {
             src,
             preload: true,
             autoplay: false,
-            //html5: true,
             loop: true,
             volume: 0 //volume is 0 for fadeIn effect
         });
@@ -453,6 +474,7 @@ class VibrationEffects {
     play({duration, repeat = 0, sleep = 100, sleepBeforeStart = 300} = {}) {
         if (!this.vibrationSupport) return;
         if (this.state !== true) return;
+        if (repeat === 'infinity') repeat = Infinity;
 
         setTimeout(() => {
             navigator.vibrate(duration);

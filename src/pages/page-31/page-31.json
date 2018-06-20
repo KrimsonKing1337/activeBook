@@ -6,6 +6,12 @@
       "src": [
         "/book_data/audios/sound/heartbeats-fast.mp3"
       ],
+      "vibration": {
+        "duration": 150,
+        "sleep": 415,
+        "sleepBeforeStart": 326,
+        "repeat": "infinity"
+      },
       "playOnLoad": true
     }
   ],

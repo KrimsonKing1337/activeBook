@@ -68,7 +68,7 @@ async function onReady(rootApp) {
 
     swipesInit();
 
-    EffectsController.setEffects(pageCurEffects);
+    await EffectsController.setEffects(pageCurEffects);
 
     await scrollbarInitAll();
 
@@ -121,7 +121,7 @@ async function onReady(rootApp) {
 
         $(DOMSelectors.textWrapper).html(textAJAX);
 
-        EffectsController.setEffects(pageCurEffects);
+        await EffectsController.setEffects(pageCurEffects); //await
 
         await scrollbarInitAll();
 
