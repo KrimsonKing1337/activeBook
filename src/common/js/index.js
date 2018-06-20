@@ -121,7 +121,7 @@ async function onReady(rootApp) {
 
         $(DOMSelectors.textWrapper).html(textAJAX);
 
-        await EffectsController.setEffects(pageCurEffects); //await
+        await EffectsController.setEffects(pageCurEffects);
 
         await scrollbarInitAll();
 
