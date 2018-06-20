@@ -76,6 +76,8 @@ class Effects {
             sideTextScrollEffectInst.play(effectCur);
         } else if (type === 'filter') {
             FilterEffects.apply(effectCur);
+        } else if (type === 'vibration') {
+            vibrationEffectsInst.play(effectCur);
         }
     }
 
