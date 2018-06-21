@@ -472,27 +472,51 @@ class VibrationEffects {
      * @param [repeat] {number}
      * @param [sleep] {number}
      * @param [sleepBeforeStart] {number}
+     * @param [vibration][] {object}
      */
-    play({duration, repeat = 0, sleep = 100, sleepBeforeStart = 300} = {}) {
+    play({duration, repeat = 0, sleep = 100, sleepBeforeStart = 300, vibration = []} = {}) {
         if (!this.vibrationSupport) return;
         if (this.state !== true) return;
+
+        if (vibration.length > 0) {
+            vibration.reduce((previous, current, index, array) => {
+                return previous.then(() => {
+                    return this.play(array[index]);
+                });
+            }, Promise.resolve());
+
+            return;
+        }
+
         if (repeat === 'infinity') repeat = Infinity;
 
-        setTimeout(() => {
-            navigator.vibrate(duration);
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                if (repeat > 1) {
+                    let i = 1;
 
-            if (repeat > 1) {
-                let i = 1;
+                    this.interval = setInterval(() => {
+                        if (i >= repeat) {
+                            clearInterval(this.interval);
 
-                this.interval = setInterval(() => {
-                    if (i >= repeat) clearInterval(this.interval);
+                            setTimeout(() => {
+                                resolve();
+                            }, duration);
+                        }
 
+                        navigator.vibrate(duration);
+
+                        i++;
+                    }, sleep);
+                } else {
                     navigator.vibrate(duration);
 
-                    i++;
-                }, sleep);
-            }
-        }, sleepBeforeStart);
+                    setTimeout(() => {
+                        resolve();
+                    }, duration);
+                }
+            }, sleepBeforeStart);
+        });
     }
 
     stop() {
