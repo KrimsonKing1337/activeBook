@@ -1,5 +1,8 @@
-import {FilterEffects} from './Effects';
+import {Invert} from '../menu/Menu';
+import getDOMSelectors from '../helpers/GetDOMSelectors';
+import LocalStorage from '../states/LocalStorage';
 
+const DOMSelectors = getDOMSelectors();
 /**
  *
  * @param pageNumberCurrent {number}
@@ -7,9 +10,28 @@ import {FilterEffects} from './Effects';
  */
 export function invertColorsByPageNumber(pageNumberCurrent, pageNumberForInvert) {
     if (pageNumberCurrent >= pageNumberForInvert) {
-        FilterEffects.invert(true);
+        const localStorageFilterInvert = LocalStorage.read({key: 'filterInvert'});
+
+        if (localStorageFilterInvert !== null) {
+            Invert.set({
+                val: localStorageFilterInvert,
+                $invertOption: $(DOMSelectors.invertOption)
+            });
+        } else {
+            Invert.set({
+                val: true,
+                $invertOption: $(DOMSelectors.invertOption)
+            });
+        }
+
+        Invert.show();
     } else {
-        FilterEffects.invert(false);
+        Invert.set({
+            val: false,
+            $invertOption: $(DOMSelectors.invertOption)
+        });
+
+        Invert.hide();
     }
 }
 

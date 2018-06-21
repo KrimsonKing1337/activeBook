@@ -1,4 +1,4 @@
-import {FontSize, GoToPage, LineHeight, Theme, Vibration} from './Menu';
+import {FontSize, GoToPage, Invert, LineHeight, Theme, Vibration} from './Menu';
 import Popover from './Popover';
 import {svgInit} from '../forAppInit/svgInit';
 import {ionRangeSliderInit} from '../forAppInit/ionRangeSliderInit';
@@ -72,6 +72,17 @@ export function menuInit() {
             });
         });
     }
+
+    //переключалка для инверсии цвета
+    $(DOMSelectors.invertOption).on('click', function () {
+        const val = JSON.parse($(this).attr('data-invert'));
+
+        Invert.set({
+            val,
+            $invertOption: $(DOMSelectors.invertOption),
+            writeToLocalStorage: true
+        });
+    });
 
     //переключалка темы оформления
     $(DOMSelectors.themeOption).on('click', function () {

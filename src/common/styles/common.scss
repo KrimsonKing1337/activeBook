@@ -562,7 +562,8 @@ input[type="number"] {
     }
   }
 
-  &__vibration {
+  &__vibration,
+  &__invert {
     margin-top: 20px;
     padding: 20px 0;
     border-bottom: 1px #EAEAEA solid;
@@ -607,6 +608,14 @@ input[type="number"] {
         background: #F2994A;
         color: #fff;
       }
+    }
+  }
+
+  &__invert {
+    display: none;
+
+    &.active {
+      display: block;
     }
   }
 

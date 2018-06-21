@@ -1,3 +1,8 @@
+import getDOMSelectors from '../helpers/GetDOMSelectors';
+import {FilterEffects} from '../effects/Effects';
+
+const DOMSelectors = getDOMSelectors();
+
 /**
  * меняем межстрочный интервал на странице
  */
@@ -226,6 +231,33 @@ export class Vibration {
         $vibrationOption.filter('.active').removeClass('active');
         $vibrationOption.filter(`[data-vibration="${ val }"]`).addClass('active');
         $target.attr('data-vibration', val);
+    }
+}
+
+export class Invert {
+    constructor () {
+
+    }
+
+    /**
+     *
+     * @param $invertOption {object}
+     * @param val {boolean}
+     * @param [writeToLocalStorage] {boolean}
+     */
+    static set({$invertOption, val, writeToLocalStorage = false} = {}) {
+        $invertOption.filter('.active').removeClass('active');
+        $invertOption.filter(`[data-invert="${ val }"]`).addClass('active');
+
+        FilterEffects.invert(val, writeToLocalStorage);
+    }
+
+    static show() {
+        $(DOMSelectors.invertToggle).addClass('active');
+    }
+
+    static hide() {
+        $(DOMSelectors.invertToggle).removeClass('active');
     }
 }
 

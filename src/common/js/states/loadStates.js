@@ -1,9 +1,7 @@
-import {Bookmarks, FontSize, LineHeight, Theme, Vibration, VolumeSliders} from '../menu/Menu';
+import {Bookmarks, FontSize, Invert, LineHeight, Theme, Vibration, VolumeSliders} from '../menu/Menu';
 import LocalStorage from './LocalStorage';
 import getDOMSelectors from '../helpers/GetDOMSelectors';
 import {CssVariables} from '../helpers/CssVariables';
-import {FilterEffects} from '../effects/Effects';
-
 
 const DOMSelectors = getDOMSelectors();
 
@@ -82,7 +80,10 @@ export function loadStates() {
         CssVariables.set('--modal-content-object-fit', states.modalObjectFit);
     }
 
-    if (states.filterInvert) {
-        //FilterEffects.invert(states.filterInvert, false);
-    }
+/*    if (states.filterInvert) {
+        Invert.set({
+            val: states.filterInvert,
+            $invertOption: $(DOMSelectors.invertOption)
+        });
+    }*/
 }
