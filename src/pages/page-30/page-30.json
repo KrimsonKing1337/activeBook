@@ -1,6 +1,11 @@
 {
   "effects": [
-
+    {
+      "id": "flash-light",
+      "type": "flashLight",
+      "duration": "infinity",
+      "playOnLoad": true
+    }
   ],
   "pageInfo": {
     "num": 30

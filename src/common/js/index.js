@@ -161,14 +161,10 @@ $(document).ready(() => {
     const isMobile = getIsMobile();
 
     if (!isMobile) {
-        const rootApp = getRootApp();
-
-        onReady(rootApp);
+        onReady(getRootApp());
     } else {
         document.addEventListener('deviceready', () => {
-            const rootApp = getRootApp();
-
-            onReady(rootApp);
+            onReady(getRootApp());
         }, false);
     }
 });

@@ -78,6 +78,8 @@ class Effects {
             FilterEffects.apply(effectCur);
         } else if (type === 'vibration') {
             vibrationEffectsInst.play(effectCur);
+        } else if (type === 'flashLight') {
+            flashLightEffectsInst.play(effectCur);
         }
     }
 
@@ -101,6 +103,7 @@ class Effects {
         textShadowEffectsInst.stop();
         sideTextScrollEffectInst.stop();
         soundEffectsInst.stopAll({target, fadeOutSpeed, unload});
+        flashLightEffectsInst.switchOff();
     }
 }
 
@@ -451,7 +454,7 @@ class VibrationEffects {
     constructor({state = true} = {}) {
         this.state = state;
         this.vibrationSupport = 'vibrate' in navigator;
-        this.interval = null;
+        this.loop = false;
     }
 
     /**
@@ -469,14 +472,16 @@ class VibrationEffects {
     /**
      *
      * @param duration {number}
-     * @param [repeat] {number}
      * @param [sleep] {number}
      * @param [sleepBeforeStart] {number}
+     * @param [loop] {boolean}
      * @param [vibration][] {object}
      */
-    play({duration, repeat = 0, sleep = 100, sleepBeforeStart = 300, vibration = []} = {}) {
+    play({duration, sleep = 100, sleepBeforeStart = 0, loop = false, vibration = []} = {}) {
         if (!this.vibrationSupport) return;
         if (this.state !== true) return;
+
+        this.loop = loop;
 
         if (vibration.length > 0) {
             vibration.reduce((previous, current, index, array) => {
@@ -488,33 +493,17 @@ class VibrationEffects {
             return;
         }
 
-        if (repeat === 'infinity') repeat = Infinity;
-
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                if (repeat > 1) {
-                    let i = 1;
+                navigator.vibrate(duration);
 
-                    this.interval = setInterval(() => {
-                        if (i >= repeat) {
-                            clearInterval(this.interval);
+                setTimeout(() => {
+                    resolve();
 
-                            setTimeout(() => {
-                                resolve();
-                            }, duration);
-                        }
-
-                        navigator.vibrate(duration);
-
-                        i++;
-                    }, sleep);
-                } else {
-                    navigator.vibrate(duration);
-
-                    setTimeout(() => {
-                        resolve();
-                    }, duration);
-                }
+                    if (this.loop === true) {
+                        this.play({duration, sleep, sleepBeforeStart, loop});
+                    }
+                }, sleep);
             }, sleepBeforeStart);
         });
     }
@@ -522,7 +511,7 @@ class VibrationEffects {
     stop() {
         if (!this.vibrationSupport) return;
 
-        clearInterval(this.interval);
+        this.loop = false;
         navigator.vibrate(0);
     }
 }
@@ -731,6 +720,87 @@ export class FilterEffects {
     }
 }
 
+class FlashLightEffects {
+    constructor() {
+        this.isAvailable = false;
+    }
+
+    setIsAvailable() {
+        if (!this.flashfLight) return false;
+
+        this.flashfLight.available((isAvailable) => {
+            this.isAvailable = isAvailable;
+        });
+    }
+
+    /**
+     *
+     * @param [duration] {number}
+     * @param [sleepBeforeStart] {number}
+     * @param [flashLight][] {object}
+     */
+    play({duration, sleepBeforeStart = 0, flashLight = []} = {}) {
+        /**
+         *
+         * инициализируется здесь,
+         * т.к. на момент вызова конструктора
+         * ещё не произошло событие device ready
+         * и window.plugins пуста
+         * todo: инициализировать эффекты только после device ready / document.ready
+         */
+        this.flashfLight = window.plugins.flashlight;
+        this.setIsAvailable();
+
+        if (duration === 'infinity') duration = Infinity; //JSON can't Infinity as number
+
+        if (flashLight.length > 0) {
+            flashLight.reduce((previous, current, index, array) => {
+                return previous.then(() => {
+                    return this.play(array[index]);
+                });
+            }, Promise.resolve());
+        }
+
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                this.switchOn();
+
+                if (duration === Infinity) {
+                    resolve();
+                } else {
+                    setTimeout(() => {
+                        this.switchOff();
+
+                        resolve();
+                    }, duration);
+                }
+            }, sleepBeforeStart);
+        });
+    }
+
+    switchOn() {
+        if (!this.isAvailable) return;
+
+        this.flashfLight.switchOn(() => {
+                // optional success callback
+            }, () => {
+                console.error('flashLight switchOn error'); // optional error callback
+            }, {
+                intensity: 0.3 // optional as well
+            });
+    }
+
+    switchOff() {
+        if (!this.isAvailable) return;
+
+        this.flashfLight.switchOff(() => {
+            // optional success callback
+        }, () => {
+            console.error('flashLight switchOff error'); // optional error callback
+        });
+    }
+}
+
 export const volumeInst = getVolumeInst();
 
 const vibrationState = LocalStorage.read({key: 'vibration'});
@@ -738,6 +808,8 @@ const vibrationState = LocalStorage.read({key: 'vibration'});
 export const vibrationEffectsInst = new VibrationEffects({
     state: vibrationState !== null ? vibrationState : true
 });
+
+export const flashLightEffectsInst = new FlashLightEffects();
 
 export const soundEffectsInst = new SoundEffects({
     loops: {},

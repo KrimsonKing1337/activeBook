@@ -9,8 +9,7 @@
       "vibration": {
         "duration": 300,
         "sleep": 1096,
-        "sleepBeforeStart": 0,
-        "repeat": "infinity"
+        "loop": true
       },
       "playOnLoad": true
     },
