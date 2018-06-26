@@ -8,6 +8,9 @@
       ],
       "vibration": {
         "duration": 500
+      },
+      "flashLight": {
+        "duration": 150
       }
     }
   ],

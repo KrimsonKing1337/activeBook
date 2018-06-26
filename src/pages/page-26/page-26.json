@@ -3,13 +3,43 @@
     {
       "id": "cosmos-impacts",
       "type": "loop",
+      "fadeInSpeed": 0,
       "src": [
         "/book_data/audios/sound/cosmos-impacts.mp3"
       ],
       "vibration": {
-        "duration": 300,
-        "sleep": 1096,
-        "loop": true
+        "loop": true,
+        "vibration": [
+          {
+            "duration": 300,
+            "sleep": 1093
+          },
+          {
+            "duration": 300,
+            "sleep": 1093
+          },
+          {
+            "duration": 300,
+            "sleep": 1093
+          }
+        ]
+      },
+      "flashLight": {
+        "loop": true,
+        "flashLight": [
+          {
+            "duration": 300,
+            "sleep": 1093
+          },
+          {
+            "duration": 300,
+            "sleep": 1093
+          },
+          {
+            "duration": 300,
+            "sleep": 1093
+          }
+        ]
       },
       "playOnLoad": true
     },

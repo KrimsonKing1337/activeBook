@@ -6,6 +6,83 @@
       "src": [
         "/book_data/audios/sound/rain-and-thunder.mp3"
       ],
+      "flashLight": {
+        "loop": true,
+        "flashLight": [
+          {
+            "sleepBeforeStart": 1548,
+            "duration": 600
+          },
+          {
+            "sleepBeforeStart": 2680,
+            "duration": 600
+          },
+          {
+            "sleepBeforeStart": 6056,
+            "duration": 100
+          },
+          {
+            "sleepBeforeStart": 143,
+            "duration": 100
+          },
+          {
+            "sleepBeforeStart": 530,
+            "duration": 1000
+          },
+          {
+            "sleepBeforeStart": 2580,
+            "duration": 250
+          },
+          {
+            "sleepBeforeStart": 1100,
+            "duration": 250
+          },
+          {
+            "sleepBeforeStart": 1600,
+            "duration": 1000
+          },
+          {
+            "sleepBeforeStart": 17201,
+            "duration": 3000
+          },
+          {
+            "sleepBeforeStart": 8772,
+            "duration": 100
+          },
+          {
+            "sleepBeforeStart": 300,
+            "duration": 1000
+          },
+          {
+            "sleepBeforeStart": 300,
+            "duration": 1000
+          },
+          {
+            "sleepBeforeStart": 1347,
+            "duration": 100
+          },
+          {
+            "sleepBeforeStart": 540,
+            "duration": 600
+          },
+          {
+            "sleepBeforeStart": 5447,
+            "duration": 250
+          },
+          {
+            "sleepBeforeStart": 14936,
+            "duration": 3000
+          },
+          {
+            "sleepBeforeStart": 60708,
+            "duration": 600
+          },
+          {
+            "sleepBeforeStart": 13846,
+            "duration": 0
+          }
+        ]
+      },
       "playOnLoad": true
     }
   ],
