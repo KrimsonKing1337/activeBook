@@ -505,22 +505,22 @@ class VibrationEffects {
      * @param [sleep] {number}
      * @param [sleepBeforeStart] {number}
      * @param [loop] {boolean}
-     * @param [vibration][] {object}
+     * @param [segments][] {object}
      * @param [fromReduce] {boolean}
      */
-    play({duration, sleep = 100, sleepBeforeStart = 0, loop, vibration = []} = {}, fromReduce = false) {
+    play({duration, sleep = 100, sleepBeforeStart = 0, loop, segments = []} = {}, fromReduce = false) {
         if (!this.vibrationSupport) return;
         if (this.state !== true) return;
         if (this.isStop === true) return Promise.reject('play is interrupted by stop flag');
 
         if (typeof loop !== 'undefined') this.isLoop = loop;
 
-        if (vibration.length > 0) {
-            vibration.reduce((previous, current, index, array) => {
+        if (segments.length > 0) {
+            segments.reduce((previous, current, index, array) => {
                 return previous.then(() => {
                     return this.play(array[index], true).then(() => {
                         if (this.isLoop === true && index === array.length - 1) {
-                            this.play({vibration}, true);
+                            this.play({segments}, true);
                         }
                     });
                 });
@@ -791,10 +791,10 @@ class FlashLightEffects {
      * @param [sleepBeforeStart] {number}
      * @param [sleep] {number}
      * @param [loop] {boolean}
-     * @param [flashLight][] {object}
+     * @param [segments][] {object}
      * @param [fromReduce] {boolean}
      */
-    async play({duration, sleep = 100, sleepBeforeStart = 0, loop, flashLight = []} = {}, fromReduce = false) {
+    async play({duration, sleep = 100, sleepBeforeStart = 0, loop, segments = []} = {}, fromReduce = false) {
         /**
          *
          * инициализируется здесь,
@@ -819,12 +819,12 @@ class FlashLightEffects {
 
         if (duration === 'infinity') duration = Infinity; //JSON can't Infinity as number
 
-        if (flashLight.length > 0) {
-            flashLight.reduce((previous, current, index, array) => {
+        if (segments.length > 0) {
+            segments.reduce((previous, current, index, array) => {
                 return previous.then(() => {
                     return this.play(array[index], true).then(() => {
                         if (this.isLoop === true && index === array.length - 1) {
-                            this.play({flashLight}, true);
+                            this.play({segments}, true);
                         }
                     });
                 });

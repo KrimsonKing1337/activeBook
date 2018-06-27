@@ -9,32 +9,7 @@
       ],
       "vibration": {
         "loop": true,
-        "vibration": [
-          {
-            "duration": 300,
-            "sleep": 1093
-          },
-          {
-            "duration": 300,
-            "sleep": 1093
-          },
-          {
-            "duration": 300,
-            "sleep": 1093
-          }
-        ]
-      },
-      "flashLight": {
-        "loop": true,
-        "flashLight": [
-          {
-            "duration": 300,
-            "sleep": 1093
-          },
-          {
-            "duration": 300,
-            "sleep": 1093
-          },
+        "segments": [
           {
             "duration": 300,
             "sleep": 1093
