@@ -7,7 +7,7 @@
         "/book_data/audios/sound/rain-and-thunder.mp3"
       ],
       "flashLight": {
-        "loop": true,
+        "isLoop": true,
         "flashLight": [
           {
             "sleepBeforeStart": 1548,

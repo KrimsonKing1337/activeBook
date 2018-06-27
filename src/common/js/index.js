@@ -3,7 +3,7 @@ import {menuInit} from './menu/menuInit';
 import {browserCheck} from './forAppInit/browserCheck';
 import getDOMSelectors from './helpers/GetDOMSelectors';
 import {getAJAX} from './helpers/getAJAX';
-import {EffectsController, flashLightEffectsInst, vibrationEffectsInst} from './effects/Effects';
+import {EffectsController} from './effects/Effects';
 import {loadStates} from './states/loadStates';
 import {playOnLoad} from './effects/playOnLoad';
 import {hoverTouchUnstick} from './events/hoverTouchUnstick';
@@ -134,9 +134,6 @@ async function onReady(rootApp) {
             $('.js-page-number').text(`${pageInfo.pageCurNum} из ${pageInfo.pagesLength}`);
             $('.js-page-input').attr('placeholder', pageInfo.pageCurNum);
         }
-
-        vibrationEffectsInst.stopFlag = false;
-        flashLightEffectsInst.stopFlag = false;
 
         playOnLoad(pageCurEffects);
 

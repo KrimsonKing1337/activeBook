@@ -30,6 +30,9 @@ class Effects {
      * инициализируем эффекты на странице
      */
     initEffects() {
+        vibrationEffectsInst.isStop = false;
+        flashLightEffectsInst.isStop = false;
+
         const promises = [];
 
         this.effects.forEach((effectCur) => {
@@ -480,8 +483,8 @@ class VibrationEffects {
     constructor({state = true} = {}) {
         this.state = state;
         this.vibrationSupport = 'vibrate' in navigator;
-        this.loop = false;
-        this.stopFlag = false;
+        this.isLoop = false;
+        this.isStop = false;
     }
 
     /**
@@ -508,15 +511,15 @@ class VibrationEffects {
     play({duration, sleep = 100, sleepBeforeStart = 0, loop, vibration = []} = {}, fromReduce = false) {
         if (!this.vibrationSupport) return;
         if (this.state !== true) return;
-        if (typeof loop !== 'undefined') this.loop = loop;
+        if (this.isStop === true) return Promise.reject('play is interrupted by stop flag');
+
+        if (typeof loop !== 'undefined') this.isLoop = loop;
 
         if (vibration.length > 0) {
             vibration.reduce((previous, current, index, array) => {
-                if (this.stopFlag === true) return Promise.resolve();
-
                 return previous.then(() => {
                     return this.play(array[index], true).then(() => {
-                        if (this.loop === true && index === array.length - 1) {
+                        if (this.isLoop === true && index === array.length - 1) {
                             this.play({vibration}, true);
                         }
                     });
@@ -535,7 +538,7 @@ class VibrationEffects {
                 setTimeout(() => {
                     resolve();
 
-                    if (this.loop === true && fromReduce === false) {
+                    if (this.isLoop === true && fromReduce === false) {
                         this.play({duration, sleep, sleepBeforeStart, loop});
                     }
                 }, sleep);
@@ -546,8 +549,8 @@ class VibrationEffects {
     stop() {
         if (!this.vibrationSupport) return;
 
-        this.stopFlag = true;
-        this.loop = false;
+        this.isStop = true;
+        this.isLoop = false;
         navigator.vibrate(0);
     }
 }
@@ -760,8 +763,8 @@ class FlashLightEffects {
     constructor() {
         this.flashLight = null;
         this.isAvailable = null;
-        this.loop = false;
-        this.stopFlag = false;
+        this.isLoop = false;
+        this.isStop = false;
     }
 
     setIsAvailable() {
@@ -810,17 +813,17 @@ class FlashLightEffects {
 
         if (!this.isAvailable) return;
 
-        if (typeof loop !== 'undefined') this.loop = loop;
+        if (this.isStop === true) return Promise.reject('play is interrupted by stop flag');
+
+        if (typeof loop !== 'undefined') this.isLoop = loop;
 
         if (duration === 'infinity') duration = Infinity; //JSON can't Infinity as number
 
         if (flashLight.length > 0) {
             flashLight.reduce((previous, current, index, array) => {
-                if (this.stopFlag === true) return Promise.resolve();
-
                 return previous.then(() => {
                     return this.play(array[index], true).then(() => {
-                        if (this.loop === true && index === array.length - 1) {
+                        if (this.isLoop === true && index === array.length - 1) {
                             this.play({flashLight}, true);
                         }
                     });
@@ -842,7 +845,7 @@ class FlashLightEffects {
                     setTimeout(() => {
                         resolve();
 
-                        if (this.loop === true && fromReduce === false) {
+                        if (this.isLoop === true && fromReduce === false) {
                             this.play({duration, sleep, sleepBeforeStart, loop});
                         }
 
@@ -858,8 +861,8 @@ class FlashLightEffects {
     stop() {
         if (!this.isAvailable) return;
 
-        this.stopFlag = true;
-        this.loop = false;
+        this.isStop = true;
+        this.isLoop = false;
         this.switchOff();
     }
 
