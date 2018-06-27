@@ -7,79 +7,76 @@
         "/book_data/audios/sound/rain-and-thunder.mp3"
       ],
       "flashLight": {
-        "isLoop": true,
-        "flashLight": [
+        "loop": true,
+        "sleepBeforeStart": 1548,
+        "segments": [
           {
-            "sleepBeforeStart": 1548,
-            "duration": 600
+            "duration": 600,
+            "sleep": 2680
           },
           {
-            "sleepBeforeStart": 2680,
-            "duration": 600
+            "duration": 600,
+            "sleep": 6056
           },
           {
-            "sleepBeforeStart": 6056,
-            "duration": 100
+            "duration": 100,
+            "sleep": 143
           },
           {
-            "sleepBeforeStart": 143,
-            "duration": 100
+            "duration": 100,
+            "sleep": 530
           },
           {
-            "sleepBeforeStart": 530,
-            "duration": 1000
+            "duration": 1000,
+            "sleep": 2580
           },
           {
-            "sleepBeforeStart": 2580,
-            "duration": 250
+            "duration": 250,
+            "sleep": 1100
           },
           {
-            "sleepBeforeStart": 1100,
-            "duration": 250
+            "duration": 250,
+            "sleep": 1600
           },
           {
-            "sleepBeforeStart": 1600,
-            "duration": 1000
+            "duration": 1000,
+            "sleep": 17201
           },
           {
-            "sleepBeforeStart": 17201,
-            "duration": 3000
+            "duration": 3000,
+            "sleep": 8772
           },
           {
-            "sleepBeforeStart": 8772,
-            "duration": 100
+            "duration": 100,
+            "sleep": 300
           },
           {
-            "sleepBeforeStart": 300,
-            "duration": 1000
+            "duration": 1000,
+            "sleep": 300
           },
           {
-            "sleepBeforeStart": 300,
-            "duration": 1000
+            "duration": 1000,
+            "sleep": 1347
           },
           {
-            "sleepBeforeStart": 1347,
-            "duration": 100
+            "duration": 100,
+            "sleep": 540
           },
           {
-            "sleepBeforeStart": 540,
-            "duration": 600
+            "duration": 600,
+            "sleep": 5447
           },
           {
-            "sleepBeforeStart": 5447,
-            "duration": 250
+            "duration": 250,
+            "sleep": 14936
           },
           {
-            "sleepBeforeStart": 14936,
-            "duration": 3000
+            "duration": 3000,
+            "sleep": 60708
           },
           {
-            "sleepBeforeStart": 60708,
-            "duration": 600
-          },
-          {
-            "sleepBeforeStart": 13846,
-            "duration": 0
+            "duration": 600,
+            "sleep": 13846
           }
         ]
       },

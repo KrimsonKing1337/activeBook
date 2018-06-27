@@ -30,9 +30,6 @@ class Effects {
      * инициализируем эффекты на странице
      */
     initEffects() {
-        vibrationEffectsInst.isStop = false;
-        flashLightEffectsInst.isStop = false;
-
         const promises = [];
 
         this.effects.forEach((effectCur) => {
@@ -82,8 +79,10 @@ class Effects {
         } else if (type === 'filter') {
             FilterEffects.apply(effectCur);
         } else if (type === 'vibration') {
+            vibrationEffectsInst.isStop = false;
             vibrationEffectsInst.play(effectCur);
         } else if (type === 'flashLight') {
+            flashLightEffectsInst.isStop = false;
             flashLightEffectsInst.play(effectCur);
         }
     }
@@ -301,10 +300,12 @@ class SoundEffects {
         await SoundEffects.fadeIn(oneShot, volumeInst.getOneShots(), fadeInSpeed);
 
         if (vibration) {
+            vibrationEffectsInst.isStop = false;
             vibrationEffectsInst.play(vibration);
         }
 
         if (flashLight) {
+            flashLightEffectsInst.isStop = false;
             flashLightEffectsInst.play(flashLight);
         }
     }
@@ -365,10 +366,12 @@ class SoundEffects {
         await SoundEffects.fadeIn(loop, volumeInst.getLoops(), fadeInSpeed);
 
         if (vibration) {
+            vibrationEffectsInst.isStop = false;
             vibrationEffectsInst.play(vibration);
         }
 
         if (flashLight) {
+            flashLightEffectsInst.isStop = false;
             flashLightEffectsInst.play(flashLight);
         }
 
@@ -511,13 +514,17 @@ class VibrationEffects {
 
         if (segments.length > 0) {
             segments.reduce((previous, current, index, array) => {
-                return previous.then(() => {
-                    return this.play(array[index], true).then(() => {
-                        if (this.isLoop === true && index === array.length - 1) {
-                            this.play({segments}, true);
-                        }
+                return previous
+                    .then(() => {
+                        return this.play(array[index], true).then(() => {
+                            if (this.isLoop === true && index === array.length - 1) {
+                                this.play({segments}, true);
+                            }
+                        });
+                    })
+                    .catch((msg) => {
+                        //console.log(msg);
                     });
-                });
             }, Promise.resolve());
 
             return;
@@ -815,13 +822,17 @@ class FlashLightEffects {
 
         if (segments.length > 0) {
             segments.reduce((previous, current, index, array) => {
-                return previous.then(() => {
-                    return this.play(array[index], true).then(() => {
-                        if (this.isLoop === true && index === array.length - 1) {
-                            this.play({segments}, true);
-                        }
+                return previous
+                    .then(() => {
+                        return this.play(array[index], true).then(() => {
+                            if (this.isLoop === true && index === array.length - 1) {
+                                this.play({segments}, true);
+                            }
+                        });
+                    })
+                    .catch((msg) => {
+                        //console.log(msg);
                     });
-                });
             }, Promise.resolve());
 
             return;
@@ -864,12 +875,12 @@ class FlashLightEffects {
         if (!this.isAvailable) return;
 
         this.flashLight.switchOn(() => {
-                // optional success callback
-            }, () => {
-                console.error('flashLight switchOn error'); // optional error callback
-            }, {
-                intensity: 0.3 // optional as well
-            });
+            // optional success callback
+        }, () => {
+            console.error('flashLight switchOn error'); // optional error callback
+        }, {
+            intensity: 0.3 // optional as well
+        });
     }
 
     switchOff() {
