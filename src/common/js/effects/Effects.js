@@ -253,8 +253,6 @@ class SoundEffects {
             });*/
 
             target.once('play', () => {
-                console.log('fadeIn play event');
-
                 resolve();
             });
 
@@ -366,8 +364,6 @@ class SoundEffects {
 
         await SoundEffects.fadeIn(loop, volumeInst.getLoops(), fadeInSpeed);
 
-        console.log('playLoop after fadeIn');
-
         if (vibration) {
             vibrationEffectsInst.play(vibration);
         }
@@ -428,8 +424,6 @@ class SoundEffects {
                 });
 
                 loops[id].once('load', () => {
-                    console.log('checkAndSetNewLoop event load');
-
                     resolve();
                 });
 
