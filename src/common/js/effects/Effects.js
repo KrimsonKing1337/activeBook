@@ -508,7 +508,8 @@ class VibrationEffects {
     play({duration, sleep = 100, sleepBeforeStart = 0, loop, segments = []} = {}, fromReduce = false) {
         if (!this.vibrationSupport) return;
         if (this.state !== true) return;
-        if (this.isStop === true) return Promise.reject('play is interrupted by stop flag');
+        //if (this.isStop === true) return Promise.reject('play is interrupted by stop flag');
+        if (this.isStop === true) return;
 
         if (typeof loop !== 'undefined') this.isLoop = loop;
 
@@ -814,7 +815,8 @@ class FlashLightEffects {
 
         if (!this.isAvailable) return;
 
-        if (this.isStop === true) return Promise.reject('play is interrupted by stop flag');
+        //if (this.isStop === true) return Promise.reject('play is interrupted by stop flag');
+        if (this.isStop === true) return;
 
         if (typeof loop !== 'undefined') this.isLoop = loop;
 
