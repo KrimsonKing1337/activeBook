@@ -8,75 +8,47 @@
       ],
       "flashLight": {
         "loop": true,
-        "sleepBeforeStart": 1548,
         "segments": [
           {
-            "duration": 600,
-            "sleep": 2680
+            "sleepBeforeStart": 1880,
+            "duration": 125,
+            "sleep": 150
           },
           {
-            "duration": 600,
-            "sleep": 6056
+            "duration": 150,
+            "sleep": 7703
           },
           {
-            "duration": 100,
-            "sleep": 143
+            "duration": 125,
+            "sleep": 150
           },
           {
-            "duration": 100,
-            "sleep": 530
+            "duration": 150,
+            "sleep": 3553
           },
           {
-            "duration": 1000,
-            "sleep": 2580
+            "duration": 125,
+            "sleep": 150
           },
           {
-            "duration": 250,
-            "sleep": 1100
+            "duration": 150,
+            "sleep": 8253
           },
           {
-            "duration": 250,
-            "sleep": 1600
+            "duration": 125,
+            "sleep": 150
           },
           {
-            "duration": 1000,
-            "sleep": 17201
+            "duration": 150,
+            "sleep": 4997
           },
           {
-            "duration": 3000,
-            "sleep": 8772
+            "duration": 125,
+            "sleep": 150
           },
           {
-            "duration": 100,
-            "sleep": 300
-          },
-          {
-            "duration": 1000,
-            "sleep": 300
-          },
-          {
-            "duration": 1000,
-            "sleep": 1347
-          },
-          {
-            "duration": 100,
-            "sleep": 540
-          },
-          {
-            "duration": 600,
-            "sleep": 5447
-          },
-          {
-            "duration": 250,
-            "sleep": 14936
-          },
-          {
-            "duration": 3000,
-            "sleep": 60708
-          },
-          {
-            "duration": 600,
-            "sleep": 13846
+            "duration": 150,
+            "sleep": 8469
           }
         ]
       },

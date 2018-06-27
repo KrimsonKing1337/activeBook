@@ -7,10 +7,10 @@
         "/book_data/audios/sound/heartbeats-fast.mp3"
       ],
       "vibration": {
+        "loop": true,
         "duration": 150,
         "sleep": 415,
-        "sleepBeforeStart": 326,
-        "repeat": "infinity"
+        "sleepBeforeStart": 326
       },
       "playOnLoad": true
     }
