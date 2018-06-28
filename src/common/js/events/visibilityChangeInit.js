@@ -1,4 +1,3 @@
-import {EffectsController} from '../effects/Effects';
 import LocalStorage from '../states/LocalStorage';
 import {playOnLoad} from '../effects/playOnLoad';
 import filter from 'lodash-es/filter';
@@ -8,7 +7,7 @@ export function visibilityChangeInit() {
         const pageCurEffects = LocalStorage.read({key: 'pageCurEffects'});
 
         if (document.hidden) {
-            EffectsController.stopAll({
+            window.EffectsController.stopAll({
                 target: 'all',
                 unload: false
             });

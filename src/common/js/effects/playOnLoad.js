@@ -1,5 +1,4 @@
 import filter from 'lodash-es/filter';
-import {EffectsController} from './Effects';
 
 /**
  *
@@ -13,7 +12,7 @@ export function playOnLoad(effects) {
 
     if (playOnLoadEffects.length > 0) {
         playOnLoadEffects.forEach((playOnLoadEffectCur) => {
-            EffectsController.play(playOnLoadEffectCur.id);
+            window.EffectsController.play(playOnLoadEffectCur.id);
         });
     }
 }

@@ -4,14 +4,13 @@ import {svgInit} from '../forAppInit/svgInit';
 import {ionRangeSliderInit} from '../forAppInit/ionRangeSliderInit';
 import getDOMSelectors from '../helpers/GetDOMSelectors';
 import {volumeSaveStates} from '../volume/volumeSaveStates';
-import {vibrationEffectsInst} from '../effects/Effects';
-import {volumeControllerInst} from '../effects/Effects';
 import {pageInfo} from '../forAppInit/pageInfo';
 import LocalStorage from '../states/LocalStorage';
 import {bookmarksSaveState} from '../states/bookmarksSaveState';
 import {ModalContent} from '../modalContent/ModalContent';
 
 export function menuInit() {
+    const EffectsController = window.EffectsController;
     const DOMSelectors = getDOMSelectors();
 
     ionRangeSliderInit();
@@ -46,17 +45,17 @@ export function menuInit() {
         });
     });
 
-    if (!vibrationEffectsInst.vibrationSupport) {
+    if (!EffectsController.vibrationEffectsInst.vibrationSupport) {
         $('.menu-full-screen__vibration').remove();
     } else {
         //переключалка для вибрации
         $(DOMSelectors.vibrationOption).on('click', function () {
             const val = JSON.parse($(this).attr('data-vibration'));
 
-            vibrationEffectsInst.set(val);
+            EffectsController.vibrationEffectsInst.set(val);
 
             if (val === true) {
-                vibrationEffectsInst.play({duration: 150});
+                EffectsController.vibrationEffectsInst.play({duration: 150});
             }
 
             Vibration.set({
@@ -291,7 +290,7 @@ export function menuInit() {
     $(DOMSelectors.volumeGlobal).on('change', function (e, save = true) {
         const volume = $(this).find('.js-range-slider').val() / 100;
 
-        volumeControllerInst.setGlobal({volume});
+        EffectsController.volumeControllerInst.setGlobal({volume});
 
         if (save === false) return;
 
@@ -302,7 +301,7 @@ export function menuInit() {
     $(DOMSelectors.volumeOneShots).on('change', function (e, save = true) {
         const volume = $(this).find('.js-range-slider').val() / 100;
 
-        volumeControllerInst.setOneShots({volume});
+        EffectsController.volumeControllerInst.setOneShots({volume});
 
         if (save === false) return;
 
@@ -313,7 +312,7 @@ export function menuInit() {
     $(DOMSelectors.volumeLoops).on('change', function (e, save = true) {
         const volume = $(this).find('.js-range-slider').val() / 100;
 
-        volumeControllerInst.setLoops({volume});
+        EffectsController.volumeControllerInst.setLoops({volume});
 
         if (save === false) return;
 

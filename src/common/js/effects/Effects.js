@@ -9,9 +9,31 @@ import {CssVariables} from '../helpers/CssVariables';
 import {getRandomInt} from '../helpers/getRamdomInt';
 import {ModalContent} from '../modalContent/ModalContent';
 
-class Effects {
+const vibrationState = LocalStorage.read({key: 'vibration'});
+
+export class Effects {
     constructor() {
         this.effects = [];
+        this.volumeInst = getVolumeInst();
+        this.vibrationEffectsInst = new VibrationEffects({
+            state: vibrationState !== null ? vibrationState : true
+        });
+        this.flashLightEffectsInst = new FlashLightEffects();
+        this.soundEffectsInst = new SoundEffects({
+            loops: {},
+            oneShots: {},
+            volumeInst: this.volumeInst,
+            vibrationEffectsInst: this.vibrationEffectsInst,
+            flashLightEffectsInst: this.flashLightEffectsInst
+        });
+        this.volumeControllerInst = new VolumeController({
+            $videos: $('video'),
+            oneShots: this.soundEffectsInst.oneShots,
+            loops: this.soundEffectsInst.loops,
+            volumeInst: this.volumeInst
+        });
+        this.textShadowEffectsInst = new TextShadowEffects();
+        this.sideTextScrollEffectInst = new SideTextScrollEffect();
     }
 
     setEffects(effects) {
@@ -30,9 +52,9 @@ class Effects {
             const type = effectCur.type;
 
             if (type === 'oneShot') {
-                promises.push(soundEffectsInst.checkAndSetNewOneShot(effectCur));
+                promises.push(this.soundEffectsInst.checkAndSetNewOneShot(effectCur));
             } else if (type === 'loop') {
-                promises.push(soundEffectsInst.checkAndSetNewLoop(effectCur));
+                promises.push(this.soundEffectsInst.checkAndSetNewLoop(effectCur));
             } else if (type === 'modalContent') {
                 new ModalContent().init(effectCur);
 
@@ -59,25 +81,25 @@ class Effects {
         };
 
         if (type === 'oneShot') {
-            soundEffectsInst.playOneShot(id, soundEffectsParams);
+            this.soundEffectsInst.playOneShot(id, soundEffectsParams);
         } else if (type === 'loop') {
-            soundEffectsInst.playLoop(id, soundEffectsParams);
+            this.soundEffectsInst.playLoop(id, soundEffectsParams);
         } else if (type === 'modalContent') {
             ModalContent.getInstById(id).open();
         } else if (type === 'notification') {
             NotificationsEffects.play(effectCur);
         } else if (type === 'textShadow') {
-            textShadowEffectsInst.play(effectCur);
+            this.textShadowEffectsInst.play(effectCur);
         } else if (type === 'sideTextScroll') {
-            sideTextScrollEffectInst.play(effectCur);
+            this.sideTextScrollEffectInst.play(effectCur);
         } else if (type === 'filter') {
             FilterEffects.apply(effectCur);
         } else if (type === 'vibration') {
-            vibrationEffectsInst.isStop = false;
-            vibrationEffectsInst.play(effectCur);
+            this.vibrationEffectsInst.isStop = false;
+            this.vibrationEffectsInst.play(effectCur);
         } else if (type === 'flashLight') {
-            flashLightEffectsInst.isStop = false;
-            flashLightEffectsInst.play(effectCur);
+            this.flashLightEffectsInst.isStop = false;
+            this.flashLightEffectsInst.play(effectCur);
         }
     }
 
@@ -90,18 +112,18 @@ class Effects {
         const type = effectCur.type;
 
         if (type === 'oneShot') {
-            soundEffectsInst.stopOneShot(id);
+            this.soundEffectsInst.stopOneShot(id);
         } else if (type === 'loop') {
-            soundEffectsInst.stopLoop(id);
+            this.soundEffectsInst.stopLoop(id);
         }
     }
 
     stopAll({target, fadeOutSpeed = 1000, unload = false} = {}) {
-        vibrationEffectsInst.stop();
-        textShadowEffectsInst.stop();
-        sideTextScrollEffectInst.stop();
-        flashLightEffectsInst.stop();
-        soundEffectsInst.stopAll({target, fadeOutSpeed, unload});
+        this.vibrationEffectsInst.stop();
+        this.textShadowEffectsInst.stop();
+        this.sideTextScrollEffectInst.stop();
+        this.flashLightEffectsInst.stop();
+        this.soundEffectsInst.stopAll({target, fadeOutSpeed, unload});
     }
 }
 
@@ -156,10 +178,16 @@ class SoundEffects {
     /**
      * @param loops {object}
      * @param oneShots {object}
+     * @param volumeInst {object}
+     * @param vibrationEffectsInst {object}
+     * @param flashLightEffectsInst {object}
      */
-    constructor({loops, oneShots} = {}) {
+    constructor({loops, oneShots, volumeInst, vibrationEffectsInst, flashLightEffectsInst} = {}) {
         this.loops = loops;
         this.oneShots = oneShots;
+        this.volumeInst = volumeInst;
+        this.vibrationEffectsInst = vibrationEffectsInst;
+        this.flashLightEffectsInst = flashLightEffectsInst;
     }
 
     /**
@@ -174,7 +202,7 @@ class SoundEffects {
                 const oneShotCur = this.oneShots[key];
 
                 if (oneShotCur.state() === 'loaded') {
-                    await SoundEffects.fadeOut(oneShotCur, volumeInst.getOneShots(), fadeOutSpeed);
+                    await SoundEffects.fadeOut(oneShotCur, this.volumeInst.getOneShots(), fadeOutSpeed);
                 }
 
                 if (unload === true) {
@@ -187,7 +215,7 @@ class SoundEffects {
                 const loopCur = this.loops[key];
 
                 if (loopCur.state() === 'loaded') {
-                    await SoundEffects.fadeOut(loopCur, volumeInst.getLoops(), fadeOutSpeed);
+                    await SoundEffects.fadeOut(loopCur, this.volumeInst.getLoops(), fadeOutSpeed);
                 }
 
                 if (unload === true) {
@@ -264,7 +292,7 @@ class SoundEffects {
     stopOneShot(id, {fadeOutSpeed = 0} = {}) {
         const oneShot = this.oneShots[id];
 
-        SoundEffects.fadeOut(oneShot, volumeInst.getOneShots(), fadeOutSpeed);
+        SoundEffects.fadeOut(oneShot, this.volumeInst.getOneShots(), fadeOutSpeed);
     }
 
     /**
@@ -291,16 +319,16 @@ class SoundEffects {
             this.stopAll({target: 'oneShots', fadeOutSpeed: 0});
         }
 
-        await SoundEffects.fadeIn(oneShot, volumeInst.getOneShots(), fadeInSpeed);
+        await SoundEffects.fadeIn(oneShot, this.volumeInst.getOneShots(), fadeInSpeed);
 
         if (vibration) {
-            vibrationEffectsInst.isStop = false;
-            vibrationEffectsInst.play(vibration);
+            this.vibrationEffectsInst.isStop = false;
+            this.vibrationEffectsInst.play(vibration);
         }
 
         if (flashLight) {
-            flashLightEffectsInst.isStop = false;
-            flashLightEffectsInst.play(flashLight);
+            this.flashLightEffectsInst.isStop = false;
+            this.flashLightEffectsInst.play(flashLight);
         }
     }
 
@@ -312,7 +340,7 @@ class SoundEffects {
     stopLoop(id, {fadeOutSpeed = 1000} = {}) {
         const loop = this.loops[id];
 
-        SoundEffects.fadeOut(loop, volumeInst.getLoops(), fadeOutSpeed);
+        SoundEffects.fadeOut(loop, this.volumeInst.getLoops(), fadeOutSpeed);
     }
 
     /**
@@ -357,16 +385,16 @@ class SoundEffects {
             NotificationsEffects.play(notification);
         }
 
-        await SoundEffects.fadeIn(loop, volumeInst.getLoops(), fadeInSpeed);
+        await SoundEffects.fadeIn(loop, this.volumeInst.getLoops(), fadeInSpeed);
 
         if (vibration) {
-            vibrationEffectsInst.isStop = false;
-            vibrationEffectsInst.play(vibration);
+            this.vibrationEffectsInst.isStop = false;
+            this.vibrationEffectsInst.play(vibration);
         }
 
         if (flashLight) {
-            flashLightEffectsInst.isStop = false;
-            flashLightEffectsInst.play(flashLight);
+            this.flashLightEffectsInst.isStop = false;
+            this.flashLightEffectsInst.play(flashLight);
         }
 
         if (stopBy) {
@@ -389,7 +417,7 @@ class SoundEffects {
             return new Promise((resolve, reject) => {
                 oneShots[id] = SoundEffects.newHowlOneShot({
                     src: oneShotCur.src,
-                    volume: volumeInst.getOneShots()
+                    volume: this.volumeInst.getOneShots()
                 });
 
                 oneShots[id].once('load', () => {
@@ -417,7 +445,7 @@ class SoundEffects {
             return new Promise((resolve, reject) => {
                 loops[id] = SoundEffects.newHowlLoop({
                     src: loopCur.src,
-                    volume: loopCur.fadeIn === false ? volumeInst.getLoops() : 0
+                    volume: loopCur.fadeIn === false ? this.volumeInst.getLoops() : 0
                 });
 
                 loops[id].once('load', () => {
@@ -889,31 +917,3 @@ class FlashLightEffects {
         });
     }
 }
-
-export const volumeInst = getVolumeInst();
-
-const vibrationState = LocalStorage.read({key: 'vibration'});
-
-export const vibrationEffectsInst = new VibrationEffects({
-    state: vibrationState !== null ? vibrationState : true
-});
-
-export const flashLightEffectsInst = new FlashLightEffects();
-
-export const soundEffectsInst = new SoundEffects({
-    loops: {},
-    oneShots: {}
-});
-
-export const volumeControllerInst = new VolumeController({
-    $videos: $('video'),
-    oneShots: soundEffectsInst.oneShots,
-    loops: soundEffectsInst.loops,
-    volumeInst
-});
-
-export const textShadowEffectsInst = new TextShadowEffects();
-
-export const sideTextScrollEffectInst = new SideTextScrollEffect();
-
-export const EffectsController = new Effects();

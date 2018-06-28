@@ -2,7 +2,6 @@ import getDOMSelectors from '../helpers/GetDOMSelectors';
 import {ModalContent} from '../modalContent/ModalContent';
 import {Gallery} from '../modalContent/Gallery';
 import {pageInfo} from '../forAppInit/pageInfo';
-import {EffectsController} from '../effects/Effects';
 
 const DOMSelectors = getDOMSelectors();
 
@@ -115,7 +114,7 @@ export function actionTextInit() {
     $('[data-effect-target]').on('click', function (e) {
         e.preventDefault();
 
-        EffectsController.play($(this).data('effect-target'));
+        window.EffectsController.play($(this).data('effect-target'));
     });
 
     setTimeout(() => {

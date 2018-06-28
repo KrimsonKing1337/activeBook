@@ -3,7 +3,7 @@ import {menuInit} from './menu/menuInit';
 import {browserCheck} from './forAppInit/browserCheck';
 import getDOMSelectors from './helpers/GetDOMSelectors';
 import {getAJAX} from './helpers/getAJAX';
-import {EffectsController} from './effects/Effects';
+import {Effects} from './effects/Effects';
 import {loadStates} from './states/loadStates';
 import {playOnLoad} from './effects/playOnLoad';
 import {hoverTouchUnstick} from './events/hoverTouchUnstick';
@@ -33,6 +33,8 @@ async function onReady(rootApp) {
     if (browserCheck() === false) return;
 
     firstOpenCheck();
+
+    const EffectsController = window.EffectsController = new Effects();
 
     const DOMSelectors = getDOMSelectors();
     const $body = $('body');
