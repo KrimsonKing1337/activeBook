@@ -47,6 +47,8 @@ async function onReady(rootApp) {
     const pageCurEffects = modifyPathForPagesCurEffects(pageCurJSON.effects, rootApp);
     const invertColorPageNumber = getInvertColorsPageNumber(pagesEffects);
 
+    LocalStorage.write({key: 'pageCurEffects', val: pageCurEffects});
+
     pageInfo.set({
         pageCurNum: pageCurInfo.num,
         pagesLength: pagesInfo.length
@@ -107,6 +109,8 @@ async function onReady(rootApp) {
 
         const pageCurInfo = pageCurJSON.pageInfo;
         const pageCurEffects = modifyPathForPagesCurEffects(pageCurJSON.effects, rootApp);
+
+        LocalStorage.write({key: 'pageCurEffects', val: pageCurEffects});
 
         pageInfo.set({
             pageCurNum: pageCurInfo.num

@@ -1,15 +1,20 @@
-import {volumeInst, volumeControllerInst} from '../effects/Effects';
+import {EffectsController} from '../effects/Effects';
+import LocalStorage from '../states/LocalStorage';
+import {playOnLoad} from '../effects/playOnLoad';
+import filter from 'lodash-es/filter';
 
 export function visibilityChangeInit() {
-    let globalVolume = 0;
-
     document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-            globalVolume = volumeInst.getGlobal();
+        const pageCurEffects = LocalStorage.read({key: 'pageCurEffects'});
 
-            volumeControllerInst.setGlobal({volume: 0});
+        if (document.hidden) {
+            EffectsController.stopAll({
+                target: 'all',
+                unload: false
+            });
         } else {
-            volumeControllerInst.setGlobal({volume: globalVolume});
+            //воспроизводим заново всё, кроме oneShot-ов
+            playOnLoad(filter(pageCurEffects, (o) => o.type !== 'oneShot'));
         }
     }, false);
 }

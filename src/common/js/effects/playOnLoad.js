@@ -3,7 +3,7 @@ import {EffectsController} from './Effects';
 
 /**
  *
- * @param effects {object}
+ * @param effects[] {object}
  *
  * воспроизводим эффекты, которые должны быть
  * проиграны сразу после загрузки
