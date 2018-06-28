@@ -12,7 +12,7 @@
         "fadeOutSpeed": 0
       },
       "vibration": {
-        "vibration": [
+        "segments": [
           {
             "duration": 200,
             "sleep": 1000
