@@ -785,10 +785,10 @@ export class FilterEffects {
 
 class FlashLightEffects {
     constructor() {
-        this.flashLight = null;
-        this.isAvailable = null;
+        this.flashLight = get(window, 'plugins.flashlight');
         this.isLoop = false;
         this.isStop = false;
+        this.setIsAvailable();
     }
 
     setIsAvailable() {
@@ -819,22 +819,6 @@ class FlashLightEffects {
      * @param [fromReduce] {boolean}
      */
     async play({duration, sleep = 100, sleepBeforeStart = 0, loop, segments = []} = {}, fromReduce = false) {
-        /**
-         *
-         * инициализируется здесь,
-         * т.к. на момент вызова конструктора
-         * ещё не произошло событие device ready
-         * и window.plugins пуста
-         * todo: инициализировать эффекты только после device ready / document.ready
-         */
-        if (this.flashLight === null) {
-            this.flashLight = get(window, 'plugins.flashlight');
-        }
-
-        if (this.isAvailable === null) {
-            await this.setIsAvailable();
-        }
-
         if (!this.isAvailable) return;
 
         //if (this.isStop === true) return Promise.reject('play is interrupted by stop flag');
