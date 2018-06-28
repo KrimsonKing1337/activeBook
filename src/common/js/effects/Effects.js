@@ -10,14 +10,8 @@ import {getRandomInt} from '../helpers/getRamdomInt';
 import {ModalContent} from '../modalContent/ModalContent';
 
 class Effects {
-    /**
-     *
-     * @param [effects[]] {object}; effects description from JSON
-     */
-    constructor({effects = []} = {}) {
-        this.effects = effects;
-
-        this.initEffects();
+    constructor() {
+        this.effects = [];
     }
 
     setEffects(effects) {
