@@ -32,6 +32,10 @@
           {
             "duration": 200,
             "sleep": 1000
+          },
+          {
+            "duration": 200,
+            "sleep": 1000
           }
         ]
       }
