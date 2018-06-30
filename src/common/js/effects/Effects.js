@@ -118,12 +118,19 @@ export class Effects {
         }
     }
 
-    stopAll({target, fadeOutSpeed = 1000, unload = false} = {}) {
+    /**
+     *
+     * @param target {string}
+     * @param fadeOutSpeed {number}
+     * @param unload {boolean}
+     * @param pause {boolean}
+     */
+    stopAll({target, fadeOutSpeed = 1000, unload = false, pause = false} = {}) {
         this.vibrationEffectsInst.stop();
         this.textShadowEffectsInst.stop();
         this.sideTextScrollEffectInst.stop();
         this.flashLightEffectsInst.stop();
-        this.soundEffectsInst.stopAll({target, fadeOutSpeed, unload});
+        this.soundEffectsInst.stopAll({target, fadeOutSpeed, unload, pause});
     }
 }
 
@@ -194,15 +201,23 @@ class SoundEffects {
      *
      * @param target {string}; oneShots || loops || all;
      * @param [fadeOutSpeed] {number};
-     * @param [unload] {bool}; выгрузить из памяти звук (уничтожить связанный объект Howler)
+     * @param [unload] {boolean}; выгрузить из памяти звук (уничтожить связанный объект Howler)
+     * @param [pause] {boolean}; просто стоп или пауза
      */
-    stopAll({target, fadeOutSpeed = 1000, unload = false} = {}) {
+    stopAll({target, fadeOutSpeed = 1000, unload = false, pause = false} = {}) {
+        const action = pause === true ? 'pause' : 'stop';
+
         if (target === 'oneShots') {
             Object.keys(this.oneShots).forEach(async (key) => {
                 const oneShotCur = this.oneShots[key];
 
                 if (oneShotCur.state() === 'loaded') {
-                    await SoundEffects.fadeOut(oneShotCur, this.volumeInst.getOneShots(), fadeOutSpeed);
+                    await SoundEffects.fadeOut({
+                        target: oneShotCur,
+                        volume: this.volumeInst.getOneShots(),
+                        fadeOutSpeed,
+                        action
+                    });
                 }
 
                 if (unload === true) {
@@ -215,7 +230,12 @@ class SoundEffects {
                 const loopCur = this.loops[key];
 
                 if (loopCur.state() === 'loaded') {
-                    await SoundEffects.fadeOut(loopCur, this.volumeInst.getLoops(), fadeOutSpeed);
+                    await SoundEffects.fadeOut({
+                        target: loopCur,
+                        volume: this.volumeInst.getLoops(),
+                        fadeOutSpeed,
+                        action
+                    });
                 }
 
                 if (unload === true) {
@@ -227,13 +247,15 @@ class SoundEffects {
             this.stopAll({
                 target: 'oneShots',
                 fadeOutSpeed,
-                unload
+                unload,
+                pause
             });
 
             this.stopAll({
                 target: 'loops',
                 fadeOutSpeed,
-                unload
+                unload,
+                pause
             });
         }
     }
@@ -243,13 +265,18 @@ class SoundEffects {
      * @param target {object}; howler inst sound;
      * @param volume {number};
      * @param [fadeOutSpeed] {number};
+     * @param [action] {string};
      */
-    static fadeOut(target, volume, fadeOutSpeed = 1000) {
+    static fadeOut({target, volume, fadeOutSpeed = 1000, action = 'stop'}) {
         return new Promise(((resolve, reject) => {
             if (!target) resolve();
 
             target.once('fade', () => {
-                target.stop();
+                if (action === 'stop') {
+                    target.stop();
+                } else if (action === 'pause') {
+                    target.pause();
+                }
 
                 resolve();
             });
@@ -265,7 +292,7 @@ class SoundEffects {
      * @param volume {number};
      * @param [fadeInSpeed] {number};
      */
-    static fadeIn(target, volume, fadeInSpeed = 1000) {
+    static fadeIn({target, volume, fadeInSpeed = 1000}) {
         return new Promise((resolve, reject) => {
             /*target.once('fade', () => {
                 console.log('fadeIn fade event');
@@ -288,11 +315,27 @@ class SoundEffects {
      *
      * @param id {string}
      * @param [fadeOutSpeed] {number}
+     * @param [pause] {boolean}
      */
-    stopOneShot(id, {fadeOutSpeed = 0} = {}) {
+    stopOneShot(id, {fadeOutSpeed = 0, pause = false} = {}) {
         const oneShot = this.oneShots[id];
+        const action = pause === true ? 'pause' : 'stop';
 
-        SoundEffects.fadeOut(oneShot, this.volumeInst.getOneShots(), fadeOutSpeed);
+        SoundEffects.fadeOut({
+            target: oneShot,
+            volume: this.volumeInst.getOneShots(),
+            fadeOutSpeed,
+            action
+        });
+    }
+
+    /**
+     *
+     * @param id {string}
+     * @param [fadeOutSpeed] {number}
+     */
+    pauseOneStop(id, {fadeOutSpeed = 0}) {
+        this.stopOneShot(id , {fadeOutSpeed, pause: true});
     }
 
     /**
@@ -319,7 +362,11 @@ class SoundEffects {
             this.stopAll({target: 'oneShots', fadeOutSpeed: 0});
         }
 
-        await SoundEffects.fadeIn(oneShot, this.volumeInst.getOneShots(), fadeInSpeed);
+        await SoundEffects.fadeIn({
+            target: oneShot,
+            volume: this.volumeInst.getOneShots(),
+            fadeInSpeed
+        });
 
         if (vibration) {
             this.vibrationEffectsInst.isStop = false;
@@ -336,11 +383,27 @@ class SoundEffects {
      *
      * @param id {string}
      * @param [fadeOutSpeed] {number}
+     * @param [pause] {boolean}
      */
-    stopLoop(id, {fadeOutSpeed = 1000} = {}) {
+    stopLoop(id, {fadeOutSpeed = 1000, pause = false} = {}) {
         const loop = this.loops[id];
+        const action = pause === true ? 'pause' : 'stop';
 
-        SoundEffects.fadeOut(loop, this.volumeInst.getLoops(), fadeOutSpeed);
+        SoundEffects.fadeOut({
+            target: loop,
+            volume: this.volumeInst.getLoops(),
+            fadeOutSpeed,
+            action
+        });
+    }
+
+    /**
+     *
+     * @param id {string}
+     * @param [fadeOutSpeed] {number}
+     */
+    pauseLoop(id, {fadeOutSpeed = 0}) {
+        this.stopLoop(id , {fadeOutSpeed, pause: true});
     }
 
     /**
@@ -385,7 +448,11 @@ class SoundEffects {
             NotificationsEffects.play(notification);
         }
 
-        await SoundEffects.fadeIn(loop, this.volumeInst.getLoops(), fadeInSpeed);
+        await SoundEffects.fadeIn({
+            target: loop,
+            volume: this.volumeInst.getLoops(),
+            fadeInSpeed
+        });
 
         if (vibration) {
             this.vibrationEffectsInst.isStop = false;

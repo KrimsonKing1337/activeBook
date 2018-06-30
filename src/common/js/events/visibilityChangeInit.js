@@ -9,7 +9,8 @@ export function visibilityChangeInit() {
         if (document.hidden) {
             window.EffectsController.stopAll({
                 target: 'all',
-                unload: false
+                unload: false,
+                pause: true
             });
         } else {
             //воспроизводим заново всё, кроме oneShot-ов

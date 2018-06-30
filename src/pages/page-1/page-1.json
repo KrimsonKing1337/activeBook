@@ -2,7 +2,7 @@
   "effects": [
     {
       "id": "clock-alarm",
-      "type": "loop",
+      "type": "oneShot",
       "src": [
         "/book_data/audios/sound/alarm-clock.mp3"
       ],
