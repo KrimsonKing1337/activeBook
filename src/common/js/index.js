@@ -27,7 +27,7 @@ import {getIsMobile} from './helpers/getIsMobile';
 import {getRootApp} from './helpers/getRootApp';
 import {modifyPathForPagesCurEffects} from './effects/modifyPathForPagesCurEffects';
 import {ModalContent} from './modalContent/ModalContent';
-import {getInvertColorsPageNumber, invertColorsByPageNumber} from './effects/invertColors';
+import {getInvertColorsPagesRange, invertColorsByPageNumber} from './effects/invertColors';
 
 async function onReady(rootApp) {
     if (browserCheck() === false) return;
@@ -47,7 +47,7 @@ async function onReady(rootApp) {
     const pagesEffects = pagesJSON.effects;
     const pageCurInfo = pageCurJSON.pageInfo;
     const pageCurEffects = modifyPathForPagesCurEffects(pageCurJSON.effects, rootApp);
-    const invertColorPageNumber = getInvertColorsPageNumber(pagesEffects);
+    const invertColorPagesRange = getInvertColorsPagesRange(pagesEffects);
 
     LocalStorage.write({key: 'pageCurEffects', val: pageCurEffects});
 
@@ -118,8 +118,8 @@ async function onReady(rootApp) {
             pageCurNum: pageCurInfo.num
         });
 
-        if (invertColorPageNumber !== false) {
-            invertColorsByPageNumber(pageCurInfo.num, invertColorPageNumber);
+        if (invertColorPagesRange !== false) {
+            invertColorsByPageNumber(pageCurInfo.num, invertColorPagesRange);
         }
 
         //запоминаем последнюю открытую страницу

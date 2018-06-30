@@ -6,10 +6,10 @@ const DOMSelectors = getDOMSelectors();
 /**
  *
  * @param pageNumberCurrent {number}
- * @param pageNumberForInvert {number}
+ * @param invertPagesRange {object}
  */
-export function invertColorsByPageNumber(pageNumberCurrent, pageNumberForInvert) {
-    if (pageNumberCurrent >= pageNumberForInvert) {
+export function invertColorsByPageNumber(pageNumberCurrent, invertPagesRange) {
+    if (pageNumberCurrent >= invertPagesRange.start && pageNumberCurrent < invertPagesRange.stop) {
         const localStorageFilterInvert = LocalStorage.read({key: 'filterInvert'});
 
         if (localStorageFilterInvert !== null) {
@@ -39,20 +39,20 @@ export function invertColorsByPageNumber(pageNumberCurrent, pageNumberForInvert)
  *
  * @param pagesEffects[] {object}
  */
-export function getInvertColorsPageNumber(pagesEffects) {
-    let invertPageNumber = null;
+export function getInvertColorsPagesRange(pagesEffects) {
+    let invertPagesRange = null;
 
     pagesEffects.some((pagesEffectCur) => {
         const effectIsInvert = pagesEffectCur.type === 'invert';
 
         if (effectIsInvert === true) {
-            invertPageNumber = pagesEffectCur.value;
+            invertPagesRange = pagesEffectCur.range;
 
             return effectIsInvert === true;
         }
     });
 
-    if (invertPageNumber === null) return false;
+    if (invertPagesRange === null) return false;
 
-    return invertPageNumber;
+    return invertPagesRange;
 }

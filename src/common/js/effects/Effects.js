@@ -377,6 +377,13 @@ class SoundEffects {
             this.flashLightEffectsInst.isStop = false;
             this.flashLightEffectsInst.play(flashLight);
         }
+
+        if (stopBy) {
+            setTimeout(() => {
+                this.stopOneShot(id, {fadeOutSpeed: stopBy.fadeOutSpeed});
+
+            }, stopBy.duration);
+        }
     }
 
     /**

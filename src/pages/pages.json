@@ -3,10 +3,13 @@
     {
       "id": "invert-colors",
       "type": "invert",
-      "value": 30
+      "range": {
+        "start": 30,
+        "stop": 36
+      }
     }
   ],
   "info": {
-    "length": 35
+    "length": 36
   }
 }

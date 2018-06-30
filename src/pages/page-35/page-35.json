@@ -19,7 +19,7 @@
         "text": "Продолжение следует..",
         "className": "info"
       },
-      "playOnLoad": true
+      "playOnLoad": false
     }
   ],
   "pageInfo": {

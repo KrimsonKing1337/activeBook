@@ -760,6 +760,13 @@ h1 {
   font-family: RobotoRegular, Arial, Helvetica, sans-serif;
   font-size: 1.5em; //24px;
   line-height: $h1-line-height;
+  padding-bottom: 7px;
+}
+
+h2 {
+  font-family: RobotoLight, Arial, Helvetica, sans-serif;
+  font-style: italic;
+  font-size: 0.75em; //12px;
   padding-bottom: 16px;
 }
 
