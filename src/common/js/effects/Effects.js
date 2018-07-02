@@ -78,6 +78,7 @@ export class Effects {
         const type = effectCur.type;
         const soundEffectsParams = {
             fadeInSpeed: effectCur.fadeInSpeed,
+            fadeOutSpeed: effectCur.fadeOutSpeed,
             stopBy: effectCur.stopBy,
             vibration: effectCur.vibration,
             notification: effectCur.notification,

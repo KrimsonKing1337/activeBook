@@ -13,6 +13,7 @@ function audioWithRange(pageNumberCurrent, audioWithRange) {
     const range = audioWithRange.range;
     const soundEffectsParams = {
         fadeInSpeed: audioWithRange.fadeInSpeed,
+        fadeOutSpeed: audioWithRange.fadeOutSpeed,
         stopBy: audioWithRange.stopBy,
         vibration: audioWithRange.vibration,
         notification: audioWithRange.notification,
@@ -37,7 +38,7 @@ function audioWithRange(pageNumberCurrent, audioWithRange) {
     } else {
         if (type === 'loop') {
             if (soundEffectsInst.loops[id]) {
-                soundEffectsInst.stopLoop(id).then(() => {
+                soundEffectsInst.stopLoop(id, soundEffectsParams).then(() => {
                     SoundEffects.unload(soundEffectsInst.loops[id]);
 
                     delete soundEffectsInst.loops[id];
@@ -45,7 +46,7 @@ function audioWithRange(pageNumberCurrent, audioWithRange) {
             }
         } else if (type === 'oneShot') {
             if (soundEffectsInst.oneShots[id]) {
-                soundEffectsInst.stopOneShot(id).then(() => {
+                soundEffectsInst.stopOneShot(id, soundEffectsParams).then(() => {
                     SoundEffects.unload(soundEffectsInst.oneShots[id]);
 
                     delete soundEffectsInst.oneShots[id];
