@@ -207,7 +207,8 @@
   }
 
   .menu-full-screen {
-    &__vibration {
+    &__vibration,
+    &__invert {
       &__items-wrapper {
         border: 1px $active solid;
       }

@@ -1175,6 +1175,30 @@ a {
   }
 }
 
+.table-of-contents {
+  &__item {
+    justify-content: flex-start;
+
+    &__name {
+      flex-shrink: 0;
+    }
+
+    &__article {
+      font-size: 18px;
+      margin-left: 9px;
+      font-style: italic;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    &__page {
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+  }
+}
+
 .credits {
   &__item {
     align-items: flex-start;
