@@ -7,19 +7,6 @@
         "/book_data/audios/sound/keyboard-typing-and-enter.mp3"
       ],
       "playOnLoad": true
-    },
-    {
-      "id": "notification-to-be-continued",
-      "type": "oneShot",
-      "src": [
-        "/book_data/audios/sound/achievement-unlocked.mp3"
-      ],
-      "notification": {
-        "id": "notification-to-be-continued",
-        "text": "Продолжение следует..",
-        "className": "info"
-      },
-      "playOnLoad": false
     }
   ],
   "pageInfo": {

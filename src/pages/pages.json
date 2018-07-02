@@ -7,9 +7,20 @@
         "start": 30,
         "stop": 36
       }
+    },
+    {
+      "id": "ode-to-joy",
+      "type": "loop",
+      "src": [
+        "/book_data/audios/music/Beethoven - Ode to Joy.mp3"
+      ],
+      "range": {
+        "start": 36,
+        "stop": 40
+      }
     }
   ],
   "info": {
-    "length": 41
+    "length": 40
   }
 }

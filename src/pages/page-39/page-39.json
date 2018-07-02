@@ -1,6 +1,29 @@
 {
   "effects": [
-
+    {
+      "id": "thunder",
+      "type": "oneShot",
+      "src": [
+        "/book_data/audios/sound/thunder.mp3"
+      ],
+      "sleepBeforeStart": 3000,
+      "playOnLoad": true
+    },
+    {
+      "id": "thunder-flashlight",
+      "type": "flashLight",
+      "segments": [
+        {
+          "sleepBeforeStart": 1000,
+          "duration": 200,
+          "sleep": 150
+        },
+        {
+          "duration": 200
+        }
+      ],
+      "playOnLoad": true
+    }
   ],
   "pageInfo": {
     "num": 39

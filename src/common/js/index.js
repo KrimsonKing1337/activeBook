@@ -28,6 +28,7 @@ import {getRootApp} from './helpers/getRootApp';
 import {modifyPathForPagesCurEffects} from './effects/modifyPathForPagesCurEffects';
 import {ModalContent} from './modalContent/ModalContent';
 import {getInvertColorsPagesRange, invertColorsByPageNumber} from './effects/invertColors';
+import {checkAllAudiosWithRange} from './effects/audioWithRange';
 
 async function onReady(rootApp) {
     if (browserCheck() === false) return;
@@ -117,6 +118,8 @@ async function onReady(rootApp) {
         pageInfo.set({
             pageCurNum: pageCurInfo.num
         });
+
+        checkAllAudiosWithRange(pageCurInfo.num, pagesEffects);
 
         if (invertColorPagesRange !== false) {
             invertColorsByPageNumber(pageCurInfo.num, invertColorPagesRange);

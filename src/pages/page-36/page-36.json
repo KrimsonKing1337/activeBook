@@ -1,6 +1,13 @@
 {
   "effects": [
-
+    {
+      "id": "side-text-scroll",
+      "type": "sideTextScroll",
+      "left": "#side-text-scroll-left-template",
+      "right": "#side-text-scroll-right-template",
+      "speed": 60000,
+      "playOnLoad": true
+    }
   ],
   "pageInfo": {
     "num": 36

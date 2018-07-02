@@ -36,6 +36,10 @@ export class Effects {
         this.sideTextScrollEffectInst = new SideTextScrollEffect();
     }
 
+    /**
+     *
+     * @param effects[] {object}
+     */
     setEffects(effects) {
         this.effects = effects;
 
@@ -77,7 +81,8 @@ export class Effects {
             stopBy: effectCur.stopBy,
             vibration: effectCur.vibration,
             notification: effectCur.notification,
-            flashLight: effectCur.flashLight
+            flashLight: effectCur.flashLight,
+            sleepBeforeStart: effectCur.sleepBeforeStart
         };
 
         if (type === 'oneShot') {
@@ -181,7 +186,7 @@ class NotificationsEffects {
     }
 }
 
-class SoundEffects {
+export class SoundEffects {
     /**
      * @param loops {object}
      * @param oneShots {object}
@@ -211,6 +216,8 @@ class SoundEffects {
             Object.keys(this.oneShots).forEach(async (key) => {
                 const oneShotCur = this.oneShots[key];
 
+                if (oneShotCur.range) return;
+
                 if (oneShotCur.state() === 'loaded') {
                     await SoundEffects.fadeOut({
                         target: oneShotCur,
@@ -228,6 +235,8 @@ class SoundEffects {
         } else if (target === 'loops') {
             Object.keys(this.loops).forEach(async (key) => {
                 const loopCur = this.loops[key];
+
+                if (loopCur.range) return;
 
                 if (loopCur.state() === 'loaded') {
                     await SoundEffects.fadeOut({
@@ -321,7 +330,7 @@ class SoundEffects {
         const oneShot = this.oneShots[id];
         const action = pause === true ? 'pause' : 'stop';
 
-        SoundEffects.fadeOut({
+        return SoundEffects.fadeOut({
             target: oneShot,
             volume: this.volumeInst.getOneShots(),
             fadeOutSpeed,
@@ -343,11 +352,12 @@ class SoundEffects {
      * @param id {string}
      * @param [fadeInSpeed] {number}
      * @param [stopBy] {number}
+     * @param [sleepBeforeStart] {number}
      * @param [flashLight] {object}
      * @param [vibration] {object}
      * @param [notification] {object}
      */
-    async playOneShot(id, {fadeInSpeed = 0, stopBy, vibration, flashLight, notification} = {}) {
+    playOneShot(id, {fadeInSpeed = 0, stopBy, sleepBeforeStart = 0, vibration, flashLight, notification} = {}) {
         const oneShot = this.oneShots[id];
 
         if (notification) {
@@ -358,32 +368,34 @@ class SoundEffects {
             NotificationsEffects.play(notification);
         }
 
-        if (oneShot.playing() === true) {
-            this.stopAll({target: 'oneShots', fadeOutSpeed: 0});
-        }
+        setTimeout(async () => {
+            if (oneShot.playing() === true) {
+                this.stopAll({target: 'oneShots', fadeOutSpeed: 0});
+            }
 
-        await SoundEffects.fadeIn({
-            target: oneShot,
-            volume: this.volumeInst.getOneShots(),
-            fadeInSpeed
-        });
+            await SoundEffects.fadeIn({
+                target: oneShot,
+                volume: this.volumeInst.getOneShots(),
+                fadeInSpeed
+            });
 
-        if (vibration) {
-            this.vibrationEffectsInst.isStop = false;
-            this.vibrationEffectsInst.play(vibration);
-        }
+            if (vibration) {
+                this.vibrationEffectsInst.isStop = false;
+                this.vibrationEffectsInst.play(vibration);
+            }
 
-        if (flashLight) {
-            this.flashLightEffectsInst.isStop = false;
-            this.flashLightEffectsInst.play(flashLight);
-        }
+            if (flashLight) {
+                this.flashLightEffectsInst.isStop = false;
+                this.flashLightEffectsInst.play(flashLight);
+            }
 
-        if (stopBy) {
-            setTimeout(() => {
-                this.stopOneShot(id, {fadeOutSpeed: stopBy.fadeOutSpeed});
+            if (stopBy) {
+                setTimeout(() => {
+                    this.stopOneShot(id, {fadeOutSpeed: stopBy.fadeOutSpeed});
 
-            }, stopBy.duration);
-        }
+                }, stopBy.duration);
+            }
+        }, sleepBeforeStart);
     }
 
     /**
@@ -396,7 +408,7 @@ class SoundEffects {
         const loop = this.loops[id];
         const action = pause === true ? 'pause' : 'stop';
 
-        SoundEffects.fadeOut({
+        return SoundEffects.fadeOut({
             target: loop,
             volume: this.volumeInst.getLoops(),
             fadeOutSpeed,
@@ -440,11 +452,12 @@ class SoundEffects {
      * @param id {string}
      * @param [fadeInSpeed] {number}
      * @param [stopBy] {object}
+     * @param [sleepBeforeStart] {number}
      * @param [vibration] {object}
      * @param [flashLight] {object}
      * @param [notification] {object}
      */
-    async playLoop(id, {fadeInSpeed = 1000, stopBy, vibration, flashLight, notification} = {}) {
+    playLoop(id, {fadeInSpeed = 1000, stopBy, sleepBeforeStart = 0, vibration, flashLight, notification} = {}) {
         const loop = this.loops[id];
 
         if (notification) {
@@ -455,28 +468,30 @@ class SoundEffects {
             NotificationsEffects.play(notification);
         }
 
-        await SoundEffects.fadeIn({
-            target: loop,
-            volume: this.volumeInst.getLoops(),
-            fadeInSpeed
-        });
+        setTimeout(async () => {
+            await SoundEffects.fadeIn({
+                target: loop,
+                volume: this.volumeInst.getLoops(),
+                fadeInSpeed
+            });
 
-        if (vibration) {
-            this.vibrationEffectsInst.isStop = false;
-            this.vibrationEffectsInst.play(vibration);
-        }
+            if (vibration) {
+                this.vibrationEffectsInst.isStop = false;
+                this.vibrationEffectsInst.play(vibration);
+            }
 
-        if (flashLight) {
-            this.flashLightEffectsInst.isStop = false;
-            this.flashLightEffectsInst.play(flashLight);
-        }
+            if (flashLight) {
+                this.flashLightEffectsInst.isStop = false;
+                this.flashLightEffectsInst.play(flashLight);
+            }
 
-        if (stopBy) {
-            setTimeout(() => {
-                this.stopLoop(id, {fadeOutSpeed: stopBy.fadeOutSpeed});
+            if (stopBy) {
+                setTimeout(() => {
+                    this.stopLoop(id, {fadeOutSpeed: stopBy.fadeOutSpeed});
 
-            }, stopBy.duration);
-        }
+                }, stopBy.duration);
+            }
+        }, sleepBeforeStart);
     }
 
     /**
@@ -486,6 +501,7 @@ class SoundEffects {
     checkAndSetNewOneShot(oneShotCur) {
         const oneShots = this.oneShots;
         const id = oneShotCur.id;
+        const range = oneShotCur.range;
 
         if (!oneShots[id]) {
             return new Promise((resolve, reject) => {
@@ -493,6 +509,8 @@ class SoundEffects {
                     src: oneShotCur.src,
                     volume: this.volumeInst.getOneShots()
                 });
+
+                oneShots[id].range = range;
 
                 oneShots[id].once('load', () => {
                     resolve();
@@ -514,6 +532,7 @@ class SoundEffects {
     checkAndSetNewLoop(loopCur) {
         const loops = this.loops;
         const id = loopCur.id;
+        const range = loopCur.range;
 
         if (!loops[id]) {
             return new Promise((resolve, reject) => {
@@ -521,6 +540,8 @@ class SoundEffects {
                     src: loopCur.src,
                     volume: loopCur.fadeIn === false ? this.volumeInst.getLoops() : 0
                 });
+
+                loops[id].range = range;
 
                 loops[id].once('load', () => {
                     resolve();

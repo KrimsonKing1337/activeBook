@@ -1,6 +1,26 @@
 {
   "effects": [
-
+    {
+      "id": "notification-to-be-continued",
+      "type": "oneShot",
+      "src": [
+        "/book_data/audios/sound/achievement-unlocked.mp3"
+      ],
+      "notification": {
+        "id": "notification-to-be-continued",
+        "text": "Продолжение следует..",
+        "className": "info"
+      },
+      "playOnLoad": true
+    },
+    {
+      "id": "rain",
+      "type": "loop",
+      "src": [
+        "/book_data/audios/sound/rain-on-plastic-outside.mp3"
+      ],
+      "playOnLoad": true
+    }
   ],
   "pageInfo": {
     "num": 40
