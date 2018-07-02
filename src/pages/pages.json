@@ -12,7 +12,7 @@
       "id": "ode-to-joy",
       "type": "loop",
       "src": [
-        "/book_data/audios/music/Beethoven - Ode to Joy.mp3"
+        "/book_data/audios/music/Beethoven_-_Ode_to_Joy.mp3"
       ],
       "fadeOutSpeed": 5000,
       "range": {

@@ -45,7 +45,7 @@ async function onReady(rootApp) {
     const pagesJSON = await getAJAX(`${rootApp}/pages.json`, 'json');
 
     const pagesInfo = pagesJSON.info;
-    const pagesEffects = pagesJSON.effects;
+    const pagesEffects = modifyPathForPagesCurEffects(pagesJSON.effects, rootApp);
     const pageCurInfo = pageCurJSON.pageInfo;
     const pageCurEffects = modifyPathForPagesCurEffects(pageCurJSON.effects, rootApp);
     const invertColorPagesRange = getInvertColorsPagesRange(pagesEffects);
