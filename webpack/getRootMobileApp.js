@@ -5,7 +5,7 @@ function getRootMobileApp() {
     if (!isMobile) return '';
 
     if (platform === 'android') return 'file:///android_asset/www';
-    if (platform === 'ios') return 'activeBook.app';
+    if (platform === 'ios') return 'file:///ios_asset/www';
 }
 
 module.exports = getRootMobileApp();

@@ -958,6 +958,7 @@ p {
 }
 
 a {
+  display: inline-flex;
   opacity: 0.85;
   transition: text-shadow ease 0.3s 0s;
 
@@ -971,6 +972,20 @@ a {
 
   &.external-link {
     color: #0099FF;
+  }
+
+  &.easter-egg {
+    @keyframes easter-egg {
+      1.25% {
+        transform: translateY(5%);
+      }
+
+      2.5%, 100% {
+        transform: translateY(0);
+      }
+    }
+
+    animation: easter-egg 5s 5s infinite ease-in-out;
   }
 }
 
