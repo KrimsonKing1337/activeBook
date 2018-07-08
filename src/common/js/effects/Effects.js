@@ -199,6 +199,7 @@ export class SoundEffects {
     constructor({loops, oneShots, volumeInst, vibrationEffectsInst, flashLightEffectsInst} = {}) {
         this.loops = loops;
         this.oneShots = oneShots;
+        this.timers = [];
         this.volumeInst = volumeInst;
         this.vibrationEffectsInst = vibrationEffectsInst;
         this.flashLightEffectsInst = flashLightEffectsInst;
@@ -394,12 +395,13 @@ export class SoundEffects {
                 this.flashLightEffectsInst.play(flashLight);
             }
 
-            //todo: обнулять таймеры при смене страницы
             if (stopBy) {
-                setTimeout(() => {
+                const timer = setTimeout(() => {
                     this.stopOneShot(id, {fadeOutSpeed: stopBy.fadeOutSpeed});
 
                 }, stopBy.duration);
+
+                this.timers.push(timer);
             }
         }, sleepBeforeStart);
     }
@@ -492,10 +494,12 @@ export class SoundEffects {
             }
 
             if (stopBy) {
-                setTimeout(() => {
+                const timer = setTimeout(() => {
                     this.stopLoop(id, {fadeOutSpeed: stopBy.fadeOutSpeed});
 
                 }, stopBy.duration);
+
+                this.timers.push(timer);
             }
         }, sleepBeforeStart);
     }

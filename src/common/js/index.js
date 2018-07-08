@@ -109,6 +109,13 @@ async function onReady(rootApp) {
             unload: true
         });
 
+        //обнуляем таймеры
+        EffectsController.soundEffectsInst.timers.forEach((timerCur) => {
+            clearTimeout(timerCur);
+        });
+
+        EffectsController.soundEffectsInst.timers = [];
+
         const textAJAX = await getAJAX(`${rootApp}/page-${pageNum}.html`);
         const pageCurJSON = await getAJAX(`${rootApp}/page-${pageNum}.json`, 'json');
 
