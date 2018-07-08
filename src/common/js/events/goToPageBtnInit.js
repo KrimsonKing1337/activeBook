@@ -7,9 +7,9 @@ import {pageInfo} from '../forAppInit/pageInfo';
  * @param goTo {string || number}
  */
 function getPageToGo(goTo) {
-    if (goTo === 'lastOpenedPage') {
-        const lastOpenedPage = LocalStorage.read({key: 'lastOpenedPage'});
-        const pageToGo = lastOpenedPage === 'credits' ? null : lastOpenedPage;
+    if (goTo === 'pageForResumeReading') {
+        const pageForResumeReading = LocalStorage.read({key: 'pageForResumeReading'});
+        const pageToGo = pageForResumeReading === 'credits' ? null : pageForResumeReading;
 
         return pageToGo ? pageToGo : 1;
     } else if (goTo === 'main') {

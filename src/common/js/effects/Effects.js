@@ -127,16 +127,17 @@ export class Effects {
     /**
      *
      * @param target {string}
-     * @param fadeOutSpeed {number}
-     * @param unload {boolean}
-     * @param pause {boolean}
+     * @param [fadeOutSpeed] {number}
+     * @param [unload] {boolean}
+     * @param [pause] {boolean}
+     * @param [onesWithRange] {boolean}
      */
-    stopAll({target, fadeOutSpeed = 1000, unload = false, pause = false} = {}) {
+    stopAll({target, fadeOutSpeed = 1000, unload = false, pause = false, onesWithRange = false} = {}) {
         this.vibrationEffectsInst.stop();
         this.textShadowEffectsInst.stop();
         this.sideTextScrollEffectInst.stop();
         this.flashLightEffectsInst.stop();
-        this.soundEffectsInst.stopAll({target, fadeOutSpeed, unload, pause});
+        this.soundEffectsInst.stopAll({target, fadeOutSpeed, unload, pause, onesWithRange});
     }
 }
 
@@ -209,15 +210,16 @@ export class SoundEffects {
      * @param [fadeOutSpeed] {number};
      * @param [unload] {boolean}; выгрузить из памяти звук (уничтожить связанный объект Howler)
      * @param [pause] {boolean}; просто стоп или пауза
+     * @param [onesWithRange] {boolean}; применять к эффектам, которые имеют диапазон или нет
      */
-    stopAll({target, fadeOutSpeed = 1000, unload = false, pause = false} = {}) {
+    stopAll({target, fadeOutSpeed = 1000, unload = false, pause = false, onesWithRange = false} = {}) {
         const action = pause === true ? 'pause' : 'stop';
 
         if (target === 'oneShots') {
             Object.keys(this.oneShots).forEach(async (key) => {
                 const oneShotCur = this.oneShots[key];
 
-                if (oneShotCur.range) return;
+                if (oneShotCur.range && onesWithRange === false) return;
 
                 if (oneShotCur.state() === 'loaded') {
                     await SoundEffects.fadeOut({
@@ -237,7 +239,7 @@ export class SoundEffects {
             Object.keys(this.loops).forEach(async (key) => {
                 const loopCur = this.loops[key];
 
-                if (loopCur.range) return;
+                if (loopCur.range && onesWithRange === false) return;
 
                 if (loopCur.state() === 'loaded') {
                     await SoundEffects.fadeOut({
@@ -258,14 +260,16 @@ export class SoundEffects {
                 target: 'oneShots',
                 fadeOutSpeed,
                 unload,
-                pause
+                pause,
+                onesWithRange
             });
 
             this.stopAll({
                 target: 'loops',
                 fadeOutSpeed,
                 unload,
-                pause
+                pause,
+                onesWithRange
             });
         }
     }
@@ -390,6 +394,7 @@ export class SoundEffects {
                 this.flashLightEffectsInst.play(flashLight);
             }
 
+            //todo: обнулять таймеры при смене страницы
             if (stopBy) {
                 setTimeout(() => {
                     this.stopOneShot(id, {fadeOutSpeed: stopBy.fadeOutSpeed});

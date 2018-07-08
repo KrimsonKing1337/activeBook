@@ -1,5 +1,6 @@
 import getDOMSelectors from '../helpers/GetDOMSelectors';
 import {FilterEffects} from '../effects/Effects';
+import {lastOpenedPageInst} from '../states/lastOpenedPage';
 
 const DOMSelectors = getDOMSelectors();
 
@@ -7,7 +8,7 @@ const DOMSelectors = getDOMSelectors();
  * меняем межстрочный интервал на странице
  */
 export class LineHeight {
-    constructor () {
+    constructor() {
 
     }
 
@@ -17,7 +18,7 @@ export class LineHeight {
      * @param $val {object} jquery
      * @param newVal {number}
      */
-    static set ({$target, $val, newVal} = {}) {
+    static set({$target, $val, newVal} = {}) {
         LineHeight.apply({$target, $val, newVal});
     }
 
@@ -27,7 +28,7 @@ export class LineHeight {
      * @param $val {object} jquery;
      * @param direction {string} less || more;
      */
-    static setByDirection ({$target, $val, direction} = {}) {
+    static setByDirection({$target, $val, direction} = {}) {
         const currentVal = parseInt($target.attr('data-line-height')) || 100;
 
         let newVal;
@@ -53,7 +54,7 @@ export class LineHeight {
      * @param newVal {number};
      * @private
      */
-    static apply ({$target, $val, newVal} = {}) {
+    static apply({$target, $val, newVal} = {}) {
         $val.text(`${ newVal }%`);
         $target.attr('data-line-height', newVal);
     }
@@ -63,16 +64,28 @@ export class LineHeight {
  * переход на страницу
  */
 export class GoToPage {
-    constructor () {
+    constructor() {
 
     }
 
     /**
      *
      * @param val {string || number};
+     * @param withDirection {boolean};
      */
-    static go ({val} = {}) {
-        $(window).trigger('changePage', val);
+    static go({val, withDirection = false} = {}) {
+        if (withDirection === false) {
+            const lastOpenedPage = lastOpenedPageInst.lastOpenedPage;
+
+            if (val > lastOpenedPage && val !== 1) {
+                $(window).trigger('changePage', lastOpenedPage);
+            } else {
+                $(window).trigger('changePage', val);
+            }
+
+        } else {
+            $(window).trigger('changePage', val);
+        }
     }
 
     /**
@@ -81,7 +94,7 @@ export class GoToPage {
      * @param pagesLength {string};
      * @param direction {number || string} next || prev;
      */
-    static goWithDirection ({direction, currentPage, pagesLength} = {}) {
+    static goWithDirection({direction, currentPage, pagesLength} = {}) {
         let newVal;
         let limit;
 
@@ -107,7 +120,7 @@ export class GoToPage {
 
         if (limit === true) return;
 
-        GoToPage.go({val: newVal});
+        GoToPage.go({val: newVal, withDirection: true});
     }
 }
 
@@ -115,7 +128,7 @@ export class GoToPage {
  * меняем размер шрифта
  */
 export class FontSize {
-    constructor () {
+    constructor() {
 
     }
 
@@ -124,7 +137,7 @@ export class FontSize {
      * @param $target {object} jquery
      * @param newVal {number}
      */
-    static set ({$target, newVal} = {}) {
+    static set({$target, newVal} = {}) {
         FontSize.apply({$target, newVal});
     }
 
@@ -133,7 +146,7 @@ export class FontSize {
      * @param $target {object};
      * @param direction {string} less || more;
      */
-    static setByDirection ({$target, direction} = {}) {
+    static setByDirection({$target, direction} = {}) {
         const currentVal = parseInt($target.attr('data-font-size')) || 100;
 
         let newVal;
@@ -158,7 +171,7 @@ export class FontSize {
      * @param newVal {number};
      * @private
      */
-    static apply ({$target, newVal} = {}) {
+    static apply({$target, newVal} = {}) {
         $target.attr('data-font-size', newVal);
     }
 }
@@ -167,7 +180,7 @@ export class FontSize {
  * меняем положение ползунков громкости
  */
 export class VolumeSliders {
-    constructor () {
+    constructor() {
 
     }
 
@@ -198,7 +211,7 @@ export class VolumeSliders {
 }
 
 export class Theme {
-    constructor () {
+    constructor() {
 
     }
 
@@ -217,7 +230,7 @@ export class Theme {
 }
 
 export class Vibration {
-    constructor () {
+    constructor() {
 
     }
 
@@ -235,7 +248,7 @@ export class Vibration {
 }
 
 export class Invert {
-    constructor () {
+    constructor() {
 
     }
 
@@ -262,7 +275,7 @@ export class Invert {
 }
 
 export class Bookmarks {
-    constructor () {
+    constructor() {
 
     }
 

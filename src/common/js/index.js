@@ -29,6 +29,7 @@ import {modifyPathForPagesCurEffects} from './effects/modifyPathForPagesCurEffec
 import {ModalContent} from './modalContent/ModalContent';
 import {getInvertColorsPagesRange, invertColorsByPageNumber} from './effects/invertColors';
 import {checkAllAudiosWithRange} from './effects/audioWithRange';
+import {lastOpenedPageInst} from './states/lastOpenedPage';
 
 async function onReady(rootApp) {
     if (browserCheck() === false) return;
@@ -51,6 +52,7 @@ async function onReady(rootApp) {
     const invertColorPagesRange = getInvertColorsPagesRange(pagesEffects);
 
     LocalStorage.write({key: 'pageCurEffects', val: pageCurEffects});
+    LocalStorage.write({key: 'pagesEffects', val: pagesEffects});
 
     pageInfo.set({
         pageCurNum: pageCurInfo.num,
@@ -125,8 +127,11 @@ async function onReady(rootApp) {
             invertColorsByPageNumber(pageCurInfo.num, invertColorPagesRange);
         }
 
+        //запоминаем, где пользователь оставился в прошлый раз
+        LocalStorage.write({key: 'pageForResumeReading', val: pageInfo.pageCurNum});
+
         //запоминаем последнюю открытую страницу
-        LocalStorage.write({key: 'lastOpenedPage', val: pageInfo.pageCurNum});
+        lastOpenedPageInst.save(pageInfo.pageCurNum);
 
         $(DOMSelectors.textWrapper).html(textAJAX);
 
