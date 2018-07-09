@@ -11,13 +11,8 @@
         "duration": 500
       },
       "flashLight": {
-        "duration": 150
+        "duration": 0
       }
-    },
-    {
-      "id": "flash-light-init",
-      "type": "flashLight",
-      "duration": 0
     }
   ],
   "pageInfo": {

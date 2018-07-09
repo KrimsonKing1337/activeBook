@@ -386,7 +386,7 @@ export class SoundEffects {
             NotificationsEffects.play(notification);
         }
 
-        setTimeout(async () => {
+        const sleepBeforeStartTimer = setTimeout(async () => {
             if (oneShot.playing() === true) {
                 this.stopAll({target: 'oneShots', fadeOutSpeed: 0});
             }
@@ -408,14 +408,16 @@ export class SoundEffects {
             }
 
             if (stopBy) {
-                const timer = setTimeout(() => {
+                const stopByTimer = setTimeout(() => {
                     this.stopOneShot(id, {fadeOutSpeed: stopBy.fadeOutSpeed});
 
                 }, stopBy.duration);
 
-                this.timers.push(timer);
+                this.timers.push(stopByTimer);
             }
         }, sleepBeforeStart);
+
+        this.timers.push(sleepBeforeStartTimer);
     }
 
     /**
@@ -488,7 +490,7 @@ export class SoundEffects {
             NotificationsEffects.play(notification);
         }
 
-        setTimeout(async () => {
+        const sleepBeforeStartTimer = setTimeout(async () => {
             await SoundEffects.fadeIn({
                 target: loop,
                 volume: this.volumeInst.getLoops(),
@@ -506,14 +508,16 @@ export class SoundEffects {
             }
 
             if (stopBy) {
-                const timer = setTimeout(() => {
+                const stopByTimer = setTimeout(() => {
                     this.stopLoop(id, {fadeOutSpeed: stopBy.fadeOutSpeed});
 
                 }, stopBy.duration);
 
-                this.timers.push(timer);
+                this.timers.push(stopByTimer);
             }
         }, sleepBeforeStart);
+
+        this.timers.push(sleepBeforeStartTimer);
     }
 
     /**
@@ -623,6 +627,7 @@ class VibrationEffects {
         this.vibrationSupport = 'vibrate' in navigator;
         this.isLoop = false;
         this.isStop = false;
+        this.timers = [];
     }
 
     /**
@@ -675,17 +680,21 @@ class VibrationEffects {
         if (typeof duration === 'undefined') return;
 
         return new Promise((resolve, reject) => {
-            setTimeout(() => {
+            const sleepBeforeTimer = setTimeout(() => {
                 navigator.vibrate(duration);
 
-                setTimeout(() => {
+                const sleepTimer = setTimeout(() => {
                     resolve();
 
                     if (this.isLoop === true && fromReduce === false) {
                         this.play({duration, sleep, sleepBeforeStart, loop});
                     }
                 }, sleep);
+
+                this.timers.push(sleepTimer);
             }, sleepBeforeStart);
+
+            this.timers.push(sleepBeforeTimer);
         });
     }
 
@@ -907,6 +916,7 @@ class FlashLightEffects {
         this.flashLight = get(window, 'plugins.flashlight');
         this.isLoop = false;
         this.isStop = false;
+        this.timers = [];
         this.setIsAvailable();
     }
 
@@ -945,6 +955,12 @@ class FlashLightEffects {
 
         if (typeof loop !== 'undefined') this.isLoop = loop;
 
+        if (duration === -1) {
+            this.stop();
+
+            return;
+        }
+
         if (duration === 'infinity') duration = Infinity; //JSON can't Infinity as number
 
         if (segments.length > 0) {
@@ -968,25 +984,31 @@ class FlashLightEffects {
         if (typeof duration === 'undefined') return;
 
         return new Promise((resolve, reject) => {
-            setTimeout(() => {
+            const sleepBeforeStartTimer = setTimeout(() => {
                 this.switchOn();
 
                 if (duration === Infinity) {
                     resolve();
                 } else {
-                    setTimeout(() => {
+                    const sleepTimer = setTimeout(() => {
                         resolve();
 
                         if (this.isLoop === true && fromReduce === false) {
                             this.play({duration, sleep, sleepBeforeStart, loop});
                         }
 
-                        setTimeout(() => {
+                        const durationTimer = setTimeout(() => {
                             this.switchOff();
                         }, duration);
+
+                        this.timers.push(durationTimer);
                     }, sleep);
+
+                    this.timers.push(sleepTimer);
                 }
             }, sleepBeforeStart);
+
+            this.timers.push(sleepBeforeStartTimer);
         });
     }
 

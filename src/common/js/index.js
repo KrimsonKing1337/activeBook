@@ -116,6 +116,18 @@ async function onReady(rootApp) {
 
         EffectsController.soundEffectsInst.timers = [];
 
+        EffectsController.vibrationEffectsInst.timers.forEach((timerCur) => {
+            clearTimeout(timerCur);
+        });
+
+        EffectsController.vibrationEffectsInst.timers = [];
+
+        EffectsController.flashLightEffectsInst.timers.forEach((timerCur) => {
+            clearTimeout(timerCur);
+        });
+
+        EffectsController.flashLightEffectsInst.timers = [];
+
         const textAJAX = await getAJAX(`${rootApp}/page-${pageNum}.html`);
         const pageCurJSON = await getAJAX(`${rootApp}/page-${pageNum}.json`, 'json');
 
