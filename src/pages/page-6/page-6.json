@@ -3,6 +3,7 @@
     {
       "id": "notification",
       "type": "oneShot",
+      "playToEnd": true,
       "src": [
         "/book_data/audios/sound/notification.mp3"
       ],

@@ -3,6 +3,7 @@
     {
       "id": "thunder",
       "type": "oneShot",
+      "playToEnd": true,
       "src": [
         "/book_data/audios/sound/thunder.mp3"
       ],

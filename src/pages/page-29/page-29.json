@@ -3,6 +3,7 @@
     {
       "id": "spacedoor-open",
       "type": "oneShot",
+      "playToEnd": true,
       "src": [
         "/book_data/audios/sound/spacedoor-open.mp3"
       ],

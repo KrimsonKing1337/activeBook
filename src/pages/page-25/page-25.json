@@ -3,6 +3,7 @@
     {
       "id": "coin-dropping",
       "type": "oneShot",
+      "playToEnd": true,
       "src": [
         "/book_data/audios/sound/coin-dropping.mp3"
       ],

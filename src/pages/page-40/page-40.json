@@ -3,6 +3,7 @@
     {
       "id": "notification-to-be-continued",
       "type": "oneShot",
+      "playToEnd": true,
       "src": [
         "/book_data/audios/sound/achievement-unlocked.mp3"
       ],

@@ -3,6 +3,7 @@
     {
       "id": "sword",
       "type": "oneShot",
+      "playToEnd": true,
       "src": [
         "/book_data/audios/sound/sword.mp3"
       ],
@@ -12,6 +13,11 @@
       "flashLight": {
         "duration": 150
       }
+    },
+    {
+      "id": "flash-light-init",
+      "type": "flashLight",
+      "duration": 0
     }
   ],
   "pageInfo": {

@@ -83,7 +83,8 @@ export class Effects {
             vibration: effectCur.vibration,
             notification: effectCur.notification,
             flashLight: effectCur.flashLight,
-            sleepBeforeStart: effectCur.sleepBeforeStart
+            sleepBeforeStart: effectCur.sleepBeforeStart,
+            playToEnd: effectCur.playToEnd
         };
 
         if (type === 'oneShot') {
@@ -221,6 +222,17 @@ export class SoundEffects {
                 const oneShotCur = this.oneShots[key];
 
                 if (oneShotCur.range && onesWithRange === false) return;
+
+                if (oneShotCur.playToEnd === true) {
+                    if (unload === true && pause === false) {
+                        oneShotCur.on('end', () => {
+                            SoundEffects.unload(oneShotCur);
+                            delete this.oneShots[key];
+                        });
+                    }
+
+                    return;
+                }
 
                 if (oneShotCur.state() === 'loaded') {
                     await SoundEffects.fadeOut({
@@ -512,6 +524,7 @@ export class SoundEffects {
         const oneShots = this.oneShots;
         const id = oneShotCur.id;
         const range = oneShotCur.range;
+        const playToEnd = oneShotCur.playToEnd;
 
         if (!oneShots[id]) {
             return new Promise((resolve, reject) => {
@@ -521,6 +534,7 @@ export class SoundEffects {
                 });
 
                 oneShots[id].range = range;
+                oneShots[id].playToEnd = playToEnd;
 
                 oneShots[id].once('load', () => {
                     resolve();
