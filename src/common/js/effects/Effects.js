@@ -140,6 +140,28 @@ export class Effects {
         this.flashLightEffectsInst.stop();
         this.soundEffectsInst.stopAll({target, fadeOutSpeed, unload, pause, onesWithRange});
     }
+
+    clearTimersAll() {
+        this.clearTimers([
+            this.soundEffectsInst,
+            this.vibrationEffectsInst,
+            this.flashLightEffectsInst
+        ]);
+    }
+
+    /**
+     *
+     * @param targets[] {object}
+     */
+    clearTimers(targets = []) {
+        targets.forEach((targetCur) => {
+            targetCur.timers.forEach((timerCur) => {
+                clearTimeout(timerCur);
+            });
+
+            targetCur.timers = [];
+        });
+    }
 }
 
 class NotificationsEffects {

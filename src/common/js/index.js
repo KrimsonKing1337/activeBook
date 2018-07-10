@@ -110,23 +110,7 @@ async function onReady(rootApp) {
         });
 
         //обнуляем таймеры
-        EffectsController.soundEffectsInst.timers.forEach((timerCur) => {
-            clearTimeout(timerCur);
-        });
-
-        EffectsController.soundEffectsInst.timers = [];
-
-        EffectsController.vibrationEffectsInst.timers.forEach((timerCur) => {
-            clearTimeout(timerCur);
-        });
-
-        EffectsController.vibrationEffectsInst.timers = [];
-
-        EffectsController.flashLightEffectsInst.timers.forEach((timerCur) => {
-            clearTimeout(timerCur);
-        });
-
-        EffectsController.flashLightEffectsInst.timers = [];
+        EffectsController.clearTimersAll();
 
         const textAJAX = await getAJAX(`${rootApp}/page-${pageNum}.html`);
         const pageCurJSON = await getAJAX(`${rootApp}/page-${pageNum}.json`, 'json');
