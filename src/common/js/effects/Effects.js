@@ -990,18 +990,18 @@ class FlashLightEffects {
                 if (duration === Infinity) {
                     resolve();
                 } else {
+                    const durationTimer = setTimeout(() => {
+                        this.switchOff();
+                    }, duration);
+
+                    this.timers.push(durationTimer);
+
                     const sleepTimer = setTimeout(() => {
                         resolve();
 
                         if (this.isLoop === true && fromReduce === false) {
                             this.play({duration, sleep, sleepBeforeStart, loop});
                         }
-
-                        const durationTimer = setTimeout(() => {
-                            this.switchOff();
-                        }, duration);
-
-                        this.timers.push(durationTimer);
                     }, sleep);
 
                     this.timers.push(sleepTimer);
