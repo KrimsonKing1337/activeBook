@@ -16,11 +16,11 @@
       "segments": [
         {
           "sleepBeforeStart": 1000,
-          "duration": 200,
+          "duration": 125,
           "sleep": 150
         },
         {
-          "duration": 200
+          "duration": 125
         }
       ],
       "playOnLoad": true
