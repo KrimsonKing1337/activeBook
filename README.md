@@ -64,10 +64,6 @@ npm install --global node-gyp
 
 ___
 
-### P.S.:
-
-Помним, что всегда есть кнопка «Форк». Форкайте и развиваете, как считаете нужным. Ведь именно для этого и существует open-source. Спасибо.
-
 https://active-book.ru
 
 apk: https://yadi.sk/d/WB2eP2vb3YUmCY
