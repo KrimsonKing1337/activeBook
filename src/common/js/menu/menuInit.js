@@ -1,4 +1,4 @@
-import {FontSize, GoToPage, Invert, LineHeight, Theme, Vibration} from './Menu';
+import {Flashlight, FontSize, GoToPage, Invert, LineHeight, Theme, Vibration} from './Menu';
 import Popover from './Popover';
 import {svgInit} from '../forAppInit/svgInit';
 import {ionRangeSliderInit} from '../forAppInit/ionRangeSliderInit';
@@ -67,6 +67,33 @@ export function menuInit() {
             //save state
             LocalStorage.write({
                 key: 'vibration',
+                val
+            });
+        });
+    }
+
+    if (!EffectsController.flashLightEffectsInst.flashlightSupport) {
+        $('.menu-full-screen__flashlight').remove();
+    } else {
+        //переключалка для вспышки
+        $(DOMSelectors.flashLightOption).on('click', function () {
+            const val = JSON.parse($(this).attr('data-flashlight'));
+
+            EffectsController.flashLightEffectsInst.set(val);
+
+            if (val === true) {
+                EffectsController.flashLightEffectsInst.play({duration: 150});
+            }
+
+            Flashlight.set({
+                $target: $(DOMSelectors.page),
+                val,
+                $vibrationOption: $(DOMSelectors.vibrationOption)
+            });
+
+            //save state
+            LocalStorage.write({
+                key: 'flashlight',
                 val
             });
         });

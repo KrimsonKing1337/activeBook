@@ -10,6 +10,7 @@ import {getRandomInt} from '../helpers/getRamdomInt';
 import {ModalContent} from '../modalContent/ModalContent';
 
 const vibrationState = LocalStorage.read({key: 'vibration'});
+const flashlightState = LocalStorage.read({key: 'flashlight'});
 
 export class Effects {
     constructor() {
@@ -18,7 +19,9 @@ export class Effects {
         this.vibrationEffectsInst = new VibrationEffects({
             state: vibrationState !== null ? vibrationState : true
         });
-        this.flashLightEffectsInst = new FlashLightEffects();
+        this.flashLightEffectsInst = new FlashLightEffects({
+            state: flashlightState !== null ? flashlightState : true
+        });
         this.soundEffectsInst = new SoundEffects({
             loops: {},
             oneShots: {},
@@ -934,7 +937,12 @@ export class FilterEffects {
 }
 
 class FlashLightEffects {
-    constructor() {
+    /**
+     *
+     * @param state {boolean}; первоначальное состояние вибрации
+     */
+    constructor({state = true}) {
+        this.state = state;
         this.flashLight = get(window, 'plugins.flashlight');
         this.isLoop = false;
         this.isStop = false;
@@ -945,7 +953,7 @@ class FlashLightEffects {
     setIsAvailable() {
         return new Promise((resolve, reject) => {
             if (!this.flashLight) {
-                this.isAvailable = false;
+                this.flashlightSupport = false;
 
                 resolve();
 
@@ -953,11 +961,23 @@ class FlashLightEffects {
             }
 
             this.flashLight.available((isAvailable) => {
-                this.isAvailable = isAvailable;
+                this.flashlightSupport = isAvailable;
 
                 resolve();
             });
         });
+    }
+
+    /**
+     *
+     * @param state {boolean}
+     */
+    set(state) {
+        this.state = state;
+
+        if (state === false) {
+            this.stop();
+        }
     }
 
     /**
@@ -970,7 +990,8 @@ class FlashLightEffects {
      * @param [fromReduce] {boolean}
      */
     async play({duration, sleep = 100, sleepBeforeStart = 0, loop, segments = []} = {}, fromReduce = false) {
-        if (!this.isAvailable) return;
+        if (!this.flashlightSupport) return;
+        if (this.state !== true) return;
 
         //if (this.isStop === true) return Promise.reject('play is interrupted by stop flag');
         if (this.isStop === true) return;
@@ -1035,7 +1056,7 @@ class FlashLightEffects {
     }
 
     stop() {
-        if (!this.isAvailable) return;
+        if (!this.flashlightSupport) return;
 
         this.isStop = true;
         this.isLoop = false;
@@ -1043,7 +1064,7 @@ class FlashLightEffects {
     }
 
     switchOn() {
-        if (!this.isAvailable) return;
+        if (!this.flashlightSupport) return;
 
         this.flashLight.switchOn(() => {
             // optional success callback
@@ -1055,7 +1076,7 @@ class FlashLightEffects {
     }
 
     switchOff() {
-        if (!this.isAvailable) return;
+        if (!this.flashlightSupport) return;
 
         this.flashLight.switchOff(() => {
             // optional success callback

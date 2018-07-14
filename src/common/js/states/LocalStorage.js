@@ -24,7 +24,8 @@ export default class LocalStorage {
      * @param params.lineHeight {number};
      * @param params.scrollTop {number};
      * @param params.theme {string};
-     * @param params.vibration {bool};
+     * @param params.vibration {boolean};
+     * @param params.flashlight {boolean};
      * @param params.bookmarks[] {object};
      */
     static saveState(params = {}) {
@@ -37,6 +38,7 @@ export default class LocalStorage {
             scrollTop: params.scrollTop,
             theme: params.theme,
             vibration: params.vibration,
+            flashlight: params.flashlight,
             bookmarks: params.bookmarks
         };
 
@@ -57,6 +59,7 @@ export default class LocalStorage {
             scrollTop: LocalStorage.read({key: 'scrollTop'}),
             theme: LocalStorage.read({key: 'theme'}),
             vibration: LocalStorage.read({key: 'vibration'}),
+            flashlight: LocalStorage.read({key: 'flashlight'}),
             bookmarks: LocalStorage.read({key: 'bookmarks'}),
             modalObjectFit: LocalStorage.read({key: 'modalObjectFit'}),
             filterInvert: LocalStorage.read({key: 'filterInvert'})
