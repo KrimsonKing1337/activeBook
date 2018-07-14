@@ -39,7 +39,7 @@ export default function getDOMSelectors() {
         menuFullScreenInner: '.menu-full-screen__inner',
         tableOfContentsShow: '.js-table-of-contents-show',
         vibrationOption: '.js-vibration-option',
-        flashLightOption: '.js-flashlight-option',
+        flashlightOption: '.js-flashlight-option',
         invertToggle: '.js-invert-toggle',
         invertOption: '.js-invert-option',
         themeOption: '.js-theme-option',

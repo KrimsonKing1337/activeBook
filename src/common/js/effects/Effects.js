@@ -990,6 +990,8 @@ class FlashLightEffects {
      * @param [fromReduce] {boolean}
      */
     async play({duration, sleep = 100, sleepBeforeStart = 0, loop, segments = []} = {}, fromReduce = false) {
+        console.log(arguments);
+
         if (!this.flashlightSupport) return;
         if (this.state !== true) return;
 

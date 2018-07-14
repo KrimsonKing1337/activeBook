@@ -260,7 +260,7 @@ export class Flashlight {
      */
     static set({$target, $flashlightOption, val} = {}) {
         $flashlightOption.filter('.active').removeClass('active');
-        $flashlightOption.filter(`[data-vibration="${ val }"]`).addClass('active');
+        $flashlightOption.filter(`[data-flashlight="${ val }"]`).addClass('active');
         $target.attr('data-flashlight', val);
     }
 }

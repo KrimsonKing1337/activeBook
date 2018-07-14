@@ -72,7 +72,7 @@ export function loadStates() {
         Flashlight.set({
             $target: $(DOMSelectors.page),
             val: states.flashlight,
-            $vibrationOption: $(DOMSelectors.flashLightOption)
+            $flashlightOption: $(DOMSelectors.flashlightOption)
         });
     }
 

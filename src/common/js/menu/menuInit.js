@@ -76,19 +76,25 @@ export function menuInit() {
         $('.menu-full-screen__flashlight').remove();
     } else {
         //переключалка для вспышки
-        $(DOMSelectors.flashLightOption).on('click', function () {
+        $(DOMSelectors.flashlightOption).on('click', function () {
             const val = JSON.parse($(this).attr('data-flashlight'));
 
             EffectsController.flashLightEffectsInst.set(val);
 
             if (val === true) {
+                const isStopOldValue = EffectsController.flashLightEffectsInst.isStop;
+
+                EffectsController.flashLightEffectsInst.isStop = false;
+
                 EffectsController.flashLightEffectsInst.play({duration: 150});
+
+                EffectsController.flashLightEffectsInst.isStop = isStopOldValue;
             }
 
             Flashlight.set({
                 $target: $(DOMSelectors.page),
                 val,
-                $flashlightOption: $(DOMSelectors.flashLightOption)
+                $flashlightOption: $(DOMSelectors.flashlightOption)
             });
 
             //save state
