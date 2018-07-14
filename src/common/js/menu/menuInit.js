@@ -88,7 +88,7 @@ export function menuInit() {
             Flashlight.set({
                 $target: $(DOMSelectors.page),
                 val,
-                $vibrationOption: $(DOMSelectors.vibrationOption)
+                $flashlightOption: $(DOMSelectors.flashLightOption)
             });
 
             //save state
