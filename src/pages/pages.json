@@ -19,9 +19,21 @@
         "start": 36,
         "stop": 40
       }
+    },
+    {
+      "id": "tiptoe-out-the-back",
+      "type": "loop",
+      "src": [
+        "/book_data/audios/music/Tiptoe_Out_the_Back.mp3"
+      ],
+      "fadeOutSpeed": 1000,
+      "range": {
+        "start": 42,
+        "stop": 45
+      }
     }
   ],
   "info": {
-    "length": 40
+    "length": 50
   }
 }

@@ -1,0 +1,15 @@
+{
+  "effects": [
+    {
+      "id": "promise-from-distant-days",
+      "type": "loop",
+      "src": [
+        "book_data/audios/music/Sergey_Eybog_-_A_Promise_From_Distant_Days.mp3"
+      ],
+      "playOnLoad": true
+    }
+  ],
+  "pageInfo": {
+    "num": 45
+  }
+}

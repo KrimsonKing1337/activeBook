@@ -1,0 +1,15 @@
+{
+  "effects": [
+    {
+      "id": "blow-with-the-fires",
+      "type": "loop",
+      "src": [
+        "book_data/audios/music/Everlasting_Summer_-_Blow_With_The_Fires.mp3"
+      ],
+      "playOnLoad": true
+    }
+  ],
+  "pageInfo": {
+    "num": 47
+  }
+}
