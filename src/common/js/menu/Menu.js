@@ -247,6 +247,24 @@ export class Vibration {
     }
 }
 
+export class Flashlight {
+    constructor() {
+
+    }
+
+    /**
+     *
+     * @param $target {object}
+     * @param $vibrationOption {object}
+     * @param val {object}
+     */
+    static set({$target, $flashlightOption, val} = {}) {
+        $flashlightOption.filter('.active').removeClass('active');
+        $flashlightOption.filter(`[data-flashlight="${ val }"]`).addClass('active');
+        $target.attr('data-flashlight', val);
+    }
+}
+
 export class Invert {
     constructor() {
 

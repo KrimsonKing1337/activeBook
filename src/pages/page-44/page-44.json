@@ -1,15 +1,15 @@
 {
   "effects": [
     {
-      "id": "rain",
+      "id": "scissors-shovel-grass-cutter",
       "type": "loop",
       "src": [
-        "/book_data/audios/sound/rain-on-plastic-outside.mp3"
+        "/book_data/audios/sound/scissors-shovel-grass-cutter.mp3"
       ],
       "playOnLoad": true
     }
   ],
   "pageInfo": {
-    "num": 40
+    "num": 44
   }
 }

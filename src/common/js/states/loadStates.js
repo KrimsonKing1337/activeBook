@@ -1,4 +1,4 @@
-import {Bookmarks, FontSize, Invert, LineHeight, Theme, Vibration, VolumeSliders} from '../menu/Menu';
+import {Bookmarks, Flashlight, FontSize, Invert, LineHeight, Theme, Vibration, VolumeSliders} from '../menu/Menu';
 import LocalStorage from './LocalStorage';
 import getDOMSelectors from '../helpers/GetDOMSelectors';
 import {CssVariables} from '../helpers/CssVariables';
@@ -64,6 +64,15 @@ export function loadStates() {
             $target: $(DOMSelectors.page),
             val: states.vibration,
             $vibrationOption: $(DOMSelectors.vibrationOption)
+        });
+    }
+
+    //flashlight
+    if (states.flashlight) {
+        Flashlight.set({
+            $target: $(DOMSelectors.page),
+            val: states.flashlight,
+            $flashlightOption: $(DOMSelectors.flashlightOption)
         });
     }
 
