@@ -5,6 +5,21 @@
  */
 import {SoundEffects} from './Effects';
 
+/**
+ *
+ * @param pageNumberCurrent {number}
+ * @param range[] {object}
+ */
+function isPageInRange(pageNumberCurrent, range) {
+    if (range.length > 0) {
+        return range.some((rangeCur) => {
+            return pageNumberCurrent >= rangeCur.start && pageNumberCurrent < rangeCur.stop;
+        });
+    } else {
+        return pageNumberCurrent >= range.start && pageNumberCurrent < range.stop;
+    }
+}
+
 function audioWithRange(pageNumberCurrent, audioWithRange) {
     const EffectsController = window.EffectsController;
     const soundEffectsInst = EffectsController.soundEffectsInst;
@@ -21,7 +36,7 @@ function audioWithRange(pageNumberCurrent, audioWithRange) {
         sleepBeforeStart: audioWithRange.sleepBeforeStart
     };
 
-    if (pageNumberCurrent >= range.start && pageNumberCurrent < range.stop) {
+    if (isPageInRange(pageNumberCurrent, range) === true) {
         if (type === 'loop') {
             soundEffectsInst.checkAndSetNewLoop(audioWithRange).then(() => {
                 if (soundEffectsInst.loops[id].playing() === false) {
@@ -63,9 +78,9 @@ function audioWithRange(pageNumberCurrent, audioWithRange) {
  */
 export function checkAllAudiosWithRange(pageNumberCurrent, pagesEffects) {
     if (pagesEffects.length > 0) {
-        pagesEffects.forEach((pagesEffectCur) => {
-            if (pagesEffectCur.type === 'loop' || pagesEffectCur.type === 'oneShot') {
-                audioWithRange(pageNumberCurrent, pagesEffectCur);
+        pagesEffects.forEach((pagesEffectsCur) => {
+            if (pagesEffectsCur.type === 'loop' || pagesEffectsCur.type === 'oneShot') {
+                audioWithRange(pageNumberCurrent, pagesEffectsCur);
             }
         });
     }

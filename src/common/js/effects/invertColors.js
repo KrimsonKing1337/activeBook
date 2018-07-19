@@ -3,15 +3,31 @@ import getDOMSelectors from '../helpers/GetDOMSelectors';
 import LocalStorage from '../states/LocalStorage';
 
 const DOMSelectors = getDOMSelectors();
+
 /**
  *
  * @param pageNumberCurrent {number}
- * @param invertPagesRange {object}
+ * @param range[] {object}
  */
-export function invertColorsByPageNumber(pageNumberCurrent, invertPagesRange) {
-    if (pageNumberCurrent >= invertPagesRange.start && pageNumberCurrent < invertPagesRange.stop) {
-        const localStorageFilterInvert = LocalStorage.read({key: 'filterInvert'});
+function isPageInRange(pageNumberCurrent, range) {
+    if (range.length > 0) {
+        return range.some((rangeCur) => {
+            return pageNumberCurrent >= rangeCur.start && pageNumberCurrent < rangeCur.stop;
+        });
+    } else {
+        return pageNumberCurrent >= range.start && pageNumberCurrent < range.stop;
+    }
+}
 
+/**
+ *
+ * @param pageNumberCurrent {number}
+ * @param range[] {object}
+ */
+export function invertColorsByPageNumber(pageNumberCurrent, range) {
+    const localStorageFilterInvert = LocalStorage.read({key: 'filterInvert'});
+
+    if (isPageInRange(pageNumberCurrent, range) === true) {
         if (localStorageFilterInvert !== null) {
             Invert.set({
                 val: localStorageFilterInvert,
