@@ -3,10 +3,16 @@
     {
       "id": "invert-colors",
       "type": "invert",
-      "range": {
-        "start": 30,
-        "stop": 36
-      }
+      "range": [
+        {
+          "start": 30,
+          "stop": 36
+        },
+        {
+          "start": 41,
+          "stop": 50
+        }
+      ]
     },
     {
       "id": "ode-to-joy",
