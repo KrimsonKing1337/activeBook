@@ -3,9 +3,7 @@
     {
       "id": "woman-scream-glass-crash-furniture",
       "type": "oneShot",
-      "src": [
-        "/book_data/audios/sound/woman-scream-glass-crash-furniture.mp3"
-      ],
+      "src": "/book_data/audios/sound/woman-scream-glass-crash-furniture.mp3",
       "playOnLoad": true
     }
   ],

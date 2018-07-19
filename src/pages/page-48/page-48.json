@@ -3,9 +3,7 @@
     {
       "id": "teeth-clean-and-face-wash",
       "type": "oneShot",
-      "src": [
-        "book_data/audios/sound/teeth-clean-and-face-wash.mp3"
-      ],
+      "src": "book_data/audios/sound/teeth-clean-and-face-wash.mp3",
       "playOnLoad": true
     }
   ],

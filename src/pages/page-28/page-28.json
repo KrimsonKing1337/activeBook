@@ -4,9 +4,7 @@
       "id": "spacedoor-close",
       "type": "oneShot",
       "playToEnd": true,
-      "src": [
-        "/book_data/audios/sound/spacedoor-close.mp3"
-      ],
+      "src": "/book_data/audios/sound/spacedoor-close.mp3",
       "playOnLoad": true
     }
   ],

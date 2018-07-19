@@ -3,9 +3,7 @@
     {
       "id": "keyboard-typing-and-enter",
       "type": "oneShot",
-      "src": [
-        "/book_data/audios/sound/keyboard-typing-and-enter.mp3"
-      ],
+      "src": "/book_data/audios/sound/keyboard-typing-and-enter.mp3",
       "playOnLoad": true
     }
   ],

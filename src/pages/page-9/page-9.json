@@ -3,9 +3,7 @@
     {
       "id": "alert",
       "type": "loop",
-      "src": [
-        "/book_data/audios/sound/alert.mp3"
-      ],
+      "src": "/book_data/audios/sound/alert.mp3",
       "playOnLoad": true
     },
     {

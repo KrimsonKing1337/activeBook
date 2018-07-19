@@ -3,9 +3,7 @@
     {
       "id": "electric-gate-close",
       "type": "oneShot",
-      "src": [
-        "/book_data/audios/sound/electric-gate-close.mp3"
-      ],
+      "src": "/book_data/audios/sound/electric-gate-close.mp3",
       "playOnLoad": true
     }
   ],

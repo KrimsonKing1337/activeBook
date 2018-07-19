@@ -3,14 +3,12 @@
     {
       "id": "heartbeats-fast",
       "type": "loop",
-      "src": [
-        "/book_data/audios/sound/heartbeats-fast.mp3"
-      ],
+      "src": "/book_data/audios/sound/heartbeats-fast.mp3",
       "vibration": {
         "loop": true,
         "duration": 150,
         "sleep": 415,
-        "sleepBeforeStart": 326
+        "sleepBefore": 326
       },
       "playOnLoad": true
     }

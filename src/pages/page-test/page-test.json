@@ -3,9 +3,7 @@
     {
       "id": "sword",
       "type": "oneShot",
-      "src": [
-        "/book_data/audios/sound/sword.mp3"
-      ],
+      "src": "/book_data/audios/sound/sword.mp3",
       "vibration": {
         "duration": 500
       }
@@ -25,40 +23,23 @@
       "id": "modal-gallery-test-video",
       "type": "modalContent",
       "modalContentType": "video",
-      "src": [
-        "/book_data/videos/test.mp4"
-      ],
-      "poster": [
-        "/book_data/videos/test-poster.jpg"
-      ]
+      "src": "/book_data/videos/test.mp4",
+      "poster": "/book_data/videos/test-poster.jpg"
     },
     {
       "id": "modal-gallery-test-image",
       "type": "modalContent",
       "modalContentType": "image",
-      "src": [
-        "/book_data/images/img-gallery_2.jpg"
-      ]
+      "src": "/book_data/images/img-gallery_2.jpg"
     },
     {
       "id": "modal-gallery-test-html",
       "type": "modalContent",
       "modalContentType": "html",
-      "src": [
-        "modal-scroll-test"
-      ]
-    },
-    {
-      "id": "invert-test",
-      "type": "filter___777",
-      "filter": {
-        "name": "invert",
-        "value": true
-      },
-      "playOnLoad": true
+      "src": "modal-scroll-test"
     }
   ],
   "pageInfo": {
-    "num": 0
+    "num": "test"
   }
 }

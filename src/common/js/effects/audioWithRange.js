@@ -33,7 +33,7 @@ function audioWithRange(pageNumberCurrent, audioWithRange) {
         vibration: audioWithRange.vibration,
         notification: audioWithRange.notification,
         flashLight: audioWithRange.flashLight,
-        sleepBeforeStart: audioWithRange.sleepBeforeStart
+        sleepBefore: audioWithRange.sleepBefore
     };
 
     if (isPageInRange(pageNumberCurrent, range) === true) {

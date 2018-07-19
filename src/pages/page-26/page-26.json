@@ -4,9 +4,7 @@
       "id": "cosmos-impacts",
       "type": "loop",
       "fadeInSpeed": 0,
-      "src": [
-        "/book_data/audios/sound/cosmos-impacts.mp3"
-      ],
+      "src": "/book_data/audios/sound/cosmos-impacts.mp3",
       "vibration": {
         "loop": true,
         "segments": [
@@ -22,9 +20,7 @@
       "id": "over-the-garden-wall",
       "type": "modalContent",
       "modalContentType": "html",
-      "src": [
-        "over-the-garden-wall"
-      ]
+      "src": "over-the-garden-wall"
     }
   ],
   "pageInfo": {

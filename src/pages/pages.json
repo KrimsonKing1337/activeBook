@@ -17,9 +17,8 @@
     {
       "id": "ode-to-joy",
       "type": "loop",
-      "src": [
-        "/book_data/audios/music/Beethoven_-_Ode_to_Joy.mp3"
-      ],
+      "src": "/book_data/audios/music/Beethoven_-_Ode_to_Joy.mp3",
+      "fadeInSpeed": 10000,
       "fadeOutSpeed": 5000,
       "range": {
         "start": 36,
@@ -29,9 +28,7 @@
     {
       "id": "tiptoe-out-the-back",
       "type": "loop",
-      "src": [
-        "/book_data/audios/music/Tiptoe_Out_the_Back.mp3"
-      ],
+      "src": "/book_data/audios/music/Tiptoe_Out_the_Back.mp3",
       "fadeOutSpeed": 1000,
       "range": {
         "start": 42,

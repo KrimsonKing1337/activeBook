@@ -3,9 +3,7 @@
     {
       "id": "scissors-shovel-grass-cutter",
       "type": "loop",
-      "src": [
-        "/book_data/audios/sound/scissors-shovel-grass-cutter.mp3"
-      ],
+      "src": "/book_data/audios/sound/scissors-shovel-grass-cutter.mp3",
       "playOnLoad": true
     }
   ],

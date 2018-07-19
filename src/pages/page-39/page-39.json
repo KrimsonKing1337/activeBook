@@ -4,10 +4,8 @@
       "id": "thunder",
       "type": "oneShot",
       "playToEnd": true,
-      "src": [
-        "/book_data/audios/sound/thunder.mp3"
-      ],
-      "sleepBeforeStart": 3000,
+      "src": "/book_data/audios/sound/thunder.mp3",
+      "sleepBefore": 3000,
       "playOnLoad": true
     },
     {
@@ -15,7 +13,7 @@
       "type": "flashLight",
       "segments": [
         {
-          "sleepBeforeStart": 1000,
+          "sleepBefore": 1000,
           "duration": 125,
           "sleep": 150
         },

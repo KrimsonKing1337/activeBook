@@ -3,9 +3,7 @@
     {
       "id": "rain",
       "type": "loop",
-      "src": [
-        "/book_data/audios/sound/rain-on-plastic-outside.mp3"
-      ],
+      "src": "/book_data/audios/sound/rain-on-plastic-outside.mp3",
       "playOnLoad": true
     }
   ],

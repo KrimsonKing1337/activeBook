@@ -3,14 +3,12 @@
     {
       "id": "rain-and-thunder",
       "type": "loop",
-      "src": [
-        "/book_data/audios/sound/rain-and-thunder.mp3"
-      ],
+      "src": "/book_data/audios/sound/rain-and-thunder.mp3",
       "flashLight": {
         "loop": true,
         "segments": [
           {
-            "sleepBeforeStart": 1880,
+            "sleepBefore": 1880,
             "duration": 125,
             "sleep": 150
           },

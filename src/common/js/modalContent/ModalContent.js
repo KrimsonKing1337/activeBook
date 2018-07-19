@@ -191,10 +191,10 @@ export class ModalContent {
     /**
      *
      * @param $el {object} jquery
-     * @param src[] {string}
+     * @param src {string}
      */
     static setImg($el, src) {
-        const newImage = ModalContent.getNewGifOrImgByExt(src[0]);
+        const newImage = ModalContent.getNewGifOrImgByExt(src);
 
         $el.append(newImage);
     }

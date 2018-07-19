@@ -3,9 +3,7 @@
     {
       "id": "coin-flipping",
       "type": "loop",
-      "src": [
-        "/book_data/audios/sound/coin-flipping.mp3"
-      ],
+      "src": "/book_data/audios/sound/coin-flipping.mp3",
       "playOnLoad": true
     }
   ],

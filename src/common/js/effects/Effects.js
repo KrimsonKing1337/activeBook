@@ -86,7 +86,7 @@ export class Effects {
             vibration: effectCur.vibration,
             notification: effectCur.notification,
             flashLight: effectCur.flashLight,
-            sleepBeforeStart: effectCur.sleepBeforeStart,
+            sleepBefore: effectCur.sleepBefore,
             playToEnd: effectCur.playToEnd
         };
 
@@ -395,12 +395,12 @@ export class SoundEffects {
      * @param id {string}
      * @param [fadeInSpeed] {number}
      * @param [stopBy] {number}
-     * @param [sleepBeforeStart] {number}
+     * @param [sleepBefore] {number}
      * @param [flashLight] {object}
      * @param [vibration] {object}
      * @param [notification] {object}
      */
-    playOneShot(id, {fadeInSpeed = 0, stopBy, sleepBeforeStart = 0, vibration, flashLight, notification} = {}) {
+    playOneShot(id, {fadeInSpeed = 0, stopBy, sleepBefore = 0, vibration, flashLight, notification} = {}) {
         const oneShot = this.oneShots[id];
 
         if (notification) {
@@ -411,7 +411,7 @@ export class SoundEffects {
             NotificationsEffects.play(notification);
         }
 
-        const sleepBeforeStartTimer = setTimeout(async () => {
+        const sleepBeforeTimer = setTimeout(async () => {
             if (oneShot.playing() === true) {
                 this.stopAll({target: 'oneShots', fadeOutSpeed: 0});
             }
@@ -440,9 +440,9 @@ export class SoundEffects {
 
                 this.timers.push(stopByTimer);
             }
-        }, sleepBeforeStart);
+        }, sleepBefore);
 
-        this.timers.push(sleepBeforeStartTimer);
+        this.timers.push(sleepBeforeTimer);
     }
 
     /**
@@ -499,12 +499,12 @@ export class SoundEffects {
      * @param id {string}
      * @param [fadeInSpeed] {number}
      * @param [stopBy] {object}
-     * @param [sleepBeforeStart] {number}
+     * @param [sleepBefore] {number}
      * @param [vibration] {object}
      * @param [flashLight] {object}
      * @param [notification] {object}
      */
-    playLoop(id, {fadeInSpeed = 1000, stopBy, sleepBeforeStart = 0, vibration, flashLight, notification} = {}) {
+    playLoop(id, {fadeInSpeed = 1000, stopBy, sleepBefore = 0, vibration, flashLight, notification} = {}) {
         const loop = this.loops[id];
 
         if (notification) {
@@ -515,7 +515,7 @@ export class SoundEffects {
             NotificationsEffects.play(notification);
         }
 
-        const sleepBeforeStartTimer = setTimeout(async () => {
+        const sleepBeforeTimer = setTimeout(async () => {
             await SoundEffects.fadeIn({
                 target: loop,
                 volume: this.volumeInst.getLoops(),
@@ -540,9 +540,9 @@ export class SoundEffects {
 
                 this.timers.push(stopByTimer);
             }
-        }, sleepBeforeStart);
+        }, sleepBefore);
 
-        this.timers.push(sleepBeforeStartTimer);
+        this.timers.push(sleepBeforeTimer);
     }
 
     /**
@@ -671,12 +671,12 @@ class VibrationEffects {
      *
      * @param [duration] {number}
      * @param [sleep] {number}
-     * @param [sleepBeforeStart] {number}
+     * @param [sleepBefore] {number}
      * @param [loop] {boolean}
      * @param [segments][] {object}
      * @param [fromReduce] {boolean}
      */
-    play({duration, sleep = 100, sleepBeforeStart = 0, loop, segments = []} = {}, fromReduce = false) {
+    play({duration, sleep = 100, sleepBefore = 0, loop, segments = []} = {}, fromReduce = false) {
         if (!this.vibrationSupport) return;
         if (this.state !== true) return;
         //if (this.isStop === true) return Promise.reject('play is interrupted by stop flag');
@@ -712,12 +712,12 @@ class VibrationEffects {
                     resolve();
 
                     if (this.isLoop === true && fromReduce === false) {
-                        this.play({duration, sleep, sleepBeforeStart, loop});
+                        this.play({duration, sleep, sleepBefore, loop});
                     }
                 }, sleep);
 
                 this.timers.push(sleepTimer);
-            }, sleepBeforeStart);
+            }, sleepBefore);
 
             this.timers.push(sleepBeforeTimer);
         });
@@ -983,13 +983,13 @@ class FlashLightEffects {
     /**
      *
      * @param [duration] {number}
-     * @param [sleepBeforeStart] {number}
+     * @param [sleepBefore] {number}
      * @param [sleep] {number}
      * @param [loop] {boolean}
      * @param [segments][] {object}
      * @param [fromReduce] {boolean}
      */
-    async play({duration, sleep = 100, sleepBeforeStart = 0, loop, segments = []} = {}, fromReduce = false) {
+    async play({duration, sleep = 100, sleepBefore = 0, loop, segments = []} = {}, fromReduce = false) {
         if (!this.flashlightSupport) return;
         if (this.state !== true) return;
 
@@ -1027,7 +1027,7 @@ class FlashLightEffects {
         if (typeof duration === 'undefined') return;
 
         return new Promise((resolve, reject) => {
-            const sleepBeforeStartTimer = setTimeout(() => {
+            const sleepBeforeTimer = setTimeout(() => {
                 this.switchOn();
 
                 if (duration === Infinity) {
@@ -1043,15 +1043,15 @@ class FlashLightEffects {
                         resolve();
 
                         if (this.isLoop === true && fromReduce === false) {
-                            this.play({duration, sleep, sleepBeforeStart, loop});
+                            this.play({duration, sleep, sleepBefore, loop});
                         }
                     }, sleep);
 
                     this.timers.push(sleepTimer);
                 }
-            }, sleepBeforeStart);
+            }, sleepBefore);
 
-            this.timers.push(sleepBeforeStartTimer);
+            this.timers.push(sleepBeforeTimer);
         });
     }
 
