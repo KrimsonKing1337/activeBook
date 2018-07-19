@@ -1,5 +1,15 @@
 /**
  *
+ * @param value {string}
+ */
+function ifNeedToModify(value) {
+    const pattern = /^\/book_data\//;
+
+    return (pattern.test(value) === true);
+}
+
+/**
+ *
  * @param pagesCurEffects[] {object}
  * @param rootApp {string}
  * @param effectCur {object}
@@ -7,14 +17,19 @@
  * @param key {string}
  */
 function pathModifyByKey(pagesCurEffects, rootApp, effectCur, effectCurIndex, key) {
-    effectCur[key].forEach((scrCur, scrCurIndex) => {
-        const keyCur = pagesCurEffects[effectCurIndex][key][scrCurIndex];
-        const pattern = /^\/book_data\//;
+    if (typeof effectCur[key] !== 'string') {
+        effectCur[key].forEach((valueCur, valueCurIndex) => {
+            if (ifNeedToModify(valueCur) === true) {
+                pagesCurEffects[effectCurIndex][key][valueCurIndex] = `${rootApp}${valueCur}`;
+            }
+        });
+    } else {
+        const value = effectCur[key];
 
-        if (pattern.test(keyCur) === true) {
-            pagesCurEffects[effectCurIndex][key][scrCurIndex] = `${rootApp}${scrCur}`
+        if (ifNeedToModify(value) === true) {
+            pagesCurEffects[effectCurIndex][key] = `${rootApp}${value}`;
         }
-    });
+    }
 }
 
 /**
