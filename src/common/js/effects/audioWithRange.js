@@ -1,9 +1,5 @@
-/**
- *
- * @param pageNumberCurrent {number}
- * @param audioWithRange {object}
- */
 import {SoundEffects} from './Effects';
+import {effectsInst} from '../effects/Effects';
 
 /**
  *
@@ -20,8 +16,13 @@ function isPageInRange(pageNumberCurrent, range) {
     }
 }
 
+/**
+ *
+ * @param pageNumberCurrent {number}
+ * @param audioWithRange {object}
+ */
 function audioWithRange(pageNumberCurrent, audioWithRange) {
-    const EffectsController = window.EffectsController;
+    const EffectsController = effectsInst();
     const soundEffectsInst = EffectsController.soundEffectsInst;
     const id = audioWithRange.id;
     const type = audioWithRange.type;

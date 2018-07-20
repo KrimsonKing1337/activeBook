@@ -8,9 +8,10 @@ import {pageInfo} from '../forAppInit/pageInfo';
 import LocalStorage from '../states/LocalStorage';
 import {bookmarksSaveState} from '../states/bookmarksSaveState';
 import {ModalContent} from '../modalContent/ModalContent';
+import {effectsInst} from '../effects/Effects';
 
 export function menuInit() {
-    const EffectsController = window.EffectsController;
+    const EffectsController = effectsInst();
     const DOMSelectors = getDOMSelectors();
 
     ionRangeSliderInit();

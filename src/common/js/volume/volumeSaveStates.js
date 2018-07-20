@@ -1,11 +1,12 @@
 //сохраняем значения настроек
 import LocalStorage from '../states/LocalStorage';
 import getDOMSelectors from '../helpers/GetDOMSelectors';
+import {effectsInst} from '../effects/Effects';
 
 const DOMSelectors = getDOMSelectors();
 
 export function volumeSaveStates() {
-    const EffectsController = window.EffectsController;
+    const EffectsController = effectsInst();
 
     const volumeGlobalSlider = $(DOMSelectors.volumeGlobal).find('.js-range-slider');
     const volumeOneShotsSlider = $(DOMSelectors.volumeOneShots).find('.js-range-slider');

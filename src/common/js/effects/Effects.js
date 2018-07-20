@@ -12,7 +12,7 @@ import {ModalContent} from '../modalContent/ModalContent';
 const vibrationState = LocalStorage.read({key: 'vibration'});
 const flashlightState = LocalStorage.read({key: 'flashlight'});
 
-export class Effects {
+class Effects {
     constructor() {
         this.effects = [];
         this.volumeInst = getVolumeInst();
@@ -387,7 +387,7 @@ export class SoundEffects {
      * @param [fadeOutSpeed] {number}
      */
     pauseOneStop(id, {fadeOutSpeed = 0}) {
-        this.stopOneShot(id , {fadeOutSpeed, pause: true});
+        this.stopOneShot(id, {fadeOutSpeed, pause: true});
     }
 
     /**
@@ -469,7 +469,7 @@ export class SoundEffects {
      * @param [fadeOutSpeed] {number}
      */
     pauseLoop(id, {fadeOutSpeed = 0}) {
-        this.stopLoop(id , {fadeOutSpeed, pause: true});
+        this.stopLoop(id, {fadeOutSpeed, pause: true});
     }
 
     /**
@@ -1085,3 +1085,21 @@ class FlashLightEffects {
         });
     }
 }
+
+function getEffectsInst() {
+    let inited = false;
+    let effectsInstSingleton;
+
+    return () => {
+        if (inited === true) {
+            return effectsInstSingleton;
+        } else {
+            inited = true;
+            effectsInstSingleton = new Effects(); //for debug use window.Effects = effectsInstSingleton = new Effects();
+
+            return effectsInstSingleton;
+        }
+    }
+}
+
+export const effectsInst = getEffectsInst();

@@ -3,7 +3,7 @@ import {menuInit} from './menu/menuInit';
 import {browserCheck} from './forAppInit/browserCheck';
 import getDOMSelectors from './helpers/GetDOMSelectors';
 import {getAJAX} from './helpers/getAJAX';
-import {Effects} from './effects/Effects';
+import {effectsInst} from './effects/Effects';
 import {loadStates} from './states/loadStates';
 import {playOnLoad} from './effects/playOnLoad';
 import {hoverTouchUnstick} from './events/hoverTouchUnstick';
@@ -36,7 +36,7 @@ async function onReady(rootApp) {
 
     firstOpenCheck();
 
-    const EffectsController = window.EffectsController = new Effects();
+    const EffectsController = effectsInst();
 
     const DOMSelectors = getDOMSelectors();
     const $body = $('body');

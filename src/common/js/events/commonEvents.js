@@ -2,8 +2,10 @@ import getDOMSelectors from '../helpers/GetDOMSelectors';
 import {ModalContent} from '../modalContent/ModalContent';
 import {Gallery} from '../modalContent/Gallery';
 import {pageInfo} from '../forAppInit/pageInfo';
+import {effectsInst} from '../effects/Effects';
 
 const DOMSelectors = getDOMSelectors();
+const EffectsController = effectsInst();
 
 function getActiveModal() {
     const $modalContent = $(DOMSelectors.modalContent).filter(':not(.template)');
@@ -114,7 +116,7 @@ export function actionTextInit() {
     $('[data-effect-target]').on('click', function (e) {
         e.preventDefault();
 
-        window.EffectsController.play($(this).data('effect-target'));
+        EffectsController.play($(this).data('effect-target'));
     });
 
     setTimeout(() => {

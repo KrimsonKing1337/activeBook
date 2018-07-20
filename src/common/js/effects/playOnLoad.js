@@ -1,4 +1,5 @@
 import filter from 'lodash-es/filter';
+import {effectsInst} from '../effects/Effects';
 
 /**
  *
@@ -8,11 +9,12 @@ import filter from 'lodash-es/filter';
  * проиграны сразу после загрузки
  */
 export function playOnLoad(effects) {
+    const EffectsController = effectsInst();
     const playOnLoadEffects = filter(effects, 'playOnLoad');
 
     if (playOnLoadEffects.length > 0) {
         playOnLoadEffects.forEach((playOnLoadEffectCur) => {
-            window.EffectsController.play(playOnLoadEffectCur.id);
+            EffectsController.play(playOnLoadEffectCur.id);
         });
     }
 }

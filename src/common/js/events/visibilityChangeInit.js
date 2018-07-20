@@ -3,14 +3,17 @@ import {playOnLoad} from '../effects/playOnLoad';
 import filter from 'lodash-es/filter';
 import {checkAllAudiosWithRange} from '../effects/audioWithRange';
 import {pageInfo} from '../forAppInit/pageInfo';
+import {effectsInst} from '../effects/Effects';
 
 export function visibilityChangeInit() {
+    const EffectsController = effectsInst();
+
     document.addEventListener('visibilitychange', () => {
         const pageCurEffects = LocalStorage.read({key: 'pageCurEffects'});
         const pagesEffects = LocalStorage.read({key: 'pagesEffects'});
 
         if (document.hidden) {
-            window.EffectsController.stopAll({
+            EffectsController.stopAll({
                 target: 'all',
                 unload: false,
                 pause: true,
