@@ -184,8 +184,8 @@ export class ModalContent {
      * @param posterSrc[] {string}
      */
     static setVideo($el, src, posterSrc = [`${getRootApp()}/img/poster-default.jpg`]) {
-        $el.attr('src', src[0]);
-        $el.attr('poster', posterSrc[0]);
+        $el.attr('src', src);
+        $el.attr('poster', posterSrc);
     }
 
     /**
