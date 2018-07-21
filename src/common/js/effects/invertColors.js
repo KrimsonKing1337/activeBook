@@ -40,12 +40,16 @@ export function invertColorsByPageNumber(pageNumberCurrent, range) {
             });
         }
 
+        $(DOMSelectors.textDotsWrapper).addClass('active');
+
         Invert.show();
     } else {
         Invert.set({
             val: false,
             $invertOption: $(DOMSelectors.invertOption)
         });
+
+        $(DOMSelectors.textDotsWrapper).removeClass('active');
 
         Invert.hide();
     }

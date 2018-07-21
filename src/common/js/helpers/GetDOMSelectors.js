@@ -50,6 +50,7 @@ export default function getDOMSelectors() {
         volumeLoops: '.js-volume-loops',
         modalContentClose: '.js-modal-content-close',
         modalContentFullSize: '.js-modal-content-full-size',
-        modalContentInner: '.js-modal-content-inner'
+        modalContentInner: '.js-modal-content-inner',
+        textDotsWrapper: '.js-text-dots-wrapper'
     }
 }
