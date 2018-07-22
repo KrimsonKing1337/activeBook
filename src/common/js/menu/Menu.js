@@ -1,6 +1,7 @@
 import getDOMSelectors from '../helpers/GetDOMSelectors';
 import {FilterEffects} from '../effects/Effects';
 import {lastOpenedPageInst} from '../states/lastOpenedPage';
+import LocalStorage from '../states/LocalStorage';
 
 const DOMSelectors = getDOMSelectors();
 
@@ -281,6 +282,10 @@ export class Invert {
         $invertOption.filter(`[data-invert="${ val }"]`).addClass('active');
 
         FilterEffects.invert(val, writeToLocalStorage);
+    }
+
+    static get() {
+        return LocalStorage.write({key: 'filterInvert'});
     }
 
     static show() {

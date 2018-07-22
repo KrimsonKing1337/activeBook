@@ -1,0 +1,27 @@
+{
+  "effects": [
+    {
+      "id": "notification-to-be-continued",
+      "type": "oneShot",
+      "playToEnd": true,
+      "src": "/book_data/audios/sound/achievement-unlocked.mp3",
+      "notification": {
+        "id": "notification-to-be-continued",
+        "text": "Продолжение следует..",
+        "className": "info"
+      },
+      "playOnLoad": true
+    },
+    {
+      "id": "text-shadow",
+      "type": "textShadow",
+      "animation": "blink",
+      "color": "blue",
+      "speed": 850,
+      "playOnLoad": true
+    }
+  ],
+  "pageInfo": {
+    "num": 57
+  }
+}

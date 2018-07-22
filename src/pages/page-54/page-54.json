@@ -1,0 +1,13 @@
+{
+  "effects": [
+    {
+      "id": "immolate-improved",
+      "type": "modalContent",
+      "modalContentType": "video",
+      "src": "/book_data/videos/immolate_improved.mp4"
+    }
+  ],
+  "pageInfo": {
+    "num": 54
+  }
+}

@@ -11,13 +11,21 @@
         {
           "start": 41,
           "stop": 50
+        },
+        {
+          "start": 52,
+          "stop": 55
+        },
+        {
+          "start": 56,
+          "stop": 58
         }
       ]
     },
     {
       "id": "ode-to-joy",
       "type": "loop",
-      "src": "/book_data/audios/music/Beethoven_-_Ode_to_Joy.mp3",
+      "src": "/book_data/audios/music/Invitation_to_the_Castle_Ball.mp3",
       "fadeInSpeed": 10000,
       "fadeOutSpeed": 5000,
       "range": {
@@ -37,6 +45,6 @@
     }
   ],
   "info": {
-    "length": 50
+    "length": 57
   }
 }

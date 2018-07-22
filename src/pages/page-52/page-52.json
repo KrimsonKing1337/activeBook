@@ -1,0 +1,22 @@
+{
+  "effects": [
+    {
+      "id": "text-shadow",
+      "type": "textShadow",
+      "animation": "blink",
+      "color": "blue",
+      "speed": 550,
+      "playOnLoad": true
+    },
+    {
+      "id": "ringtone",
+      "type": "loop",
+      "src": "/book_data/audios/sound/ringtone.mp3",
+      "fadeInSpeed": 0,
+      "playOnLoad": true
+    }
+  ],
+  "pageInfo": {
+    "num": 52
+  }
+}
