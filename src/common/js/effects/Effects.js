@@ -8,7 +8,6 @@ import {getVolumeInst} from '../volume/getVolumeInst';
 import {CssVariables} from '../helpers/CssVariables';
 import {getRandomInt} from '../helpers/getRamdomInt';
 import {ModalContent} from '../modalContent/ModalContent';
-import {Invert} from '../menu/Menu';
 
 const vibrationState = LocalStorage.read({key: 'vibration'});
 const flashlightState = LocalStorage.read({key: 'flashlight'});

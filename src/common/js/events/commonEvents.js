@@ -5,7 +5,6 @@ import {pageInfo} from '../forAppInit/pageInfo';
 import {effectsInst} from '../effects/Effects';
 
 const DOMSelectors = getDOMSelectors();
-const EffectsController = effectsInst();
 
 function getActiveModal() {
     const $modalContent = $(DOMSelectors.modalContent).filter(':not(.template)');
@@ -112,6 +111,8 @@ export function orientationChangeForGalleryInit() {
 }
 
 export function actionTextInit() {
+    const EffectsController = effectsInst();
+
     //action text click event
     $('[data-effect-target]').on('click', function (e) {
         e.preventDefault();
