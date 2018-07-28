@@ -1,0 +1,15 @@
+{
+  "effects": [
+    {
+      "id": "door-pounding",
+      "type": "loop",
+      "src": "/book_data/audios/sound/door-pounding.mp3",
+      "playOnLoad": true,
+      "fadeInSpeed": 0,
+      "sleepBefore": 500
+    }
+  ],
+  "pageInfo": {
+    "num": 62
+  }
+}

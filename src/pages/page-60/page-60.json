@@ -1,0 +1,14 @@
+{
+  "effects": [
+    {
+      "id": "start-smoking",
+      "type": "oneShot",
+      "src": "/book_data/audios/sound/start-smoking.mp3",
+      "playOnLoad": true,
+      "fadeInSpeed": 0
+    }
+  ],
+  "pageInfo": {
+    "num": 60
+  }
+}

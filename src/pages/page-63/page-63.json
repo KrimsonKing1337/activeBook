@@ -1,0 +1,13 @@
+{
+  "effects": [
+    {
+      "id": "door-open-close",
+      "type": "oneShot",
+      "src": "/book_data/audios/sound/door-open-close.mp3",
+      "playOnLoad": true
+    }
+  ],
+  "pageInfo": {
+    "num": 63
+  }
+}
