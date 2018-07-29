@@ -8,7 +8,7 @@
       "sleepBefore": 600,
       "vibration": {
         "duration": 250,
-        "sleepBefore": 697
+        "sleepBefore": 97
       },
       "playOnLoad": true
     }
