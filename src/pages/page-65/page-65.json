@@ -3,7 +3,7 @@
     {
       "id": "man-breath",
       "type": "oneShot",
-      "src": "/book_data/audios/sound/man-breathing.mp3",
+      "src": "/book_data/audios/sounds/man-breathing.mp3",
       "playOnLoad": true
     }
   ],

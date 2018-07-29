@@ -4,7 +4,7 @@
       "id": "cosmos-impacts",
       "type": "loop",
       "fadeInSpeed": 0,
-      "src": "/book_data/audios/sound/cosmos-impacts.mp3",
+      "src": "/book_data/audios/sounds/cosmos-impacts.mp3",
       "vibration": {
         "loop": true,
         "segments": [

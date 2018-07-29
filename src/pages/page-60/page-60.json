@@ -3,7 +3,7 @@
     {
       "id": "start-smoking",
       "type": "oneShot",
-      "src": "/book_data/audios/sound/start-smoking.mp3",
+      "src": "/book_data/audios/sounds/start-smoking.mp3",
       "playOnLoad": true,
       "fadeInSpeed": 0
     }

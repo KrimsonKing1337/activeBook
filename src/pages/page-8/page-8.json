@@ -3,7 +3,7 @@
     {
       "id": "Gagarin-and-rocket-start",
       "type": "oneShot",
-      "src": "/book_data/audios/sound/Gagarin-and-rocket-start.mp3",
+      "src": "/book_data/audios/sounds/Gagarin-and-rocket-start.mp3",
       "playOnLoad": true,
       "vibration": {
         "duration": 53000,

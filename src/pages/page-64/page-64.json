@@ -3,7 +3,7 @@
     {
       "id": "chair-move",
       "type": "oneShot",
-      "src": "/book_data/audios/sound/chair-move.mp3",
+      "src": "/book_data/audios/sounds/chair-move.mp3",
       "playToEnd": true,
       "playOnLoad": true
     }

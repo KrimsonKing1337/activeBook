@@ -4,7 +4,7 @@
       "id": "notification",
       "type": "oneShot",
       "playToEnd": true,
-      "src": "/book_data/audios/sound/notification.mp3",
+      "src": "/book_data/audios/sounds/notification.mp3",
       "playOnLoad": true,
       "vibration": {
         "duration": 500

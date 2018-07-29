@@ -3,7 +3,7 @@
     {
       "id": "rain-and-thunder",
       "type": "loop",
-      "src": "/book_data/audios/sound/rain-and-thunder.mp3",
+      "src": "/book_data/audios/sounds/rain-and-thunder.mp3",
       "flashLight": {
         "loop": true,
         "segments": [

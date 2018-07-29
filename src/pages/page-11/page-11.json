@@ -3,7 +3,7 @@
     {
       "id": "fly-ship-engine",
       "type": "loop",
-      "src": "/book_data/audios/sound/fly-ship-engine.mp3",
+      "src": "/book_data/audios/sounds/fly-ship-engine.mp3",
       "playOnLoad": true
     }
   ],

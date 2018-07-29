@@ -3,7 +3,7 @@
     {
       "id": "germetition-and-spacedoor-open",
       "type": "oneShot",
-      "src": "/book_data/audios/sound/germetition-and-spacedoor-open.mp3",
+      "src": "/book_data/audios/sounds/germetition-and-spacedoor-open.mp3",
       "playOnLoad": true
     }
   ],

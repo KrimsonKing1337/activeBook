@@ -3,7 +3,7 @@
     {
       "id": "people-and-cameras-ambient",
       "type": "loop",
-      "src": "/book_data/audios/sound/people-and-cameras-ambient.mp3",
+      "src": "/book_data/audios/sounds/people-and-cameras-ambient.mp3",
       "playOnLoad": true
     }
   ],

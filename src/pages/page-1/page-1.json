@@ -3,7 +3,7 @@
     {
       "id": "clock-alarm",
       "type": "oneShot",
-      "src": "/book_data/audios/sound/alarm-clock.mp3",
+      "src": "/book_data/audios/sounds/alarm-clock.mp3",
       "playOnLoad": true,
       "stopBy": {
         "duration": 7000,

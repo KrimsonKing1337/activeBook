@@ -4,7 +4,7 @@
       "id": "shotgun-shot",
       "type": "oneShot",
       "playToEnd": true,
-      "src": "/book_data/audios/sound/shotgun-shot.mp3",
+      "src": "/book_data/audios/sounds/shotgun-shot.mp3",
       "sleepBefore": 600,
       "vibration": {
         "duration": 250,

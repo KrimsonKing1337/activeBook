@@ -3,7 +3,7 @@
     {
       "id": "police-come",
       "type": "oneShot",
-      "src": "/book_data/audios/sound/police-come.mp3",
+      "src": "/book_data/audios/sounds/police-come.mp3",
       "playOnLoad": true
     },
     {

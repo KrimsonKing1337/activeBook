@@ -3,7 +3,7 @@
     {
       "id": "sword",
       "type": "oneShot",
-      "src": "/book_data/audios/sound/sword.mp3",
+      "src": "/book_data/audios/sounds/sword.mp3",
       "vibration": {
         "duration": 500
       }

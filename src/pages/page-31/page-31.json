@@ -3,7 +3,7 @@
     {
       "id": "heartbeats-fast",
       "type": "loop",
-      "src": "/book_data/audios/sound/heartbeats-fast.mp3",
+      "src": "/book_data/audios/sounds/heartbeats-fast.mp3",
       "vibration": {
         "loop": true,
         "duration": 150,

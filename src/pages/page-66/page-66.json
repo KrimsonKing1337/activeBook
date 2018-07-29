@@ -4,7 +4,7 @@
       "id": "notification-to-be-continued",
       "type": "oneShot",
       "playToEnd": true,
-      "src": "/book_data/audios/sound/achievement-unlocked.mp3",
+      "src": "/book_data/audios/sounds/achievement-unlocked.mp3",
       "notification": {
         "id": "notification-to-be-continued",
         "text": "Продолжение следует..",

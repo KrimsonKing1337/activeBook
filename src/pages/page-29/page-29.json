@@ -4,7 +4,7 @@
       "id": "spacedoor-open",
       "type": "oneShot",
       "playToEnd": true,
-      "src": "/book_data/audios/sound/spacedoor-open.mp3",
+      "src": "/book_data/audios/sounds/spacedoor-open.mp3",
       "playOnLoad": true
     }
   ],

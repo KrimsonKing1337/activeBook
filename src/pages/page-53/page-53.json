@@ -3,7 +3,7 @@
     {
       "id": "statics",
       "type": "loop",
-      "src": "/book_data/audios/sound/statics.mp3",
+      "src": "/book_data/audios/sounds/statics.mp3",
       "playOnLoad": true
     }
   ],

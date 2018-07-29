@@ -3,7 +3,7 @@
     {
       "id": "car-door-close-engine-start",
       "type": "oneShot",
-      "src": "/book_data/audios/sound/car-door-close-engine-start.mp3",
+      "src": "/book_data/audios/sounds/car-door-close-engine-start.mp3",
       "playOnLoad": true
     }
   ],

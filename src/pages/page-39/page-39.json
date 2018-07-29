@@ -4,7 +4,7 @@
       "id": "thunder",
       "type": "oneShot",
       "playToEnd": true,
-      "src": "/book_data/audios/sound/thunder.mp3",
+      "src": "/book_data/audios/sounds/thunder.mp3",
       "sleepBefore": 3000,
       "playOnLoad": true
     },
