@@ -1,5 +1,12 @@
 {
-  "effects": [],
+  "effects": [
+    {
+      "id": "statics",
+      "type": "loop",
+      "src": "/book_data/audios/sounds/statics.mp3",
+      "playOnLoad": true
+    }
+  ],
   "pageInfo": {
     "num": 68
   }

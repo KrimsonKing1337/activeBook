@@ -1,5 +1,17 @@
 {
-  "effects": [],
+  "effects": [
+    {
+      "id": "punch-and-ouch",
+      "type": "oneShot",
+      "playToEnd": true,
+      "src": "/book_data/audios/sounds/punch-and-ouch.mp3",
+      "sleepBefore": 100,
+      "vibration": {
+        "duration": 150
+      },
+      "playOnLoad": true
+    }
+  ],
   "pageInfo": {
     "num": 77
   }

@@ -1,5 +1,16 @@
 {
-  "effects": [],
+  "effects": [
+    {
+      "id": "punch-and-body-fall",
+      "type": "oneShot",
+      "src": "/book_data/audios/sounds/punch-and-body-fall.mp3",
+      "playOnLoad": true,
+      "vibration": {
+        "duration": 150,
+        "sleepBefore": 65
+      }
+    }
+  ],
   "pageInfo": {
     "num": 70
   }

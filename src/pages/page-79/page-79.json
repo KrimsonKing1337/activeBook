@@ -1,5 +1,12 @@
 {
-  "effects": [],
+  "effects": [
+    {
+      "id": "password-keyboard",
+      "type": "oneShot",
+      "src": "/book_data/audios/sounds/password-keyboard.mp3",
+      "playOnLoad": true
+    }
+  ],
   "pageInfo": {
     "num": 79
   }

@@ -1,5 +1,12 @@
 {
-  "effects": [],
+  "effects": [
+    {
+      "id": "password-keyboard-and-door-open",
+      "type": "oneShot",
+      "src": "/book_data/audios/sounds/password-keyboard-and-door-open.mp3",
+      "playOnLoad": true
+    }
+  ],
   "pageInfo": {
     "num": 76
   }

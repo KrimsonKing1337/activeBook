@@ -1,5 +1,12 @@
 {
-  "effects": [],
+  "effects": [
+    {
+      "id": "scanning",
+      "type": "oneShot",
+      "src": "/book_data/audios/sounds/scanning.mp3",
+      "playOnLoad": true
+    }
+  ],
   "pageInfo": {
     "num": 80
   }

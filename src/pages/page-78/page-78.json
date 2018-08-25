@@ -1,5 +1,12 @@
 {
-  "effects": [],
+  "effects": [
+    {
+      "id": "body-drag",
+      "type": "oneShot",
+      "src": "/book_data/audios/sounds/body-drag.mp3",
+      "playOnLoad": true
+    }
+  ],
   "pageInfo": {
     "num": 78
   }

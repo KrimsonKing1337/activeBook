@@ -1,5 +1,16 @@
 {
-  "effects": [],
+  "effects": [
+    {
+      "id": "body-fall-and-search",
+      "type": "oneShot",
+      "src": "/book_data/audios/sounds/body-fall-and-search.mp3",
+      "playOnLoad": true,
+      "vibration": {
+        "duration": 150,
+        "sleepBefore": 95
+      }
+    }
+  ],
   "pageInfo": {
     "num": 71
   }

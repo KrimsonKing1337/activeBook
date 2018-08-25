@@ -1,5 +1,12 @@
 {
-  "effects": [],
+  "effects": [
+    {
+      "id": "door-open",
+      "type": "oneShot",
+      "src": "/book_data/audios/sounds/door-open.mp3",
+      "playOnLoad": true
+    }
+  ],
   "pageInfo": {
     "num": 74
   }
