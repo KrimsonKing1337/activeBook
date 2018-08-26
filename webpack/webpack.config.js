@@ -5,7 +5,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 const HtmlWebpackInlineSVGPlugin = require('html-webpack-inline-svg-plugin');
 const htmlWebpackPluginChunksPages = require('./htmlWebpackPluginChunksPages');
 const isMobileApp = require('./isMobileApp');
@@ -68,10 +67,7 @@ module.exports = {
                 to: `${buildDir}/`,
                 flatten: true
             }
-        ]),
-        new OpenBrowserPlugin({
-            url: 'http://localhost:3000'
-        })
+        ])
     ],
     context: rootPath,
     resolve: {
@@ -136,13 +132,10 @@ module.exports = {
         }, {
             test: /\.ejs$/,
             use: ['ejs-loader']
-        }, {
-            test: /\.(graphql|graphqls|graphqle|graphqld|gql)$/,
-            use: ['graphql-tag/loader']
         }]
     },
     devServer: {
-        host: '0.0.0.0',
+        host: 'localhost',
         port: '3000',
         contentBase: resolve(__dirname, '../public'),
         publicPath: '/',
@@ -151,6 +144,6 @@ module.exports = {
                 {from: /./, to: '/err-404.html'}
             ]
         },
-        //hot: true
+        hot: true
     }
 };
