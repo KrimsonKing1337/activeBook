@@ -75,7 +75,8 @@ export class GoToPage {
      * @param withDirection {boolean};
      */
     static go({val, withDirection = false} = {}) {
-        if (withDirection === false) {
+        //todo: uncomment before release
+        /*if (withDirection === false) {
             const lastOpenedPage = lastOpenedPageInst.lastOpenedPage;
 
             if (val > lastOpenedPage && val !== 1) {
@@ -86,7 +87,9 @@ export class GoToPage {
 
         } else {
             $(window).trigger('changePage', val);
-        }
+        }*/
+
+        $(window).trigger('changePage', val);
     }
 
     /**
