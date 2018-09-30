@@ -1,5 +1,12 @@
 {
-  "effects": [],
+  "effects": [
+    {
+      "id": "assault-rifle",
+      "type": "oneShot",
+      "src": "/book_data/audios/sounds/assault-rifle.mp3",
+      "playOnLoad": true
+    }
+  ],
   "pageInfo": {
     "num": 94
   }

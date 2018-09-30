@@ -1,5 +1,13 @@
 {
-  "effects": [],
+  "effects": [
+    {
+      "id": "elevator-button",
+      "type": "oneShot",
+      "src": "/book_data/audios/sounds/elevator-button.mp3",
+      "playToEnd": true,
+      "playOnLoad": true
+    }
+  ],
   "pageInfo": {
     "num": 91
   }

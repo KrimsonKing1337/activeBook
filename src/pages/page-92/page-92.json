@@ -1,5 +1,12 @@
 {
-  "effects": [],
+  "effects": [
+    {
+      "id": "elevator-start",
+      "type": "oneShot",
+      "src": "/book_data/audios/sounds/elevator-start.mp3",
+      "playOnLoad": true
+    }
+  ],
   "pageInfo": {
     "num": 92
   }

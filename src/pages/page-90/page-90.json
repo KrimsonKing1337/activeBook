@@ -1,5 +1,12 @@
 {
-  "effects": [],
+  "effects": [
+    {
+      "id": "elevator",
+      "type": "oneShot",
+      "src": "/book_data/audios/sounds/elevator.mp3",
+      "playOnLoad": true
+    }
+  ],
   "pageInfo": {
     "num": 90
   }

@@ -1,15 +1,9 @@
 {
   "effects": [
     {
-      "id": "notification-to-be-continued",
+      "id": "footsteps-and-latch",
       "type": "oneShot",
-      "playToEnd": true,
-      "src": "/book_data/audios/sounds/achievement-unlocked.mp3",
-      "notification": {
-        "id": "notification-to-be-continued",
-        "text": "Продолжение следует..",
-        "className": "info"
-      },
+      "src": "/book_data/audios/sounds/footspteps-and-latch.mp3",
       "playOnLoad": true
     }
   ],
