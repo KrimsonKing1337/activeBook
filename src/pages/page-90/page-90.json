@@ -3,7 +3,7 @@
     {
       "id": "elevator",
       "type": "oneShot",
-      "src": "/book_data/audios/sounds/elevator.mp3",
+      "src": "/book_data/audios/sounds/elevator-stops-and-footsteps",
       "playOnLoad": true
     }
   ],
