@@ -53,7 +53,9 @@ module.exports = {
                 removeViewBox: true
             }
         }),
-        new HtmlWebpackInlineSVGPlugin(),
+        new HtmlWebpackInlineSVGPlugin({
+            runPreEmit: true,
+          }),
         new CopyWebpackPlugin([
             {
                 from: `${rootPath}/public/`,
@@ -74,12 +76,11 @@ module.exports = {
         extensions: ['.js', '.css', '.json', '.md'],
         modules: ['src', 'node_modules'],
         alias: {
-            jQuery: 'jquery',
-            'bowser': 'bowser/bowser.min.js'
+            jQuery: 'jquery'
         }
     },
     module: {
-        loaders: [{
+        rules: [{
             test: /\.js?$/,
             use: 'babel-loader',
             exclude: /node_modules/

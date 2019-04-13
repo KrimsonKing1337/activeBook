@@ -1,14 +1,8 @@
 {
-  "presets": [
-    [
-      "env",
-      {
-        "modules": false
-      }
-    ],
-    "stage-0"
-  ],
+  "presets": ["env", "vue"],
   "plugins": [
+    "transform-object-rest-spread",
+    "transform-es2015-modules-commonjs",
     [
       "transform-runtime",
       {
