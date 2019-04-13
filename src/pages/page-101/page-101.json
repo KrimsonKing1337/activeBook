@@ -1,0 +1,17 @@
+{
+  "effects": [
+    {
+      "id": "notification",
+      "type": "oneShot",
+      "playToEnd": true,
+      "src": "/book_data/audios/sounds/notification.mp3",
+      "playOnLoad": true,
+      "vibration": {
+        "duration": 500
+      }
+    }
+  ],
+  "pageInfo": {
+    "num": 101
+  }
+}

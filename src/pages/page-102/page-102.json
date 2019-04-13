@@ -1,0 +1,13 @@
+{
+  "effects": [
+    {
+      "id": "trunk-plane-close",
+      "type": "oneShot",
+      "src": "/book_data/audios/sounds/trunk-plane-close.mp3",
+      "playOnLoad": true
+    }
+  ],
+  "pageInfo": {
+    "num": 102
+  }
+}

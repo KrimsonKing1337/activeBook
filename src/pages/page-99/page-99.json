@@ -1,0 +1,13 @@
+{
+  "effects": [
+    {
+      "id": "grenade-metal-elevator-explosion",
+      "type": "oneShot",
+      "src": "/book_data/audios/sounds/grenade-metal-elevator-explosion.mp3",
+      "playOnLoad": true
+    }
+  ],
+  "pageInfo": {
+    "num": 99
+  }
+}

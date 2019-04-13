@@ -1,0 +1,13 @@
+{
+  "effects": [
+    {
+      "id": "bonfire",
+      "type": "loop",
+      "src": "/book_data/audios/sounds/bonfire.mp3",
+      "playOnLoad": true
+    }
+  ],
+  "pageInfo": {
+    "num": 109
+  }
+}

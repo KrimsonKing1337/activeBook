@@ -1,0 +1,15 @@
+{
+  "effects": [
+    {
+      "id": "text-shadow",
+      "type": "textShadow",
+      "animation": "blink",
+      "color": "green",
+      "speed": 850,
+      "playOnLoad": true
+    }
+  ],
+  "pageInfo": {
+    "num": 107
+  }
+}

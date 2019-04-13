@@ -1,0 +1,13 @@
+{
+  "effects": [
+    {
+      "id": "grenade-metal-elevator",
+      "type": "oneShot",
+      "src": "/book_data/audios/sounds/grenade-metal-elevator.mp3",
+      "playOnLoad": true
+    }
+  ],
+  "pageInfo": {
+    "num": 98
+  }
+}

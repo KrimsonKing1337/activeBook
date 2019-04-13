@@ -1,0 +1,13 @@
+{
+  "effects": [
+    {
+      "id": "elevator-open",
+      "type": "oneShot",
+      "src": "/book_data/audios/sounds/elevator-open.mp3",
+      "playOnLoad": true
+    }
+  ],
+  "pageInfo": {
+    "num": 100
+  }
+}
