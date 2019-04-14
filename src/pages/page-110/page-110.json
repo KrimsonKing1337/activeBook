@@ -1,5 +1,13 @@
 {
-  "effects": [],
+  "effects": [
+    {
+      "id": "TV-static",
+      "type": "background",
+      "src": "/book_data/videos/TV_static.mp4",
+      "backgroundType": "video",
+      "playOnLoad": true
+    }
+  ],
   "pageInfo": {
     "num": 110
   }

@@ -1,40 +1,57 @@
-<div class="page" data-theme="dark" data-vibration="true" data-font-size="100" data-line-height="100"
+<div class="page"
+     data-theme="dark"
+     data-vibration="true"
+     data-font-size="100"
+     data-line-height="100"
      data-invert="false">
-    <div class="modal-content-wrapper">
-        <%= require('./modal-content.ejs')() %>
+  <div class="modal-content-wrapper">
+    <%= require('./modal-content.ejs')() %>
+  </div>
+  <div class="main-content">
+    <!--<div class="main-content-bg-wrapper">
+        <div class="main-content-bg-shadow"></div>
+        <img src="book_data/images/big-gif.gif" class="main-content-bg" />
+    </div>-->
+    <div class="text-dots-wrapper js-text-dots-wrapper">
+      <div class="text-dot"></div>
+      <div class="text-dot"></div>
+      <div class="text-dot"></div>
+      <div class="text-dot"></div>
     </div>
-    <div class="main-content">
-        <!--<div class="main-content-bg-wrapper">
-            <div class="main-content-bg-shadow"></div>
-            <img src="book_data/images/big-gif.gif" class="main-content-bg" />
-        </div>-->
-        <div class="text-dots-wrapper js-text-dots-wrapper">
-            <div class="text-dot"></div>
-            <div class="text-dot"></div>
-            <div class="text-dot"></div>
-            <div class="text-dot"></div>
+
+    <div class="side-effects-wrapper">
+      <div class="text-shadow"></div>
+
+      <div class="side-text-scroll-wrapper">
+        <div class="side-text-scroll-left-wrapper">
+          <div class="side-text-scroll-left">
+            <div class="side-text-scroll-content js-side-text-scroll-left-content"></div>
+          </div>
         </div>
-        <div class="side-effects-wrapper">
-            <div class="text-shadow"></div>
-            <div class="side-text-scroll-wrapper">
-                <div class="side-text-scroll-left-wrapper">
-                    <div class="side-text-scroll-left">
-                        <div class="side-text-scroll-content js-side-text-scroll-left-content"></div>
-                    </div>
-                </div>
-                <div class="side-text-scroll-right-wrapper">
-                    <div class="side-text-scroll-right">
-                        <div class="side-text-scroll-content js-side-text-scroll-right-content"></div>
-                    </div>
-                </div>
-            </div>
+        <div class="side-text-scroll-right-wrapper">
+          <div class="side-text-scroll-right">
+            <div class="side-text-scroll-content js-side-text-scroll-right-content"></div>
+          </div>
         </div>
-        <div class="text-scroll js-scrollable-item">
-            <div class="text-wrapper" tabindex="0" data-xthreshold="100"></div>
-        </div>
-        <%= require('./menu.ejs')({params: params}) %>
-        <%= require('./table-of-contents.ejs')() %>
-        <%= require('./credits.ejs')() %>
-        <%= require('./menu-full-screen.ejs')() %>
+      </div>
     </div>
+
+    <div class="background-effects-wrapper">
+      <div class="background-wrapper js-background-wrapper">
+        <div class="background__shadow js-background-shadow"></div>
+
+        <div class="background__video-wrapper">
+          <video autoplay loop muted src="" class="js-background-video"></video>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-scroll js-scrollable-item">
+      <div class="text-wrapper" tabindex="0" data-xthreshold="100"></div>
+    </div>
+    <%= require('./menu.ejs')({params: params}) %>
+    <%= require('./table-of-contents.ejs')() %>
+    <%= require('./credits.ejs')() %>
+    <%= require('./menu-full-screen.ejs')() %>
+  </div>
 </div>

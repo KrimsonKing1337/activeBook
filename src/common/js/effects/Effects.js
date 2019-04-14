@@ -37,6 +37,7 @@ class Effects {
         });
         this.textShadowEffectsInst = new TextShadowEffects();
         this.sideTextScrollEffectInst = new SideTextScrollEffect();
+        this.backgroundEffectsInst = new BackgroundEffects();
     }
 
     /**
@@ -110,6 +111,8 @@ class Effects {
         } else if (type === 'flashLight') {
             this.flashLightEffectsInst.isStop = false;
             this.flashLightEffectsInst.play(effectCur);
+        } else if (type === 'background') {
+          this.backgroundEffectsInst.play(effectCur);
         }
     }
 
@@ -142,6 +145,7 @@ class Effects {
         this.sideTextScrollEffectInst.stop();
         this.flashLightEffectsInst.stop();
         this.soundEffectsInst.stopAll({target, fadeOutSpeed, unload, pause, onesWithRange});
+        this.backgroundEffectsInst.stop();
     }
 
     clearTimersAll() {
@@ -730,6 +734,51 @@ class VibrationEffects {
         this.isLoop = false;
         navigator.vibrate(0);
     }
+}
+
+class BackgroundEffects {
+  constructor() {
+    this.$menu = $('.menu');
+    this.$wrapper = $('.js-background-wrapper');
+    this.$shadow = $('.js-background-shadow');
+    this.$video = $('.js-background-video');
+    this.interval = null;
+  }
+
+  show() {
+    this.$menu.addClass('background-is-active');
+    this.$wrapper.addClass('active');
+  }
+
+  hide() {
+    this.$wrapper.removeClass('active');
+    this.$menu.removeClass('background-is-active');
+  }
+
+  /**
+   *
+   * @param backgroundType {string}
+   * @param src {string}
+   */
+  set({backgroundType, src}) {
+    if (backgroundType === 'video') {
+      this.$video.attr('src', src);
+    }
+  }
+
+  /**
+   *
+   * @param backgroundType {string}
+   * @param src {string}
+   */
+  play({backgroundType, src}) {
+    this.set({backgroundType, src});
+    this.show();
+  }
+
+  stop() {
+    this.hide();
+  }
 }
 
 class TextShadowEffects {

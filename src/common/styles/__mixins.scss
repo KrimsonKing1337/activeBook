@@ -65,6 +65,10 @@
     color: $fill;
     background-color: $bg;
 
+    &.background-is-active {
+      background-color: transparent;
+    }
+
     &__item {
       .obj-img__wrapper {
         svg {
