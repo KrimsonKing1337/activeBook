@@ -3,6 +3,8 @@
   --text-shadow-color: red;
   --text-shadow-animation: blink;
   --text-shadow-animation-speed: 1000ms;
+  --background-animation: blink;
+  --background-animation-speed: 1000ms;
   --main-content-height: 0px;
   --side-scroll-text-animation-speed: 60000ms;
   --animate-css-duration: 150ms;
@@ -449,9 +451,7 @@ input[type="number"] {
   transform: translateX(-50%);
   width: 100%;
   max-width: 500px;
-  height: calc(100% - 15px); //15 = margin-top + margin-bottom
-  margin-top: 5px;
-  margin-bottom: 10px;
+  height: 100%;
   background: #fff;
 
   @media screen and (max-width: 500px) {
@@ -1295,7 +1295,8 @@ a {
   height: 48px;
   width: 100%;
   max-width: 500px;
-  background: #fff;
+  // background: #fff; - ???
+  background: transparent;
   z-index: 10;
   flex-shrink: 0;
   margin-top: 20px;
@@ -1930,9 +1931,35 @@ todo: переверстать страницу, чтобы убрать кос�
   width: auto;
   min-width: 100%;
   height: auto;
+  animation: var(--background-animation) var(--background-animation-speed) ease infinite;
+  will-change: opacity;
 
   &.active {
     display: block;
+  }
+
+  @keyframes blink {
+    0% {
+      opacity: 0;
+    }
+
+    50% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes static {
+    0% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 1;
+    }
   }
 }
 

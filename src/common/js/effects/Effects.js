@@ -12,737 +12,808 @@ import {ModalContent} from '../modalContent/ModalContent';
 const vibrationState = LocalStorage.read({key: 'vibration'});
 const flashlightState = LocalStorage.read({key: 'flashlight'});
 
+function getEffectsInst() {
+  let inited = false;
+  let effectsInstSingleton;
+
+  return () => {
+    if (inited === true) {
+      return effectsInstSingleton;
+    } else {
+      inited = true;
+      effectsInstSingleton = new Effects(); //for debug use window.Effects = effectsInstSingleton = new Effects();
+
+      return effectsInstSingleton;
+    }
+  };
+}
+
+export const effectsInst = getEffectsInst();
+
 class Effects {
-    constructor() {
-        this.effects = [];
-        this.volumeInst = getVolumeInst();
-        this.vibrationEffectsInst = new VibrationEffects({
-            state: vibrationState !== null ? vibrationState : true
-        });
-        this.flashLightEffectsInst = new FlashLightEffects({
-            state: flashlightState !== null ? flashlightState : true
-        });
-        this.soundEffectsInst = new SoundEffects({
-            loops: {},
-            oneShots: {},
-            volumeInst: this.volumeInst,
-            vibrationEffectsInst: this.vibrationEffectsInst,
-            flashLightEffectsInst: this.flashLightEffectsInst
-        });
-        this.volumeControllerInst = new VolumeController({
-            $videos: $('video'),
-            oneShots: this.soundEffectsInst.oneShots,
-            loops: this.soundEffectsInst.loops,
-            volumeInst: this.volumeInst
-        });
-        this.textShadowEffectsInst = new TextShadowEffects();
-        this.sideTextScrollEffectInst = new SideTextScrollEffect();
-        this.backgroundEffectsInst = new BackgroundEffects();
+  constructor() {
+    this.effects = [];
+    this.volumeInst = getVolumeInst();
+    this.vibrationEffectsInst = new VibrationEffects({
+      state: vibrationState !== null ? vibrationState : true
+    });
+    this.flashLightEffectsInst = new FlashLightEffects({
+      state: flashlightState !== null ? flashlightState : true
+    });
+    this.soundEffectsInst = new SoundEffects({
+      loops: {},
+      oneShots: {},
+      volumeInst: this.volumeInst,
+      vibrationEffectsInst: this.vibrationEffectsInst,
+      flashLightEffectsInst: this.flashLightEffectsInst
+    });
+    this.volumeControllerInst = new VolumeController({
+      $videos: $('video'),
+      oneShots: this.soundEffectsInst.oneShots,
+      loops: this.soundEffectsInst.loops,
+      volumeInst: this.volumeInst
+    });
+    this.textShadowEffectsInst = new TextShadowEffects();
+    this.sideTextScrollEffectInst = new SideTextScrollEffect();
+    this.backgroundEffectsInst = new BackgroundEffects(this);
+  }
+
+  /**
+   *
+   * @param effects[] {object}
+   */
+  setEffects(effects) {
+    this.effects = effects;
+
+    return this.initEffects();
+  }
+
+  /**
+   * инициализируем эффекты на странице
+   */
+  initEffects() {
+    const promises = [];
+
+    this.effects.forEach((effectCur) => {
+      const type = effectCur.type;
+
+      if (type === 'oneShot') {
+        promises.push(this.soundEffectsInst.checkAndSetNewOneShot(effectCur));
+      } else if (type === 'loop') {
+        promises.push(this.soundEffectsInst.checkAndSetNewLoop(effectCur));
+      } else if (type === 'modalContent') {
+        new ModalContent().init(effectCur);
+
+        promises.push(Promise.resolve());
+      }
+    });
+
+    return Promise.all(promises);
+  }
+
+  /**
+   *
+   * @param id {string}
+   */
+  play(id) {
+    const effectCur = find(this.effects, {id});
+    const type = effectCur.type;
+    const soundEffectsParams = {
+      fadeInSpeed: effectCur.fadeInSpeed,
+      fadeOutSpeed: effectCur.fadeOutSpeed,
+      stopBy: effectCur.stopBy,
+      vibration: effectCur.vibration,
+      notification: effectCur.notification,
+      flashLight: effectCur.flashLight,
+      sleepBefore: effectCur.sleepBefore,
+      playToEnd: effectCur.playToEnd
+    };
+
+    if (type === 'oneShot') {
+      this.soundEffectsInst.playOneShot(id, soundEffectsParams);
+    } else if (type === 'loop') {
+      this.soundEffectsInst.playLoop(id, soundEffectsParams);
+    } else if (type === 'modalContent') {
+      ModalContent.getInstById(id).open();
+    } else if (type === 'notification') {
+      NotificationsEffects.play(effectCur);
+    } else if (type === 'textShadow') {
+      this.textShadowEffectsInst.play(effectCur);
+    } else if (type === 'sideTextScroll') {
+      this.sideTextScrollEffectInst.play(effectCur);
+    } else if (type === 'filter') {
+      FilterEffects.apply(effectCur);
+    } else if (type === 'vibration') {
+      this.vibrationEffectsInst.isStop = false;
+      this.vibrationEffectsInst.play(effectCur);
+    } else if (type === 'flashLight') {
+      this.flashLightEffectsInst.isStop = false;
+      this.flashLightEffectsInst.play(effectCur);
+    } else if (type === 'background') {
+      this.backgroundEffectsInst.play(effectCur);
     }
+  }
 
-    /**
-     *
-     * @param effects[] {object}
-     */
-    setEffects(effects) {
-        this.effects = effects;
+  /**
+   *
+   * @param id {string}
+   * @param pause {boolean} supports only by audios
+   */
+  stop(id, pause = false) {
+    const effectCur = find(this.effects, {id});
+    const type = effectCur.type;
 
-        return this.initEffects();
+    if (type === 'oneShot') {
+      this.soundEffectsInst.stopOneShot(id);
+    } else if (type === 'loop') {
+      this.soundEffectsInst.stopLoop(id);
     }
+  }
 
-    /**
-     * инициализируем эффекты на странице
-     */
-    initEffects() {
-        const promises = [];
+  /**
+   *
+   * @param id {string}
+   * it's alias for stop methods
+   * only diff is pause = true;
+   * supports only by audios
+   */
+  pause(id) {
+    this.stop(id, true);
+  }
 
-        this.effects.forEach((effectCur) => {
-            const type = effectCur.type;
+  /**
+   *
+   * @param target {string}
+   * @param [fadeOutSpeed] {number}
+   * @param [unload] {boolean}
+   * @param [pause] {boolean}
+   * @param [onesWithRange] {boolean}
+   */
+  stopAll({target, fadeOutSpeed = 1000, unload = false, pause = false, onesWithRange = false} = {}) {
+    this.vibrationEffectsInst.stop();
+    this.textShadowEffectsInst.stop();
+    this.sideTextScrollEffectInst.stop();
+    this.flashLightEffectsInst.stop();
+    this.soundEffectsInst.stopAll({target, fadeOutSpeed, unload, pause, onesWithRange});
+    this.backgroundEffectsInst.stop();
+  }
 
-            if (type === 'oneShot') {
-                promises.push(this.soundEffectsInst.checkAndSetNewOneShot(effectCur));
-            } else if (type === 'loop') {
-                promises.push(this.soundEffectsInst.checkAndSetNewLoop(effectCur));
-            } else if (type === 'modalContent') {
-                new ModalContent().init(effectCur);
+  clearTimersAll() {
+    this.clearTimers([
+      this.soundEffectsInst,
+      this.vibrationEffectsInst,
+      this.flashLightEffectsInst
+    ]);
+  }
 
-                promises.push(Promise.resolve());
-            }
-        });
+  /**
+   *
+   * @param targets[] {object}
+   */
+  clearTimers(targets = []) {
+    targets.forEach((targetCur) => {
+      targetCur.timers.forEach((timerCur) => {
+        clearTimeout(timerCur);
+      });
 
-        return Promise.all(promises);
-    }
-
-    /**
-     *
-     * @param id {string}
-     */
-    play(id) {
-        const effectCur = find(this.effects, {id});
-        const type = effectCur.type;
-        const soundEffectsParams = {
-            fadeInSpeed: effectCur.fadeInSpeed,
-            fadeOutSpeed: effectCur.fadeOutSpeed,
-            stopBy: effectCur.stopBy,
-            vibration: effectCur.vibration,
-            notification: effectCur.notification,
-            flashLight: effectCur.flashLight,
-            sleepBefore: effectCur.sleepBefore,
-            playToEnd: effectCur.playToEnd
-        };
-
-        if (type === 'oneShot') {
-            this.soundEffectsInst.playOneShot(id, soundEffectsParams);
-        } else if (type === 'loop') {
-            this.soundEffectsInst.playLoop(id, soundEffectsParams);
-        } else if (type === 'modalContent') {
-            ModalContent.getInstById(id).open();
-        } else if (type === 'notification') {
-            NotificationsEffects.play(effectCur);
-        } else if (type === 'textShadow') {
-            this.textShadowEffectsInst.play(effectCur);
-        } else if (type === 'sideTextScroll') {
-            this.sideTextScrollEffectInst.play(effectCur);
-        } else if (type === 'filter') {
-            FilterEffects.apply(effectCur);
-        } else if (type === 'vibration') {
-            this.vibrationEffectsInst.isStop = false;
-            this.vibrationEffectsInst.play(effectCur);
-        } else if (type === 'flashLight') {
-            this.flashLightEffectsInst.isStop = false;
-            this.flashLightEffectsInst.play(effectCur);
-        } else if (type === 'background') {
-          this.backgroundEffectsInst.play(effectCur);
-        }
-    }
-
-    /**
-     *
-     * @param id {string}
-     */
-    stop(id) {
-        const effectCur = find(this.effects, {id});
-        const type = effectCur.type;
-
-        if (type === 'oneShot') {
-            this.soundEffectsInst.stopOneShot(id);
-        } else if (type === 'loop') {
-            this.soundEffectsInst.stopLoop(id);
-        }
-    }
-
-    /**
-     *
-     * @param target {string}
-     * @param [fadeOutSpeed] {number}
-     * @param [unload] {boolean}
-     * @param [pause] {boolean}
-     * @param [onesWithRange] {boolean}
-     */
-    stopAll({target, fadeOutSpeed = 1000, unload = false, pause = false, onesWithRange = false} = {}) {
-        this.vibrationEffectsInst.stop();
-        this.textShadowEffectsInst.stop();
-        this.sideTextScrollEffectInst.stop();
-        this.flashLightEffectsInst.stop();
-        this.soundEffectsInst.stopAll({target, fadeOutSpeed, unload, pause, onesWithRange});
-        this.backgroundEffectsInst.stop();
-    }
-
-    clearTimersAll() {
-        this.clearTimers([
-            this.soundEffectsInst,
-            this.vibrationEffectsInst,
-            this.flashLightEffectsInst
-        ]);
-    }
-
-    /**
-     *
-     * @param targets[] {object}
-     */
-    clearTimers(targets = []) {
-        targets.forEach((targetCur) => {
-            targetCur.timers.forEach((timerCur) => {
-                clearTimeout(timerCur);
-            });
-
-            targetCur.timers = [];
-        });
-    }
+      targetCur.timers = [];
+    });
+  }
 }
 
 class NotificationsEffects {
-    constructor() {
+  constructor() {
 
+  }
+
+  /**
+   *
+   * @param notification {object}
+   */
+  static play(notification) {
+    if (NotificationsEffects.canPlay(notification) === false) return;
+
+    const text = NotificationsEffects.getText(notification);
+
+    $.notify(text, {
+      className: notification.className || 'success',
+      autoHide: notification.autoHide || true,
+      autoHideDelay: notification.autoHideDelay || 7500,
+      globalPosition: 'bottom left'
+    });
+
+    if (notification.achievement) {
+      LocalStorage.write({key: notification.id, val: true});
     }
+  }
 
-    /**
-     *
-     * @param notification {object}
-     */
-    static play(notification) {
-        if (NotificationsEffects.canPlay(notification) === false) return;
+  /**
+   *
+   * @param notification {object}
+   */
+  static canPlay(notification) {
+    if (!notification.achievement) return true;
 
-        const text = NotificationsEffects.getText(notification);
+    return (LocalStorage.read({key: notification.id}) === null);
+  }
 
-        $.notify(text, {
-            className: notification.className || 'success',
-            autoHide: notification.autoHide || true,
-            autoHideDelay: notification.autoHideDelay || 7500,
-            globalPosition: 'bottom left'
-        });
+  static getAchievementPrefix() {
+    return 'Achievement unlock';
+  }
 
-        if (notification.achievement) {
-            LocalStorage.write({key: notification.id, val: true});
-        }
-    }
-
-    /**
-     *
-     * @param notification {object}
-     */
-    static canPlay(notification) {
-        if (!notification.achievement) return true;
-
-        return (LocalStorage.read({key: notification.id}) === null);
-    }
-
-    static getAchievementPrefix() {
-        return 'Achievement unlock';
-    }
-
-    static getText(notification) {
-        return notification.achievement === true ?
-            `${NotificationsEffects.getAchievementPrefix()}: ${notification.text}` :
-            notification.text;
-    }
+  static getText(notification) {
+    return notification.achievement === true
+      ? `${NotificationsEffects.getAchievementPrefix()}: ${notification.text}`
+      : notification.text;
+  }
 }
 
 export class SoundEffects {
-    /**
-     * @param loops {object}
-     * @param oneShots {object}
-     * @param volumeInst {object}
-     * @param vibrationEffectsInst {object}
-     * @param flashLightEffectsInst {object}
-     */
-    constructor({loops, oneShots, volumeInst, vibrationEffectsInst, flashLightEffectsInst} = {}) {
-        this.loops = loops;
-        this.oneShots = oneShots;
-        this.timers = [];
-        this.volumeInst = volumeInst;
-        this.vibrationEffectsInst = vibrationEffectsInst;
-        this.flashLightEffectsInst = flashLightEffectsInst;
-    }
+  /**
+   * @param loops {object}
+   * @param oneShots {object}
+   * @param volumeInst {object}
+   * @param vibrationEffectsInst {object}
+   * @param flashLightEffectsInst {object}
+   */
+  constructor({loops, oneShots, volumeInst, vibrationEffectsInst, flashLightEffectsInst} = {}) {
+    this.loops = loops;
+    this.oneShots = oneShots;
+    this.timers = [];
+    this.volumeInst = volumeInst;
+    this.vibrationEffectsInst = vibrationEffectsInst;
+    this.flashLightEffectsInst = flashLightEffectsInst;
+  }
 
-    /**
-     *
-     * @param target {string}; oneShots || loops || all;
-     * @param [fadeOutSpeed] {number};
-     * @param [unload] {boolean}; выгрузить из памяти звук (уничтожить связанный объект Howler)
-     * @param [pause] {boolean}; просто стоп или пауза
-     * @param [onesWithRange] {boolean}; применять к эффектам, которые имеют диапазон или нет
-     */
-    stopAll({target, fadeOutSpeed = 1000, unload = false, pause = false, onesWithRange = false} = {}) {
-        const action = pause === true ? 'pause' : 'stop';
+  /**
+   *
+   * @param target {string}; oneShots || loops || all;
+   * @param [fadeOutSpeed] {number};
+   * @param [unload] {boolean}; выгрузить из памяти звук (уничтожить связанный объект Howler)
+   * @param [pause] {boolean}; просто стоп или пауза
+   * @param [onesWithRange] {boolean}; применять к эффектам, которые имеют диапазон или нет
+   */
+  stopAll({target, fadeOutSpeed = 1000, unload = false, pause = false, onesWithRange = false} = {}) {
+    const action = pause === true ? 'pause' : 'stop';
 
-        if (target === 'oneShots') {
-            Object.keys(this.oneShots).forEach(async (key) => {
-                const oneShotCur = this.oneShots[key];
+    if (target === 'oneShots') {
+      Object.keys(this.oneShots).forEach(async (key) => {
+        const oneShotCur = this.oneShots[key];
 
-                if (oneShotCur.range && onesWithRange === false) return;
+        if (oneShotCur.range && onesWithRange === false) return;
 
-                if (oneShotCur.playToEnd === true) {
-                    if (unload === true && pause === false) {
-                        oneShotCur.on('end', () => {
-                            SoundEffects.unload(oneShotCur);
-                            delete this.oneShots[key];
-                        });
-                    }
-
-                    return;
-                }
-
-                if (oneShotCur.state() === 'loaded') {
-                    await SoundEffects.fadeOut({
-                        target: oneShotCur,
-                        volume: this.volumeInst.getOneShots(),
-                        fadeOutSpeed,
-                        action
-                    });
-                }
-
-                if (unload === true) {
-                    SoundEffects.unload(oneShotCur);
-                    delete this.oneShots[key];
-                }
+        if (oneShotCur.playToEnd === true) {
+          if (unload === true && pause === false) {
+            oneShotCur.on('end', () => {
+              SoundEffects.unload(oneShotCur);
+              delete this.oneShots[key];
             });
-        } else if (target === 'loops') {
-            Object.keys(this.loops).forEach(async (key) => {
-                const loopCur = this.loops[key];
+          }
 
-                if (loopCur.range && onesWithRange === false) return;
-
-                if (loopCur.state() === 'loaded') {
-                    await SoundEffects.fadeOut({
-                        target: loopCur,
-                        volume: this.volumeInst.getLoops(),
-                        fadeOutSpeed,
-                        action
-                    });
-                }
-
-                if (unload === true) {
-                    SoundEffects.unload(loopCur);
-                    delete this.loops[key];
-                }
-            });
-        } else if (target === 'all') {
-            this.stopAll({
-                target: 'oneShots',
-                fadeOutSpeed,
-                unload,
-                pause,
-                onesWithRange
-            });
-
-            this.stopAll({
-                target: 'loops',
-                fadeOutSpeed,
-                unload,
-                pause,
-                onesWithRange
-            });
+          return;
         }
-    }
 
-    /**
-     *
-     * @param target {object}; howler inst sound;
-     * @param volume {number};
-     * @param [fadeOutSpeed] {number};
-     * @param [action] {string};
-     */
-    static fadeOut({target, volume, fadeOutSpeed = 1000, action = 'stop'}) {
-        return new Promise(((resolve, reject) => {
-            if (!target) resolve();
-
-            target.once('fade', () => {
-                if (action === 'stop') {
-                    target.stop();
-                } else if (action === 'pause') {
-                    target.pause();
-                }
-
-                resolve();
-            });
-
-            //некорректное поведение, если задавать fadeOutSpeed = 0;
-            target.fade(volume, 0, fadeOutSpeed > 0 ? fadeOutSpeed : 1);
-        }));
-    }
-
-    /**
-     *
-     * @param target {object}; howler inst sound;
-     * @param volume {number};
-     * @param [fadeInSpeed] {number};
-     */
-    static fadeIn({target, volume, fadeInSpeed = 1000}) {
-        return new Promise((resolve, reject) => {
-            /*target.once('fade', () => {
-                console.log('fadeIn fade event');
-
-                resolve();
-            });*/
-
-            target.once('play', () => {
-                resolve();
-            });
-
-            target.play();
-
-            //некорректное поведение, если задавать fadeOutSpeed = 0;
-            target.fade(0, volume, fadeInSpeed > 0 ? fadeInSpeed : 1);
-        });
-    }
-
-    /**
-     *
-     * @param id {string}
-     * @param [fadeOutSpeed] {number}
-     * @param [pause] {boolean}
-     */
-    stopOneShot(id, {fadeOutSpeed = 0, pause = false} = {}) {
-        const oneShot = this.oneShots[id];
-        const action = pause === true ? 'pause' : 'stop';
-
-        return SoundEffects.fadeOut({
-            target: oneShot,
+        if (oneShotCur.state() === 'loaded') {
+          await SoundEffects.fadeOut({
+            target: oneShotCur,
             volume: this.volumeInst.getOneShots(),
             fadeOutSpeed,
             action
-        });
-    }
-
-    /**
-     *
-     * @param id {string}
-     * @param [fadeOutSpeed] {number}
-     */
-    pauseOneStop(id, {fadeOutSpeed = 0}) {
-        this.stopOneShot(id, {fadeOutSpeed, pause: true});
-    }
-
-    /**
-     *
-     * @param id {string}
-     * @param [fadeInSpeed] {number}
-     * @param [stopBy] {number}
-     * @param [sleepBefore] {number}
-     * @param [flashLight] {object}
-     * @param [vibration] {object}
-     * @param [notification] {object}
-     */
-    playOneShot(id, {fadeInSpeed = 0, stopBy, sleepBefore = 0, vibration, flashLight, notification} = {}) {
-        const oneShot = this.oneShots[id];
-
-        if (notification) {
-            if (NotificationsEffects.canPlay(notification) === false) {
-                return;
-            }
-
-            NotificationsEffects.play(notification);
+          });
         }
 
-        const sleepBeforeTimer = setTimeout(async () => {
-            if (oneShot.playing() === true) {
-                this.stopAll({target: 'oneShots', fadeOutSpeed: 0});
-            }
+        if (unload === true) {
+          SoundEffects.unload(oneShotCur);
+          delete this.oneShots[key];
+        }
+      });
+    } else if (target === 'loops') {
+      Object.keys(this.loops).forEach(async (key) => {
+        const loopCur = this.loops[key];
 
-            await SoundEffects.fadeIn({
-                target: oneShot,
-                volume: this.volumeInst.getOneShots(),
-                fadeInSpeed
-            });
+        if (loopCur.range && onesWithRange === false) return;
 
-            if (vibration) {
-                this.vibrationEffectsInst.isStop = false;
-                this.vibrationEffectsInst.play(vibration);
-            }
-
-            if (flashLight) {
-                this.flashLightEffectsInst.isStop = false;
-                this.flashLightEffectsInst.play(flashLight);
-            }
-
-            if (stopBy) {
-                const stopByTimer = setTimeout(() => {
-                    this.stopOneShot(id, {fadeOutSpeed: stopBy.fadeOutSpeed});
-
-                }, stopBy.duration);
-
-                this.timers.push(stopByTimer);
-            }
-        }, sleepBefore);
-
-        this.timers.push(sleepBeforeTimer);
-    }
-
-    /**
-     *
-     * @param id {string}
-     * @param [fadeOutSpeed] {number}
-     * @param [pause] {boolean}
-     */
-    stopLoop(id, {fadeOutSpeed = 1000, pause = false} = {}) {
-        const loop = this.loops[id];
-        const action = pause === true ? 'pause' : 'stop';
-
-        return SoundEffects.fadeOut({
-            target: loop,
+        if (loopCur.state() === 'loaded') {
+          await SoundEffects.fadeOut({
+            target: loopCur,
             volume: this.volumeInst.getLoops(),
             fadeOutSpeed,
             action
+          });
+        }
+
+        if (unload === true) {
+          SoundEffects.unload(loopCur);
+          delete this.loops[key];
+        }
+      });
+    } else if (target === 'all') {
+      this.stopAll({
+        target: 'oneShots',
+        fadeOutSpeed,
+        unload,
+        pause,
+        onesWithRange
+      });
+
+      this.stopAll({
+        target: 'loops',
+        fadeOutSpeed,
+        unload,
+        pause,
+        onesWithRange
+      });
+    }
+  }
+
+  /**
+   *
+   * @param target {object}; howler inst sound;
+   * @param volume {number};
+   * @param [fadeOutSpeed] {number};
+   * @param [action] {string};
+   */
+  static fadeOut({target, volume, fadeOutSpeed = 1000, action = 'stop'}) {
+    return new Promise(((resolve, reject) => {
+      if (!target) resolve();
+
+      target.once('fade', () => {
+        if (action === 'stop') {
+          target.stop();
+        } else if (action === 'pause') {
+          target.pause();
+        }
+
+        resolve();
+      });
+
+      //некорректное поведение, если задавать fadeOutSpeed = 0;
+      target.fade(volume, 0, fadeOutSpeed > 0 ? fadeOutSpeed : 1);
+    }));
+  }
+
+  /**
+   *
+   * @param target {object}; howler inst sound;
+   * @param volume {number};
+   * @param [fadeInSpeed] {number};
+   */
+  static fadeIn({target, volume, fadeInSpeed = 1000}) {
+    return new Promise((resolve, reject) => {
+      /*target.once('fade', () => {
+          console.log('fadeIn fade event');
+
+          resolve();
+      });*/
+
+      target.once('play', () => {
+        resolve();
+      });
+
+      target.play();
+
+      //некорректное поведение, если задавать fadeOutSpeed = 0;
+      target.fade(0, volume, fadeInSpeed > 0 ? fadeInSpeed : 1);
+    });
+  }
+
+  /**
+   *
+   * @param id {string}
+   * @param [fadeOutSpeed] {number}
+   * @param [pause] {boolean}
+   */
+  stopOneShot(id, {fadeOutSpeed = 0, pause = false} = {}) {
+    const oneShot = this.oneShots[id];
+    const action = pause === true ? 'pause' : 'stop';
+
+    return SoundEffects.fadeOut({
+      target: oneShot,
+      volume: this.volumeInst.getOneShots(),
+      fadeOutSpeed,
+      action
+    });
+  }
+
+  /**
+   *
+   * @param id {string}
+   * @param [fadeOutSpeed] {number}
+   */
+  pauseOneStop(id, {fadeOutSpeed = 0}) {
+    this.stopOneShot(id, {fadeOutSpeed, pause: true});
+  }
+
+  /**
+   *
+   * @param id {string}
+   * @param [fadeInSpeed] {number}
+   * @param [stopBy] {number}
+   * @param [sleepBefore] {number}
+   * @param [flashLight] {object}
+   * @param [vibration] {object}
+   * @param [notification] {object}
+   */
+  playOneShot(id, {fadeInSpeed = 0, stopBy, sleepBefore = 0, vibration, flashLight, notification} = {}) {
+    const oneShot = this.oneShots[id];
+
+    if (notification) {
+      if (NotificationsEffects.canPlay(notification) === false) {
+        return;
+      }
+
+      NotificationsEffects.play(notification);
+    }
+
+    const sleepBeforeTimer = setTimeout(async () => {
+      if (oneShot.playing() === true) {
+        this.stopAll({target: 'oneShots', fadeOutSpeed: 0});
+      }
+
+      await SoundEffects.fadeIn({
+        target: oneShot,
+        volume: this.volumeInst.getOneShots(),
+        fadeInSpeed
+      });
+
+      if (vibration) {
+        this.vibrationEffectsInst.isStop = false;
+        this.vibrationEffectsInst.play(vibration);
+      }
+
+      if (flashLight) {
+        this.flashLightEffectsInst.isStop = false;
+        this.flashLightEffectsInst.play(flashLight);
+      }
+
+      if (stopBy) {
+        const stopByTimer = setTimeout(() => {
+          this.stopOneShot(id, {fadeOutSpeed: stopBy.fadeOutSpeed});
+
+        }, stopBy.duration);
+
+        this.timers.push(stopByTimer);
+      }
+    }, sleepBefore);
+
+    this.timers.push(sleepBeforeTimer);
+  }
+
+  /**
+   *
+   * @param id {string}
+   * @param [fadeOutSpeed] {number}
+   * @param [pause] {boolean}
+   */
+  stopLoop(id, {fadeOutSpeed = 1000, pause = false} = {}) {
+    const loop = this.loops[id];
+    const action = pause === true ? 'pause' : 'stop';
+
+    return SoundEffects.fadeOut({
+      target: loop,
+      volume: this.volumeInst.getLoops(),
+      fadeOutSpeed,
+      action
+    });
+  }
+
+  /**
+   *
+   * @param id {string}
+   * @param [fadeOutSpeed] {number}
+   */
+  pauseLoop(id, {fadeOutSpeed = 0}) {
+    this.stopLoop(id, {fadeOutSpeed, pause: true});
+  }
+
+  /**
+   *
+   * @param target {object} Howler;
+   */
+  static unload(target) {
+    if (SoundEffects.tryCatchHowlUnload(target) === true) {
+      target.unload();
+    }
+  }
+
+  //Unload and destroy a Howl object.
+  //This will immediately stop all sounds attached to this sound and remove it from the cache.
+  static tryCatchHowlUnload(obj) {
+    try {
+      obj.unload();
+    } catch (err) {
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   *
+   * @param id {string}
+   * @param [fadeInSpeed] {number}
+   * @param [stopBy] {object}
+   * @param [sleepBefore] {number}
+   * @param [vibration] {object}
+   * @param [flashLight] {object}
+   * @param [notification] {object}
+   */
+  playLoop(id, {fadeInSpeed = 1000, stopBy, sleepBefore = 0, vibration, flashLight, notification} = {}) {
+    const loop = this.loops[id];
+
+    if (notification) {
+      if (NotificationsEffects.canPlay(notification) === false) {
+        return;
+      }
+
+      NotificationsEffects.play(notification);
+    }
+
+    const sleepBeforeTimer = setTimeout(async () => {
+      await SoundEffects.fadeIn({
+        target: loop,
+        volume: this.volumeInst.getLoops(),
+        fadeInSpeed
+      });
+
+      if (vibration) {
+        this.vibrationEffectsInst.isStop = false;
+        this.vibrationEffectsInst.play(vibration);
+      }
+
+      if (flashLight) {
+        this.flashLightEffectsInst.isStop = false;
+        this.flashLightEffectsInst.play(flashLight);
+      }
+
+      if (stopBy) {
+        const stopByTimer = setTimeout(() => {
+          this.stopLoop(id, {fadeOutSpeed: stopBy.fadeOutSpeed});
+
+        }, stopBy.duration);
+
+        this.timers.push(stopByTimer);
+      }
+    }, sleepBefore);
+
+    this.timers.push(sleepBeforeTimer);
+  }
+
+  /**
+   *
+   * @param oneShotCur {object}
+   */
+  checkAndSetNewOneShot(oneShotCur) {
+    const oneShots = this.oneShots;
+    const id = oneShotCur.id;
+    const range = oneShotCur.range;
+    const playToEnd = oneShotCur.playToEnd;
+
+    if (!oneShots[id]) {
+      return new Promise((resolve, reject) => {
+        oneShots[id] = SoundEffects.newHowlOneShot({
+          src: oneShotCur.src,
+          volume: this.volumeInst.getOneShots()
         });
-    }
 
-    /**
-     *
-     * @param id {string}
-     * @param [fadeOutSpeed] {number}
-     */
-    pauseLoop(id, {fadeOutSpeed = 0}) {
-        this.stopLoop(id, {fadeOutSpeed, pause: true});
-    }
+        oneShots[id].range = range;
+        oneShots[id].playToEnd = playToEnd;
 
-    /**
-     *
-     * @param target {object} Howler;
-     */
-    static unload(target) {
-        if (SoundEffects.tryCatchHowlUnload(target) === true) {
-            target.unload();
-        }
-    }
-
-    //Unload and destroy a Howl object.
-    //This will immediately stop all sounds attached to this sound and remove it from the cache.
-    static tryCatchHowlUnload(obj) {
-        try {
-            obj.unload();
-        } catch (err) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     *
-     * @param id {string}
-     * @param [fadeInSpeed] {number}
-     * @param [stopBy] {object}
-     * @param [sleepBefore] {number}
-     * @param [vibration] {object}
-     * @param [flashLight] {object}
-     * @param [notification] {object}
-     */
-    playLoop(id, {fadeInSpeed = 1000, stopBy, sleepBefore = 0, vibration, flashLight, notification} = {}) {
-        const loop = this.loops[id];
-
-        if (notification) {
-            if (NotificationsEffects.canPlay(notification) === false) {
-                return;
-            }
-
-            NotificationsEffects.play(notification);
-        }
-
-        const sleepBeforeTimer = setTimeout(async () => {
-            await SoundEffects.fadeIn({
-                target: loop,
-                volume: this.volumeInst.getLoops(),
-                fadeInSpeed
-            });
-
-            if (vibration) {
-                this.vibrationEffectsInst.isStop = false;
-                this.vibrationEffectsInst.play(vibration);
-            }
-
-            if (flashLight) {
-                this.flashLightEffectsInst.isStop = false;
-                this.flashLightEffectsInst.play(flashLight);
-            }
-
-            if (stopBy) {
-                const stopByTimer = setTimeout(() => {
-                    this.stopLoop(id, {fadeOutSpeed: stopBy.fadeOutSpeed});
-
-                }, stopBy.duration);
-
-                this.timers.push(stopByTimer);
-            }
-        }, sleepBefore);
-
-        this.timers.push(sleepBeforeTimer);
-    }
-
-    /**
-     *
-     * @param oneShotCur {object}
-     */
-    checkAndSetNewOneShot(oneShotCur) {
-        const oneShots = this.oneShots;
-        const id = oneShotCur.id;
-        const range = oneShotCur.range;
-        const playToEnd = oneShotCur.playToEnd;
-
-        if (!oneShots[id]) {
-            return new Promise((resolve, reject) => {
-                oneShots[id] = SoundEffects.newHowlOneShot({
-                    src: oneShotCur.src,
-                    volume: this.volumeInst.getOneShots()
-                });
-
-                oneShots[id].range = range;
-                oneShots[id].playToEnd = playToEnd;
-
-                oneShots[id].once('load', () => {
-                    resolve();
-                });
-
-                /*oneShots[id].once('play', () => {
-                    resolve();
-                });*/
-            });
-        } else {
-            return Promise.resolve();
-        }
-    }
-
-    /**
-     *
-     * @param loopCur {object}
-     */
-    checkAndSetNewLoop(loopCur) {
-        const loops = this.loops;
-        const id = loopCur.id;
-        const range = loopCur.range;
-
-        if (!loops[id]) {
-            return new Promise((resolve, reject) => {
-                loops[id] = SoundEffects.newHowlLoop({
-                    src: loopCur.src,
-                    volume: loopCur.fadeIn === false ? this.volumeInst.getLoops() : 0
-                });
-
-                loops[id].range = range;
-
-                loops[id].once('load', () => {
-                    resolve();
-                });
-
-                /*loops[id].once('play', () => {
-                    console.log('checkAndSetNewLoop event play');
-
-                    resolve();
-                });*/
-            });
-        } else {
-            return Promise.resolve();
-        }
-    }
-
-    /**
-     *
-     * @param src {string}
-     * @param volume {number}
-     */
-    static newHowlLoop({src, volume} = {}) {
-        return new Howl({
-            src,
-            preload: true,
-            autoplay: false,
-            loop: true,
-            volume: 0 //volume is 0 for fadeIn effect
+        oneShots[id].once('load', () => {
+          resolve();
         });
-    }
 
-    /**
-     *
-     * @param src {string}
-     * @param volume {number}
-     */
-    static newHowlOneShot({src, volume} = {}) {
-        return new Howl({
-            src,
-            preload: true,
-            autoplay: false,
-            loop: false,
-            volume
-        });
+        /*oneShots[id].once('play', () => {
+            resolve();
+        });*/
+      });
+    } else {
+      return Promise.resolve();
     }
+  }
+
+  /**
+   *
+   * @param loopCur {object}
+   */
+  checkAndSetNewLoop(loopCur) {
+    const loops = this.loops;
+    const id = loopCur.id;
+    const range = loopCur.range;
+
+    if (!loops[id]) {
+      return new Promise((resolve, reject) => {
+        loops[id] = SoundEffects.newHowlLoop({
+          src: loopCur.src,
+          volume: loopCur.fadeIn === false ? this.volumeInst.getLoops() : 0
+        });
+
+        loops[id].range = range;
+
+        loops[id].once('load', () => {
+          resolve();
+        });
+
+        /*loops[id].once('play', () => {
+            console.log('checkAndSetNewLoop event play');
+
+            resolve();
+        });*/
+      });
+    } else {
+      return Promise.resolve();
+    }
+  }
+
+  /**
+   *
+   * @param src {string}
+   * @param volume {number}
+   */
+  static newHowlLoop({src, volume} = {}) {
+    return new Howl({
+      src,
+      preload: true,
+      autoplay: false,
+      loop: true,
+      volume: 0 //volume is 0 for fadeIn effect
+    });
+  }
+
+  /**
+   *
+   * @param src {string}
+   * @param volume {number}
+   */
+  static newHowlOneShot({src, volume} = {}) {
+    return new Howl({
+      src,
+      preload: true,
+      autoplay: false,
+      loop: false,
+      volume
+    });
+  }
 }
 
 class VibrationEffects {
-    /**
-     *
-     * @param state {boolean}; первоначальное состояние вибрации
-     */
-    constructor({state = true} = {}) {
-        this.state = state;
-        this.vibrationSupport = 'vibrate' in navigator;
-        this.isLoop = false;
-        this.isStop = false;
-        this.timers = [];
+  /**
+   *
+   * @param state {boolean}; первоначальное состояние вибрации
+   */
+  constructor({state = true} = {}) {
+    this.state = state;
+    this.vibrationSupport = 'vibrate' in navigator;
+    this.isLoop = false;
+    this.isStop = false;
+    this.timers = [];
+  }
+
+  /**
+   *
+   * @param state {boolean}
+   */
+  set(state) {
+    this.state = state;
+
+    if (state === false) {
+      this.stop();
+    }
+  }
+
+  /**
+   *
+   * @param [duration] {number}
+   * @param [sleep] {number}
+   * @param [sleepBefore] {number}
+   * @param [loop] {boolean}
+   * @param [segments][] {object}
+   * @param [fromReduce] {boolean}
+   */
+  play({duration, sleep = 100, sleepBefore = 0, loop, segments = []} = {}, fromReduce = false) {
+    if (!this.vibrationSupport) return;
+    if (this.state !== true) return;
+    //if (this.isStop === true) return Promise.reject('play is interrupted by stop flag');
+    if (this.isStop === true) return;
+
+    if (typeof loop !== 'undefined') this.isLoop = loop;
+
+    if (segments.length > 0) {
+      segments.reduce((previous, current, index, array) => {
+        return previous
+          .then(() => {
+            return this.play(array[index], true).then(() => {
+              if (this.isLoop === true && index === array.length - 1) {
+                this.play({segments}, true);
+              }
+            });
+          })
+          .catch((msg) => {
+            //console.log(msg);
+          });
+      }, Promise.resolve());
+
+      return;
     }
 
-    /**
-     *
-     * @param state {boolean}
-     */
-    set(state) {
-        this.state = state;
+    if (typeof duration === 'undefined') return;
 
-        if (state === false) {
-            this.stop();
-        }
-    }
+    return new Promise((resolve, reject) => {
+      const sleepBeforeTimer = setTimeout(() => {
+        navigator.vibrate(duration);
 
-    /**
-     *
-     * @param [duration] {number}
-     * @param [sleep] {number}
-     * @param [sleepBefore] {number}
-     * @param [loop] {boolean}
-     * @param [segments][] {object}
-     * @param [fromReduce] {boolean}
-     */
-    play({duration, sleep = 100, sleepBefore = 0, loop, segments = []} = {}, fromReduce = false) {
-        if (!this.vibrationSupport) return;
-        if (this.state !== true) return;
-        //if (this.isStop === true) return Promise.reject('play is interrupted by stop flag');
-        if (this.isStop === true) return;
+        const sleepTimer = setTimeout(() => {
+          resolve();
 
-        if (typeof loop !== 'undefined') this.isLoop = loop;
+          if (this.isLoop === true && fromReduce === false) {
+            this.play({duration, sleep, sleepBefore, loop});
+          }
+        }, sleep);
 
-        if (segments.length > 0) {
-            segments.reduce((previous, current, index, array) => {
-                return previous
-                    .then(() => {
-                        return this.play(array[index], true).then(() => {
-                            if (this.isLoop === true && index === array.length - 1) {
-                                this.play({segments}, true);
-                            }
-                        });
-                    })
-                    .catch((msg) => {
-                        //console.log(msg);
-                    });
-            }, Promise.resolve());
+        this.timers.push(sleepTimer);
+      }, sleepBefore);
 
-            return;
-        }
+      this.timers.push(sleepBeforeTimer);
+    });
+  }
 
-        if (typeof duration === 'undefined') return;
+  stop() {
+    if (!this.vibrationSupport) return;
 
-        return new Promise((resolve, reject) => {
-            const sleepBeforeTimer = setTimeout(() => {
-                navigator.vibrate(duration);
-
-                const sleepTimer = setTimeout(() => {
-                    resolve();
-
-                    if (this.isLoop === true && fromReduce === false) {
-                        this.play({duration, sleep, sleepBefore, loop});
-                    }
-                }, sleep);
-
-                this.timers.push(sleepTimer);
-            }, sleepBefore);
-
-            this.timers.push(sleepBeforeTimer);
-        });
-    }
-
-    stop() {
-        if (!this.vibrationSupport) return;
-
-        this.isStop = true;
-        this.isLoop = false;
-        navigator.vibrate(0);
-    }
+    this.isStop = true;
+    this.isLoop = false;
+    navigator.vibrate(0);
+  }
 }
 
+/**
+ * at the moment it's just an effect for TV-static,
+ * not an reusable one
+ */
 class BackgroundEffects {
-  constructor() {
+  /**
+   *
+   * @param animation {string}
+   */
+  static setAnimation(animation) {
+    CssVariables.set('--background-animation', animation);
+  }
+
+  /**
+   *
+   * @param speed {number}
+   */
+  static setAnimationSpeed(speed) {
+    CssVariables.set('--background-animation-speed', `${speed}ms`);
+  }
+
+  /**
+   *
+   * @param loopMode {string}
+   * @param src[] {string}
+   * @param index {number}
+   */
+  static getNextSrcIndex({loopMode, src, index}) {
+    if (loopMode === 'normal') {
+      if (src[index + 1]) return index + 1;
+
+      return 0;
+    } else if (loopMode === 'random') {
+      console.log('src.length', src.length);
+
+      return getRandomInt(0, src.length - 1);
+    }
+  }
+
+  constructor(Effects) {
+    this.Effects = Effects;
+
     this.$menu = $('.menu');
     this.$wrapper = $('.js-background-wrapper');
     this.$shadow = $('.js-background-shadow');
     this.$video = $('.js-background-video');
-    this.interval = null;
+    this.timer = null;
+    this.srcIndex = 0;
   }
 
   show() {
@@ -760,396 +831,446 @@ class BackgroundEffects {
    * @param backgroundType {string}
    * @param src {string}
    */
-  set({backgroundType, src}) {
-    if (backgroundType === 'video') {
-      this.$video.attr('src', src);
-    }
+  set({type, src}) {
+    return new Promise((resolve) => {
+      if (type === 'video') {
+        this.$video.attr('src', '');
+
+        this.$video.one('canplay', () => resolve());
+
+        this.$video.attr('src', src);
+      }
+    });
   }
 
   /**
    *
    * @param backgroundType {string}
-   * @param src {string}
+   * @param src[] {string}
+   * @param [loopMode] {string} normal, random
+   * @param [animation] {string}
+   * @param [speed][] {number} if two digits - it's min and max for random
+   * @param [sleep][] {number} if two digits - it's min and max for random
+   * @param [noPlayBetweenIterations][] {string} id of effect needed to pause between iterations
    */
-  play({backgroundType, src}) {
-    this.set({backgroundType, src});
+  play({
+         backgroundType,
+         src = [],
+         loopMode = 'normal',
+         animation = 'blink',
+         speed = [1000],
+         sleep = [0],
+         noPlayBetweenIterations = []
+  }) {
+    BackgroundEffects.setAnimation(animation);
+    BackgroundEffects.setAnimationSpeed(speed[0]);
+
+    if (noPlayBetweenIterations.length > 0) {
+      noPlayBetweenIterations.forEach((curEffectId) => {
+        this.Effects.play(curEffectId);
+      });
+    }
+
+    this.$wrapper.on('animationiteration', () => {
+      const timeOut = sleep.length > 1 ? getRandomInt(sleep[0], sleep[1]) : sleep[0];
+      const animationSpeed = speed.length > 1 ? getRandomInt(speed[0], speed[1]) : speed[0];
+
+      if (noPlayBetweenIterations.length > 0) {
+        noPlayBetweenIterations.forEach((curEffectId) => {
+          this.Effects.pause(curEffectId);
+        });
+      }
+
+      this.hide();
+      BackgroundEffects.setAnimation('static');
+      BackgroundEffects.setAnimationSpeed(animationSpeed);
+
+      this.timer = setTimeout(async () => {
+        BackgroundEffects.setAnimation('blink');
+
+        if (src.length > 1) {
+          const nextIndex = BackgroundEffects.getNextSrcIndex({loopMode, src, index: this.srcIndex});
+
+          console.log('nextIndex', nextIndex);
+
+          this.srcIndex = nextIndex;
+
+          await this.set({type: backgroundType, src: src[nextIndex]});
+        }
+
+        if (noPlayBetweenIterations.length > 0) {
+          noPlayBetweenIterations.forEach((curEffectId) => {
+            this.Effects.play(curEffectId);
+          });
+        }
+
+        this.show();
+      }, timeOut);
+    });
+
+    this.set({type: backgroundType, src: src[0]});
     this.show();
   }
 
   stop() {
     this.hide();
+    clearTimeout(this.timer);
+    this.$wrapper.off('animationiteration');
+    this.$video.off('canplay');
   }
 }
 
 class TextShadowEffects {
-    constructor() {
-        this.$textShadow = $('.text-shadow');
-        this.interval = null;
-        this.prevColorRandom = null;
-        this.prevColorPolice = 'blue';
+  constructor() {
+    this.$textShadow = $('.text-shadow');
+    this.interval = null;
+    this.prevColorRandom = null;
+    this.prevColorPolice = 'blue';
+  }
+
+  show() {
+    this.$textShadow.addClass('active');
+  }
+
+  hide() {
+    this.$textShadow.removeClass('active');
+  }
+
+  /**
+   *
+   * @param color {string}
+   */
+  static setColor(color) {
+    CssVariables.set('--text-shadow-color', color);
+  }
+
+  /**
+   *
+   * @param animation {string}
+   */
+  static setAnimation(animation) {
+    CssVariables.set('--text-shadow-animation', animation);
+  }
+
+  /**
+   *
+   * @param speed {number}
+   */
+  static setAnimationSpeed(speed) {
+    CssVariables.set('--text-shadow-animation-speed', `${speed}ms`);
+  }
+
+
+  setColorRandom() {
+    const r = getRandomInt(0, 255);
+    const g = getRandomInt(0, 255);
+    const b = getRandomInt(0, 255);
+    const color = `rgb(${r}, ${g}, ${b})`;
+
+    if (this.prevColorRandom !== color) {
+      this.prevColorRandom = color;
+
+      TextShadowEffects.setColor(color);
+    } else {
+      this.setColorRandom();
+    }
+  }
+
+  setColorPolice() {
+    if (this.prevColorPolice === 'blue') {
+      this.prevColorPolice = 'red';
+
+      TextShadowEffects.setColor('red');
+    } else if (this.prevColorPolice === 'red') {
+      this.prevColorPolice = 'blue';
+
+      TextShadowEffects.setColor('blue');
+    }
+  }
+
+  /**
+   *
+   * @param [color] {string}
+   * @param [animation] {string}
+   * @param [sleep] {number}
+   * @param [speed] {number}
+   * @param [invert] {boolean}
+   */
+  play({animation = 'blink', color = 'red', sleep = 1000, speed = 1000, invert = true} = {}) {
+    TextShadowEffects.setAnimation(animation);
+    TextShadowEffects.setAnimationSpeed(speed);
+
+    if (color === 'random') {
+      this.setColorRandom();
+    } else if (color === 'chameleon') {
+      this.setColorRandom();
+
+      this.interval = setInterval(() => {
+        this.setColorRandom();
+      }, sleep);
+    } else if (color === 'police') {
+      this.setColorPolice();
+
+      this.$textShadow.on('animationiteration', () => {
+        this.setColorPolice();
+      });
+    } else {
+      TextShadowEffects.setColor(color);
     }
 
-    show() {
-        this.$textShadow.addClass('active');
-    }
+    this.show();
+  }
 
-    hide() {
-        this.$textShadow.removeClass('active');
-    }
-
-    /**
-     *
-     * @param color {string}
-     */
-    static setColor(color) {
-        CssVariables.set('--text-shadow-color', color);
-    }
-
-    /**
-     *
-     * @param animation {string}
-     */
-    static setAnimation(animation) {
-        CssVariables.set('--text-shadow-animation', animation);
-    }
-
-    /**
-     *
-     * @param speed {number}
-     */
-    static setAnimationSpeed(speed) {
-        CssVariables.set('--text-shadow-animation-speed', `${speed}ms`);
-    }
-
-
-    setColorRandom() {
-        const r = getRandomInt(0, 255);
-        const g = getRandomInt(0, 255);
-        const b = getRandomInt(0, 255);
-        const color = `rgb(${r}, ${g}, ${b})`;
-
-        if (this.prevColorRandom !== color) {
-            this.prevColorRandom = color;
-
-            TextShadowEffects.setColor(color);
-        } else {
-            this.setColorRandom();
-        }
-    }
-
-    setColorPolice() {
-        if (this.prevColorPolice === 'blue') {
-            this.prevColorPolice = 'red';
-
-            TextShadowEffects.setColor('red');
-        } else if (this.prevColorPolice === 'red') {
-            this.prevColorPolice = 'blue';
-
-            TextShadowEffects.setColor('blue');
-        }
-    }
-
-    /**
-     *
-     * @param [color] {string}
-     * @param [animation] {string}
-     * @param [sleep] {number}
-     * @param [speed] {number}
-     * @param [invert] {boolean}
-     */
-    play({animation = 'blink', color = 'red', sleep = 1000, speed = 1000, invert = true} = {}) {
-        TextShadowEffects.setAnimation(animation);
-        TextShadowEffects.setAnimationSpeed(speed);
-
-        if (color === 'random') {
-            this.setColorRandom();
-        } else if (color === 'chameleon') {
-            this.setColorRandom();
-
-            this.interval = setInterval(() => {
-                this.setColorRandom();
-            }, sleep);
-        } else if (color === 'police') {
-            this.setColorPolice();
-
-            this.$textShadow.on('animationiteration', () => {
-                this.setColorPolice();
-            });
-        } else {
-            TextShadowEffects.setColor(color);
-        }
-
-        this.show();
-    }
-
-    stop() {
-        this.hide();
-        this.$textShadow.off();
-        clearInterval(this.interval);
-    }
+  stop() {
+    this.hide();
+    this.$textShadow.off();
+    clearInterval(this.interval);
+  }
 }
 
 class SideTextScrollEffect {
-    constructor() {
-        this.sideTextScrollWrapper = $('.side-text-scroll-wrapper');
-        this.sideTextScrollLeftContent = $('.js-side-text-scroll-left-content');
-        this.sideTextScrollRightContent = $('.js-side-text-scroll-right-content');
+  constructor() {
+    this.sideTextScrollWrapper = $('.side-text-scroll-wrapper');
+    this.sideTextScrollLeftContent = $('.js-side-text-scroll-left-content');
+    this.sideTextScrollRightContent = $('.js-side-text-scroll-right-content');
+  }
+
+  /**
+   *
+   * @param [left] {string}
+   * @param [right] {string}
+   * @param [speed] {number}
+   */
+  play({left, right, speed = 60000} = {}) {
+    const $left = $(left);
+    const $right = $(right);
+
+    if ($right.length === 0 && $left.length === 0) return;
+
+    if ($left.length > 0) {
+      SideTextScrollEffect.addNbsp($left.contents());
+
+      this.sideTextScrollLeftContent.html($left.html());
     }
 
-    /**
-     *
-     * @param [left] {string}
-     * @param [right] {string}
-     * @param [speed] {number}
-     */
-    play({left, right, speed = 60000} = {}) {
-        const $left = $(left);
-        const $right = $(right);
+    if ($right.length > 0) {
+      SideTextScrollEffect.addNbsp($right.contents());
 
-        if ($right.length === 0 && $left.length === 0) return;
-
-        if ($left.length > 0) {
-            SideTextScrollEffect.addNbsp($left.contents());
-
-            this.sideTextScrollLeftContent.html($left.html());
-        }
-
-        if ($right.length > 0) {
-            SideTextScrollEffect.addNbsp($right.contents());
-
-            this.sideTextScrollRightContent.html($right.html());
-        }
-
-        SideTextScrollEffect.setAnimationSpeed(speed);
-
-        this.show();
+      this.sideTextScrollRightContent.html($right.html());
     }
 
-    show() {
-        this.sideTextScrollWrapper.addClass('active');
-    }
+    SideTextScrollEffect.setAnimationSpeed(speed);
 
-    hide() {
-        this.sideTextScrollWrapper.removeClass('active');
-    }
+    this.show();
+  }
 
-    stop() {
-        this.sideTextScrollLeftContent.html('');
-        this.sideTextScrollRightContent.html('');
-        this.hide();
-    }
+  show() {
+    this.sideTextScrollWrapper.addClass('active');
+  }
 
-    static setAnimationSpeed(speed) {
-        CssVariables.set('--side-scroll-text-animation-speed', `${speed}ms`);
-    }
+  hide() {
+    this.sideTextScrollWrapper.removeClass('active');
+  }
 
-    /**
-     *
-     * @param $contents {object} jquery
-     */
-    static addNbsp($contents) {
-        $contents.each((i, item) => {
-            if (/^\s+$/.test(item.textContent)) return;
+  stop() {
+    this.sideTextScrollLeftContent.html('');
+    this.sideTextScrollRightContent.html('');
+    this.hide();
+  }
 
-            item.textContent += '\u00A0'; //&nbsp;
-        });
-    }
+  static setAnimationSpeed(speed) {
+    CssVariables.set('--side-scroll-text-animation-speed', `${speed}ms`);
+  }
+
+  /**
+   *
+   * @param $contents {object} jquery
+   */
+  static addNbsp($contents) {
+    $contents.each((i, item) => {
+      if (/^\s+$/.test(item.textContent)) return;
+
+      item.textContent += '\u00A0'; //&nbsp;
+    });
+  }
 }
 
 export class FilterEffects {
-    constructor() {
+  constructor() {
 
+  }
+
+  /**
+   *
+   * @param value {boolean}
+   * @param writeToLocalStorage {boolean}
+   */
+  static invert(value, writeToLocalStorage = true) {
+    $('.page').attr('data-invert', value);
+
+    if (writeToLocalStorage) {
+      LocalStorage.write({key: 'filterInvert', val: value});
     }
+  }
 
-    /**
-     *
-     * @param value {boolean}
-     * @param writeToLocalStorage {boolean}
-     */
-    static invert(value, writeToLocalStorage = true) {
-        $('.page').attr('data-invert', value);
+  /**
+   * @param filterEffect {object}
+   */
+  static apply(filterEffect) {
+    const filter = filterEffect.filter;
+    const name = filter.name;
+    const value = filter.value;
 
-        if (writeToLocalStorage) {
-            LocalStorage.write({key: 'filterInvert', val: value});
-        }
-    }
-
-    /**
-     * @param filterEffect {object}
-     */
-    static apply(filterEffect) {
-        const filter = filterEffect.filter;
-        const name = filter.name;
-        const value = filter.value;
-
-        FilterEffects[name](value);
-    }
+    FilterEffects[name](value);
+  }
 }
 
 class FlashLightEffects {
-    /**
-     *
-     * @param state {boolean}; первоначальное состояние вибрации
-     */
-    constructor({state = true}) {
-        this.state = state;
-        this.flashLight = get(window, 'plugins.flashlight');
-        this.isLoop = false;
-        this.isStop = false;
-        this.timers = [];
-        this.setIsAvailable();
+  /**
+   *
+   * @param state {boolean}; первоначальное состояние вибрации
+   */
+  constructor({state = true}) {
+    this.state = state;
+    this.flashLight = get(window, 'plugins.flashlight');
+    this.isLoop = false;
+    this.isStop = false;
+    this.timers = [];
+    this.setIsAvailable();
+  }
+
+  setIsAvailable() {
+    return new Promise((resolve, reject) => {
+      if (!this.flashLight) {
+        this.flashlightSupport = false;
+
+        resolve();
+
+        return;
+      }
+
+      this.flashLight.available((isAvailable) => {
+        this.flashlightSupport = isAvailable;
+
+        resolve();
+      });
+    });
+  }
+
+  /**
+   *
+   * @param state {boolean}
+   */
+  set(state) {
+    this.state = state;
+
+    if (state === false) {
+      this.stop();
+    }
+  }
+
+  /**
+   *
+   * @param [duration] {number}
+   * @param [sleepBefore] {number}
+   * @param [sleep] {number}
+   * @param [loop] {boolean}
+   * @param [segments][] {object}
+   * @param [fromReduce] {boolean}
+   */
+  async play({duration, sleep = 100, sleepBefore = 0, loop, segments = []} = {}, fromReduce = false) {
+    if (!this.flashlightSupport) return;
+    if (this.state !== true) return;
+
+    //if (this.isStop === true) return Promise.reject('play is interrupted by stop flag');
+    if (this.isStop === true) return;
+
+    if (typeof loop !== 'undefined') this.isLoop = loop;
+
+    if (duration === -1) {
+      this.stop();
+
+      return;
     }
 
-    setIsAvailable() {
-        return new Promise((resolve, reject) => {
-            if (!this.flashLight) {
-                this.flashlightSupport = false;
+    if (duration === 'infinity') duration = Infinity; //JSON can't Infinity as number
 
-                resolve();
-
-                return;
-            }
-
-            this.flashLight.available((isAvailable) => {
-                this.flashlightSupport = isAvailable;
-
-                resolve();
+    if (segments.length > 0) {
+      segments.reduce((previous, current, index, array) => {
+        return previous
+          .then(() => {
+            return this.play(array[index], true).then(() => {
+              if (this.isLoop === true && index === array.length - 1) {
+                this.play({segments}, true);
+              }
             });
-        });
+          })
+          .catch((msg) => {
+            //console.log(msg);
+          });
+      }, Promise.resolve());
+
+      return;
     }
 
-    /**
-     *
-     * @param state {boolean}
-     */
-    set(state) {
-        this.state = state;
+    if (typeof duration === 'undefined') return;
 
-        if (state === false) {
-            this.stop();
-        }
-    }
+    return new Promise((resolve, reject) => {
+      const sleepBeforeTimer = setTimeout(() => {
+        this.switchOn();
 
-    /**
-     *
-     * @param [duration] {number}
-     * @param [sleepBefore] {number}
-     * @param [sleep] {number}
-     * @param [loop] {boolean}
-     * @param [segments][] {object}
-     * @param [fromReduce] {boolean}
-     */
-    async play({duration, sleep = 100, sleepBefore = 0, loop, segments = []} = {}, fromReduce = false) {
-        if (!this.flashlightSupport) return;
-        if (this.state !== true) return;
-
-        //if (this.isStop === true) return Promise.reject('play is interrupted by stop flag');
-        if (this.isStop === true) return;
-
-        if (typeof loop !== 'undefined') this.isLoop = loop;
-
-        if (duration === -1) {
-            this.stop();
-
-            return;
-        }
-
-        if (duration === 'infinity') duration = Infinity; //JSON can't Infinity as number
-
-        if (segments.length > 0) {
-            segments.reduce((previous, current, index, array) => {
-                return previous
-                    .then(() => {
-                        return this.play(array[index], true).then(() => {
-                            if (this.isLoop === true && index === array.length - 1) {
-                                this.play({segments}, true);
-                            }
-                        });
-                    })
-                    .catch((msg) => {
-                        //console.log(msg);
-                    });
-            }, Promise.resolve());
-
-            return;
-        }
-
-        if (typeof duration === 'undefined') return;
-
-        return new Promise((resolve, reject) => {
-            const sleepBeforeTimer = setTimeout(() => {
-                this.switchOn();
-
-                if (duration === Infinity) {
-                    resolve();
-                } else {
-                    const durationTimer = setTimeout(() => {
-                        this.switchOff();
-                    }, duration);
-
-                    this.timers.push(durationTimer);
-
-                    const sleepTimer = setTimeout(() => {
-                        resolve();
-
-                        if (this.isLoop === true && fromReduce === false) {
-                            this.play({duration, sleep, sleepBefore, loop});
-                        }
-                    }, sleep);
-
-                    this.timers.push(sleepTimer);
-                }
-            }, sleepBefore);
-
-            this.timers.push(sleepBeforeTimer);
-        });
-    }
-
-    stop() {
-        if (!this.flashlightSupport) return;
-
-        this.isStop = true;
-        this.isLoop = false;
-        this.switchOff();
-    }
-
-    switchOn() {
-        if (!this.flashlightSupport) return;
-
-        this.flashLight.switchOn(() => {
-            // optional success callback
-        }, () => {
-            console.error('flashLight switchOn error'); // optional error callback
-        }, {
-            intensity: 0.3 // optional as well
-        });
-    }
-
-    switchOff() {
-        if (!this.flashlightSupport) return;
-
-        this.flashLight.switchOff(() => {
-            // optional success callback
-        }, () => {
-            console.error('flashLight switchOff error'); // optional error callback
-        });
-    }
-}
-
-function getEffectsInst() {
-    let inited = false;
-    let effectsInstSingleton;
-
-    return () => {
-        if (inited === true) {
-            return effectsInstSingleton;
+        if (duration === Infinity) {
+          resolve();
         } else {
-            inited = true;
-            effectsInstSingleton = new Effects(); //for debug use window.Effects = effectsInstSingleton = new Effects();
+          const durationTimer = setTimeout(() => {
+            this.switchOff();
+          }, duration);
 
-            return effectsInstSingleton;
+          this.timers.push(durationTimer);
+
+          const sleepTimer = setTimeout(() => {
+            resolve();
+
+            if (this.isLoop === true && fromReduce === false) {
+              this.play({duration, sleep, sleepBefore, loop});
+            }
+          }, sleep);
+
+          this.timers.push(sleepTimer);
         }
-    }
-}
+      }, sleepBefore);
 
-export const effectsInst = getEffectsInst();
+      this.timers.push(sleepBeforeTimer);
+    });
+  }
+
+  stop() {
+    if (!this.flashlightSupport) return;
+
+    this.isStop = true;
+    this.isLoop = false;
+    this.switchOff();
+  }
+
+  switchOn() {
+    if (!this.flashlightSupport) return;
+
+    this.flashLight.switchOn(() => {
+      // optional success callback
+    }, () => {
+      console.error('flashLight switchOn error'); // optional error callback
+    }, {
+      intensity: 0.3 // optional as well
+    });
+  }
+
+  switchOff() {
+    if (!this.flashlightSupport) return;
+
+    this.flashLight.switchOff(() => {
+      // optional success callback
+    }, () => {
+      console.error('flashLight switchOff error'); // optional error callback
+    });
+  }
+}

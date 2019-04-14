@@ -18,11 +18,9 @@
   },
   "plugins": [
     "babel"
-    // "prettier"
   ],
   "extends": [
-    "plugin:vue/recommended"
-    // "stylelint"
+
   ],
   "settings": {
     "import/resolver": {
@@ -32,7 +30,6 @@
     }
   },
   "rules": {
-    // "prettier/prettier": "error",
     "global-require": "off",
     "array-callback-return": "off",
     "no-console": "off",
@@ -48,17 +45,9 @@
     "space-in-parens": ["error", "never"],
     "no-trailing-spaces": "error",
     "no-multi-spaces": "error",
-    "no-underscore-dangle": "error",
-    "vue/max-attributes-per-line": ["error", {
-      "singleline": 3,
-      "multiline": {
-        "max": 1,
-        "allowFirstLine": false
-      }
-    }]
+    "no-underscore-dangle": "error"
   },
   "globals": {
-    "Vue": true,
     "document": true,
     "window": true,
     "jQuery": true,
