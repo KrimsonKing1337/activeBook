@@ -1,5 +1,12 @@
 {
-  "effects": [],
+  "effects": [
+    {
+      "id": "combination-of-opposers-metal",
+      "type": "oneShot",
+      "src": "book_data/audios/sounds/combination-of-opposers-metal.mp3",
+      "playOnLoad": true
+    }
+  ],
   "pageInfo": {
     "num": 108
   }

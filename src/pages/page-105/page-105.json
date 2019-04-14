@@ -1,5 +1,12 @@
 {
-  "effects": [],
+  "effects": [
+    {
+      "id": "combination-of-opposers-wood",
+      "type": "oneShot",
+      "src": "book_data/audios/sounds/combination-of-opposers-wood.mp3",
+      "playOnLoad": true
+    }
+  ],
   "pageInfo": {
     "num": 105
   }
