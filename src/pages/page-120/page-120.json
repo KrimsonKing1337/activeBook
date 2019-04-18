@@ -1,5 +1,24 @@
 {
-  "effects": [],
+  "effects": [
+    {
+      "id": "petard",
+      "type": "oneShot",
+      "src": "/book_data/audios/sounds/petard.mp3",
+      "playOnLoad": true
+    },
+    {
+      "id": "notification-to-be-continued",
+      "type": "oneShot",
+      "playToEnd": true,
+      "src": "/book_data/audios/sounds/achievement-unlocked.mp3",
+      "notification": {
+        "id": "notification-to-be-continued",
+        "text": "Продолжение следует..",
+        "className": "info"
+      },
+      "playOnLoad": true
+    }
+  ],
   "pageInfo": {
     "num": 120
   }

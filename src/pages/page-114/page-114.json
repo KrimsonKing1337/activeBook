@@ -1,5 +1,12 @@
 {
-  "effects": [],
+  "effects": [
+    {
+      "id": "tank",
+      "type": "oneShot",
+      "src": "/book_data/audios/sounds/tank.mp3",
+      "playOnLoad": true
+    }
+  ],
   "pageInfo": {
     "num": 114
   }

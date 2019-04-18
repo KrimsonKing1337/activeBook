@@ -1,5 +1,19 @@
 {
-  "effects": [],
+  "effects": [
+    {
+      "id": "flashlight-on",
+      "type": "oneShot",
+      "src": "/book_data/audios/sounds/flashlight-on.mp3",
+      "playToEnd": true,
+      "playOnLoad": true
+    },
+    {
+      "id": "rats",
+      "type": "loop",
+      "src": "/book_data/audios/sounds/rats.mp3",
+      "playOnLoad": true
+    }
+  ],
   "pageInfo": {
     "num": 113
   }

@@ -1,5 +1,12 @@
 {
-  "effects": [],
+  "effects": [
+    {
+      "id": "drops-and-puddle-canalization",
+      "type": "loop",
+      "src": "/book_data/audios/sounds/drops-and-puddle-canalization.mp3",
+      "playOnLoad": true
+    }
+  ],
   "pageInfo": {
     "num": 112
   }

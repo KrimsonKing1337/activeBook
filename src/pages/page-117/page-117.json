@@ -1,5 +1,12 @@
 {
-  "effects": [],
+  "effects": [
+    {
+      "id" : "manhole",
+      "type": "oneShot",
+      "src": "/book_data/audios/sounds/manhole.mp3",
+      "playOnLoad": true
+    }
+  ],
   "pageInfo": {
     "num": 117
   }
