@@ -64,7 +64,7 @@
       "fadeOutSpeed": 1000,
       "range": {
         "start": 128,
-        "stop": -1
+        "stop": 136
       }
     }
   ],

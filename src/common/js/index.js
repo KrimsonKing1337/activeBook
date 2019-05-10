@@ -13,11 +13,11 @@ import {visibilityChangeInit} from './events/visibilityChangeInit';
 import LocalStorage from './states/LocalStorage';
 import {goToPageBtnInit} from './events/goToPageBtnInit';
 import {
-    keyboardArrowsInit,
-    swipesInit,
-    accessoriesForModalContentInit,
-    orientationChangeForGalleryInit,
-    actionTextInit, disableZoomApple
+  keyboardArrowsInit,
+  swipesInit,
+  accessoriesForModalContentInit,
+  orientationChangeForGalleryInit,
+  actionTextInit, disableZoomApple
 } from './events/commonEvents';
 import {firstOpenCheck} from './forAppInit/firstOpenCheck';
 import {CssVariables} from './helpers/CssVariables';
@@ -32,156 +32,156 @@ import {checkAllAudiosWithRange} from './effects/audioWithRange';
 import {lastOpenedPageInst} from './states/lastOpenedPage';
 
 async function onReady(rootApp) {
-    if (browserCheck() === false) return;
+  if (browserCheck() === false) return;
 
-    firstOpenCheck();
+  firstOpenCheck();
 
-    const EffectsController = effectsInst();
+  const EffectsController = effectsInst();
 
-    const DOMSelectors = getDOMSelectors();
-    const $body = $('body');
+  const DOMSelectors = getDOMSelectors();
+  const $body = $('body');
 
-    const textAJAX = await getAJAX(`${rootApp}/page-0.html`);
-    const pageCurJSON = await getAJAX(`${rootApp}/page-0.json`, 'json');
-    const pagesJSON = await getAJAX(`${rootApp}/pages.json`, 'json');
+  const textAJAX = await getAJAX(`${rootApp}/page-0.html`);
+  const pageCurJSON = await getAJAX(`${rootApp}/page-0.json`, 'json');
+  const pagesJSON = await getAJAX(`${rootApp}/pages.json`, 'json');
 
-    const pagesInfo = pagesJSON.info;
-    const pagesEffects = modifyPathForPagesCurEffects(pagesJSON.effects, rootApp);
-    const pageCurInfo = pageCurJSON.pageInfo;
-    const pageCurEffects = modifyPathForPagesCurEffects(pageCurJSON.effects, rootApp);
-    const invertColorPagesRange = getInvertColorsPagesRange(pagesEffects);
+  const pagesInfo = pagesJSON.info;
+  const pagesEffects = modifyPathForPagesCurEffects(pagesJSON.effects, rootApp);
+  const pageCurInfo = pageCurJSON.pageInfo;
+  const pageCurEffects = modifyPathForPagesCurEffects(pageCurJSON.effects, rootApp);
+  const invertColorPagesRange = getInvertColorsPagesRange(pagesEffects);
 
-    LocalStorage.write({key: 'pageCurEffects', val: pageCurEffects});
-    LocalStorage.write({key: 'pagesEffects', val: pagesEffects});
+  LocalStorage.write({key: 'pageCurEffects', val: pageCurEffects});
+  LocalStorage.write({key: 'pagesEffects', val: pagesEffects});
 
-    pageInfo.set({
-        pageCurNum: pageCurInfo.num,
-        pagesLength: pagesInfo.length
+  pageInfo.set({
+    pageCurNum: pageCurInfo.num,
+    pagesLength: pagesInfo.length
+  });
+
+  $(DOMSelectors.textWrapper).html(textAJAX);
+
+  //определяем поддерживает ли устройство тач
+  $(DOMSelectors.page).attr('data-touch-device', 'ontouchstart' in window);
+
+  visibilityChangeInit();
+
+  menuInit();
+
+  //загружаем значения настроек
+  loadStates();
+
+  actionTextInit();
+
+  swipesInit();
+
+  await EffectsController.setEffects(pageCurEffects);
+
+  await scrollbarInitAll();
+
+  showHideScrollbarTouchEventsFix();
+
+  playOnLoad(pageCurEffects);
+
+  goToPageBtnInit();
+
+  if (pageInfo.pageCurNum === 0) {
+    $(DOMSelectors.menu).addClass('hide');
+  } else {
+    $(DOMSelectors.menu).removeClass('hide');
+  }
+
+  //событие перехода на другую страницу
+  $(window).on('changePage', async (e, pageNum) => {
+    /**
+     * деструктор модалки должен идти перед навешиванием на body класса loading,
+     * иначе не выполняется animateCss('fadeOut'),
+     * а значит и промис тоже не резолвится
+     */
+    await ModalContent.destroyAll();
+
+    $body.addClass('loading');
+
+    scrollbarDestroy();
+
+    EffectsController.stopAll({
+      target: 'all',
+      unload: true
     });
 
+    //обнуляем таймеры
+    EffectsController.clearTimersAll();
+
+    const textAJAX = await getAJAX(`${rootApp}/page-${pageNum}.html`);
+    const pageCurJSON = await getAJAX(`${rootApp}/page-${pageNum}.json`, 'json');
+
+    const pageCurInfo = pageCurJSON.pageInfo;
+    const pageCurEffects = modifyPathForPagesCurEffects(pageCurJSON.effects, rootApp);
+
+    LocalStorage.write({key: 'pageCurEffects', val: pageCurEffects});
+
+    pageInfo.set({
+      pageCurNum: pageCurInfo.num
+    });
+
+    checkAllAudiosWithRange(pageCurInfo.num, pagesEffects);
+
+    if (invertColorPagesRange !== false) {
+      invertColorsByPageNumber(pageCurInfo.num, invertColorPagesRange);
+    }
+
+    //запоминаем, где пользователь оставился в прошлый раз
+    LocalStorage.write({key: 'pageForResumeReading', val: pageInfo.pageCurNum});
+
+    //запоминаем последнюю открытую страницу
+    lastOpenedPageInst.save(pageInfo.pageCurNum);
+
     $(DOMSelectors.textWrapper).html(textAJAX);
-
-    //определяем поддерживает ли устройство тач
-    $(DOMSelectors.page).attr('data-touch-device', 'ontouchstart' in window);
-
-    visibilityChangeInit();
-
-    menuInit();
-
-    //загружаем значения настроек
-    loadStates();
-
-    actionTextInit();
-
-    swipesInit();
 
     await EffectsController.setEffects(pageCurEffects);
 
     await scrollbarInitAll();
 
-    showHideScrollbarTouchEventsFix();
+    if (pageInfo.pageCurNum === 'credits' || pageInfo.pageCurNum === 0) {
+      $(DOMSelectors.menu).addClass('hide');
+    } else {
+      $(DOMSelectors.menu).removeClass('hide');
+
+      //устанавливаем плейсхолдеры для input-ов
+      $('.js-page-number').text(`${pageInfo.pageCurNum} из ${pageInfo.pagesLength}`);
+      $('.js-page-input').attr('placeholder', pageInfo.pageCurNum);
+    }
 
     playOnLoad(pageCurEffects);
 
+    actionTextInit();
+
     goToPageBtnInit();
 
-    if (pageInfo.pageCurNum === 0) {
-        $(DOMSelectors.menu).addClass('hide');
-    } else {
-        $(DOMSelectors.menu).removeClass('hide');
-    }
+    $body.removeClass('loading');
+  });
 
-    //событие перехода на другую страницу
-    $(window).on('changePage', async (e, pageNum) => {
-        /**
-         * деструктор модалки должен идти перед навешиванием на body класса loading,
-         * иначе не выполняется animateCss('fadeOut'),
-         * а значит и промис тоже не резолвится
-         */
-        await ModalContent.destroyAll();
+  keyboardArrowsInit();
+  accessoriesForModalContentInit();
+  orientationChangeForGalleryInit();
+  disableZoomApple();
+  hoverTouchUnstick();
 
-        $body.addClass('loading');
+  CssVariables.set('--main-content-height', `${window.innerHeight}px`);
+  CssVariables.set('--scrollbar-width', `${getScrollBarWidth()}px`);
 
-        scrollbarDestroy();
-
-        EffectsController.stopAll({
-            target: 'all',
-            unload: true
-        });
-
-        //обнуляем таймеры
-        EffectsController.clearTimersAll();
-
-        const textAJAX = await getAJAX(`${rootApp}/page-${pageNum}.html`);
-        const pageCurJSON = await getAJAX(`${rootApp}/page-${pageNum}.json`, 'json');
-
-        const pageCurInfo = pageCurJSON.pageInfo;
-        const pageCurEffects = modifyPathForPagesCurEffects(pageCurJSON.effects, rootApp);
-
-        LocalStorage.write({key: 'pageCurEffects', val: pageCurEffects});
-
-        pageInfo.set({
-            pageCurNum: pageCurInfo.num
-        });
-
-        checkAllAudiosWithRange(pageCurInfo.num, pagesEffects);
-
-        if (invertColorPagesRange !== false) {
-            invertColorsByPageNumber(pageCurInfo.num, invertColorPagesRange);
-        }
-
-        //запоминаем, где пользователь оставился в прошлый раз
-        LocalStorage.write({key: 'pageForResumeReading', val: pageInfo.pageCurNum});
-
-        //запоминаем последнюю открытую страницу
-        lastOpenedPageInst.save(pageInfo.pageCurNum);
-
-        $(DOMSelectors.textWrapper).html(textAJAX);
-
-        await EffectsController.setEffects(pageCurEffects);
-
-        await scrollbarInitAll();
-
-        if (pageInfo.pageCurNum === 'credits' || pageInfo.pageCurNum === 0) {
-            $(DOMSelectors.menu).addClass('hide');
-        } else {
-            $(DOMSelectors.menu).removeClass('hide');
-
-            //устанавливаем плейсхолдеры для input-ов
-            $('.js-page-number').text(`${pageInfo.pageCurNum} из ${pageInfo.pagesLength}`);
-            $('.js-page-input').attr('placeholder', pageInfo.pageCurNum);
-        }
-
-        playOnLoad(pageCurEffects);
-
-        actionTextInit();
-
-        goToPageBtnInit();
-
-        $body.removeClass('loading');
-    });
-
-    keyboardArrowsInit();
-    accessoriesForModalContentInit();
-    orientationChangeForGalleryInit();
-    disableZoomApple();
-    hoverTouchUnstick();
-
-    CssVariables.set('--main-content-height', `${window.innerHeight}px`);
-    CssVariables.set('--scrollbar-width', `${getScrollBarWidth()}px`);
-
-    $body.removeClass('initing');
-    $body.css('opacity', 1);
+  $body.removeClass('initing');
+  $body.css('opacity', 1);
 }
 
 $(document).ready(() => {
-    const isMobile = getIsMobile();
+  const isMobile = getIsMobile();
 
-    if (!isMobile) {
-        onReady(getRootApp());
-    } else {
-        document.addEventListener('deviceready', () => {
-            onReady(getRootApp());
-        }, false);
-    }
+  if (!isMobile) {
+    onReady(getRootApp());
+  } else {
+    document.addEventListener('deviceready', () => {
+      onReady(getRootApp());
+    }, false);
+  }
 });

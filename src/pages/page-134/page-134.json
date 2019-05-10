@@ -1,12 +1,5 @@
 {
-  "effects": [
-    {
-      "id": "TV-static-sound",
-      "type": "loop",
-      "src": "/book_data/audios/sounds/TV-static.mp3",
-      "playOnLoad": true
-    }
-  ],
+  "effects": [],
   "pageInfo": {
     "num": 134
   }

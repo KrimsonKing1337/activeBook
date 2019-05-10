@@ -799,8 +799,6 @@ class BackgroundEffects {
 
       return 0;
     } else if (loopMode === 'random') {
-      console.log('src.length', src.length);
-
       return getRandomInt(0, src.length - 1);
     }
   }
@@ -890,8 +888,6 @@ class BackgroundEffects {
 
         if (src.length > 1) {
           const nextIndex = BackgroundEffects.getNextSrcIndex({loopMode, src, index: this.srcIndex});
-
-          console.log('nextIndex', nextIndex);
 
           this.srcIndex = nextIndex;
 
