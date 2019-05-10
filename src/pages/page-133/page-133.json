@@ -1,0 +1,26 @@
+{
+  "effects": [
+    {
+      "id": "TV-static-video",
+      "type": "background",
+      "src": [
+        "/book_data/videos/TV_static.mp4",
+        "/book_data/videos/TV_static-2.mp4"
+      ],
+      "backgroundType": "video",
+      "loopMode": "random",
+      "speed": [300],
+      "sleep": [777],
+      "playOnLoad": true,
+      "noPlayBetweenIterations": ["TV-static-sound"]
+    },
+    {
+      "id": "TV-static-sound",
+      "type": "loop",
+      "src": "/book_data/audios/sounds/TV-static.mp3"
+    }
+  ],
+  "pageInfo": {
+    "num": 133
+  }
+}

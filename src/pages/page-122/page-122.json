@@ -1,0 +1,13 @@
+{
+  "effects": [
+    {
+      "id": "train",
+      "type": "loop",
+      "src": "/book_data/audios/sounds/train.mp3",
+      "playOnLoad": true
+    }
+  ],
+  "pageInfo": {
+    "num": 122
+  }
+}

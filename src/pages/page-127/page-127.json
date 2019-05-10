@@ -1,0 +1,14 @@
+{
+  "effects": [
+    {
+      "id": "punch2",
+      "type": "oneShot",
+      "src": "/book_data/audios/sounds/punch2.mp3",
+      "playToEnd": true,
+      "playOnLoad": true
+    }
+  ],
+  "pageInfo": {
+    "num": 127
+  }
+}

@@ -19,6 +19,10 @@
         {
           "start": 56,
           "stop": 57
+        },
+        {
+          "start": 131,
+          "stop": -1
         }
       ]
     },
@@ -42,9 +46,29 @@
         "start": 42,
         "stop": 45
       }
+    },
+    {
+      "id": "train",
+      "type": "loop",
+      "src": "/book_data/audios/sounds/train.mp3",
+      "fadeOutSpeed": 1000,
+      "range": {
+        "start": 121,
+        "stop": 123
+      }
+    },
+    {
+      "id": "rain-in-the-end",
+      "type": "loop",
+      "src": "/book_data/audios/sounds/rain-in-the-end.mp3",
+      "fadeOutSpeed": 1000,
+      "range": {
+        "start": 128,
+        "stop": -1
+      }
     }
   ],
   "info": {
-    "length": 120
+    "length": 135
   }
 }

@@ -1,0 +1,13 @@
+{
+  "effects": [
+    {
+      "id": "train-stop",
+      "type": "oneShot",
+      "src": "/book_data/audios/sounds/train-stop.mp3",
+      "playOnLoad": true
+    }
+  ],
+  "pageInfo": {
+    "num": 123
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "effects": [
+    {
+      "id": "metal-door-open",
+      "type": "oneShot",
+      "src": "/book_data/audios/sounds/metal-door-open.mp3",
+      "playOnLoad": true
+    }
+  ],
+  "pageInfo": {
+    "num": 125
+  }
+}

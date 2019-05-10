@@ -1,0 +1,20 @@
+{
+  "effects": [
+    {
+      "id": "heartbeat-and-male-heavy-breath",
+      "type": "loop",
+      "src": "/book_data/audios/sounds/heartbeat-and-male-heavy-breath.mp3",
+      "playOnLoad": true
+    },
+    {
+      "id": "male-yell",
+      "type": "oneShot",
+      "src": "/book_data/audios/sounds/male-yell.mp3",
+      "playToEnd": true,
+      "playOnLoad": true
+    }
+  ],
+  "pageInfo": {
+    "num": 131
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "effects": [
+    {
+      "id": "door-knock",
+      "type": "loop",
+      "src": "/book_data/audios/sounds/electricity.mp3",
+      "playOnLoad": true
+    }
+  ],
+  "pageInfo": {
+    "num": 130
+  }
+}

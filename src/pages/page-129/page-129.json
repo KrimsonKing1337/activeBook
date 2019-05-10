@@ -1,0 +1,13 @@
+{
+  "effects": [
+    {
+      "id": "door-knock",
+      "type": "oneShot",
+      "src": "/book_data/audios/sounds/door-knock.mp3",
+      "playOnLoad": true
+    }
+  ],
+  "pageInfo": {
+    "num": 129
+  }
+}
