@@ -12,16 +12,10 @@
     "lint": "eslint .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "browserslist": {
-    "production": [
-      "last 10 version",
-      "ie 10"
-    ],
-    "development": [
-      "last 2 version",
-      "ie 10"
-    ]
-  },
+  "browserslist": [
+    "last 10 version",
+    "ie 10"
+  ],
   "dependencies": {
     "animate.css": "^3.7.0",
     "bowser": "^2.2.1",
