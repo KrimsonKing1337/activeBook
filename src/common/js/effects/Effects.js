@@ -1137,20 +1137,16 @@ class FlashLightEffects {
   }
 
   setIsAvailable() {
-    return new Promise((resolve, reject) => {
-      if (!this.flashLight) {
-        this.flashlightSupport = false;
+    if (!this.flashLight) {
+      this.flashlightSupport = false;
 
-        resolve();
+      return;
+    }
 
-        return;
-      }
+    this.flashLight.available((isAvailable) => {
+      console.log('this.flashLight.available', isAvailable);
 
-      this.flashLight.available((isAvailable) => {
-        this.flashlightSupport = isAvailable;
-
-        resolve();
-      });
+      this.flashlightSupport = isAvailable;
     });
   }
 

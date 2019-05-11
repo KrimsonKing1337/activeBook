@@ -7,9 +7,6 @@
       "src": "/book_data/audios/sounds/sword.mp3",
       "vibration": {
         "duration": 500
-      },
-      "flashLight": {
-        "duration": 50
       }
     },
     {

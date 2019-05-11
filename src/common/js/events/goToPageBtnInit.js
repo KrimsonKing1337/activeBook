@@ -4,8 +4,6 @@ import {GoToPage} from '../menu/Menu';
 import {pageInfo} from '../forAppInit/pageInfo';
 import {getIsMobile} from '../helpers/getIsMobile.js';
 
-const EffectsController = effectsInst();
-
 /**
  *
  * @param goTo {string || number}
@@ -51,7 +49,11 @@ export function goToPageBtnInit() {
       } else {
         // if app has asked about flashlight then go. if not - show modal
         if (LocalStorage.read({key: 'askedAboutFlashlight'}) === true) {
+          const EffectsController = effectsInst();
+
           go(pageToGo);
+
+          EffectsController.flashLightEffectsInst.play({duration: 50});
         } else {
           setHandlersForConfirmButtons();
 
@@ -72,8 +74,11 @@ function go(pageToGo) {
 }
 
 function setHandlersForConfirmButtons() {
+  const EffectsController = effectsInst();
+
   EffectsController.modalContentInst.setConfirmButtonsHandlers(() => {
-    EffectsController.flashLightEffectsInst.stop();
+    EffectsController.flashLightEffectsInst.switchOn();
+    EffectsController.flashLightEffectsInst.switchOff();
 
     LocalStorage.write({key: 'askedAboutFlashlight', val: true});
   }, () => {
@@ -82,5 +87,7 @@ function setHandlersForConfirmButtons() {
 }
 
 function askAboutFlashlight() {
+  const EffectsController = effectsInst();
+
   EffectsController.play('confirm-flashlight');
 }
