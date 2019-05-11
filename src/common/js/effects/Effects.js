@@ -56,6 +56,7 @@ class Effects {
     this.textShadowEffectsInst = new TextShadowEffects();
     this.sideTextScrollEffectInst = new SideTextScrollEffect();
     this.backgroundEffectsInst = new BackgroundEffects(this);
+    this.modalContentInst = new ModalContent();
   }
 
   /**
@@ -82,7 +83,7 @@ class Effects {
       } else if (type === 'loop') {
         promises.push(this.soundEffectsInst.checkAndSetNewLoop(effectCur));
       } else if (type === 'modalContent') {
-        new ModalContent().init(effectCur);
+        this.modalContentInst.init(effectCur);
 
         promises.push(Promise.resolve());
       }

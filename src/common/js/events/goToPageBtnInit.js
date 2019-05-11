@@ -1,6 +1,10 @@
+import {effectsInst} from '../effects/Effects';
 import LocalStorage from '../states/LocalStorage';
 import {GoToPage} from '../menu/Menu';
 import {pageInfo} from '../forAppInit/pageInfo';
+import {getIsMobile} from '../helpers/getIsMobile.js';
+
+const EffectsController = effectsInst();
 
 /**
  *
@@ -21,7 +25,7 @@ function getPageToGo(goTo) {
  * go to another page by fake link
  */
 export function goToPageBtnInit() {
-    const $goToPage = $('.go-to-page');
+  const $goToPage = $('.go-to-page');
 
     if ($goToPage.length === 0) return;
 
@@ -40,9 +44,41 @@ export function goToPageBtnInit() {
         }
     }
 
-    $goToPage.one('click', () => {
-        setTimeout(() => {
-            GoToPage.go({val: pageToGo});
-        }, 500);
+    $goToPage.on('click', () => {
+      // if this is not mobile app - just go
+      // if (getIsMobile() === false) {}
+
+      // if app has asked about flashlight then go. if not - show modal
+      if (LocalStorage.read({key: 'askedAboutFlashlight'}) === true) {
+        go(pageToGo);
+      } else {
+        setHandlersForConfirmButtons();
+
+        askAboutFlashlight();
+      }
     });
+}
+
+function go(pageToGo) {
+  const $goToPage = $('.go-to-page');
+
+  setTimeout(() => {
+    GoToPage.go({val: pageToGo});
+
+    $goToPage.off('click');
+  }, 500);
+}
+
+function setHandlersForConfirmButtons() {
+  EffectsController.modalContentInst.setConfirmButtonsHandlers(() => {
+    EffectsController.flashLightEffectsInst.stop();
+
+    LocalStorage.write({key: 'askedAboutFlashlight', val: true});
+  }, () => {
+    LocalStorage.write({key: 'askedAboutFlashlight', val: true});
+  });
+}
+
+function askAboutFlashlight() {
+  EffectsController.play('confirm-flashlight');
 }

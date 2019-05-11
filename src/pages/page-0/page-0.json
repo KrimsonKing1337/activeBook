@@ -11,6 +11,13 @@
       "flashLight": {
         "duration": 50
       }
+    },
+    {
+      "id": "confirm-flashlight",
+      "type": "modalContent",
+      "modalContentType": "html",
+      "src": "confirm-flashlight",
+      "withConfirm": true
     }
   ],
   "pageInfo": {

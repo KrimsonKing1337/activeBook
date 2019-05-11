@@ -17,7 +17,8 @@ import {
   swipesInit,
   accessoriesForModalContentInit,
   orientationChangeForGalleryInit,
-  actionTextInit, disableZoomApple
+  actionTextInit,
+  disableZoomApple
 } from './events/commonEvents';
 import {firstOpenCheck} from './forAppInit/firstOpenCheck';
 import {CssVariables} from './helpers/CssVariables';
@@ -130,10 +131,10 @@ async function onReady(rootApp) {
       invertColorsByPageNumber(pageCurInfo.num, invertColorPagesRange);
     }
 
-    //запоминаем, где пользователь оставился в прошлый раз
+    // запоминаем, где пользователь оставился в прошлый раз
     LocalStorage.write({key: 'pageForResumeReading', val: pageInfo.pageCurNum});
 
-    //запоминаем последнюю открытую страницу
+    // запоминаем последнюю открытую страницу
     lastOpenedPageInst.save(pageInfo.pageCurNum);
 
     $(DOMSelectors.textWrapper).html(textAJAX);

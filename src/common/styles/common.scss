@@ -373,9 +373,47 @@ input[type="number"] {
 
     .section-wrapper {
       padding: 0 30px;
+    }
 
-      section {
-        padding: 20px 0;
+    .section {
+      padding: 20px 0;
+
+      &__confirm-buttons {
+        display: none;
+        align-items: center;
+        justify-content: center;
+        border-top: 1px solid #dee2e6;
+        margin-top: 10px;
+        padding-top: 10px;
+
+        &.active {
+          display: flex;
+        }
+      }
+
+      &__button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 40px;
+        min-width: 75px;
+        border-radius: 4px;
+        color: #fff;
+        padding: 5px;
+        margin-left: 15px;
+        @include hover-default;
+
+        &:nth-child(1) {
+          margin-left: 0;
+        }
+
+        &.accept {
+          background-color: #28a745;
+        }
+
+        &.decline {
+          background-color: #dc3545;
+        }
       }
     }
 

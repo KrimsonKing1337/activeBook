@@ -117,14 +117,17 @@ export function actionTextInit() {
     $('[data-effect-target]').on('click', function (e) {
         e.preventDefault();
 
-        EffectsController.play($(this).data('effect-target'));
+        const effects = $(this).data('effect-target').split(', ');
+
+        effects.forEach((effectCur) => {
+          EffectsController.play(effectCur);
+        });
     });
 
     setTimeout(() => {
         $('.text-wrapper').focus();
     }, 0);
 }
-
 
 export function disableZoomApple() {
     document.addEventListener('gesturestart', (e) => {

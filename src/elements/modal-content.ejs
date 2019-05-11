@@ -9,55 +9,78 @@ for get image from video use: ffmpeg -i video.webm -ss 00:00:07.000 -vframes 1 t
 -->
 
 <div class="modal-content template" data-content-type="">
-    <div class="modal-content__close js-modal-content-close">
-        <i class="fa fa-times"></i>
-    </div>
-    <div class="modal-content__full-screen js-modal-content-full-screen">
-        <i class="fa fa-expand active js-modal-content-icon-expand"></i>
-        <i class="fa fa-compress js-modal-content-icon-compress"></i>
-    </div>
-    <div class="modal-content__object-fit js-modal-content-object-fit">
-        <i class="fa fa-crop"></i>
-    </div>
-    <div class="modal-content__inner js-modal-content-inner">
-        <div class="img-wrapper js-modal-img-wrapper">
+  <div class="modal-content__close js-modal-content-close">
+    <i class="fa fa-times"></i>
+  </div>
 
-        </div>
-        <div class="gallery-wrapper">
-            <div class="gallery-forward gallery-icon js-gallery-forward-icon">
-                <i class="fa fa-angle-right" aria-hidden="true"></i>
-            </div>
-            <div class="gallery">
+  <div class="modal-content__full-screen js-modal-content-full-screen">
+    <i class="fa fa-expand active js-modal-content-icon-expand"></i>
+    <i class="fa fa-compress js-modal-content-icon-compress"></i>
+  </div>
 
-            </div>
-            <div class="gallery-backward gallery-icon js-gallery-backward-icon">
-                <i class="fa fa-angle-left" aria-hidden="true"></i>
-            </div>
-        </div>
-        <div class="video-wrapper">
-            <div class="video-player" data-playing="false" data-full-screen="false">
-                <div class="video-player__controls active js-video-player-controls">
-                    <div class="video-player__controls__top">
-                        <div class="video-player__position js-video-player-position"></div>
-                    </div>
-                    <div class="video-player__controls__bottom">
-                        <div class="video-player__play-pause video-player-icon js-video-player-play-pause">
-                            <i class="fa fa-play active js-video-player-icon-play"></i>
-                            <i class="fa fa-pause js-video-player-icon-pause"></i>
-                        </div>
-                        <div class="video-player__volume video-player-icon js-video-player-volume">
-                            <i class="fa fa-volume-up"></i>
-                        </div>
-                        <div class="video-player__length js-video-player-length"></div>
-                    </div>
-                </div>
-            </div>
-            <video class="js-modal-video" src="" poster=""></video>
-        </div>
-        <div class="section-scroll js-scrollable-item">
-            <div class="section-wrapper" tabindex="0">
-                <section></section>
-            </div>
-        </div>
+  <div class="modal-content__object-fit js-modal-content-object-fit">
+    <i class="fa fa-crop"></i>
+  </div>
+
+  <div class="modal-content__inner js-modal-content-inner">
+    <div class="img-wrapper js-modal-img-wrapper">
+
     </div>
+
+    <div class="gallery-wrapper">
+      <div class="gallery-forward gallery-icon js-gallery-forward-icon">
+        <i class="fa fa-angle-right" aria-hidden="true"></i>
+      </div>
+
+      <div class="gallery">
+
+      </div>
+
+      <div class="gallery-backward gallery-icon js-gallery-backward-icon">
+        <i class="fa fa-angle-left" aria-hidden="true"></i>
+      </div>
+    </div>
+
+    <div class="video-wrapper">
+      <div class="video-player" data-playing="false" data-full-screen="false">
+        <div class="video-player__controls active js-video-player-controls">
+          <div class="video-player__controls__top">
+            <div class="video-player__position js-video-player-position"></div>
+          </div>
+          <div class="video-player__controls__bottom">
+            <div class="video-player__play-pause video-player-icon js-video-player-play-pause">
+              <i class="fa fa-play active js-video-player-icon-play"></i>
+              <i class="fa fa-pause js-video-player-icon-pause"></i>
+            </div>
+            <div class="video-player__volume video-player-icon js-video-player-volume">
+              <i class="fa fa-volume-up"></i>
+            </div>
+            <div class="video-player__length js-video-player-length"></div>
+          </div>
+        </div>
+      </div>
+
+      <video class="js-modal-video" src="" poster=""></video>
+    </div>
+
+    <div class="section-scroll js-scrollable-item">
+      <div class="section-wrapper" tabindex="0">
+        <div class="section">
+          <div class="section__content js-section-content">
+
+          </div>
+
+          <div class="section__confirm-buttons js-section-confirm-buttons">
+            <div class="section__button accept js-confirm-accept">
+              Ок
+            </div>
+
+            <div class="section__button decline js-confirm-decline">
+              Отмена
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

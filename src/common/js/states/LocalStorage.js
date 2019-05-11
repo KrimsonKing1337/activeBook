@@ -72,7 +72,7 @@ export default class LocalStorage {
      * @param val {*}
      */
     static write({key, val} = {}) {
-        if (typeof val === 'undefined') return new Error('value for write is undefined!');
+        if (typeof val === 'undefined') throw new Error('value for write is undefined!');
 
         localStorage.setItem(key, JSON.stringify(val)); //сериализуем объект в строку
     }
