@@ -46,15 +46,17 @@ export function goToPageBtnInit() {
 
     $goToPage.on('click', () => {
       // if this is not mobile app - just go
-      // if (getIsMobile() === false) {}
-
-      // if app has asked about flashlight then go. if not - show modal
-      if (LocalStorage.read({key: 'askedAboutFlashlight'}) === true) {
+      if (getIsMobile() === false) {
         go(pageToGo);
       } else {
-        setHandlersForConfirmButtons();
+        // if app has asked about flashlight then go. if not - show modal
+        if (LocalStorage.read({key: 'askedAboutFlashlight'}) === true) {
+          go(pageToGo);
+        } else {
+          setHandlersForConfirmButtons();
 
-        askAboutFlashlight();
+          askAboutFlashlight();
+        }
       }
     });
 }
