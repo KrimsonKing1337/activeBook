@@ -3,6 +3,7 @@ import LocalStorage from '../states/LocalStorage';
 import {GoToPage} from '../menu/Menu';
 import {pageInfo} from '../forAppInit/pageInfo';
 import {getIsMobile} from '../helpers/getIsMobile.js';
+import get from 'lodash-es/get.js';
 
 /**
  *
@@ -55,7 +56,9 @@ export function goToPageBtnInit() {
 
           EffectsController.flashLightEffectsInst.play({duration: 50});
         } else {
-          setHandlersForConfirmButtons();
+          setHandlersForConfirmButtons(() => {
+            go(pageToGo);
+          });
 
           askAboutFlashlight();
         }
@@ -73,12 +76,21 @@ function go(pageToGo) {
   }, 500);
 }
 
-function setHandlersForConfirmButtons() {
+function setHandlersForConfirmButtons(successCallback) {
   const EffectsController = effectsInst();
 
   EffectsController.modalContentInst.setConfirmButtonsHandlers(() => {
-    EffectsController.flashLightEffectsInst.switchOn();
-    EffectsController.flashLightEffectsInst.switchOff();
+    const permissions = get(window, 'cordova.plugins.permissions');
+
+    permissions.requestPermission(permissions.CAMERA, (status) => {
+      if (status.hasPermission) {
+        successCallback();
+      }
+    }, () => {
+      console.warn('Camera permission is not turned on');
+    });
+
+    // todo: refactor this file to class GoToPageBtn {}
 
     LocalStorage.write({key: 'askedAboutFlashlight', val: true});
   }, () => {
