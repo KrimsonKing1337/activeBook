@@ -75,8 +75,6 @@ async function onReady(rootApp) {
 
   visibilityChangeInit();
 
-  menuInit();
-
   //загружаем значения настроек
   loadStates();
 
@@ -93,6 +91,8 @@ async function onReady(rootApp) {
   playOnLoad(pageCurEffects);
 
   goToPageBtnInst.init();
+
+  menuInit();
 
   if (pageInfo.pageCurNum === 0) {
     $(DOMSelectors.menu).addClass('hide');
