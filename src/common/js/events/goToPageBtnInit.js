@@ -84,6 +84,8 @@ function setHandlersForConfirmButtons(successCallback) {
 
     permissions.requestPermission(permissions.CAMERA, (status) => {
       if (status.hasPermission) {
+        EffectsController.flashLightEffectsInst.play({duration: 50});
+
         successCallback();
       }
     }, () => {
