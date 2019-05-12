@@ -28,9 +28,15 @@ export class GoToPageBtn {
 
     const textForGoToPage = this.getTextForStartReadingButton();
 
-    this.$goToPage.text(textForGoToPage);
+    this.$goToPage.find('> a').text(textForGoToPage);
 
-    this.$goToPage.on('click', this.goToPageClickHandler);
+    /**
+     * здесь нельзя написать this.$goToPage.on('click', this.goToPageClickHandler),
+     * потому что jquery в this вернёт свой объект, а не ссылку на экземпляр класса
+     */
+    this.$goToPage.on('click', () => {
+      this.goToPageClickHandler();
+    });
   }
 
   goToPageClickHandler() {
@@ -40,9 +46,9 @@ export class GoToPageBtn {
     } else {
       // if app has asked about flashlight then go. if not - show modal
       if (LocalStorage.read({key: 'askedAboutFlashlight'}) === true) {
-        this.go();
-
         this.playFlashlightGreetingEffect();
+
+        this.go();
       } else {
         this.setHandlersForConfirmButtons();
 
@@ -74,21 +80,24 @@ export class GoToPageBtn {
   }
 
   setHandlersForConfirmButtons() {
-    this.EffectsController.modalContentInst.setConfirmButtonsHandlers(() => {
-        this.requestCameraPermission()
-          .then(() => {
-            this.go();
-          })
-          .catch((err) => {
-            console.error(err);
-          })
-          .finally(() => {
-            LocalStorage.write({key: 'askedAboutFlashlight', val: true});
-          });
-      }, () => {
-        LocalStorage.write({key: 'askedAboutFlashlight', val: true});
-      }
-    );
+    this.EffectsController.modalContentInst
+      .setConfirmButtonsHandlers(() => {
+          this.requestCameraPermission()
+            .then(() => {
+              this.playFlashlightGreetingEffect();
+
+              this.go();
+            })
+            .catch((err) => {
+              console.error(err);
+            })
+            .finally(() => {
+              LocalStorage.write({key: 'askedAboutFlashlight', val: true});
+            });
+        }, () => {
+          LocalStorage.write({key: 'askedAboutFlashlight', val: true});
+        }
+      );
   }
 
   requestCameraPermission() {
@@ -97,8 +106,6 @@ export class GoToPageBtn {
 
       permissions.requestPermission(permissions.CAMERA, (status) => {
         if (status.hasPermission) {
-          this.EffectsController.flashLightEffectsInst.play({duration: 50});
-
           resolve();
         } else {
           reject('Camera permission is not turned on');

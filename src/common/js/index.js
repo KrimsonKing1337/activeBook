@@ -11,7 +11,6 @@ import 'jquery-touch-events';
 import './forAppInit/animateCss';
 import {visibilityChangeInit} from './events/visibilityChangeInit';
 import LocalStorage from './states/LocalStorage';
-import {goToPageBtnInit} from './events/goToPageBtnInit';
 import {
   keyboardArrowsInit,
   swipesInit,
@@ -31,15 +30,13 @@ import {ModalContent} from './modalContent/ModalContent';
 import {getInvertColorsPagesRange, invertColorsByPageNumber} from './effects/invertColors';
 import {checkAllAudiosWithRange} from './effects/audioWithRange';
 import {lastOpenedPageInst} from './states/lastOpenedPage';
+import {goToPageBtnInit} from './events/goToPageBtnInit';
 import {GoToPageBtn} from './events/GoToPageBtn.js';
 
 async function onReady(rootApp) {
   if (browserCheck() === false) return;
 
   firstOpenCheck();
-
-  const EffectsController = effectsInst();
-  const goToPageBtnInst = new GoToPageBtn();
 
   const DOMSelectors = getDOMSelectors();
   const $body = $('body');
@@ -63,6 +60,15 @@ async function onReady(rootApp) {
   });
 
   $(DOMSelectors.textWrapper).html(textAJAX);
+
+  const EffectsController = effectsInst();
+
+  /**
+   *
+   * инициализируем здесь, потому что до этого момента
+   * $('.go-to-page') не существует
+   */
+  const goToPageBtnInst = new GoToPageBtn();
 
   //определяем поддерживает ли устройство тач
   $(DOMSelectors.page).attr('data-touch-device', 'ontouchstart' in window);
