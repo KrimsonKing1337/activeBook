@@ -92,8 +92,6 @@ function setHandlersForConfirmButtons(successCallback) {
       console.warn('Camera permission is not turned on');
     });
 
-    // todo: refactor this file to class GoToPageBtn {}
-
     LocalStorage.write({key: 'askedAboutFlashlight', val: true});
   }, () => {
     LocalStorage.write({key: 'askedAboutFlashlight', val: true});

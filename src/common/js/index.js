@@ -31,6 +31,7 @@ import {ModalContent} from './modalContent/ModalContent';
 import {getInvertColorsPagesRange, invertColorsByPageNumber} from './effects/invertColors';
 import {checkAllAudiosWithRange} from './effects/audioWithRange';
 import {lastOpenedPageInst} from './states/lastOpenedPage';
+import {GoToPageBtn} from './events/GoToPageBtn.js';
 
 async function onReady(rootApp) {
   if (browserCheck() === false) return;
@@ -38,6 +39,7 @@ async function onReady(rootApp) {
   firstOpenCheck();
 
   const EffectsController = effectsInst();
+  const goToPageBtnInst = new GoToPageBtn();
 
   const DOMSelectors = getDOMSelectors();
   const $body = $('body');
@@ -84,7 +86,7 @@ async function onReady(rootApp) {
 
   playOnLoad(pageCurEffects);
 
-  goToPageBtnInit();
+  goToPageBtnInst.init();
 
   if (pageInfo.pageCurNum === 0) {
     $(DOMSelectors.menu).addClass('hide');
@@ -157,7 +159,7 @@ async function onReady(rootApp) {
 
     actionTextInit();
 
-    goToPageBtnInit();
+    goToPageBtnInst.init();
 
     $body.removeClass('loading');
   });
