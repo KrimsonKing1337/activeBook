@@ -8,8 +8,8 @@ import {effectsInst} from '../effects/Effects';
  * воспроизводим эффекты, которые должны быть
  * проиграны сразу после загрузки
  */
-export function playOnLoad(effects) {
-    const EffectsController = effectsInst();
+export async function playOnLoad(effects) {
+    const EffectsController = await effectsInst();
     const playOnLoadEffects = filter(effects, 'playOnLoad');
 
     if (playOnLoadEffects.length > 0) {

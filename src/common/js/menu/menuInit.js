@@ -10,8 +10,8 @@ import {bookmarksSaveState} from '../states/bookmarksSaveState';
 import {ModalContent} from '../modalContent/ModalContent';
 import {effectsInst} from '../effects/Effects';
 
-export function menuInit() {
-    const EffectsController = effectsInst();
+export async function menuInit() {
+    const EffectsController = await effectsInst();
     const DOMSelectors = getDOMSelectors();
 
     ionRangeSliderInit();

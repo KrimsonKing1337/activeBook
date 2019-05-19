@@ -18,9 +18,13 @@ export class GoToPageBtn {
   }
 
   constructor() {
-    this.$goToPage = $('.go-to-page');
-    this.EffectsController = effectsInst();
-    this.pageToGo = GoToPageBtn.getPageToGo(this.$goToPage.attr('data-go-to'));
+    return (async () => {
+      this.$goToPage = $('.go-to-page');
+      this.EffectsController = await effectsInst();
+      this.pageToGo = GoToPageBtn.getPageToGo(this.$goToPage.attr('data-go-to'));
+
+      return this;
+    })();
   }
 
   init() {

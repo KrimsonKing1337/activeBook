@@ -30,7 +30,6 @@ import {ModalContent} from './modalContent/ModalContent';
 import {getInvertColorsPagesRange, invertColorsByPageNumber} from './effects/invertColors';
 import {checkAllAudiosWithRange} from './effects/audioWithRange';
 import {lastOpenedPageInst} from './states/lastOpenedPage';
-import {goToPageBtnInit} from './events/goToPageBtnInit';
 import {GoToPageBtn} from './events/GoToPageBtn.js';
 
 async function onReady(rootApp) {
@@ -61,14 +60,14 @@ async function onReady(rootApp) {
 
   $(DOMSelectors.textWrapper).html(textAJAX);
 
-  const EffectsController = effectsInst();
+  const EffectsController = await effectsInst();
 
   /**
    *
    * инициализируем здесь, потому что до этого момента
    * $('.go-to-page') не существует
    */
-  const goToPageBtnInst = new GoToPageBtn();
+  const goToPageBtnInst = await new GoToPageBtn();
 
   //определяем поддерживает ли устройство тач
   $(DOMSelectors.page).attr('data-touch-device', 'ontouchstart' in window);

@@ -21,8 +21,8 @@ function isPageInRange(pageNumberCurrent, range) {
  * @param pageNumberCurrent {number}
  * @param audioWithRange {object}
  */
-function audioWithRange(pageNumberCurrent, audioWithRange) {
-  const EffectsController = effectsInst();
+async function audioWithRange(pageNumberCurrent, audioWithRange) {
+  const EffectsController = await effectsInst();
   const soundEffectsInst = EffectsController.soundEffectsInst;
   const id = audioWithRange.id;
   const type = audioWithRange.type;

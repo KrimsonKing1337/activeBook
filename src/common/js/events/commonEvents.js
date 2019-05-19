@@ -110,8 +110,8 @@ export function orientationChangeForGalleryInit() {
     });
 }
 
-export function actionTextInit() {
-    const EffectsController = effectsInst();
+export async function actionTextInit() {
+    const EffectsController = await effectsInst();
 
     //action text click event
     $('[data-effect-target]').on('click', function (e) {

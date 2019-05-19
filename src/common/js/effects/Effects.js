@@ -16,12 +16,14 @@ function getEffectsInst() {
   let inited = false;
   let effectsInstSingleton;
 
-  return () => {
+  return async () => {
     if (inited === true) {
-      return effectsInstSingleton;
+      return Promise.resolve(effectsInstSingleton);
     } else {
+      // for debug use window.Effects = effectsInstSingleton = new Effects();
+      effectsInstSingleton = await new Effects();
+
       inited = true;
-      effectsInstSingleton = new Effects(); //for debug use window.Effects = effectsInstSingleton = new Effects();
 
       return effectsInstSingleton;
     }
@@ -32,31 +34,35 @@ export const effectsInst = getEffectsInst();
 
 class Effects {
   constructor() {
-    this.effects = [];
-    this.volumeInst = getVolumeInst();
-    this.vibrationEffectsInst = new VibrationEffects({
-      state: vibrationState !== null ? vibrationState : true
-    });
-    this.flashLightEffectsInst = new FlashLightEffects({
-      state: flashlightState !== null ? flashlightState : true
-    });
-    this.soundEffectsInst = new SoundEffects({
-      loops: {},
-      oneShots: {},
-      volumeInst: this.volumeInst,
-      vibrationEffectsInst: this.vibrationEffectsInst,
-      flashLightEffectsInst: this.flashLightEffectsInst
-    });
-    this.volumeControllerInst = new VolumeController({
-      $videos: $('video'),
-      oneShots: this.soundEffectsInst.oneShots,
-      loops: this.soundEffectsInst.loops,
-      volumeInst: this.volumeInst
-    });
-    this.textShadowEffectsInst = new TextShadowEffects();
-    this.sideTextScrollEffectInst = new SideTextScrollEffect();
-    this.backgroundEffectsInst = new BackgroundEffects(this);
-    this.modalContentInst = new ModalContent();
+    return (async () => {
+      this.effects = [];
+      this.volumeInst = getVolumeInst();
+      this.vibrationEffectsInst = new VibrationEffects({
+        state: vibrationState !== null ? vibrationState : true
+      });
+      this.flashLightEffectsInst = await new FlashLightEffects({
+        state: flashlightState !== null ? flashlightState : true
+      });
+      this.soundEffectsInst = new SoundEffects({
+        loops: {},
+        oneShots: {},
+        volumeInst: this.volumeInst,
+        vibrationEffectsInst: this.vibrationEffectsInst,
+        flashLightEffectsInst: this.flashLightEffectsInst
+      });
+      this.volumeControllerInst = new VolumeController({
+        $videos: $('video'),
+        oneShots: this.soundEffectsInst.oneShots,
+        loops: this.soundEffectsInst.loops,
+        volumeInst: this.volumeInst
+      });
+      this.textShadowEffectsInst = new TextShadowEffects();
+      this.sideTextScrollEffectInst = new SideTextScrollEffect();
+      this.backgroundEffectsInst = new BackgroundEffects(this);
+      this.modalContentInst = new ModalContent();
+
+      return this;
+    })();
   }
 
   /**
@@ -1128,25 +1134,32 @@ class FlashLightEffects {
    * @param state {boolean}; первоначальное состояние вибрации
    */
   constructor({state = true}) {
-    this.state = state;
-    this.flashLight = get(window, 'plugins.flashlight');
-    this.isLoop = false;
-    this.isStop = false;
-    this.timers = [];
-    this.setIsAvailable();
+    return (async () => {
+      this.state = state;
+      this.flashLight = get(window, 'plugins.flashlight');
+      this.isLoop = false;
+      this.isStop = false;
+      this.timers = [];
+
+      await this.setIsAvailable();
+
+      return this;
+    })();
   }
 
   setIsAvailable() {
-    if (!this.flashLight) {
-      this.flashlightSupport = false;
+    return new Promise((resolve) => {
+      if (!this.flashLight) {
+        this.flashlightSupport = false;
 
-      return;
-    }
+        resolve();
+      }
 
-    this.flashLight.available((isAvailable) => {
-      console.log('this.flashLight.available', isAvailable);
+      this.flashLight.available((isAvailable) => {
+        this.flashlightSupport = isAvailable;
 
-      this.flashlightSupport = isAvailable;
+        resolve();
+      });
     });
   }
 

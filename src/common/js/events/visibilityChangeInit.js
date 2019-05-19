@@ -5,8 +5,8 @@ import {checkAllAudiosWithRange} from '../effects/audioWithRange';
 import {pageInfo} from '../forAppInit/pageInfo';
 import {effectsInst} from '../effects/Effects';
 
-export function visibilityChangeInit() {
-    const EffectsController = effectsInst();
+export async function visibilityChangeInit() {
+    const EffectsController = await effectsInst();
 
     document.addEventListener('visibilitychange', () => {
         const pageCurEffects = LocalStorage.read({key: 'pageCurEffects'});
