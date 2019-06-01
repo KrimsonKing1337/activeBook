@@ -227,9 +227,27 @@ export class Theme {
      */
     static set({$target, $themeOption, val} = {}) {
         $target.attr('data-theme', val);
+        Theme.applyThemeToMetaTag(val);
 
         $themeOption.filter('.active').removeClass('active');
         $themeOption.filter(`[data-theme="${ val }"]`).addClass('active');
+    }
+
+  /**
+   *
+   * @param themeName {string}
+   */
+  static applyThemeToMetaTag(themeName) {
+      const $meta = $('meta[name="theme-color"]');
+
+      const colors = {
+        'dark': '#828282',
+        'black': '#111',
+        'dark-blue': '#728c9a',
+        'default': '#f2994a'
+      };
+
+      $meta.attr('content', colors[themeName]);
     }
 }
 
