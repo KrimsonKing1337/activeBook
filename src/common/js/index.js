@@ -31,8 +31,10 @@ import {getInvertColorsPagesRange, invertColorsByPageNumber} from './effects/inv
 import {checkAllAudiosWithRange} from './effects/audioWithRange';
 import {lastOpenedPageInst} from './states/lastOpenedPage';
 import {GoToPageBtn} from './events/GoToPageBtn.js';
+import {httpsCheck} from './forAppInit/httpsCheck.js';
 
 async function onReady(rootApp) {
+  if (httpsCheck() === false) return;
   if (browserCheck() === false) return;
 
   firstOpenCheck();
