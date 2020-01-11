@@ -5,3 +5,4 @@ plugins/
 www/
 package-lock.json
 *.keystore
+.gradle

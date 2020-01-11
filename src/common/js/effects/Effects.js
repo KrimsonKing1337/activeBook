@@ -61,6 +61,8 @@ class Effects {
       this.backgroundEffectsInst = new BackgroundEffects(this);
       this.modalContentInst = new ModalContent();
 
+      window.brightnessEffectsInst = this.brightnessEffectsInst = new BrightnessEffects();
+
       return this;
     })();
   }
@@ -1278,5 +1280,32 @@ class FlashLightEffects {
     }, () => {
       console.error('flashLight switchOff error'); // optional error callback
     });
+  }
+}
+
+class BrightnessEffects {
+  constructor() {
+    this.brightness = get(window, 'cordova.plugins.brightness');
+  }
+
+  /**
+   *
+   * @param value {number}
+   */
+  set(value) {
+    if (!this.brightness) return;
+
+    this.brightness.setBrightness(value);
+  }
+
+  get() {
+    if (!this.brightness) return;
+
+    return new Promise((resolve, reject) => {
+      this.brightness.getBrightness(
+        (value) => resolve(value),
+        (error) => reject(error)
+      );
+    })
   }
 }
