@@ -1298,6 +1298,10 @@ class BrightnessEffects {
     this.brightness.setBrightness(value);
   }
 
+  /**
+   *
+   * @returns {Promise<number>}
+   */
   get() {
     if (!this.brightness) return;
 
