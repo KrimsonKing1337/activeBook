@@ -1381,8 +1381,13 @@ a {
       }
     }
 
+    &.font-size-down {
+      width: 24px;
+    }
+
     &.font-size-up {
       margin-left: 10px;
+      width: 24px;
     }
 
     .go-to-page-by-number {
@@ -1462,7 +1467,12 @@ a {
         }
       }
 
+      &__arrow-left {
+        width: 11px;
+      }
+
       &__arrow-right {
+        width: 11px;
         margin-left: auto;
       }
     }
@@ -1482,12 +1492,18 @@ a {
     }
 
     &.bookmark {
+      width: 23px;
+
       .add-settings {
         &__item {
           position: relative;
           max-height: 76px;
         }
       }
+    }
+
+    &.etc {
+      width: 15px;
     }
   }
 }
