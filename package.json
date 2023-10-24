@@ -25,7 +25,7 @@
     "jquery-mousewheel": "3.1.13",
     "jquery-touch-events": "git+https://github.com/benmajor/jQuery-Touch-Events.git",
     "jquery.scrollbar": "0.2.11",
-    "lodash-es": "4.17.11",
+    "lodash-es": "4.17.21",
     "notifyjs-browser": "0.4.2",
     "reset-css": "4.0.1",
     "slick-carousel": "1.8.1"
